@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="appCenter" namespace="/appCenter" extends="configuration" >
+		<action name="appCenter_*" class="appCenterHttpAction" method="{1}" >
+		</action>
+	</package>
+	
+	<package name="commonHttp" namespace="/commonHttp" extends="configuration" >
+		<action name="commonHttp_*" class="commonHttpAction" method="{1}" >
+		</action>
+	</package>
+	
+	<package name="homePageHttp" namespace="/homePageHttp" extends="configuration" >
+		<action name="homePageHttp_*" class="homePageHttpAction" method="{1}" >
+		</action>
+	</package>
+	
+	<package name="myPortalHttp" namespace="/myPortalHttp" extends="configuration" >
+		<action name="myPortalHttp_*" class="myPortalHttpAction" method="{1}" >
+		</action>
+	</package>
+	
+	<package name="secureCenter" namespace="/secureCenter" extends="configuration" >
+		<action name="secureCenterHttp_*" class="secureCenterHttpAction" method="{1}" >
+		</action>
+	</package>
+	
+	<package name="oaMobile" namespace="/oaMobile" extends="configuration" >
+		<action name="oaMobile_*" class="oaHttpAction" method="{1}" >
+		</action>
+	</package>
+	
+	
+</struts>

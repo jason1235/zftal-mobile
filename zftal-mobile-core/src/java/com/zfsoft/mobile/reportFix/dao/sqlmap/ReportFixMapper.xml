@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.reportFix.dao.IReportFixDao">
+
+	<select id="getList" resultType="com.zfsoft.mobile.reportFix.entity.ReportFixEntity">
+		select *
+		  from (select a.*, rownum rn
+		          from (select t.* from M_REPORTFIX t where 1=1
+	                <if test="status != null and status != ''">
+		   		 		 and t.status = #{status}
+			   		</if>
+			   		<if test="userId != null and userId != ''">
+		   		 		 and t.userId = #{userId}
+			   		</if>
+			   		<!-- 未评价 -->
+                    <if test="haveEvaluate != null and haveEvaluate != ''">
+		   		 		 and t.evaluate is null and t.score is null
+			   		</if>	   
+			   		order by t.createtime desc       
+		          ) a)
+		 where rn &gt;=#{startRow} and rn &lt;=#{endRow}
+	</select>
+	
+	<select id="getListCount" resultType="int">
+		select count(*) from m_reportfix t where 1=1 
+            <if test="status != null and status != ''">
+   		 		 and t.status = #{status}
+	   		</if>
+	   		<if test="userId != null and userId != ''">
+		   		 		 and t.userId = #{userId}
+			   		</if>
+	   		<if test="haveEvaluate != null and haveEvaluate != ''">
+   		 		 and t.evaluate is null and t.score is null
+	   		</if>
+	</select>
+	
+	<select id="getFixPictures" resultType="com.zfsoft.mobile.reportFix.entity.ReportFixPicsEntity">
+		select id fixId, problem name, picpath,  evapic   from M_REPORTFIX  where id = #{id}
+	</select>
+	
+	<select id="getFixPictures--bak" resultType="com.zfsoft.mobile.reportFix.entity.ReportFixPicsEntity">
+		select id fixId,t.name,t.content,t.path,t.createTime,t.type from M_REPORTFIX_PICTURE t where t.fixid=#{id}
+		<if test="type != null and type != ''">
+   		 		 and t.type = #{type}
+	   		</if>
+	</select>
+	
+	<select id="getCountAmount" resultType="com.zfsoft.mobile.reportFix.entity.ReportFixCountEntity">
+		select 'weibaoxiu' name, count(*) countAmount
+		  from m_reportfix t0
+		 where t0.status = '0'
+		union all
+		select 'baoxiuzhong' name, count(*) countAmount
+		  from m_reportfix t0
+		 where t0.status = '1'
+		union all
+		select 'yibaoxiu' name, count(*) countAmount
+		  from m_reportfix t0
+		 where t0.status = '2'
+		union all
+		select 'weipingjia' name, count(*) countAmount
+		  from m_reportfix t0
+		 where t0.status = '2'
+		   and t0.evaluate is null
+	</select>
+	
+	<insert id="insertReportFix" >
+			insert into m_reportfix(
+				id,problem,telephone,status,createtime,userid,type,content,picpath,userName,address
+			) values(
+				#{id},#{problem},#{telephone},#{status},sysdate,#{userId},#{type},#{content},#{picPath},#{userName},#{address}
+			)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insertReportFixPicture" >
+		<![CDATA[
+			INSERT INTO 
+				m_reportfix_picture(
+					fixId,	
+					name,
+					content,
+					path,
+					createTime,
+					type
+				)
+			VALUES(
+				#{fixId},           
+				#{name},
+				#{content},
+				#{path},
+				sysdate,
+				#{type}
+				)
+		]]>
+	</insert>
+	
+	<update id="updateEvaluateById" parameterType="com.zfsoft.mobile.reportFix.entity.ReportFixEntity">
+	    update m_reportfix t set t.evaluate=#{evaluate},t.score=#{score},t.evapic=#{evaPic},t.status =#{status} where t.id=#{id}
+	</update>
+	
+	<update id="updateStatusById" parameterType="com.zfsoft.mobile.reportFix.entity.ReportFixEntity">
+	    update m_reportfix t set t.status=#{status}
+	     <if test="repairId != null and repairId != ''">
+  		 	,t.repairid =#{repairId}
+   		</if>
+	     where t.id=#{id}
+	</update>
+	
+	<!-- 移动后台查询语句开始 -->
+	
+	<select id="getYdhtList" resultType="com.zfsoft.mobile.reportFix.entity.ReportFixEntity">
+	     select c.*,rn from (
+		    select a.*,rownum rn from(
+				select t.*,t1.xm as repairName from M_REPORTFIX t left join zftal_xtgl_yhb t1 on t1.zgh = t.repairid where 1=1
+				            <if test="problem != null and problem != ''">
+				   		 		 and t.problem like '%'||#{problem}||'%'
+					   		</if>
+			                <if test="status != null and status != ''">
+				   		 		 and t.status = #{status}
+					   		</if>
+					   		<!-- 未评价 -->
+		                    <if test="haveEvaluate != null and haveEvaluate != ''">
+				   		 		 and t.evaluate is null
+					   		</if>
+					   		
+					   		<if test="bxr != null and bxr != ''">
+				   		 		 and t.userid in (select t2.zgh from zftal_xtgl_yhb t2 where t2.xm like '%'||#{bxr}||'%' )
+					   		</if>
+					   		<if test="wxr != null and wxr != ''">
+				   		 		 and t.REPAIRID in (select t3.zgh from zftal_xtgl_yhb t3 where t3.xm like '%'||#{wxr}||'%' )
+					   		</if>
+					   		<if test="bxbt != null and bxbt != ''">
+				   		 		 and t.problem like '%'||#{bxbt}||'%'
+					   		</if>
+					   		order by t.createtime desc
+		   )a 
+	     ) c
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>			 			   		
+	</select>
+	
+	<select id="getReportFixById" resultType="com.zfsoft.mobile.reportFix.entity.ReportFixEntity"> 
+		select t.* from M_REPORTFIX t where 1=1 and t.id=#{fixId}
+	</select>
+	
+	<select id="getYdhtListCount" resultType="int">
+		select count(*) from m_reportfix t where 1=1
+		    <if test="problem != null and problem != ''">
+		   		and t.problem like '%'||#{problem}||'%'
+			</if> 
+            <if test="status != null and status != ''">
+   		 		 and t.status = #{status}
+	   		</if>
+	   		<if test="haveEvaluate != null and haveEvaluate != ''">
+   		 		 and t.evaluate is null
+	   		</if>
+	   		<if test="bxr != null and bxr != ''">
+   		 		 and t.userid in (select t2.zgh from zftal_xtgl_yhb t2 where t2.xm like '%'||#{bxr}||'%' )
+	   		</if>
+	   		<if test="wxr != null and wxr != ''">
+   		 		 and t.REPAIRID in (select t3.zgh from zftal_xtgl_yhb t3 where t3.xm like '%'||#{wxr}||'%' )
+	   		</if>
+	   		<if test="bxbt != null and bxbt != ''">
+   		 		 and t.problem like '%'||#{bxbt}||'%'
+	   		</if>
+	</select>
+	
+	<delete id="deleteReportFixByReportFixId" parameterType="map">
+	     delete from m_reportfix t where t.id=#{fixId} 
+	</delete>
+	<!-- 移动后台查询语句 结束 -->
+	
+	<select id="serRepair">
+		  update m_reportfix t set t.repairId=#{repairId},t.status = '1' where t.id=#{fixId}
+	</select>
+	 
+	<select id="getUser" resultType="com.zfsoft.common.log.User">
+		  select t.* from ZFTAL_XTGL_YHB t where t.zgh = #{username}
+	</select>
+	
+	<select id="getFixType" resultType="com.zfsoft.mobile.reportFix.entity.FixType">
+		select t.* from M_REPORTFIX_TYPE t
+	</select>
+	
+	<select id="selectTypeName" resultType="java.lang.String">
+		select t.name from M_REPORTFIX_TYPE t where t.id = #{type}
+	</select>
+	
+	<select id="countFixType" resultType="java.lang.Integer">
+		select count(1) from M_REPORTFIX_TYPE
+	</select>
+	
+	<select id="selectHtFixTypeList" parameterType="com.zfsoft.mobile.reportFix.entity.FixTypeQuery" resultType="com.zfsoft.mobile.reportFix.entity.FixType">
+		select * from M_REPORTFIX_TYPE t
+	</select>
+	
+	<select id="deleteFixType">
+		delete from M_REPORTFIX_TYPE where id = #{id}
+	</select>
+	
+	<select id="getFixTypeById" resultType="com.zfsoft.mobile.reportFix.entity.FixType">
+		select * from M_REPORTFIX_TYPE where id = #{id}
+	</select>
+	
+	<select id="updateFixTypeById" parameterType="com.zfsoft.mobile.reportFix.entity.FixTypeQuery">
+		  update M_REPORTFIX_TYPE t set t.name=#{name} where t.id=#{id}
+	</select>
+	
+	<insert id="insertReportFixType" parameterType="com.zfsoft.mobile.reportFix.entity.FixTypeQuery">
+		insert into M_REPORTFIX_TYPE(
+				id,name
+			) values(
+				#{id},#{name}
+			)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	
+	
+	<select id="selectExpReportFixList" resultType="com.zfsoft.mobile.reportFix.entity.ReportFixEntity">
+		select t.problem,decode(t.status,'0','待报修','1','报修中','2','已报修','3','已评价','未知') status,
+				t.address,t.telephone,t.createtime,t.evaluate,
+				t1.xm as repairName 
+				from M_REPORTFIX t left join zftal_xtgl_yhb t1 on t1.zgh = t.repairid  order by t.createtime desc   
+	</select>
+	
+</mapper>

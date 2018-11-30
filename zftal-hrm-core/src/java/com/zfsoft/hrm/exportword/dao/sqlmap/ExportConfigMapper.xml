@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.hrm.exportword.dao.IExportConfigDao">
+    <resultMap id="exportConfig" type="com.zfsoft.hrm.exportword.entity.ExportConfig">
+        <result column="ID"     property="id"/>     
+        <result column="NAME"        property="name"/>    
+        <result column="TYPE"            property="type"/>
+        <result column="OPEN"            property="open"/>
+        <result column="CREATOR"            property="creator"/>
+        <result column="LAST_MODIFY"         property="lastModify"/>
+        <result column="ORIGIN"         property="origin"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO 
+                HRM_EXPORT_CONFIG(
+                    ID, 
+                    NAME,
+                    TYPE,
+                    OPEN,        
+                    CREATOR,     
+                    LAST_MODIFY,
+                    PXM,
+                    ORIGIN
+                )
+            VALUES(
+                #{id},
+                #{name}, 
+                #{type},
+                #{open},
+                #{creator},                 
+                sysdate,
+                (select NVL(MAX(pxm),0)+1 from HRM_EXPORT_CONFIG where TYPE=#{type} ),
+                #{origin}
+            )                      
+        ]]>
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            <![CDATA[
+            select SYS_GUID() XSYSHYX_ID from DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    <delete id="delete">
+        <![CDATA[
+            DELETE FROM
+                HRM_EXPORT_CONFIG
+            WHERE
+                ID = #{id}
+        ]]>
+    </delete>
+    
+    <update id="update">
+        <![CDATA[
+            UPDATE
+                HRM_EXPORT_CONFIG 
+            SET
+                NAME = #{name},
+                TYPE = #{type},
+                OPEN = #{open},
+                LAST_MODIFY  =  sysdate,
+                ORIGIN = #{origin}
+            WHERE
+                ID = #{id}
+        ]]>
+    </update>
+    
+    <select id="findById" resultMap="exportConfig">
+        SELECT
+            ID, 
+            NAME,
+            TYPE,
+            OPEN,
+            CREATOR,     
+            LAST_MODIFY,
+            ORIGIN
+        FROM HRM_EXPORT_CONFIG
+        WHERE
+            ID = #{id}
+    </select>
+    
+    <select id="getConfigList" resultMap="exportConfig">
+        SELECT
+            ID, 
+            NAME,
+            TYPE,
+            OPEN,
+            CREATOR,     
+            LAST_MODIFY,
+            ORIGIN
+        FROM HRM_EXPORT_CONFIG
+        <where>
+	        <if test="id != null and id != ''">
+	            and ID = #{id}
+	        </if>
+	        <if test="name != null and name != ''">
+	            and NAME like '%'||#{name}||'%'
+	        </if>
+	        <if test="type != null and type != ''">
+	            and TYPE = #{type}
+	        </if>
+	        <if test="creator != null and creator != ''">
+	            and CREATOR = #{creator}
+	        </if>
+	        <if test="open != null and open != ''">
+                and OPEN = #{open}
+            </if>
+	    </where>
+    </select>
+    
+    
+    <select id="getPagingList" resultMap="exportConfig">
+        select * from (select a.*, rownum rn from(
+        SELECT
+            ID, 
+            NAME,
+            TYPE,
+            OPEN,
+            CREATOR,     
+            LAST_MODIFY,
+            ORIGIN
+        FROM HRM_EXPORT_CONFIG
+        <include refid="where"/>
+     ) a )
+        <![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+    </select>
+    
+    <!-- 获取分页计数 -->
+    <select id="getPagingCount" resultType="int">
+       SELECT count(id)
+        FROM HRM_EXPORT_CONFIG
+        <include refid="where"/>
+    </select>
+    
+    <sql id="where">
+        <where>
+            <if test="name != null and name != ''">
+                and NAME like '%'||#{name}||'%'
+            </if>
+            <if test="type != null and type != ''">
+                and TYPE = #{type}
+            </if>
+            <if test="creator != null and creator != ''">
+                and CREATOR = #{creator}
+            </if>
+            <if test="open != null and open != ''">
+                and OPEN = #{open}
+            </if>
+        </where>
+    </sql>
+</mapper>

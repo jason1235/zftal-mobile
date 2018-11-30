@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="pushMsg" namespace="/pushMsg" extends="configuration">
+
+	  <action name="pushMsg_*" class="pushMsgAction" method="{1}" >
+	  	 <result name="send">/WEB-INF/pages/mobile/pushMsg/pushMsg_send.jsp</result>
+	  	 <result name="list">/WEB-INF/pages/mobile/pushMsg/pushMsg_list.jsp</result>
+	  	 <result name="edit">/WEB-INF/pages/mobile/pushMsg/pushMsg_edit.jsp</result>
+	  	 <result name="personList">/WEB-INF/pages/mobile/pushMsg/pushMsg_personList.jsp</result>
+	  	 <result name="groupList">/WEB-INF/pages/mobile/pushMsg/pushMsg_groupList.jsp</result>
+	  	 <result name="examGroupList">/WEB-INF/pages/mobile/pushMsg/pushMsg_examGroupList.jsp</result>
+	  </action>
+	  
+	  <action name="group_*" class="pushGroupAction" method="{1}" >
+         <result name="list">/WEB-INF/pages/mobile/group/pushGroup_list.jsp</result>
+         <result name="edit">/WEB-INF/pages/mobile/group/pushGroup_edit.jsp</result>
+         <result name="user">/WEB-INF/pages/mobile/group/pushGroup_user.jsp</result>
+         <result name="reuser">/WEB-INF/pages/mobile/group/pushGroup_user_new.jsp</result>
+      </action>
+	</package>
+</struts>

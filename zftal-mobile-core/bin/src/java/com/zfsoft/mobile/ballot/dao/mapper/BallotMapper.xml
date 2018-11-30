@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.mobile.ballot.dao.BallotDao">
+  <resultMap id="BaseResultMap" type="com.zfsoft.mobile.ballot.entity.Ballot">
+    	<result property="id" 		 column="id" />
+		<result property="name"   column="name" />
+		<result property="baseImg"   column="baseimg" />
+		<result property="baseImgPath"   column="baseimgpath" />
+		<result property="startTime"   column="starttime" />
+		<result property="endTime"   column="endtime" />
+		<result property="parteNum"   column="partenum" />
+		<result property="ruleType"   column="ruletype" />
+		<result property="ballotNum"   column="ballotnum" />
+		<result property="cumulative"   column="cumulative" />
+		<result property="content"   column="content" />
+		<result property="bigImg"   column="bigimg" />
+		<result property="bigImgPath"   column="bigimgpath" />
+		<result property="createUserId"   column="createuserid" />
+		<result property="createTime"   column="createtime" />
+		<result property="baseImgName"   column="baseimgname" />
+		<result property="bigImgName"   column="bigimgname" />
+		<result property="enable"   column="enable" />
+  </resultMap>
+
+
+	<select id="countBallot" resultType="int">
+		select count(1) from m_wytp_ballot 
+	</select>
+	
+	<select id="selectBallotList" resultType="com.zfsoft.mobile.ballot.entity.Ballot">
+	SELECT *
+  	FROM (SELECT b.*,rownum rn
+          FROM (
+		select id,name,baseimgname,baseimg,baseimgpath,starttime,endtime,partenum,ruletype,ballotnum,enable,(case
+			 <![CDATA[
+               when to_date(a.starttime,'yyyy-MM-dd HH24:mi:ss') - sysdate > 0 then
+                0
+               when to_date(a.endtime,'yyyy-MM-dd HH24:mi:ss') - sysdate < 0 then
+                2
+               else
+                1
+               end) status 
+               from m_wytp_ballot a order by a.createtime desc) b)
+ 				WHERE RN >=#{startRow}  AND RN <=#{endRow} 
+			   ]]>	
+			   <if test="enable != null">
+			   	and enable =#{enable}
+			   </if>
+			   <if test="name != null">
+			   	and name like '%'||#{name}||'%'
+			   </if>
+	</select>
+
+	<!--通过id查询出全部数据-->
+	<select id="findBallotById" resultType="com.zfsoft.mobile.ballot.entity.Ballot">
+		select id,name,baseImg,baseImgPath,baseImgName,starttime,endtime,partenum,ruletype,ballotnum,cumulative,content,bigimg,bigimgpath,bigImgName,createuserid,createtime,
+			(case
+			 <![CDATA[
+               when to_date(a.starttime,'yyyy-MM-dd HH24:mi:ss') - sysdate > 0 then
+                0
+               when to_date(a.endtime,'yyyy-MM-dd HH24:mi:ss') - sysdate < 0 then
+                2
+               else
+                1
+               end) status 
+                ]]>
+               from m_wytp_ballot a where id =#{id}
+	</select>
+
+	<!--app端需要的数据-->
+	<select id="selectBallotById" resultType="com.zfsoft.mobile.ballot.entity.Ballot">
+		select id,name,bigimgpath,bigimgname,bigimg,starttime,endtime,partenum,content,ruletype,ballotnum,cumulative,
+			(case
+			 <![CDATA[
+               when to_date(a.starttime,'yyyy-MM-dd HH24:mi:ss') - sysdate > 0 then
+                0
+               when to_date(a.endtime,'yyyy-MM-dd HH24:mi:ss') - sysdate < 0 then
+                2
+               else
+                1
+               end) status 
+                ]]>
+               from m_wytp_ballot a where id =#{id}
+	</select>
+
+
+	<insert id="insert" parameterType="com.zfsoft.mobile.ballot.entity.Ballot"  useGeneratedKeys="true" keyProperty="id" >
+        <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+	　　　　select lower(sys_guid()) id from dual
+	　　</selectKey>
+	
+	    insert into m_wytp_ballot
+	    <trim prefix="(" suffix=")" suffixOverrides=",">
+	      <if test="id != null">
+	        id,
+	      </if>
+	      <if test="name != null">
+	        name,
+	      </if>
+	      <if test="baseImg != null">
+	        baseimg,
+	      </if>
+	      <if test="baseImgPath != null">
+	        baseimgpath,
+	      </if>
+	      <if test="startTime != null">
+	        starttime,
+	      </if>
+	      <if test="endTime != null">
+	        endtime,
+	      </if>
+	      <if test="parteNum != null">
+	        partenum,
+	      </if>
+	      <if test="ruleType != null">
+	        ruletype,
+	      </if>
+	      <if test="ballotNum != null">
+	        ballotnum,
+	      </if>
+	      <if test="cumulative != null">
+	        cumulative,
+	      </if>
+	      <if test="content != null">
+	        content,
+	      </if>
+	      <if test="bigImg != null">
+	        bigimg,
+	      </if>
+	      <if test="bigImgPath != null">
+	        bigimgpath,
+	      </if>
+	      <if test="createUserId != null">
+	        createuserid,
+	      </if>
+	      <if test="createTime != null">
+	        createtime,
+	      </if>
+	       <if test="enable != null">
+	        enable,
+	      </if>
+	      <if test="baseImgName != null">
+	        baseimgname,
+	      </if>
+	      <if test="bigImgName != null">
+	        bigimgname,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	      <if test="id != null">
+	        #{id,jdbcType=VARCHAR},
+	      </if>
+	      <if test="name != null">
+	        #{name,jdbcType=VARCHAR},
+	      </if>
+	      <if test="baseImg != null">
+	        #{baseImg},
+	      </if>
+	      <if test="baseImgPath != null">
+	        #{baseImgPath,jdbcType=VARCHAR},
+	      </if>
+	      <if test="startTime != null">
+	        #{startTime,jdbcType=VARCHAR},
+	      </if>
+	      <if test="endTime != null">
+	        #{endTime,jdbcType=VARCHAR},
+	      </if>
+	      <if test="parteNum != null">
+	        #{parteNum,jdbcType=INTEGER},
+	      </if>
+	      <if test="ruleType != null">
+	        #{ruleType,jdbcType=INTEGER},
+	      </if>
+	      <if test="ballotNum != null">
+	        #{ballotNum,jdbcType=INTEGER},
+	      </if>
+	      <if test="cumulative != null">
+	        #{cumulative,jdbcType=INTEGER},
+	      </if>
+	      <if test="content != null">
+	        #{content,jdbcType=VARCHAR},
+	      </if>
+	      <if test="bigImg != null">
+	        #{bigImg},
+	      </if>
+	      <if test="bigImgPath != null">
+	        #{bigImgPath,jdbcType=VARCHAR},
+	      </if>
+	      <if test="createUserId != null">
+	        #{createUserId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="createTime != null">
+	        #{createTime},
+	      </if>
+	       <if test="enable != null">
+	        #{enable,jdbcType=INTEGER},
+	      </if>
+	      <if test="baseImgName != null">
+	        #{baseImgName,jdbcType=INTEGER},
+	      </if>
+	      <if test="bigImgName != null">
+	        #{bigImgName,jdbcType=INTEGER},
+	      </if>
+	    </trim>
+    </insert>
+
+
+	<update id="update">
+		update m_wytp_ballot
+		 <set>
+		 	<if test="name != '' and name != null">
+		 		name=#{name},
+		 	</if>
+		 	<if test='baseImg != "" and baseImg != null'>
+		 		baseimg=#{baseImg},
+		 	</if>
+		 	<if test='baseImgPath != "" and baseImgPath != null'>
+		 		baseimgpath=#{baseImgPath},
+		 	</if>
+		 	<if test='startTime != "" and startTime != null'>
+		 		starttime=#{startTime},
+		 	</if>
+		 	<if test='endTime != "" and endTime != null'>
+		 		endtime=#{endTime},
+		 	</if>
+		 	<if test='parteNum != "" and parteNum != null'>
+		 		partenum=#{parteNum},
+		 	</if>
+		 	<if test='ruleType != "" and ruleType != null'>
+		 		ruletype=#{ruleType},
+		 	</if>
+		 	<if test='ballotNum != "" and ballotNum != null'>
+		 		ballotnum=#{ballotNum},
+		 	</if>
+		 	<if test='cumulative != "" and cumulative != null'>
+		 		cumulative=#{cumulative},
+		 	</if>
+		 	<if test='content != "" and content != null'>
+		 		content=#{content},
+		 	</if>
+		 	<if test='bigImg != "" and bigImg != null'>
+		 		bigimg=#{bigImg},
+		 	</if>
+		 	<if test='bigImgPath != "" and bigImgPath != null'>
+		 		bigimgpath=#{bigImgPath},
+		 	</if>
+		 	<if test='createUserId != "" and createUserId != null'>
+		 		createuserid=#{createUserId},
+		 	</if>
+		 	<if test='createTime != "" and createTime != null'>
+		 		createtime=#{createTime},
+		 	</if>
+		 	<if test=" enable != null">
+		 		enable=#{enable},
+		 	</if>
+		 </set>
+		   where id = #{id}
+	</update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from m_wytp_ballot where id=#{id}
+    </delete>
+
+</mapper>

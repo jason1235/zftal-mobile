@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.staffturn.dead.dao.daointerface.IDeadDao">
+
+	<!-- 插入单条信息 -->
+	<insert id="insert">
+		insert into ${tableName}
+		<foreach collection="sqlNamesHasKeyAndNotNull" item="item" open="(" separator="," close=")">
+			${item}
+		</foreach>
+		values
+		<foreach collection="sqlNamesHasKeyAndNotNull" item="item" open="(" separator="," close=")">
+			#{${sqlLocalNameMap[item]}}
+		</foreach>
+	</insert>
+
+	<update id="update">
+		update ${tableName}
+		<set>
+			<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," >
+				 ${item}=#{${sqlLocalNameMap[item]}}
+			</foreach>
+		</set>
+		where GH=#{userId}
+	</update>
+
+	<!-- 删除岗位信息 -->
+	<delete id="delete">
+		delete from ${tableName} where GH in ( ${userId} )
+	</delete>
+
+	<select id="getPagedQuery" resultType="com.zfsoft.hrm.staffturn.dead.entities.DeadInfo">
+		select
+		<foreach collection="sqlNamesAll" item="item" separator=",">
+			<![CDATA[t.${item} as ${sqlLocalNameMap[item]}]]>
+		</foreach>
+		from ${tableName} t
+		left join overall ova on ova.gh=t.gh
+		<include refid="where" />
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if> 
+	</select>
+	
+	<select id="findById" resultType="com.zfsoft.hrm.staffturn.dead.entities.DeadInfo">
+		select
+		<foreach collection="sqlNamesAll" item="item" separator=",">
+			<![CDATA[t.${item} as ${sqlLocalNameMap[item]}]]>
+		</foreach>
+		from ${tableName} t 
+		where
+		t.gh=#{userId}
+		order by t.gh asc
+	</select>
+	
+	<sql id="where">
+		<where>
+			<if test="deptCode !=null">
+				<![CDATA[and ova.dwm like '${deptCode}%']]>
+			</if>
+			<if test="userId !=null">
+				and t.gh = #{userId}
+			</if>
+			<!-- 20140422 add start -->
+			<if test="ryztCode != null and ryztCode != ''">
+                <![CDATA[and t.ryztm like '${ryztCode}%']]>
+            </if>
+			<!-- 20140422 add end -->
+		</where>
+	</sql>
+</mapper>

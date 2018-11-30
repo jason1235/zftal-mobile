@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="bill" namespace="/bill" extends="configuration">
+		<!-- 代码库管理 -->
+		<action name="config_*" class="spBillConfigAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/dybill/config/billclasses_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/dybill/config/billclasses_edit.jsp</result>
+			<result name="copyBillClass">/WEB-INF/pages/hrm/dybill/config/billclass_config_copy.jsp</result>
+			<result name="configList">/WEB-INF/pages/hrm/dybill/config/billclass_config_list.jsp</result>
+			<result name="classConfigEdit">/WEB-INF/pages/hrm/dybill/config/billclass_config_edit.jsp</result>
+			<result name="propertyChoice">/WEB-INF/pages/hrm/dybill/config/billproperty_config_choice.jsp</result>
+			<result name="propertyConfigEdit">/WEB-INF/pages/hrm/dybill/config/billproperty_config_edit.jsp</result>
+			<result name="defineCatchConfig">/WEB-INF/pages/hrm/dybill/config/billclass_config_definecatch.jsp</result>
+			<result name="file">/WEB-INF/pages/hrm/dybill/config/billclasses_uploadTemp.jsp</result>
+            <result name="res">/WEB-INF/pages/hrm/code/result.jsp</result>
+		</action>
+		<action name="instance_*" class="spBillInstanceAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/dybill/instance/billinstance_list.jsp</result>
+			<result name="entity_edit">/WEB-INF/pages/hrm/dybill/instance/billinstance_entity_edit.jsp</result>
+			<result name="entity_view">/WEB-INF/pages/hrm/dybill/instance/billinstance_entity_view.jsp</result>
+			<result name="entity_choice">/WEB-INF/pages/hrm/dybill/instance/billinstance_infoclass_choice.jsp</result>
+			<result name="entity_list_view">/WEB-INF/pages/hrm/dybill/instance/billinstance_entity_list_view.jsp</result>
+		</action>
+		
+		
+		<action name="pushdata_*" class="spBillDataPushEventConfigAction" method="{1}">
+			<result name="list_config">/WEB-INF/pages/hrm/dybill/pushdata/event_config_list.jsp</result>
+			<result name="edit_config">/WEB-INF/pages/hrm/dybill/pushdata/event_config_edit.jsp</result>
+			<result name="list_property">/WEB-INF/pages/hrm/dybill/pushdata/event_property_list.jsp</result>
+			<result name="edit_property">/WEB-INF/pages/hrm/dybill/pushdata/event_property_edit.jsp</result>
+		</action>
+	</package>
+</struts>

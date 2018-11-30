@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.expertvote.expertmanage.dao.IExpertDeclareDao">	
+	<select id="getPagedList" parameterType="com.zfsoft.hrm.expertvote.expertmanage.entity.ExpertDeclare" resultType="com.zfsoft.hrm.expertvote.expertmanage.entity.ExpertDeclare" >
+  select o.xm xm, 
+       zj.id id,
+       zj.tjrgh tjrgh,
+       zj.type type,
+       zj.sbz sbz,
+       zj.dedate dedate,
+       zj.config_id config_id,
+       zj.instance_id instance_id,
+       zj.status status,
+       zj.adudate adudate
+    from hrm_expert_declare zj,overall o where zj.tjrgh = o.gh(+) and sbz = #{sbz}
+    <if test = "tjrxm != null and tjrxm != ''">
+    	and xm like '%'||#{tjrxm}||'%'
+    </if>
+    <if test = "tjrgh != null and tjrgh != ''">
+    	and tjrgh like '%'||#{tjrgh}||'%'
+    </if>
+    <if test = "type != null and type != ''">
+    	and type = #{type}
+    </if>
+    <if test = "status != null and status != ''">
+    	and status = #{status}
+    </if>
+    order by dedate,status desc
+	</select>
+	
+	<insert id="insert" parameterType="com.zfsoft.hrm.expertvote.expertmanage.entity.ExpertDeclare">
+		insert into hrm_expert_declare (ID,TJRGH,TYPE,SBZ,DEDATE,STATUS) values (#{id},#{tjrgh jdbcType=VARCHAR},#{type jdbcType=VARCHAR},#{sbz jdbcType=VARCHAR},#{dedate jdbcType=DATE},#{status jdbcType=VARCHAR})
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			SELECT SYS_GUID() ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<select id="getById" parameterType="java.lang.String" resultType="com.zfsoft.hrm.expertvote.expertmanage.entity.ExpertDeclare">
+		select * from hrm_expert_declare where id=#{id}
+	</select>
+	
+	<update id="updateDeclare" parameterType="com.zfsoft.hrm.expertvote.expertmanage.entity.ExpertDeclare">
+		update hrm_expert_declare 
+			<set>
+				<if test="tjrgh !=null and tjrgh != ''">
+					tjrgh = #{tjrgh},
+				</if>
+				<if test="type !=null and type != ''">
+					type = #{type},
+				</if>
+				<if test="sbz !=null and sbz != ''">
+					sbz = #{sbz},
+				</if>
+				<if test="dedate != null and dedate != ''">
+					dedate = #{dedate},
+				</if>
+				<if test="config_id != null and config_id != ''">
+					config_id = #{config_id},
+				</if>
+				<if test="instance_id != null and instance_id != ''">
+					instance_id = #{instance_id},
+				</if>
+				<if test="status != null and status != ''">
+					status = #{status},
+				</if>
+				<if test="adudate != null and adudate != ''">
+					adudate = #{adudate}
+				</if>
+			</set>
+			where id = #{id}			
+	</update>
+	
+	<delete id="delete" parameterType="java.lang.String">
+		delete from hrm_expert_declare where id = #{id}
+	</delete>
+	
+	<!-- 获取分页信息 -->
+	<select id="getPagingList" resultType="com.zfsoft.hrm.expertvote.expertmanage.entity.ExpertDeclare" >
+	select * from (select a.*, rownum rn from(
+		select 
+			k.*
+		from hrm_expert_declare k left join overall o 
+		on k.tjrgh = o.gh 
+		<include refid="where"/>
+	 ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<!-- 专家审核页面    获取分页计数 -->
+	<select id="getPagingCount" resultType="int">
+		select 
+			count(*) cnt
+		from hrm_expert_declare k left join overall o 
+        on k.tjrgh = o.gh 
+		<include refid="where"/>
+	</select>
+	
+	<sql id="where">
+	<where>
+		1=1
+		<if test="gh != null and gh != ''">
+			and k.tjrgh like '%'||#{gh}||'%'
+		</if>
+		<if test="name != null and name != ''">
+            and o.xm like '%'||#{name}||'%'
+        </if>
+		<if test="express != null and express != ''">
+			and exists ( ${express} and k.id = w_id )
+		</if>
+		<if test="express2 != null and express2 != ''">
+			and ${express2}
+		</if>
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if> 
+	</where>
+	</sql>
+</mapper>

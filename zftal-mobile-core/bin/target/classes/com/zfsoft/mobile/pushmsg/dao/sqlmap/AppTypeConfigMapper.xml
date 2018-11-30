@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.pushmsg.dao.IAppTypeConfigDao">
+
+    <resultMap type="com.zfsoft.mobile.pushmsg.entity.AppTypeConfig"
+        id="appTypeConfigMap">
+        <result property="appType" column="APP_TYPE" />
+        <result property="appKey" column="APP_KEY" />
+        <result property="masterSecret" column="MASTER_SECRET" />
+        <result property="detail" column="DETAIL" />
+        <result property="pushPlatform" column="PUSHPLATFORM" />
+    </resultMap>
+
+    <select id="getConfigList" resultMap="appTypeConfigMap">
+        select * from MOBILE_APPCONFIG
+    </select>
+    <!-- 极光推送appid、 secret -->
+    <select id="findConfig" resultMap="appTypeConfigMap">
+        select * from MOBILE_APPCONFIG where APP_TYPE = #{appType} and PUSHPLATFORM = 'JPUSH'
+    </select>
+    
+    <!-- 小米推送appid、 secret -->
+    <select id="findMIUIConfig" resultMap="appTypeConfigMap">
+        select * from MOBILE_APPCONFIG where APP_TYPE = #{appType} and PUSHPLATFORM = 'MIUI'
+    </select>
+    
+    <!-- 华为推送appid、 secret -->
+    <select id="findEMUIConfig" resultMap="appTypeConfigMap">
+        select * from MOBILE_APPCONFIG where APP_TYPE = #{appType} and PUSHPLATFORM = 'EMUI'
+    </select>
+</mapper>

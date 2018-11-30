@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="billgrade" namespace="/billgrade" extends="configuration">
+        <action name="config_*" class="spBillGradeConfigAction" method="{1}">
+            <result name="list_config">/WEB-INF/pages/hrm/billgrade/config/grade_config_list.jsp</result>
+            <result name="edit_config">/WEB-INF/pages/hrm/billgrade/config/grade_config_edit.jsp</result>
+            <result name="list_property">/WEB-INF/pages/hrm/billgrade/config/grade_property_list.jsp</result>
+            <result name="edit_property">/WEB-INF/pages/hrm/billgrade/config/grade_property_edit.jsp</result>
+            <result name="level_config">/WEB-INF/pages/hrm/billgrade/config/grade_level_config.jsp</result>
+        </action>
+        <action name="grade_*" class="spBillGradeAction" method="{1}">
+            <result name="detail">/WEB-INF/pages/hrm/billgrade/grade/grade_detail.jsp</result>
+        </action>
+    </package>
+</struts>

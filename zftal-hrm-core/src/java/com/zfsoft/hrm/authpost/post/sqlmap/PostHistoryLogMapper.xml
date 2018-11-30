@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.authpost.post.dao.daointerface.IPostHistoryLogDao" >
+	
+	<resultMap type="com.zfsoft.hrm.authpost.post.entities.PostHistoryLog" id="postHistoryLog">
+    	<result column="guid" property="guid"/>
+    	<result column="snap_time" property="snapTime"/>
+    	<result column="operator" property="operator"/>
+    	<result column="operate_time" property="operateTime"/>
+    </resultMap>
+    
+    <!-- 新增 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+    	insert into HRM_BZGL_SNAP_LOG (guid,snap_time,operator,operate_time)
+    	values 
+    	(#{guid},#{snapTime},#{operator},#{operateTime})
+    	<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() globalid from DUAL
+			]]>
+		</selectKey>
+    </insert>
+    
+    <select id="getPagingList" resultMap="postHistoryLog">
+    	select * from (select a.*, rownum rn from (select * from HRM_BZGL_SNAP_LOG 
+    	<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if> 
+	     ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+    </select>
+    
+    <select id="getPagingCount"  resultType="int">
+        select count(*) from  HRM_BZGL_SNAP_LOG
+    </select> 
+    
+    <select id="getList" resultMap="postHistoryLog">
+    	select * from HRM_BZGL_SNAP_LOG where snap_time = #{snapTime}
+    </select>
+    
+    <delete id="delete" >
+    	delete from HRM_BZGL_SNAP_LOG where snap_time = #{snapTime}
+    </delete>
+    
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.overall.base.dao.IOverAllDao" >	
+	<resultMap type="com.zfsoft.hrm.overall.base.entity.OverAll" id="noticeMap">
+		<result property="gh" column="gh"/>
+		<result property="xm" column="xm"/>
+		<result property="xmpy" column="xmpy"/>
+		<result property="dwh" column="dwh"/>
+		<result property="xbm" column="xbm"/>				
+		<result property="csrq" column="csrq"/>
+		<result property="jg" column="jg"/>
+		<result property="mzm" column="mzm"/>
+		<result property="sfzjlxm" column="sfzjlxm"/>
+		<result property="sfzjh" column="sfzjh"/>		
+		<result property="hyzkm" column="hyzkm"/>
+		<result property="zzmmm" column="zzmmm"/>
+		<result property="jkzkm" column="jkzkm"/>
+		<result property="gwlbm" column="gwlbm"/>
+		<result property="gwdjm" column="gwdjm"/>		
+		<result property="rzgwm" column="rzgwm"/>
+		<result property="zjzw" column="zjzw"/>
+		<result property="xzzw" column="xzzw"/>
+		<result property="cjgzsj" column="cjgzsj"/>
+		<result property="zwjb" column="zwjb"/>
+		<result property="bzlbm" column="bzlbm"/>
+	</resultMap>
+    
+	<select id="getByGh" resultMap="noticeMap">
+		select 
+			*
+		from JBXXB where gh=#{gh} and deleted = '0'
+	</select>
+</mapper>

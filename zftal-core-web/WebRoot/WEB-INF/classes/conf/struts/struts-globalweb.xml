@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="xtgl" namespace="/xtgl" extends="configuration">
+	  <!-- 角色管理 ACTION-->
+	   <action name="jsgl_*" class="jsglAction" method="{1}">
+	     <result name="success">/WEB-INF/pages/globalweb/comp/xtgl/jsgl/{1}.jsp</result>
+	     <result name="zjJsxx">/WEB-INF/pages/globalweb/comp/xtgl/jsgl/zjJsxx.jsp</result>
+	     <result name="xgJsxx">/WEB-INF/pages/globalweb/comp/xtgl/jsgl/xgJsxx.jsp</result>
+	     <result name="jsFpyh">/WEB-INF/pages/globalweb/comp/xtgl/jsgl/jsFpyh.jsp</result>
+	     <result name="cxJsxx">/WEB-INF/pages/globalweb/comp/xtgl/jsgl/cxJsxx.jsp</result>
+	     <result name="jskc">/WEB-INF/pages/globalweb/comp/xtgl/jsgl/jskc.jsp</result>
+	     <result name="scJsxx" type="redirect">jsgl_cxJsxx.html</result>
+	  </action>
+	  
+	  <!-- 用户管理 ACTION-->
+	   <action name="yhgl_*" class="yhglAction" method="{1}">
+	     <result name="success">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/{1}.jsp</result>
+	     <result name="zjYhxx">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/zjYhxx.jsp</result>
+	     <result name="xgYhxx">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/xgYhxx.jsp</result>
+	     <result name="szSsjs">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/szSsjs.jsp</result>
+	     <result name="cxYhxx">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/cxYhxx.jsp</result>
+	     <result name="cxPlsjsq">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/cxPlsjsq.jsp</result>
+	     <result name="cxJgdms">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/cxJgdms.jsp</result>
+	  </action>
+	  
+	  <!-- 日志管理 ACTION-->
+	  <action name="rzgl_*" class="rzglAction" method="{1}">
+		 <result name="cxRz">/WEB-INF/pages/globalweb/comp/xtgl/rzgl/cxRz.jsp</result>
+		 <result name="ckRzxx">/WEB-INF/pages/globalweb/comp/xtgl/rzgl/ckRzxx.jsp</result>
+	  </action>
+	  
+	   <!-- 基础数据维护ACTION-->
+	   <action name="jcsj_*" class="jcsjAction" method="{1}">
+	     <result name="success">/WEB-INF/pages/globalweb/comp/xtgl/jcsj/{1}.jsp</result>
+	      <result name="zjJcsj">/WEB-INF/pages/globalweb/comp/xtgl/jcsj/zjJcsj.jsp</result>
+	       <result name="xgJcsj">/WEB-INF/pages/globalweb/comp/xtgl/jcsj/xgJcsj.jsp</result>
+	  </action>
+	  
+	  <!-- 用户登录验证ACTION -->
+	  <action name="login_*" class="loginAction" method="{1}">
+	  	 <interceptor-ref name="defaultStack" />
+	     <result name="success" type="redirect">index_initMenu.html</result>
+	     <result name="false">/WEB-INF/pages/globalweb/login.jsp</result>
+	      <result name="yzm">/WEB-INF/pages/globalweb/yzm.jsp</result>
+	  </action>
+	  
+	  <!-- 首页 ACTION-->
+	  <action name="index_*" class="indexAction" method="{1}">
+	     <result name="teapage">/WEB-INF/pages/globalweb/teaPage.jsp</result>
+	     <result name="index">/WEB-INF/pages/globalweb/index.jsp</result>
+	     <result name="contentPage" type="redirect">${url}</result>
+	     <result name="{1}">/WEB-INF/pages/globalweb/{1}.jsp</result>
+	  </action>	  
+	
+	  <!-- 操作按钮ACTION -->
+	  <action name="wdyy_*" class="wdyyAction" method="{1}"></action>
+	  
+	  <!-- 公共ACTION -->
+	  <action name="comm_*" class="commonSqlAction" method="{1}"></action>	  
+	  
+	  <!-- 系统设置ACTION -->
+	  <action name="xtsz_*" class="xtszAction" method="{1}">
+	     <result name="xtsz">/WEB-INF/pages/globalweb/comp/xtgl/xtsz/xtsz.jsp</result>
+	  </action> 
+	  
+	  <!-- 系统设置ACTION -->
+	  <action name="test_*" class="TestAction" method="{1}">
+	     <result name="xtsz">/WEB-INF/pages/globalweb/comp/xtgl/xtsz/xtsz.jsp</result>
+	  </action> 
+  
+		<!-- 新闻管理ACTION -->
+	  <action name="xwgl_*" class="xwglAction" method="{1}">
+	  	 <result name="zjXw">/WEB-INF/pages/globalweb/comp/xtgl/xwgl/zjXw.jsp</result>
+	  	  <result name="xgXw">/WEB-INF/pages/globalweb/comp/xtgl/xwgl/xgXw.jsp</result>
+	     <result name="{1}">/WEB-INF/pages/globalweb/comp/xtgl/xwgl/{1}.jsp</result>
+	  </action>
+
+	  <!-- 用户登录验证ACTION -->
+	  <action name="logSys" class="loginAction" method="initialize">
+	  	 <interceptor-ref name="defaultStack" />
+	  </action>
+	  
+	  <!-- 数据范围ACTION -->
+	  <action name="sjfw_*" class="yhjsfwAction" method="{1}">
+	 	 <result name="cxSjsq">/WEB-INF/pages/globalweb/comp/xtgl/sjfw/cxSjsq.jsp</result>
+	     <result name="szSjsq">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/szSjsq.jsp</result>
+	  </action>
+	  
+	  <!-- 数据范围对象ACTION -->
+	  <action name="sjdx_*" class="sjfwdxAction" method="{1}">
+	     <result name="testIndex">/WEB-INF/pages/globalweb/comp/xtgl/sjfw/html_index.jsp</result>
+	  </action>
+	
+	   <!-- 口令维护ACTION -->
+	  <action name="klwh_*" class="klwhAction" method="{1}">
+	     <result name="success">//WEB-INF/pages/globalweb/comp/xtgl/klwh/{1}.jsp</result>
+	     <result name="toCshgz">/WEB-INF/pages/globalweb/comp/xtgl/klwh/cshgz.jsp</result>
+	     <result name="cxXsxx">/WEB-INF/pages/globalweb/comp/xtgl/klwh/cxXsxx.jsp</result>
+	     <result name="qbCsh" type="redirect">klwh_cxXsxx.html</result>
+	  </action>
+	</package>  
+	
+	<!-- 文本编辑器ACTION-->
+	<package name="kindeditor" namespace="/kindeditor" extends="configuration">
+		 <action name="uploadJson" class="kindEditorAction" method="uploadJson">
+	  	 	<result name="uploadJson">/kindeditor/jsp/upload_json.jsp</result>
+	 	 </action>
+		 <action name="fileManagerJson" class="kindEditorAction" method="fileManagerJson">
+	  	 	<result name="fileManagerJson">/kindeditor/jsp/file_manager_json.jsp</result>
+	 	 </action>
+	</package>
+ 
+</struts>

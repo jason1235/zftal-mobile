@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IAncdDao" >
+
+    	<!-- 查询老师按钮菜单-->
+	<select id="cxAncdLs" parameterType="AncdModel" resultType="AncdModel">
+		select gnxx.gnmkdm,gnxx.gnmkmc,gnxx.dyym,czdm.czdm,czdm.czmc,czdm.anys,czdm.xssx
+	       from zftal_xtgl_yhjsb yhjs,zftal_xtgl_jsgnmkczb jsgn,zftal_xtgl_jsgnmkdmb gnxx,zftal_xtgl_czdmb czdm
+	       where yhjs.jsdm = jsgn.jsdm and jsgn.gnmkdm=gnxx.gnmkdm and jsgn.czdm=czdm.czdm and yhjs.zgh=#{yhm} and gnxx.dyym=#{dyym}
+	       <if test="jsdm != null and jsdm != ''">
+	           and yhjs.jsdm = #{jsdm}
+	       </if>
+	       group by gnxx.gnmkdm,gnxx.gnmkmc,gnxx.dyym,czdm.czdm,czdm.czmc,czdm.xssx,czdm.anys
+	       order by gnxx.gnmkdm,to_number(czdm.xssx)
+	</select>
+	
+	
+	<!-- 查询学生按钮菜单 -->
+	<select id="cxAncdXs" parameterType="AncdModel" resultType="AncdModel">
+		select gndm.gnmkdm,gndm.gnmkmc,gndm.dyym,czxx.czdm,czxx.czmc,czxx.anys,czxx.xssx 
+	       from zftal_xtgl_xsgnmkdmb gndm,zftal_xtgl_gnmkczb gncz,zftal_xtgl_czdmb czxx 
+	       where gndm.gnmkdm=gncz.gnmkdm and gncz.czdm=czxx.czdm and gndm.dyym=#{dyym}
+	       order by gncz.gnmkdm,to_number(czxx.xssx)
+	</select>
+	
+    
+</mapper>

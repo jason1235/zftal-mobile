@@ -1,0 +1,187 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+<parent>
+		<groupId>com.zfsoft</groupId>
+		<artifactId>zftal-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+  <groupId>com.zfsoft</groupId>
+  <artifactId>zftal-portal-core</artifactId>
+  <packaging>jar</packaging>
+
+  <name>zftal-portal-core</name>
+
+  <build>
+		<sourceDirectory>src/java</sourceDirectory>
+		<resources>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/resources</directory>
+			</resource>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
+		<xfire.version>1.2.6</xfire.version>	
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>zftal-core-util</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>zftal-hrm-core-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>zftal-mobile-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>zftal-middleware-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/axis/axis -->
+		<!-- axis 1.4 jar start -->
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-discovery</groupId>
+            <artifactId>commons-discovery</artifactId>
+            <version>0.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis-jaxrpc</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis-saaj</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <!-- axis 1.4 jar end -->
+        
+        
+        
+        
+        
+        <dependency>
+			<groupId>org.codehaus.xfire</groupId>
+			<artifactId>xfire-core</artifactId>
+			<version>${xfire.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.codehaus.xfire</groupId>
+			<artifactId>xfire-aegis</artifactId>
+			<version>${xfire.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.codehaus.xfire</groupId>
+			<artifactId>xfire-annotations</artifactId>
+			<version>${xfire.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.codehaus.xfire</groupId>
+			<artifactId>xfire-java5</artifactId>
+			<version>${xfire.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.codehaus.xfire</groupId>
+			<artifactId>xfire-jaxb2</artifactId>
+			<version>${xfire.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.codehaus.xfire</groupId>
+			<artifactId>xfire-spring</artifactId>
+			<version>${xfire.version}</version>
+			<exclusions>
+           		<exclusion>
+               			<groupId>org.springframework</groupId>
+               			<artifactId>spring-aop</artifactId>
+           		</exclusion>
+           		<exclusion>
+               			<groupId>org.springframework</groupId>
+               			<artifactId>spring-context</artifactId>
+           		</exclusion>
+           		<exclusion>
+               			<groupId>org.springframework</groupId>
+               			<artifactId>spring-beans</artifactId>
+           		</exclusion>
+           		<exclusion>
+               			<groupId>org.springframework</groupId>
+               			<artifactId>spring-core</artifactId>
+           		</exclusion>
+           		<exclusion>
+               			<artifactId>spring-web</artifactId>
+               			<groupId>org.springframework</groupId>
+           		</exclusion>
+       		</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.codehaus.xfire</groupId>
+			<artifactId>xfire-xmlbeans</artifactId>
+			<version>${xfire.version}</version>
+		</dependency>
+		
+        
+        <dependency>
+			<groupId>xfire</groupId>
+			<artifactId>xfire-jsr181-api</artifactId>
+			<version>1.0-M1</version>
+		</dependency>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</dependencies>
+</project>

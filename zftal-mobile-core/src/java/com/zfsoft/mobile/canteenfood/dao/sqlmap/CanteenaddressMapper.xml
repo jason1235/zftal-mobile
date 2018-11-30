@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.zfsoft.mobile.canteenfood.dao.ICanteenaddressDao">
+
+	<resultMap type="com.zfsoft.mobile.canteenfood.entity.Canteenaddress" id="addressMap">
+	   <result property="addressId" 	column="ADDRESSID" />
+	   <result property="userId" 		column="USERID"/>
+	   <result property="name" 			column="name"/>
+	   <result property="mobilePhone"   column="MOBILEPHONE"/>
+	   <result property="schoolName" 	column="SCHOOLNAME"/>
+	   <result property="specificAddress" column="SPECIFICADDRESS"/>
+	</resultMap>
+	
+	<sql id="where">
+	   <where>
+		   <if test="addressId !=null and addressId!=''">
+		      and m.addressid = #{addressId}
+		   </if>
+		   <if test="userId!=null and userId!=''">
+		   		and m.userid = #{userId}
+		   </if> 
+	   </where>
+	</sql>
+	
+	<select id="getPageCount" resultType="int">
+		select count(*) from 
+		(select * from M_CANTEEN_ADDRESS m
+			<include refid="where" /> ) a
+	</select>
+	<!-- 获取分页列表信息 -->
+	<select id="getPageList" resultMap="addressMap">
+		select * from (
+			select a.*,rownum rn from (
+				select * from M_CANTEEN_ADDRESS m <include refid="where" />
+			) a)
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+	</select>
+	
+	<select id="findById" resultMap="addressMap">
+		select t1.* from M_CANTEEN_ADDRESS t1
+		<where>
+			t1.addressid = #{addressId}
+		</where>
+	</select>
+	
+	<insert id="insertAddress">
+		<![CDATA[
+			 insert into M_CANTEEN_ADDRESS(
+				addressid,
+				userid,
+				name,
+				mobilephone,
+				schoolname,
+				specificaddress
+			 )
+			 VALUES(
+				#{addressId},
+				#{userId,jdbcType=VARCHAR},
+				#{name,jdbcType=VARCHAR},
+				#{mobilePhone,jdbcType=VARCHAR},
+				#{schoolName,jdbcType=VARCHAR},
+				#{specificAddress,jdbcType=VARCHAR}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="addressId">
+		    <![CDATA[
+				select SYS_GUID() addressId from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="updateAddress">
+		update M_CANTEEN_ADDRESS
+		<set>
+			<if test="name!=null and name!=''">
+			  name=#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="mobilePhone!=null and mobilePhone!=''">
+			  mobilePhone=#{mobilePhone},
+			</if>
+			<if test="schoolName!=null and schoolName!=''">
+			  schoolName=#{schoolName,jdbcType=VARCHAR},
+			</if>
+			<if test="specificAddress!=null and specificAddress!=''">
+			  specificAddress=#{specificAddress,jdbcType=VARCHAR}
+			</if>
+		</set>
+		where addressid=#{addressId}
+	</update>
+	
+	<delete id="deleteAddress">
+		delete from M_CANTEEN_ADDRESS 
+		<where>
+		  addressid=#{addressId}
+		<!--  and userid=#{userId}-->
+		</where>
+	</delete>
+
+</mapper>

@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.servlet.homePageHttp.dao.daointerface.IHomePageHttpDao" >
+
+	<resultMap id="imageDB" type="com.zfsoft.hrm.file.entity.ImageDB">
+		<result property="fileName" 	column="WJBT"/> 
+		<result property="fileContent" 	column="WJNR"/>
+		<result property="path" 		column="WJLJ"/>
+		<result property="uploadTime" 	column="SCRQ"/>
+		<result property="opUser" 		column="USERID"/>
+	</resultMap>
+	
+	 <resultMap id="ServiceManagerMap" type="com.zfsoft.mobile.services.entity.ServiceManager">
+        <result property="classId"          column="FWID" />
+        <result property="classFwbm"        column="FWBM" />
+        <result property="classFwmc"        column="FWMC" />
+        <result property="classSsywxt"      column="SSYWXT" />
+        <result property="classSscp"        column="SSCP" />
+        <result property="classFwlx"        column="FWLX" />
+        <result property="classFbzt"        column="FBZT" />
+        <result property="classFwly"        column="FWLY" />
+        <result property="classFwms"        column="FWMS" />
+        <result property="classFwlj"        column="FWLJ" />
+        <result property="classFwtbdz"      column="FWTBDZ" />
+        <result property="classFwtbid"      column="FWTBID" />
+        <result property="classRdpx"        column="RDPX" />
+        <result property="classAppyydz"     column="APPYYDZ" />
+        <result property="classAndroidUrl"  column="ANDROIDURL" />
+        <result property="classIosUrl"      column="IOSURL" />
+        <result property="classWXUrl"       column="WXURL" />
+        <result property="xtdz"             column="XTDZ" />
+        <result property="choice"           column="CHOICE" />
+        <result property="procode"          column="PROCODE" />
+        <result property="xtbm"             column="XTBM" />
+        <result property="apkfilename"      column="wjmc" />
+        <result property="otherFlag"      	column="otherFlag" />
+        <result property="iscommon"      	column="iscommon" />
+    </resultMap>
+	
+	 <select id="findImageById" resultMap="imageDB">
+		SELECT WJNR,WJDX,WJCCBBH,WJBT,WJLJ,SCRQ,HZM,CZR
+		from hrm_xtgl_zpb 
+		where WJCCBBH=#{imageId}
+	</select>
+	
+	 <!-- 取得通用服务 -->
+    <select id="getCommonService" resultMap="ServiceManagerMap" >
+    select * from (select a.*, rownum rn from
+       (select b.*,m.androidurl,m.iosurl,m.wxurl,e.xtdz,e.procode,e.xtbm,e.otherFlag,h.wjmc from M_FWGL_FWGLB b 
+                 left join M_FWGL_FWLM m on b.fwbm = m.fwbm
+                     left join M_FWGL_YWXTGLB  e on e.xtid = b.ssywxt
+                     	left join HRM_XTGL_FJXXB h on b.fileid = h.fjbh
+               where b.deleted ='0'  and b.fbzt ='1' and b.iscommon = '1'
+               ) a )
+         	order by rdpx asc,fwbm asc 
+    
+    </select>
+    
+      <!-- 根据用户取得该用户的所有服务 -->
+    <select id="getAllServiceByUser" resultMap="ServiceManagerMap" >
+    select * from (select a.*, rownum rn from
+       (select b.*,m.androidurl,m.iosurl,m.wxurl,e.xtdz,e.procode,e.xtbm,e.otherFlag,h.wjmc from M_FWGL_yhqx  y 
+           left join M_FWGL_FWGLB b 
+               on y.fwbm = b.fwbm 
+                 left join M_FWGL_FWLM m on b.fwbm = m.fwbm
+                     left join M_FWGL_YWXTGLB  e on e.xtid = b.ssywxt
+                     	left join HRM_XTGL_FJXXB h on b.fileid = h.fjbh
+               <where>
+			<if test="userId != null and userId != ''">
+   				and y.yhid = #{userId}
+	   		</if>
+			<if test="ywId != null and ywId != ''">
+    			and e.xtbm = #{ywId}
+    		</if>
+    		and b.deleted ='0'  and b.fbzt ='1' 	order by b.rdpx asc 	
+			</where>
+               ) a )
+    	<![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+         	order by iscommon desc ,rdpx asc,fwbm asc
+    
+    </select>
+    
+    <!-- 根据用户取得该用户的所有服务数量 -->
+    <select id="getAllServiceByUserCnt" resultType="int" >
+    select count(*) from M_FWGL_yhqx  y 
+    	left join M_FWGL_FWGLB b on y.fwbm = b.fwbm 
+    		left join M_FWGL_FWLM m on b.fwbm = m.fwbm
+    		left join M_FWGL_YWXTGLB  e on e.xtid = b.ssywxt
+     <where>
+			<if test="userId != null and userId != ''">
+   				and y.yhid = #{userId}
+	   		</if>
+			<if test="ywId != null and ywId != ''">
+    			and e.xtbm = #{ywId}
+    		</if>
+    		<if test="androidIos != null and androidIos != ''">
+    			and b.showway like '%'||#{androidIos}||'%'  
+    		</if>
+    		and b.deleted ='0' and b.fbzt='1' 
+    		order by rdpx asc
+		</where>
+    </select>
+    
+    <!-- 登录的服务 -->
+    <select id="getLoginFw" resultMap="ServiceManagerMap" >
+       select b.*,m.androidurl,m.iosurl,m.wxurl,e.xtdz,e.procode,e.xtbm,e.otherFlag from M_FWGL_yhqx  y 
+           left join M_FWGL_FWGLB b 
+               on y.fwbm = b.fwbm 
+                 left join M_FWGL_FWLM m on b.fwbm = m.fwbm
+                     left join M_FWGL_YWXTGLB  e on e.xtid = b.ssywxt
+               <where>
+               <foreach collection="fwids" item="item" open=" and b.fwbm in (" separator="," close=")">
+                    #{item} 
+               </foreach>
+            and b.deleted ='0' 
+			<if test="userId != null and userId != ''">
+   				and y.yhid = #{userId}
+	   		</if>
+            </where>
+    </select>
+    
+    <!-- 添加常用服务 -->
+    <insert id="insertFrequentlyService">
+         insert into m_fwgl_cyfwglb (
+             yhid,
+             fwbm,
+             rd,
+             cjsj,
+             gxsj,
+             sycs
+         ) values (
+             #{userId},
+             #{fwBm},
+             <if test="isadd == 'yes'">
+             (select nvl(max(to_number(rd)), 0) + 1 from m_fwgl_cyfwglb where yhid = #{userId}),
+             </if>
+             <if test="isadd != 'yes'">
+             1,
+             </if>
+             sysdate,
+             sysdate,
+             1
+         )
+    </insert>
+    
+    <!-- 更新常用服务 -->
+    <update id="upFrequentlyService">
+        update m_fwgl_cyfwglb
+        set gxsj = sysdate,
+            rd = rd - 1
+        where yhid = #{userId}
+          <![CDATA[
+          and rd > #{mark}
+          ]]>
+    </update>
+    
+    <!-- 更新常用服务 -->
+    <update id="downFrequentlyService">
+        update m_fwgl_cyfwglb
+        set gxsj = sysdate,
+            rd = rd + 1
+        where yhid = #{userId}
+          <![CDATA[
+          and rd >= #{mark}
+          ]]>
+    </update>
+    
+    <!-- 删除没有在用户权限中的常用服务	 -->
+    <delete id="deleteFrequentlyServiceNotInYhqx">
+        delete from m_fwgl_cyfwglb t1 where t1.fwbm not in(
+		        select q.fwbm from m_fwgl_yhqx q where q.yhid=#{userId}
+		 ) and t1.yhid=#{userId}
+    </delete>
+    
+    <!-- 删除用户所有常用服务 -->
+    <delete id="deleteAllFrequentlyService">
+        delete from m_fwgl_cyfwglb t where t.yhid = #{userId}
+    </delete>
+    
+    <!-- 根据用户取得该用户的常用服务 -->
+    <select id="getFrequentlyServiceByUser" resultMap="ServiceManagerMap" >
+       
+        
+        select t2.*, t1.rd,m.androidurl,m.iosurl,m.wxurl, e.xtdz,e.procode,e.xtbm,e.otherFlag,h.wjmc
+		  from m_fwgl_cyfwglb t1
+		  left join     m_fwgl_fwglb   t2  on t1.fwbm = t2.fwbm
+		  left join     M_FWGL_FWLM    m   on t2.fwbm = m.fwbm
+		  left join     M_FWGL_YWXTGLB e   on t2.ssywxt = e.xtid
+		  left join     HRM_XTGL_FJXXB h   on t2.fileid = h.fjbh 
+		 where  t1.yhid = #{userId}
+		   and t2.deleted = '0'
+		   and t2.fbzt = '1'
+		 order by t1.rd
+    </select>
+	
+</mapper>

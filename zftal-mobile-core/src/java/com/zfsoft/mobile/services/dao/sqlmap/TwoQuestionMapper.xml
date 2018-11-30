@@ -1,0 +1,487 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.services.dao.daointerface.ITwoQuestionDao" >
+
+
+	<resultMap type="com.zfsoft.mobile.exampaper.query.TwoResultQuery" id="TwoResultMap">
+		<result column="yhid" 				property="yhid"/>
+		<result column="questionId" 		property="questionId"/>
+		<result column="itemValue" 			property="itemValue"/>
+		<result column="score" 				property="score"/>
+		<result column="xm" 				property="xm"/>
+	</resultMap>
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.TwoExamPaperEntity" id="ExamPaperMap">
+		<result column="papermainid" 		property="papermainid"/>
+		<result column="papermainname" 		property="papermainname"/>
+		<result column="instruction" 		property="instruction"/>
+		<result column="createtime" 		property="createtime"/>
+		<result column="starttime" 			property="starttime"/>
+		<result column="endtime" 			property="endtime"/>
+		<result column="remark" 			property="remark"/>
+		<result column="flag" 				property="flag"/>
+		<result column="creater" 			property="creater"/>
+		<result column="qn_owner" 			property="qn_owner"/>
+		<result column="totalsocre" 		property="totalsocre"/>
+	</resultMap>
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.TwoExamQuestionEntity" id="ExamQuestionMap">
+		<result column="questionid" 		property="questionid"/>
+		<result column="title" 				property="title"/>
+		<result column="type" 				property="type"/>
+		<result column="items" 				property="items"/>
+		<result column="papermainid" 		property="papermainid"/>
+		<result column="sort" 				property="sort"/>
+		<result column="maxItem" 			property="maxItem"/>
+	</resultMap>
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.TwoExamDyJsEntity" id="ExamDyJsMap">
+		<result column="papermainid" 		property="papermainid"/>
+		<result column="qzid" 				property="qzid"/>
+		<result column="qzmc" 				property="qzmc"/>
+	</resultMap>
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.TwoExamAnwserEntity" id="ExamAnwserMap">
+		<result column="yhid" 				property="yhid"/>
+		<result column="questionid" 		property="questionid"/>
+		<result column="xm" 				property="xm"/>
+		<result column="itemvalue" 			property="itemvalue"/>
+		<result column="title" 				property="title"/>
+		<result column="type" 				property="type"/>
+		<result column="items" 				property="items"/>
+		<result column="papermainid" 		property="papermainid"/>
+		<result column="sort" 				property="sort"/>
+		<result column="maxItem" 			property="maxItem"/>
+		<result column="anwers" 			property="anwers"/>
+		<result column="score" 				property="score"/>
+	</resultMap>
+	<sql id="where">
+    	<where>
+			<if test="papermainname != null and papermainname != ''">
+				and b.PAPERMAINNAME LIKE '%'||#{papermainname}||'%' 
+	   		</if>
+	   		<if test="papermainid != null and papermainid != ''">
+				and b.papermainid = #{papermainid} 
+	   		</if>
+	   		<if test='isOver != null and isOver != "" and isOver == "2"'>
+	   			<![CDATA[
+				and b.starttime is not null and b.endtime is not null and b.endtime > sysdate
+				]]>	
+	   		</if>
+	   		<if test='isOver != null and isOver != "" and isOver == "1"'>
+	   			<![CDATA[
+				and b.starttime is not null and b.endtime is not null and b.endtime < sysdate
+				]]>	
+	   		</if>
+	   		<if test='isOver != null and isOver != "" and isOver == "0"'>
+				and b.starttime is null and b.endtime is null 
+	   		</if>
+	   		
+		</where>
+    </sql> 
+    <!-- 获取问卷对应的所有分组 -->
+    <select id="getExamDyJsList" resultMap="ExamDyJsMap">
+			select a.*, b.qzmc from M_EXAMDYJS_TWO a left join MOBILE_QZB b  on a.qzid=b.id 
+				where a.papermainid = #{papermainid}
+				<if test="qzid != null and qzid != ''">
+				and a.qzid = #{qzid} 
+	   		</if>
+	</select>
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getExamPaperList" resultMap="ExamPaperMap">
+	select * from (
+		select b.*,rownum rn from
+		(select a.PAPERMAINID,a.PAPERMAINNAME,a.INSTRUCTION,a.CREATETIME,a.ENDTIME,a.STARTTIME,a.REMARK,n.xm creater,a.qn_owner,a.totalsocre from M_EXAMPAPERMAIN_TWO a
+		 left join zftal_xtgl_yhb  n on a.creater = n.zgh
+		 <if test="creater != null and creater != ''">
+				where  a.creater = #{creater} 
+	   		</if>
+	   		order by a.CREATETIME desc
+          ) b
+			<include refid="where" />
+            	
+			) c
+			
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>	
+			
+	</select>
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getExamList" resultMap="ExamPaperMap">
+	select *
+	  from (select b.PAPERMAINID,
+                       b.PAPERMAINNAME,
+                       b.INSTRUCTION,
+                       b.CREATETIME,
+                       b.ENDTIME,
+                       b.STARTTIME,
+                       b.REMARK,
+                       b.flag,
+                       b.creater,
+                       b.qn_owner,
+                       a.totalsocre,
+                       rownum rn
+	          from (
+						select distinct a.PAPERMAINID,
+						       a.PAPERMAINNAME,
+						       a.INSTRUCTION,
+						       a.CREATETIME,
+						       a.ENDTIME,
+						       a.STARTTIME,
+						       a.REMARK,
+						        CASE 
+		                         WHEN  a.PAPERMAINID in (select m.papermainid from M_YH_EXAMPAPERMAIN_TWO m where m.yhid=#{creater})   THEN
+		                          '1'
+		                         ELSE
+		                          '0'
+		                       END flag,
+		                        CASE
+		                         <![CDATA[
+		                         WHEN a.ENDTIME is not null and a.ENDTIME < sysdate THEN
+		                         ]]>	
+		                          '1'
+		                         ELSE
+		                          '0'
+		                       END isend,
+						       a.creater,
+						       a.qn_owner,
+						       a.totalsocre
+						  from M_EXAMDYJS_TWO t1
+						  inner join M_EXAMPAPERMAIN a
+						    on t1.papermainid = a.papermainid
+						  inner join zftal_xtgl_yhb n
+						    on a.creater = n.zgh
+								 where t1.qzid in
+       					(select t1.group_id from mobile_ryqzb t1 where t1.user_id = #{creater} )
+       					order by isend asc, a.CREATETIME desc
+	       ) b
+	       
+	       where  b.STARTTIME is not null and b.ENDTIME is not null 
+	       ) c 
+     <![CDATA[
+		where rn>=#{startRow} and rn<=#{endRow} 
+	]]>	
+	 
+	</select>
+	
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getUserListCount" resultType="int">
+	select count(*)
+	          from (
+	          			select yhid,xm,sum(score)   from (
+						  select a.yhid,a.questionid,a.itemvalue,a.score,b.xm
+						    from m_examdyyh_two a
+						    left join zftal_xtgl_yhb b
+						      on a.yhid = b.zgh
+						    left join m_exampaperqes_two c
+						      on a.questionid = c.questionid
+						   where c.papermainid = #{paperMainId} 
+								<if test="yhid != null and yhid != ''">
+									and a.yhid LIKE '%'||#{yhid}||'%' 
+						   		</if>
+						   		<if test="xm != null and xm != ''">
+									and b.xm LIKE '%'||#{xm}||'%' 
+						   		</if>
+						 ) group by yhid,xm
+	       ) 
+	</select>
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getUserList" resultMap="TwoResultMap">
+	select *
+	  from (select t.*,rownum rn
+	          from (
+	          			select yhid,xm,sum(score) score   from (
+						  select a.yhid,a.questionid,a.itemvalue,a.score,b.xm
+						    from m_examdyyh_two a
+						    left join zftal_xtgl_yhb b
+						      on a.yhid = b.zgh
+						    left join m_exampaperqes_two c
+						      on a.questionid = c.questionid
+						   where c.papermainid = #{paperMainId} 
+								<if test="yhid != null and yhid != ''">
+									and a.yhid LIKE '%'||#{yhid}||'%' 
+						   		</if>
+						   		<if test="xm != null and xm != ''">
+									and b.xm LIKE '%'||#{xm}||'%' 
+						   		</if>
+						 ) group by yhid,xm
+	       ) t
+	       	
+	       ) w 
+     <![CDATA[
+		where rn>=#{startRow} and rn<=#{endRow}  order by score desc 
+	]]>	
+	</select>
+	
+	
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getExamListCount" resultType="int">
+	select count(*)
+	          from (
+						select distinct a.PAPERMAINID,
+						       a.PAPERMAINNAME,
+						       a.INSTRUCTION,
+						       a.CREATETIME,
+						       a.ENDTIME,
+						       a.STARTTIME,
+						       a.REMARK,
+						       n.xm creater
+						  from m_examdyjs t1
+						  inner join M_EXAMPAPERMAIN a
+						    on t1.papermainid = a.papermainid
+						  inner join zftal_xtgl_yhb n
+						    on a.creater = n.zgh
+								 where t1.qzid in
+       					(select t2.group_id from mobile_ryqzb t2 where t2.user_id = #{creater} )
+       					order by a.CREATETIME desc
+	       ) where  STARTTIME is not null and ENDTIME is not null  
+	</select>
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getExamAnwserList" resultMap="ExamAnwserMap">
+	select *
+	  from (select b.*,rownum rn
+	          from (
+						select a.yhid, c.xm, a.itemvalue, b.*
+						  from M_EXAMDYYH_TWO a
+						  left join M_EXAMPAPERQES_TWO b
+						    on a.questionid = b.questionid
+						  left join zftal_xtgl_yhb c
+						    on a.yhid = c.zgh
+						 where a.questionid in
+						       (
+						       	select q.questionid
+						          from M_EXAMPAPERQES_TWO q
+						         where q.papermainid = #{papermainid}
+					         )
+					         <if test="yhid != null and yhid != ''">
+								and a.yhid = #{yhid}
+					   		</if>
+					   		order by a.yhid,to_number(b.sort) asc
+					         
+	       ) b
+	       	
+	       ) c 
+     <![CDATA[
+		where rn>=#{startRow} and rn<=#{endRow} 
+	]]>	
+	</select>
+	
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getExamAnwserCount" resultType="int">
+	select count(*) from (
+		select a.yhid, c.xm, a.itemvalue, b.*
+		  from m_examdyyh_TWO a
+		  left join M_EXAMPAPERQES_TWO b
+		    on a.questionid = b.questionid
+		  left join zftal_xtgl_yhb c
+		    on a.yhid = c.zgh
+		 where a.questionid in
+		       (
+		       	select q.questionid
+		          from m_exampaperqes_two q
+		         where q.papermainid = #{papermainid}
+	         )
+	         and a.yhid = #{yhid}
+	)
+	</select>
+	
+	
+	
+	<select id="getExamPaperCount" resultType="int">
+			select count(*) from
+				(select * from M_EXAMPAPERMAIN_TWO b
+				<include refid="where" />
+				order by b.CREATETIME desc
+		   		)
+			a 
+	</select>
+	
+	
+	<select id="getTotalScoreByQus" resultType="String">
+	          select sum(to_number(score)) from m_exampaperqes_two t where t.papermainid = #{papermainid} 
+	</select>
+	
+	<select id="getMaxSort" resultType="String">
+	      select nvl(max(sort)+1,'1') from M_EXAMPAPERQES_TWO t where t.papermainid = #{papermainid}
+	</select>
+	
+	<!-- 获取所有题目 -->
+	<select id="getQuestionList" resultMap="ExamQuestionMap">
+			select * from M_EXAMPAPERQES_TWO t where t.papermainid = #{papermainid} order by to_number(t.sort) asc
+	</select>
+	
+	<!-- 获取所有题目 -->
+	<select id="getPapermainidByQes" resultType="String">
+			select t.papermainid from M_EXAMPAPERQES_TWO t where t.questionid = #{questionid}
+	</select>
+	
+	<!-- 获取题目值总数 -->
+	<select id="getValueStatic" resultType="Integer">
+			select count(*) from M_EXAMDYYH_TWO t where t.questionid = #{questionid} 
+			<if test="value != null and value != ''">
+				and t.itemvalue like '%'||#{value}||'%' 
+	   		</if>
+	</select>
+	
+	<!-- 获取题目值总数 -->
+	
+	<select id="insertAnswer">
+			insert into M_EXAMDYYH_TWO
+				(yhid,questionid,itemvalue) 
+				values 
+			(
+				#{yhid}, #{questionid}, #{itemvalue}
+			)
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<![CDATA[
+			insert into M_EXAMPAPERMAIN_TWO(
+				papermainid,papermainname,instruction,createtime,starttime,endtime,remark,creater,qn_owner,totalsocre
+			) values(
+				#{papermainid}, #{papermainname}, #{instruction,jdbcType=VARCHAR}, #{createtime}, #{starttime,jdbcType=DATE}
+				, #{endtime,jdbcType=DATE},#{remark,jdbcType=VARCHAR},#{creater},#{qn_owner,jdbcType=VARCHAR}, #{totalsocre,jdbcType=VARCHAR}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="papermainid">
+			<![CDATA[
+			select SYS_GUID() papermainid from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insertQuestion" useGeneratedKeys="true" keyProperty="guid">
+		<![CDATA[
+			insert into M_EXAMPAPERQES_TWO(
+				questionid,title,type,items,sort,papermainid,maxItem,anwers,score
+			) values(
+				#{questionid}, #{title}, #{type}, #{items,jdbcType=VARCHAR}, #{sort},#{papermainid},#{maxItem,jdbcType=VARCHAR},
+				#{anwers,jdbcType=VARCHAR},#{score,jdbcType=VARCHAR}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="questionid">
+			<![CDATA[
+			select SYS_GUID() questionid from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insertExamDyJs">
+		<![CDATA[
+			insert into M_EXAMDYJS_TWO(
+				papermainid,qzid
+			) values(
+				#{papermainid}, #{qzid}
+			)
+		]]>
+	</insert>
+	
+	<delete id="deleteExamDyJs">
+		<![CDATA[
+			delete from  M_EXAMDYJS_TWO 
+			]]>
+     <where>
+        <if test="qzid != null and qzid != ''">
+				and qzid = #{qzid}
+   		</if>
+   		<if test="papermainid != null and papermainid != ''">
+				and papermainid = #{papermainid}
+   		</if>
+      
+     </where>
+        
+	</delete>
+	
+	<insert id="insertExamYh">
+		<![CDATA[
+			insert into M_YH_EXAMPAPERMAIN_TWO (YHID,PAPERMAINID) values(
+				#{yhid},#{papermainid} 
+			)
+		]]>
+	</insert>
+	
+	<update id="updateQuestion">
+		<![CDATA[
+			update M_EXAMPAPERQES_TWO set
+				title = #{title}, 
+				type = #{type},
+				items = #{items,jdbcType=VARCHAR},
+				sort = #{sort},
+				papermainid = #{papermainid},
+				maxItem = #{maxItem},
+				anwers = #{anwers,jdbcType=VARCHAR},
+				score = #{score,jdbcType=VARCHAR}
+			where questionid = #{questionid}
+		]]>
+	</update>
+	
+	<update id="update">
+			update M_EXAMPAPERMAIN_TWO set
+				papermainname = #{papermainname}, 
+				instruction = #{instruction,jdbcType=VARCHAR},
+				remark = #{remark,jdbcType=VARCHAR},
+	   		<if test='qn_owner != null and qn_owner != "" '>
+				qn_owner = #{qn_owner,jdbcType=VARCHAR},
+	   		</if>
+				starttime = #{starttime,jdbcType=DATE},
+				endtime = #{endtime,jdbcType=VARCHAR},
+				totalsocre = #{totalsocre,jdbcType=VARCHAR}
+			where papermainid = #{papermainid}
+	</update>
+	
+	<update id="control">
+			update M_EXAMPAPERMAIN_TWO b set
+	   		<if test='isOver != null and isOver != "" and isOver == "0"'>
+				 b.endtime = sysdate -1 
+	   		</if>
+			where b.papermainid = #{papermainid}
+	</update>
+	
+	<update id="updateIndex">
+		update m_exampaperqes_TWO 
+		set sort = #{index}
+		 where questionid = #{id} 
+		
+	</update>
+	
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from  M_EXAMPAPERMAIN_TWO 
+			]]>
+     <where>
+        <if test="ids != null and (!ids.empty)">
+            <foreach collection="ids" item="id" open=" and papermainid in (" separator="," close=")">
+                #{id} 
+            </foreach>
+        </if>
+      
+     </where>
+        
+	</delete>
+
+	<delete id="removeQuestion">
+		<![CDATA[
+			delete from  m_Exampaperqes_TWO 
+			]]>
+     <where>
+        <if test="questionid != null and questionid != ''">
+				and questionid = #{questionid}
+   		</if>
+   		<if test="papermainid != null and papermainid != ''">
+				and papermainid = #{papermainid}
+   		</if>
+      
+     </where>
+        
+	</delete>
+</mapper>

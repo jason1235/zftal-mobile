@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper  namespace="com.zfsoft.mobile.sourceexchange.dao.ISourceconsumerhisDao">
+	<resultMap id="sourceconsumerMap" type="com.zfsoft.mobile.sourceexchange.entity.Sourceconsumerhis">
+	   <result property="id" 			column="ID" />
+	   <result property="userid" 		column="USERID"/>
+	   <result property="goodsid" 		column="GOODSID"/>
+	   <result property="amount" 		column="AMOUNT" />
+	   <result property="description" 	column="DESCRIPTION"/>
+	   <result property="flag" 			column="FLAG"/>
+	   <result property="createtime" 	column="CREATETIME"/>
+	   <result property="exhangetime"   column="EXCHANGETIME" />
+	</resultMap>
+	
+	<sql id="where">
+	 <where>
+	 	<if test="goodsid!=null and goodsid!=''">
+	 	  and m.goodsid=#{goodsid}
+	 	</if>
+	 	<if test="userid!=null and userid!=''">
+	 	  and m.userid=#{userid}
+	 	</if>
+	 	<if test="id!=null and id!=''">
+	 	  and m.id=#{id}
+	 	</if>
+	 	<if test="flag != null and flag  != ''"> 
+	 		and m.flag  = #{flag } 
+	 	</if>
+	 </where>
+	</sql>
+	
+	<select id="getPageCount" resultType="int">
+		select count(*) from
+			(select * from M_SOURCE_CONSUMERHIS m
+			<include refid="where" /> )
+		a 
+	</select>
+	
+	<!-- 获取分页列表信息
+	select * from (
+		select a.*,rownum rn from(
+			select * from M_SOURCE_CONSUMERHIS m 
+				<include refid="where" /> 
+				order by flag asc,m.createtime desc
+		) a)	
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+	 -->
+	<select id="getPageList" resultMap="sourceconsumerMap">	
+		select * from (
+	       select m.*,u.xm as username,s.goodsname as goodsname,rownum rn,
+	       (case when flag='0' then '未领取'
+			   else '已领取'
+			   end) as status
+	       from M_SOURCE_CONSUMERHIS m  
+	       left join zftal_xtgl_yhb u on u.zgh=m.userid
+	       left join m_source_goods s on s.goodsid=m.goodsid
+	        <include refid="where" /> 
+	       order by m.createtime desc,m.flag asc 
+		)
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+	</select>
+	
+	<select id="getAllsourceconsumeList" resultMap="sourceconsumerMap">
+	  select t1.* from M_SOURCE_CONSUMERHIS t1  order by  t1.createtime desc 
+   </select>
+   
+   <select id="sourceconsumerhisDetail" resultMap="sourceconsumerMap">
+		select t1.* from M_SOURCE_CONSUMERHIS t1
+		<where>
+			id = #{id}
+		</where>
+	</select>
+	
+	<insert id="purchaseGoods" >
+		<![CDATA[
+			INSERT INTO 
+				M_SOURCE_CONSUMERHIS(
+					id,
+					userid,
+					goodsid,
+					amount,
+					flag,
+					createtime
+				)
+			VALUES(
+				#{id},
+				#{userid,jdbcType=VARCHAR},
+				#{goodsid,jdbcType=VARCHAR},
+				#{amount},
+				'0',         
+			    sysdate
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="exchangeGoods">
+		update M_SOURCE_CONSUMERHIS
+		<set>
+		exchangetime=sysdate,
+		<if test='flag == "1"'>
+			flag = '1'
+		</if>
+		<if test='flag == "0"'>
+			flag = '0'
+		</if>
+		</set> 
+		  where id = #{id}
+	</update>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="suggest" namespace="/suggest" extends="configuration" >
+		<action name="suggest_*" class="suggestAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/suggest/suggest_list.jsp</result>
+			<result name="outList">/WEB-INF/pages/mobile/suggest/suggest_outlist.jsp</result>
+			<result name="detail">/WEB-INF/pages/mobile/suggest/suggest_detail.jsp</result>
+			<result name="toReply">/WEB-INF/pages/mobile/suggest/suggest_reply.jsp</result>
+			<result name="appList">/WEB-INF/pages/mobile/suggest/suggest_appList.jsp</result>
+		</action>
+		
+	</package>
+	
+</struts>

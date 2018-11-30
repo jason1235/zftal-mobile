@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.suggest.dao.ISuggestDao">
+
+	<resultMap id="suggestMap" type="com.zfsoft.mobile.suggest.entity.SuggestEntity">
+		<result property="id" 		 		column="id" />
+		<result property="userName"   		column="userName" />
+		<result property="createTime"   	column="createTime" />
+		<result property="schoolCode"   	column="schoolCode" />
+		<result property="versionNumber"   	column="versionNumber" />
+		<result property="telephone"   		column="telephone" />
+		<result property="qq"   			column="qq" />
+		<result property="textContent"   	column="textContent" />
+		<result property="replyContent"   	column="replyContent" />
+	</resultMap>
+	
+	<resultMap id="suggestPictureMap" type="com.zfsoft.mobile.suggest.entity.suggestPictureEntity">
+		<result property="suggestId" 		 		column="suggestId" />
+		<result property="title"   					column="title" />
+		<result property="pictureContent"   		column="pictureContent" />
+		<result property="picturePath"   			column="picturePath" />
+		<result property="createTime"   			column="createTime" />
+	</resultMap>
+	
+	
+	<sql id="where">
+    	<where>
+			<if test="id != null and id != ''">
+   				and m.id = #{id}
+	   		</if>
+			<if test="schoolCode != null and schoolCode != ''">
+    			and m.schoolCode  like '%'||#{schoolCode}||'%' 
+    		</if>
+    		<if test="userName != null and userName != ''">
+    			and m.userName like '%'||#{userName}||'%'
+    		</if>
+    		<if test="versionNumber != null and versionNumber != ''">
+    			and m.versionNumber like '%'||#{versionNumber}||'%'
+    		</if>
+    		<if test="textContent != null and textContent != ''">
+    			and m.textContent like '%'||#{textContent}||'%'
+    		</if>
+		</where>
+    </sql> 
+    
+    <select id="getAllList" resultMap="suggestMap">
+			select * from m_suggest_main m 
+				<where>
+					<if test="id != null and id != ''">
+		   				and m.id = #{id}
+			   		</if>
+					<if test="schoolCode != null and schoolCode != ''">
+		    			and m.schoolCode  like '%'||#{schoolCode}||'%' 
+		    		</if>
+		    		<if test="userName != null and userName != ''">
+		    			and m.userName like '%'||#{userName}||'%'
+		    		</if>
+		    		<if test="versionNumber != null and versionNumber != ''">
+		    			and m.versionNumber like '%'||#{versionNumber}||'%'
+		    		</if>
+		    		<if test="textContent != null and textContent != ''">
+		    			and m.textContent like '%'||#{textContent}||'%'
+		    		</if>
+				</where>
+					order by 
+					<if test='isApp == "1"'>
+		    			to_char(m.replyContent) nulls last ,
+		    		</if>
+		    		<if test='isApp == "0"'>
+		    			to_char(m.replyContent) nulls first ,
+		    		</if>
+		    		createTime desc 
+	</select>
+    
+	<!-- 获取分页列表信息 -->
+	<select id="getList" resultMap="suggestMap">
+	select * from (
+		select a.*,rownum rn from
+		(
+			select * from m_suggest_main m 
+				<where>
+					<if test="id != null and id != ''">
+		   				and m.id = #{id}
+			   		</if>
+					<if test="schoolCode != null and schoolCode != ''">
+		    			and m.schoolCode  like '%'||#{schoolCode}||'%' 
+		    		</if>
+		    		<if test="userName != null and userName != ''">
+		    			and m.userName like '%'||#{userName}||'%'
+		    		</if>
+		    		<if test="versionNumber != null and versionNumber != ''">
+		    			and m.versionNumber like '%'||#{versionNumber}||'%'
+		    		</if>
+		    		<if test="textContent != null and textContent != ''">
+		    			and m.textContent like '%'||#{textContent}||'%'
+		    		</if>
+				</where>
+					order by 
+					<if test='isApp == "1"'>
+		    			to_char(m.replyContent) nulls last ,
+		    		</if>
+		    		<if test='isApp == "0"'>
+		    			to_char(m.replyContent) nulls first ,
+		    		</if>
+		    		createTime desc 
+		)
+		a
+			) c
+			
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} 
+			]]>	
+	</select>
+	
+	<select id="getListCount" resultType="int">
+			select count(*) from
+				(select * from m_suggest_main m
+				<include refid="where" /> )
+			a 
+	</select>
+	
+	<select id="getPictureList" resultMap="suggestPictureMap">
+				select * from m_suggest_picture m 
+					where m.suggestId = #{suggestId}
+	</select>
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getDetail" resultType="com.zfsoft.mobile.suggest.entity.SuggestEntity">
+			select * from m_suggest_main m 
+				<include refid="where" /> 
+	</select>
+	
+	<update id="reply">
+		<![CDATA[
+			update m_suggest_main set
+				replyContent = #{replyContent}
+			where id = #{id} 
+		]]>
+	</update>
+	
+	<insert id="insertSuggestPicture" >
+		<![CDATA[
+			INSERT INTO 
+				m_suggest_picture(
+					suggestId,	
+					title,
+					pictureContent,
+					picturePath,
+					createTime
+				)
+			VALUES(
+				#{suggestId},           
+				#{title},
+				#{pictureContent},
+				#{picturePath},
+				sysdate
+				)
+		]]>
+	</insert>
+	
+	<insert id="insertSuggestMain" >
+		<![CDATA[
+			INSERT INTO 
+				m_suggest_main(
+					id,	
+					userName,
+					createTime,
+					schoolCode,
+					versionNumber,
+					telephone,
+					qq,
+					textContent
+				)
+			VALUES(
+				#{id},           
+				#{userName},
+				sysdate,
+				#{schoolCode},
+				#{versionNumber},
+				#{telephone},
+				#{qq},
+				#{textContent}
+				)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	
+	
+	
+	
+	
+	
+</mapper>

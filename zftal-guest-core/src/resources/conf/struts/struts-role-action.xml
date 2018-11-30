@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="myPackage" extends="configuration" namespace="/guest">
+		<action name="user_*" class="userAction"  method="{1}" > 
+		<result name="success">/WEB-INF/pages/guest/xtgl/user_list.jsp</result>
+		<result name="index">/WEB-INF/pages/guest/xtgl/index.jsp</result>
+		<result name="add">/WEB-INF/pages/guest/xtgl/user_add.jsp</result>
+		<result name="login">WEB-INF/pages/globalweb/login.jsp</result>
+		</action>
+	</package>
+</struts>

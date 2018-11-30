@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.mobile.ballot.dao.BallotDetailDao">
+  <resultMap id="BaseResultMap" type="com.zfsoft.mobile.ballot.entity.BallotDetail">
+    	<result property="id" 		 column="id" />
+		<result property="ballotId"   column="ballotid" />
+		<result property="baseImg"   column="baseimg" />
+		<result property="baseImgPath"   column="baseimgpath" />
+		<result property="name"   column="name" />
+		<result property="count"   column="count" />
+		<result property="identifier"   column="identifier" />
+		<result property="baseImgName"   column="baseimgname" />
+  </resultMap>
+  
+  	<select id="count" resultType="int">
+		select count(1) from m_wytp_ballotdetail 
+	</select>
+  
+	<select id="selectByBallotId" resultType="com.zfsoft.mobile.ballot.entity.BallotDetail">
+	SELECT *
+  	FROM (SELECT a.*,rownum rn
+          FROM (
+		select *
+               from m_wytp_ballotdetail  where ballotid=#{ballotId}
+               <if test="name != null and name != ''">
+	    			and (name like '%'||#{name}||'%' or identifier like '%'||#{name}||'%')
+	    		</if>
+               <![CDATA[
+			               ) a)
+			 	WHERE rn >=#{startRow} AND rn <=#{endRow} 
+				]]>	
+	</select>
+	
+	<select id="selectRanking" resultType="com.zfsoft.mobile.ballot.entity.BallotDetail">
+	select a.*
+  		from (
+		select id,name,count,identifier,baseimg,baseimgpath,baseimgname
+               from m_wytp_ballotdetail where ballotid=#{ballotId} order by count desc) a
+               <![CDATA[
+				where rownum >=#{startRow} and rownum <=#{endRow} 
+				]]>
+	</select>
+
+
+	<select id="findById" parameterType="java.lang.String" resultType="com.zfsoft.mobile.ballot.entity.BallotDetail">
+		select id,ballotId,baseImg,name,baseimgpath,count,identifier,baseimgname from m_wytp_ballotdetail where id =#{id}
+	</select>
+
+
+
+
+
+	<insert id="insert" parameterType="com.zfsoft.mobile.ballot.entity.BallotDetail"  useGeneratedKeys="true" keyProperty="id" >
+        <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+	　　　　select lower(sys_guid()) id from dual
+	　　</selectKey>
+	
+	    insert into m_wytp_ballotdetail
+	    <trim prefix="(" suffix=")" suffixOverrides=",">
+	      <if test="id != null">
+	        id,
+	      </if>
+	      <if test="ballotId != null">
+	        ballotid,
+	      </if>
+	      <if test="baseImg != null">
+	        baseimg,
+	      </if>
+	      <if test="baseImgPath != null">
+	        baseimgpath,
+	      </if>
+	      <if test="name != null">
+	        name,
+	      </if>
+	      <if test="count != null">
+	        count,
+	      </if>
+	      <if test="identifier != null">
+	        identifier,
+	      </if>
+	      <if test="baseImgName != null">
+	        baseimgname,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	      <if test="id != null">
+	        #{id,jdbcType=VARCHAR},
+	      </if>
+	      <if test="ballotId != null">
+	        #{ballotId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="baseImg != null">
+	        #{baseImg},
+	      </if>
+	      <if test="baseImgPath != null">
+	        #{baseImgPath,jdbcType=VARCHAR},
+	      </if>
+	      <if test="name != null">
+	        #{name,jdbcType=VARCHAR},
+	      </if>
+	      <if test="count != null">
+	        #{count,jdbcType=INTEGER},
+	      </if>
+	      <if test="identifier != null">
+	        #{identifier,jdbcType=INTEGER},
+	      </if>
+	      <if test="baseImgName != null">
+	        #{baseImgName,jdbcType=INTEGER},
+	      </if>
+	    </trim>
+    </insert>
+
+
+	<update id="update">
+		update m_wytp_ballotdetail
+		 <set>
+		 	<if test='ballotId != "" and ballotId != null'>
+		 		ballotid=#{ballotId},
+		 	</if>
+		 	<if test='baseImg != "" and baseImg != null'>
+		 		baseimg=#{baseImg},
+		 	</if>
+		 	<if test='baseImgPath != "" and baseImgPath != null'>
+		 		baseimgpath=#{baseImgPath},
+		 	</if>
+		 	<if test='name != "" and name != null'>
+		 		name=#{name},
+		 	</if>
+		 	<if test='count != "" and count != null'>
+		 		count=#{count},
+		 	</if>
+		 	<if test='identifier != "" and identifier != null'>
+		 		identifier=#{identifier},
+		 	</if>
+		 	<if test='baseImgName != "" and baseImgName != null'>
+		 		baseimgname=#{baseImgName},
+		 	</if>
+		 </set>
+		   where id = #{id}
+	</update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from m_wytp_ballotdetail where id=#{id}
+    </delete>
+
+	<select id="selectUsers" resultType="com.zfsoft.common.log.User">
+		select t.zgh as yhm,t.rylx as yhlx from ZFTAL_XTGL_YHB t
+	</select>
+	
+	<select id="selectUserJs" resultType="java.lang.Integer">
+		select count(1) from ZFTAL_XTGL_YHJSB t where t.zgh = #{yhm}
+	</select>
+	
+	<select id="setUserJx">
+		 insert into zftal_xtgl_yhjsb(zgh,jsdm) values(#{yhm},#{yhlx})
+	</select>
+
+</mapper>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.summary.roster.dao.daointerface.IRosterDataDao" >
+	
+    <select id="getList" resultType="hashmap">
+	    select * from (select a.*, rownum rn from(
+			select ${columnStr} from ${tableStr} 
+			<where>
+				<if test="conditionStr != null">
+				${conditionStr}
+				</if>
+			</where>
+			${orderStr}
+		 ) a )
+    </select>
+	
+	<!-- 获取分页信息 -->
+	<select id="getPagingList" resultType="hashmap" >
+	select * from (select a.*, rownum rn from(
+		select ${columnStr} from ${tableStr} 
+		<where>
+			<if test="conditionStr != null">
+			${conditionStr}
+			</if>
+		</where>
+		${orderStr}
+	 ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<!-- 获取分页计数 -->
+	<select id="getPagingCount" resultType="int">
+		select 
+			count(*) cnt
+		from (  select ${columnStr} from ${tableStr} 
+		<where>
+			<if test="conditionStr != null">
+			${conditionStr}
+			</if>
+		</where>  )
+	</select>
+</mapper>

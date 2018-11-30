@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.news.dao.ISchoolSceneryCatalogDao">
+
+	<resultMap id="schoolSceneryCatalogMap" type="com.zfsoft.mobile.news.entity.SchoolSceneryCatalog">
+		<result property="sceneryCatalogId" 		 column="sceneryCatalogId" />
+		<result property="sceneryCatalogName"   	 column="sceneryCatalogName" />
+		<result property="sortNumber"  				 column="sortNumber" />
+		<result property="createTime"   	 		 column="createTime" />
+		<result property="isActive"   	 			 column="isActive" />
+	</resultMap>
+	
+	<sql id="where">
+		<where>
+			<if test='sceneryCatalogName != null and sceneryCatalogName != ""'> and sceneryCatalogName like '%'||#{sceneryCatalogName}||'%'</if>
+			<if test='isActive != null and isActive != ""'> and isActive = #{isActive} </if>
+		</where>
+	</sql>
+	
+	<select id="getMaxSortNumber" resultType="int">
+		select nvl(max(a.sortNumber),0) from M_SCENERY_CATALOG a
+	</select>
+	
+	<select id="getListCount" resultType="int">
+		select count(*) from m_scenery_catalog
+		<include refid="where" />
+	</select>
+	
+	<select id="getList" resultMap="schoolSceneryCatalogMap">
+	select *
+	  from (select t.*, rownum as rn
+	          from (
+	          			select a.*
+	                  		from m_scenery_catalog a 
+	                			 <include refid="where" />
+						 order by a.sortNumber asc,a.isActive desc 
+				   ) t)
+	                
+	  <![CDATA[
+	 	where rn>=#{startRow}  and rn<=#{endRow}
+	  ]]>
+	</select>
+	
+	<select id="getAllList" resultMap="schoolSceneryCatalogMap">
+	        select a.* from m_scenery_catalog a  where a.isActive = '1'
+	</select>
+	
+	<insert id="insert" >
+		<![CDATA[
+			INSERT INTO 
+				m_scenery_catalog(
+					sceneryCatalogId,
+					sceneryCatalogName,	
+					createTime,
+					sortNumber
+				)
+			VALUES(
+				#{sceneryCatalogId},  
+				#{sceneryCatalogName},  
+				#{createTime},           
+				#{sortNumber}
+				)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="sceneryCatalogId">
+			<![CDATA[
+			select SYS_GUID() sceneryCatalogId from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	
+	<update id="update">
+		update m_scenery_catalog
+		 <set>
+		 	<if test='sceneryCatalogName != "" and sceneryCatalogName != null'>
+		 		sceneryCatalogName=#{sceneryCatalogName},
+		 	</if>
+		 	<if test='isActive != "" and isActive != null'>
+		 		isActive=#{isActive},
+		 	</if>
+		 </set>
+		   where sceneryCatalogId = #{sceneryCatalogId}
+	</update>
+	
+	<update id="updateIndex">
+		update m_scenery_catalog set sortNumber = #{sortNumber}
+		 	where sceneryCatalogId = #{sceneryCatalogId}
+	</update>
+	
+	<delete id="delete">
+		delete from  m_scenery_catalog 
+			where sceneryCatalogId = #{sceneryCatalogId}
+	</delete>
+	
+	
+</mapper>

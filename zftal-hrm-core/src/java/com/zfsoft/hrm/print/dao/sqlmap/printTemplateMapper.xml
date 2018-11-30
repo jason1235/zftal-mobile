@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.hrm.print.dao.IPrintTemplateDao">
+    <resultMap id="printTemplate" type="com.zfsoft.hrm.print.entity.PrintTemplateEntity">
+        <result column="ID"           property="id"/>
+        <result column="MBMC"         property="mbmc"/>
+        <result column="MBBZM"        property="mbbzm"/>
+        <result column="NR"           property="nr"/>
+        <result column="BJLJ"         property="bjlj"/>
+        <result column="BJKD"         property="bjkd"/>
+        <result column="BJGD"         property="bjgd"/>
+        <result column="SXM"          property="sxm"/>
+        <result column="BJID"         property="bjid"/>
+    </resultMap>
+
+    <!-- 新建模板 -->
+    <insert id="addTemplate" keyProperty="id">
+        <![CDATA[
+            insert into 
+                hrm_dymbb(
+                    id,
+                    mbmc, 
+                    mbbzm,
+                    nr,
+                    syzt,
+                    bjlj,
+                    bjkd,
+                    bjgd,
+                    sxm,
+                    bjid
+                )
+            values(
+                #{id},
+                #{mbmc},
+                #{mbbzm}, 
+                #{nr},
+                '0',
+                #{bjlj},
+                #{bjkd},
+                #{bjgd},
+                (select nvl(max(sxm),0) + 1 from hrm_dymbb),
+                #{bjid}
+            )
+        ]]>
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            <![CDATA[
+            select SYS_GUID() from DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    <!-- 修改模板 -->
+    <update id="modifyTemplate">
+        update
+            hrm_dymbb
+        set
+        <if test="nr != null">
+            nr = #{nr},
+        </if>
+            mbmc = #{mbmc},
+            bjlj = #{bjlj},
+            bjkd = #{bjkd},
+            bjgd = #{bjgd}
+        where
+            id = #{id}
+    </update>
+    
+    <!-- 取得模板 -->
+    <select id="findById" resultMap="printTemplate">
+        select t.* from hrm_dymbb t where t.id = #{id}
+    </select>
+    
+    <!-- 取得模板 -->
+    <select id="findByParam" resultMap="printTemplate">
+        select t.* from hrm_dymbb t
+        where t.mbbzm = #{mbbzm}
+        <if test="mbmc != null and mbmc != ''">
+          and t.mbmc = #{mbmc}
+        </if>
+        <if test="bjlj != null and bjlj != ''">
+          and t.bjlj = #{bjlj}
+        </if>
+        order by t.sxm
+    </select>
+    
+    <!-- 取得模板 -->
+    <select id="getPrintTemplateList" resultMap="printTemplate">
+        select t.* from hrm_dymbb t where t.syzt = '0' order by t.sxm
+    </select>
+    
+    <!-- 重新排序 -->
+    <update id="reSort">
+        update hrm_dymbb
+        set sxm = (sxm - 1)
+        where sxm > (select t.sxm from hrm_dymbb t where t.id = #{id})
+    </update>
+
+    <!-- 删除 -->
+    <delete id="remove">
+        delete from hrm_dymbb t
+        where t.id = #{id}
+    </delete>
+
+</mapper>

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.servlet.appCenterHttp.dao.daointerface.IAppCenterHttpDao" >
+	<resultMap id="imageDB" type="com.zfsoft.hrm.file.entity.ImageDB">
+		<result property="fileName" 	column="WJBT"/> 
+		<result property="fileContent" 	column="WJNR"/>
+		<result property="path" 		column="WJLJ"/>
+		<result property="uploadTime" 	column="SCRQ"/>
+		<result property="opUser" 		column="USERID"/>
+	</resultMap>
+	
+	<resultMap id="BusinessMap" type="com.zfsoft.mobile.services.entity.Business">
+        <result property="classId"          column="XTID" />
+        <result property="classXtbm"        column="XTBM" />
+        <result property="classXtmc"        column="XTMC" />
+        <result property="procode"          column="PROCODE" />
+        <result  property="otherFlag"       column="otherFlag"/>
+    </resultMap>
+    
+    <resultMap id="ServiceManagerMap" type="com.zfsoft.mobile.services.entity.ServiceManager">
+        <result property="classId"          column="FWID" />
+        <result property="classFwbm"        column="FWBM" />
+        <result property="classFwmc"        column="FWMC" />
+        <result property="classSsywxt"      column="SSYWXT" />
+        <result property="classSscp"        column="SSCP" />
+        <result property="classFwlx"        column="FWLX" />
+        <result property="classFbzt"        column="FBZT" />
+        <result property="classFwly"        column="FWLY" />
+        <result property="classFwms"        column="FWMS" />
+        <result property="classFwlj"        column="FWLJ" />
+        <result property="classFwtbdz"      column="FWTBDZ" />
+        <result property="classFwtbid"      column="FWTBID" />
+        <result property="classRdpx"        column="RDPX" />
+        <result property="classAppyydz"     column="APPYYDZ" />
+        <result property="classAndroidUrl"  column="ANDROIDURL" />
+        <result property="classIosUrl"      column="IOSURL" />
+        <result property="classWXUrl"       column="WXURL" />
+        <result property="xtdz"             column="XTDZ" />
+        <result property="choice"           column="CHOICE" />
+        <result property="procode"          column="PROCODE" />
+        <result property="xtbm"             column="XTBM" />
+        <result property="apkfilename"      column="wjmc" />
+        <result property="otherFlag"      	column="otherFlag" />
+        <result property="iscommon"      	column="iscommon" />
+        <result column="isSignal" 		property="isSignal"/>
+		<result column="recommendFlag" property="recommendFlag"/>
+    </resultMap>
+    
+    <resultMap id="MemoDBMap" type="com.zfsoft.mobile.webservices.entity.MemoDB">
+		<result property="memoCatalogId" 	column="memoCatalogId"/> 
+		<result property="memoTitle" 		column="memoTitle"/>
+		<result property="memoFileName" 	column="memoFileName"/>
+		<result property="memoContent" 		column="memoContent"/>
+		<result property="createTime" 		column="createTime"/>
+		<result property="memoPath" 		column="memoPath"/>
+		<result property="userName" 		column="userName"/>
+		<result property="contentFlag" 		column="contentFlag"/>
+	</resultMap>
+	<resultMap id="MemoPictureMap" type="com.zfsoft.mobile.webservices.entity.MemoPictureEntity">
+		<result property="memoFileName" 			column="memoFileName"/>
+		<result property="title"   					column="title" />
+		<result property="pictureContent"   		column="pictureContent" />
+		<result property="picturePath"   			column="picturePath" />
+		<result property="createTime"   			column="createTime" />
+	</resultMap>
+	
+	
+	<resultMap id="MemoCatalogMap" type="com.zfsoft.mobile.webservices.entity.MemoCatalog">
+		<result property="memoCatalogId" 	column="memoCatalogId"/> 
+		<result property="memoCatalogName" 	column="memoCatalogName"/>
+		<result property="userName" 		column="userName"/>
+		<result property="catalogColor" 	column="catalogColor"/>
+		<result property="sortNumber" 		column="sortNumber"/>
+	</resultMap>
+	
+	<sql id="memoWhere">
+    	<where>
+    		<if test="userName != null and userName != ''">
+   				and m.userName = #{userName}
+	   		</if>
+			<if test="memoFileName != null and memoFileName != ''">
+   				and m.memoFileName = #{memoFileName}
+	   		</if>
+			<if test="memoTitle != null and memoTitle != ''">
+    			and m.memoTitle  like '%'||#{memoTitle}||'%' 
+    		</if>
+    		<if test="memoCatalogName != null and memoCatalogName != ''">
+    			and n.memoCatalogName like '%'||#{memoCatalogName}||'%'
+    		</if>
+    			
+		</where>
+    </sql> 
+	
+	<delete id="deleteAllmemoCatalogByUser">
+		<![CDATA[
+			delete from m_memo_catalog where userName = #{userId}
+		]]>
+	</delete>
+	
+	 <select id="getMemoCatalogList" resultMap="MemoCatalogMap" >
+    select * from (
+    	select * from M_MEMO_CATALOG t where t.username is null 
+			union all
+        select * from m_memo_catalog where username = #{userId} 
+    ) order by sortNumber asc
+    </select>
+	
+	<insert id="insertmemoCatalogByUser">
+         insert into m_memo_catalog (
+             memoCatalogId,
+             memoCatalogName,
+             userName,
+             catalogColor,
+             sortNumber
+         ) values (
+             #{memoCatalogId},
+             #{memoCatalogName},
+             #{userName},
+             #{catalogColor},
+             #{sortNumber}
+         )
+         <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="memoCatalogId">
+			<![CDATA[
+			select SYS_GUID() memoCatalogId from DUAL
+			]]>
+		</selectKey>
+    </insert>
+	
+	<delete id="deleteMyMemoPicture">
+		<![CDATA[
+			delete from m_memo_picture where memoFileName = #{memoFileName}
+		]]>
+	</delete>
+	
+	<select id="getMemoPictureList" resultMap="MemoPictureMap"  >
+	    	
+		        select m.* from m_memo_picture m 
+						where m.memoFileName =    #{memoFileName}     
+	       
+    </select>
+	
+	<delete id="deleteMyMemo">
+		<![CDATA[
+			delete from m_memo_selfmemo where memoFileName = #{memoFileName}
+		]]>
+	</delete>
+	
+	<insert id="insertMemo">
+         insert into m_memo_selfMemo(
+							userName,
+							memoContent,
+							memoTitle,
+							memoPath,
+							createTime,
+							memoCatalogId,
+							memoFileName,
+							contentFlag
+							) 
+				   values(
+				   			#{userName}, 
+							#{memoContent}, 
+							#{memoTitle,jdbcType=VARCHAR},
+							#{memoPath},
+							to_date(#{createTime},'yyyy-mm-dd hh24:mi:ss'),
+							#{memoCatalogId},
+							#{memoFileName},
+							#{contentFlag}
+							)
+    </insert>
+    
+    <update id="updateMemo">
+        update m_memo_selfMemo
+        set 
+	        memoTitle = #{memoTitle}
+        <if test="memoContent != '' and memoContent != null">
+	        ,memoContent = #{memoContent}
+        </if>
+        <if test="memoCatalogId != '' and memoCatalogId != null">
+	        ,memoCatalogId = #{memoCatalogId}
+        </if>
+        <if test="contentFlag != '' and contentFlag != null">
+	        ,contentFlag = #{contentFlag}
+        </if>
+        where memoFileName = #{memoFileName}
+    </update>
+    
+    <select id="getMyMemoListCount" resultType="int" >
+	    	select count(*) from
+			(
+		        select m.* from m_memo_selfMemo m 
+		        	left join m_memo_catalog n on m.memoCatalogId = n. memoCatalogId
+		        <include refid="memoWhere" />  order by m.createTime desc
+	        ) 
+    </select>
+    
+    <select id="getMyMemoList" resultMap="MemoDBMap" >
+    	select * from (
+	    	select a.*,rownum rn from
+			(
+		        select m.* from m_memo_selfMemo m 
+		        	left join m_memo_catalog n on m.memoCatalogId = n. memoCatalogId
+		        <include refid="memoWhere" />  order by m.createTime desc
+	        ) a
+        ) c
+			
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+    </select>
+    
+    <select id="getMemoPicture" resultType="int" >
+	    	select count(*) from
+			(
+		        select m.* from m_memo_picture m 
+						where m.memoFileName =    #{memoFileName} and m.title = #{title}     
+	        ) 
+    </select>
+    
+    <insert id="insertMemoPicture">
+         INSERT INTO 
+				m_memo_picture(
+					memoFileName,	
+					title,
+					pictureContent,
+					picturePath,
+					createTime
+				)
+			VALUES(
+				#{memoFileName},           
+				#{title},
+				#{pictureContent},
+				#{picturePath},
+				sysdate
+				)
+    </insert>
+	
+	<!-- 通过id获取图片-->
+	<select id="findImageById" resultMap="imageDB">
+		SELECT WJNR,WJDX,WJCCBBH,WJBT,WJLJ,SCRQ,HZM,CZR
+		from hrm_xtgl_zpb 
+		where WJCCBBH=#{imageId}
+	</select>
+	
+	<!-- 取得用户的所有业务系统 -->
+    <select id="getAllXtYwByUser" resultMap="BusinessMap" >
+        select distinct x.*
+          from M_FWGL_yhqx y,
+    	       M_FWGL_FWGLB b,
+    		   M_FWGL_YWXTGLB x
+    	 where
+    		y.fwbm = b.fwbm
+    		and b.ssywxt = x.xtid
+    		and b.deleted = '0'
+    		and b.fbzt='1'
+    		and x.deleted = '0'
+   			and y.yhid = #{userId}
+   			and x.syzt = '1'
+	    order by x.pxm asc
+    </select>
+    
+    <!-- 根据用户取得该用户的所有服务数量 -->
+    <select id="getAllServiceByUserCnt" resultType="int" >
+    select count(*) from M_FWGL_yhqx  y 
+    	left join M_FWGL_FWGLB b on y.fwbm = b.fwbm 
+    		left join M_FWGL_FWLM m on b.fwbm = m.fwbm
+    		left join M_FWGL_YWXTGLB  e on e.xtid = b.ssywxt
+     <where>
+			<if test="userId != null and userId != ''">
+   				and y.yhid = #{userId}
+	   		</if>
+			<if test="ywId != null and ywId != ''">
+    			and e.xtbm = #{ywId}
+    		</if>
+    		<if test="androidIos != null and androidIos != ''">
+    			and b.showway like '%'||#{androidIos}||'%'  
+    		</if>
+    		and b.deleted ='0' and b.fbzt='1' 
+    		order by rdpx asc
+		</where>
+    </select>
+    
+    <!-- 根据用户取得该用户的所有服务 -->
+    <select id="getAllServiceByUser" resultMap="ServiceManagerMap" >
+    select * from (select a.*, rownum rn from
+       (select b.*,m.androidurl,m.iosurl,m.wxurl,e.xtdz,e.procode,e.xtbm,e.otherFlag,h.wjmc from M_FWGL_yhqx  y 
+           left join M_FWGL_FWGLB b 
+               on y.fwbm = b.fwbm 
+                 left join M_FWGL_FWLM m on b.fwbm = m.fwbm
+                     left join M_FWGL_YWXTGLB  e on e.xtid = b.ssywxt
+                     	left join HRM_XTGL_FJXXB h on b.fileid = h.fjbh
+               <where>
+			<if test="userId != null and userId != ''">
+   				and y.yhid = #{userId}
+	   		</if>
+			<if test="ywId != null and ywId != ''">
+    			and e.xtbm = #{ywId}
+    		</if>
+    		and b.deleted ='0'  and b.fbzt ='1' 	order by b.rdpx asc 	
+			</where>
+               ) a )
+    	<![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+         	order by iscommon desc ,rdpx asc,fwbm asc
+    
+    </select>
+    
+    
+    <!-- 根据用户取得该用户的所有服务 -->
+    <select id="getSearchedServiceList" resultMap="ServiceManagerMap" >
+        select b.*, m.androidurl, m.iosurl, m.wxurl,e.xtdz,e.procode,e.xtbm,e.otherFlag,h.wjmc 
+		  from M_FWGL_yhqx y
+		  left join M_FWGL_FWGLB b
+		    on y.fwbm = b.fwbm
+		  left join M_FWGL_FWLM m
+		    on b.fwbm = m.fwbm
+		  left join M_FWGL_YWXTGLB  e 
+		    on e.xtid = b.ssywxt
+          left join HRM_XTGL_FJXXB h 
+            on b.fileid = h.fjbh
+		 where y.yhid = #{userId}
+		   and b.fwmc like '%'||#{fwmc}||'%'
+    </select>
+	
+</mapper>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!--花名册business -->
+	<bean id="rosterBusiness" class="com.zfsoft.hrm.summary.roster.business.impl.RosterBusinessImpl">
+		<property name="rosterDao" ref="rosterDao"/>
+	</bean>
+    
+    <!--花名册配置business -->
+	<bean id="rosterConfigBusiness" class="com.zfsoft.hrm.summary.roster.business.impl.RosterConfigBusinessImpl">
+		<property name="rosterConfigDao" ref="rosterConfigDao"/>
+	</bean>
+	
+	<!--花名册条件关系配置business -->
+	<bean id="rosterConfigRelationBusiness" class="com.zfsoft.hrm.summary.roster.business.impl.RosterConfigRelationBusinessImpl">
+		<property name="configRelationDao" ref="rosterConfigRelationDao"/>
+	</bean>
+	
+	<!--花名册数据business -->
+	<bean id="rosterDataBusiness" class="com.zfsoft.hrm.summary.roster.business.impl.RosterDataBusinessImpl">
+		<property name="rosterDataDao" ref="rosterDataDao"/>
+	</bean>
+	
+	<!--花名册字段business -->
+	<bean id="rosterColumnBusiness" class="com.zfsoft.hrm.summary.roster.business.impl.RosterColumnBusinessImpl">
+		<property name="rosterColumnDao" ref="rosterColumnDao"/>
+	</bean>
+	
+	<!--花名册参数business -->
+	<bean id="rosterParamBusiness" class="com.zfsoft.hrm.summary.roster.business.impl.RosterParamBusinessImpl">
+		<property name="paramDao" ref="rosterParamDao"/>
+	</bean>
+	
+</beans>

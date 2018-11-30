@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.ILoginDao">
+
+    <!-- <cache type="org.mybatis.caches.memcached.MemcachedCache" /> -->
+	<!--通过用户名密码获取教师信息  -->
+    <select id="getTeaxx" parameterType="LoginModel" resultType="hashmap">
+       select yh.zgh as ZGH,yh.xm as XM,yh.scdljsdm as scdljsdm,yh.sfqy as sfqy,yh.rylx as rylx,yh.deviceid as DEVICEID,yh.grade as GRADE
+      <!-- ,yh.deviceid as DEVICEID,yh.grade as GRADE -->
+	               from zftal_xtgl_yhb yh 
+	               <where>
+			    		1=1
+			    		<if test="yhm!=null">
+			    			and (yh.zgh = #{yhm} or yh.lxdh = #{yhm})
+			    		</if>
+			    		<if test="mm!=null">
+			    			and yh.mm = #{mm}
+			    		</if>
+			    	</where>	                       
+    </select>
+    
+    <!-- 通过用户名密码获取学生信息(语句需调整) -->
+    <select id="getStuxx" parameterType="LoginModel" resultType="hashmap">
+    	select xx.xh,xx.xm,bm.bmdm_id,bm.bmmc
+	        from zftal_xtgl_xsmmb mm,zftal_xtgl_xsxxb xx,zftal_xtgl_bjdmb bj,zftal_xtgl_zydmb zy,zftal_xtgl_bmdmb bm
+    	<where>
+    		mm.xh=xx.xh and xx.bjdm_id=bj.bjdm_id and bj.zydm_id=zy.zydm_id and zy.bmdm_id_lsbm=bm.bmdm_id
+    		<if test="yhm!=null">
+    			and xx.xh = #{yhm}
+    		</if>
+    		<if test="mm!=null">
+    			and mm.mm = #{mm}
+    		</if>
+    	</where>
+    </select>
+    
+    <!-- 例 -->
+    <sql id="columnSql">
+    	zgh,xm,bmdm_id,lxdh
+    </sql>
+    <sql id="wheresql">
+    	<where>
+    		<if test="zgh!=null and zgh!=''">
+    			and zgh = #{zgh}
+    		</if>
+    		<if test="xm!=null and xm !=''">
+    			and xm like '%'||'${xm}'||'%'
+    		</if>
+    		<if test="bmdm_id!=null and bmdm_id!=''">
+    			and bmdm_id = #{bmdm_id}
+    		</if>
+    		<if test="lxdh!=null and lxdh!=''">
+    			and lxdh = #{lxdh}
+    		</if>
+    	</where>
+    </sql>
+    
+    <!-- 获取用户信息结果集 -->
+    <select id="getList" resultType="hashmap" parameterType="LoginModel">
+    	select <include refid="columnSql"></include> from zftal_xtgl_yhb 
+    	<include refid="wheresql"></include>
+    </select>
+    <!-- 增加 -->
+    <!-- 查看 -->
+    <select id="viewYhxx" parameterType="LoginModel" resultType="LoginModel">
+    	select * from zftal_xtgl_yhb
+    	<where>
+    		<if test="zgh!=null">
+    			and zgh = #{zgh}
+    		</if>
+    	</where>
+    </select>
+    <!-- 修改 -->
+    <update id="updateYhxx" parameterType="LoginModel">
+    	update zftal_xtgl_yhb 
+    	<set>
+    		<if test="xm != null">
+    			xm = #{xm},
+    		</if>
+    		<if test="lxdh != null">
+    			lxdh = #{lxdh},
+    		</if>
+    		<if test="bmdm_id != null">
+    			bmdm_id = #{bmdm_id},
+    		</if>
+    		<if test="errlogin != null">
+                dlsbxx = #{errlogin},
+            </if>
+    	</set>
+    	where zgh = #{zgh}
+    </update>
+    <!-- 批量删除 -->
+    <delete id="deleteYhxx">
+    	delete from zftal_xtgl_yhb where zgh in 
+    	<foreach collection="array" item="obj" open="(" close=")" separator=",">
+    		#{obj}
+    	</foreach>
+    </delete>
+    
+    
+    <!-- 查询教师功能模块代码列表 -->
+    <select id="queryTeaGnmkdm" resultType="hashmap" parameterType="LoginModel">
+    	select gnmkdm,gnmkmc,fjgndm,dyym,xssx from zftal_xtgl_jsgnmkdmb
+    	<where>
+    	 	<if test="fjgndm != null">
+    	    	and fjgndm = #{fjgndm}
+    	    </if>
+    		<if test="yhm!=null">
+    			and 1=1
+    		</if>
+    	</where>
+    	order by to_number(xssx)
+    </select>
+    
+    <!-- 查询学生功能模块代码列表 -->
+    <select id="queryStuGnmkdm" resultType="hashmap" parameterType="LoginModel">
+    	select gnmkdm,gnmkmc,fjgndm,dyym,xssx from zftal_xtgl_xsgnmkdmb
+    	<where>
+    	    <if test="fjgndm != null">
+    	    	and fjgndm = #{fjgndm}
+    	    </if>
+    		<if test="yhm!=null">
+    			and 1=1
+    		</if>
+    	</where>
+    	order by to_number(xssx)
+    </select>
+    
+    <!-- 查询功能模块代码列表 -->
+    <select id="queryGnmkdmList" resultType="hashmap" parameterType="LoginModel">
+    	select gnmkdm,gnmkmc,fjgndm,dyym,xssx from zftal_xtgl_jsgnmkdmb 
+    	<where>
+    	    <if test="fjgndm != null">
+    	    	and fjgndm = #{fjgndm}
+    	    </if>
+    	</where>
+    	order by to_number(xssx)
+    </select>
+    
+     <!-- 查询三级功能模块代码列表 -->
+    <select id="querySjGnmkdmList" resultType="hashmap" parameterType="LoginModel">
+    	select gnmkdm,gnmkmc,fjgndm,dyym,xssx from zftal_xtgl_jsgnmkdmb 
+    	<where>
+    	    <if test="fjgndm != null">
+    	    	and substr(fjgndm,0,3) = #{fjgndm} and length(fjgndm) = 5
+    	    </if>
+    	</where>
+    	order by to_number(xssx)
+    </select>
+    
+    <!-- 插入登录记录 -->
+    <insert id="addLoginRecord" parameterType="map">
+      insert into m_use_chance(username,lastlogintime,phoneType) values (#{username,jdbcType=VARCHAR},#{lastLoginTime,jdbcType=VARCHAR},#{phoneType,jdbcType=VARCHAR})
+    </insert>
+    
+    <!-- 更新登录记录 -->
+    <update id="updateLoginRecord" parameterType="map">
+         update m_use_chance set
+         lastlogintime = #{lastLoginTime,jdbcType=VARCHAR}
+         <if test="phoneType!=null and phoneType !=''">
+            ,phoneType = {phoneType,jdbcType=VARCHAR} 
+         </if>
+         where username =  #{username}  
+    </update>
+    
+    <!-- 查询是否存在该用户的登录记录 -->
+    <select id="selectLoginRecordByUsername" parameterType="map" resultType="int">
+        select count(*) from m_use_chance where username = #{username} 
+    </select>
+    
+    <!-- 后台登录记录列表 -->
+	<select id="getLoginRecordList" resultType="com.zfsoft.dao.entities.LoginRecordModel"  parameterType="com.zfsoft.dao.query.LoginRecordModelQuery">
+		select c.*,rn from (
+		    select a.*,rownum rn from(
+				select m.* from M_USE_CHANCE m where 1=1
+				<if test="username!=null and username !=''">
+		          and m.username = #{username,jdbcType=VARCHAR} 
+		        </if>
+				 order by m.lastlogintime desc
+			)a order by a.lastlogintime desc
+	     ) c
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>			         
+	</select>
+	
+	<!-- 后台登录记录列表count -->
+	<select id="getLoginRecordListCount" resultType="int"  parameterType="com.zfsoft.dao.query.LoginRecordModelQuery">
+		select count(*) from M_USE_CHANCE m where 1=1
+		<if test="username!=null and username !=''">
+		    and m.username = #{username,jdbcType=VARCHAR} 
+		</if>
+	</select>
+	
+	<delete id="deleteLoginRecord" parameterType="com.zfsoft.dao.query.LoginRecordModelQuery">
+	    delete from M_USE_CHANCE where username = #{username}
+	</delete>
+	
+	
+	
+	<select id="getUserByDeviceid" resultType="com.zfsoft.dao.entities.YhglModel">
+    	select * from zftal_xtgl_yhb t where t.deviceid = #{deviceId} and rownum=1
+    </select>
+	
+	
+	<select id="getUserByDeviceidAndRylx" resultType="com.zfsoft.dao.entities.YhglModel">
+    	select * from zftal_xtgl_yhb t where t.deviceid = #{deviceId} and rylx = #{lx}
+    </select>
+	
+	
+	
+</mapper>

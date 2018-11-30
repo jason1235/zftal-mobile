@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.externaltea.base.dao.IWpjsDeclareDao">
+
+	<resultMap id="wpjsDeclareMap" type="com.zfsoft.hrm.externaltea.base.entity.WpjsDeclare">
+		<result property="id"       	column="id" />
+		<result property="ygh"       	column="ygh" />
+		<result property="xm"       	column="xm" />
+		<result property="xb"       	column="xb" />
+		<result property="csny"       	column="csny" />
+		<result property="sfzh"       	column="sfzh" />
+		<result property="xl"       	column="xl" />
+		<result property="xw"       	column="xw" />
+		<result property="zyjszw"       column="zyjszw" />
+		<result property="rjbj"       	column="rjbj" />
+		<result property="rjkc"       	column="rjkc" />
+		<result property="sfggk"       	column="sfggk" />
+		<result property="prqx"       	column="prqx" />
+		<result property="rylb"       	column="rylb" />
+		<result property="bz"       	column="bz" />
+		<result property="cjr"       	column="cjr" />		
+		<result property="cjsj"       	column="cjsj" />
+		<result property="xgr"       	column="xgr" />
+		<result property="xgsj"       	column="xgsj" />	
+		<result property="zt"       	column="zt" />	
+	</resultMap>
+	
+	<select id="findWpjsDeclare" parameterType="com.zfsoft.hrm.externaltea.base.entity.WpjsDeclare" resultMap="wpjsDeclareMap">
+		SELECT
+			id,
+			xm, 
+			xb,
+			csny,
+			bmdm, 
+			xl,
+			xw,
+			zyjszw,
+			zt
+		FROM 
+			fzbryxxb
+		WHERE
+			1=1
+		<if test="xm != null and xm != ''">
+			AND xm LIKE '%'||#{xm}||'%'
+		</if>
+		<if test="bmdm != null and bmdm != ''">
+			AND bmdm LIKE '%'||#{bmdm}||'%'
+		</if>
+		<if test="zyjszw != null and zyjszw != ''">
+			AND zyjszw LIKE '%'||#{zyjszw}||'%'
+		</if>
+		<if test="xl != null and xl != ''">
+			AND xl LIKE '%'||#{xl}||'%'
+		</if>
+		<if test="xw != null and xw != ''">
+			AND xw LIKE '%'||#{xw}||'%'
+		</if>
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if>
+	</select>
+	
+	<select id="findWpjsDeclareByTime" parameterType="com.zfsoft.hrm.externaltea.base.entity.WpjsDeclare" resultMap="wpjsDeclareMap">
+		SELECT
+			xm, 
+			xb,
+			csny,
+			bmdm, 
+			xl,
+			xw,
+			zyjszw,
+			zt,
+			cjsj
+		FROM 
+			fzbryxxb
+		WHERE
+			1=1
+		<if test="bmdm != null and bmdm != ''">
+			AND bmdm LIKE '%'||#{bmdm}||'%'
+		</if>
+		<if test="cjsjStart != null">
+				<![CDATA[and cjsj>=#{cjsjStart}]]>
+		</if>
+		<if test="cjsjEnd != null">
+			<![CDATA[and cjsj<=#{cjsjEnd}]]>
+		</if>
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO 
+				FZBRYXXB(id,ygh,xm,xb,csny,sfzh,xl,xw,zyjszw,bmdm,rjbj,rjkc,sfggk,prqx,rylb,bz,cjr,cjsj,xgr,xgsj,zt)
+			VALUES(
+				#{id},#{ygh,jdbcType=VARCHAR},#{xm,jdbcType=VARCHAR},#{xb,jdbcType=VARCHAR},#{csny,jdbcType=DATE},#{sfzh,jdbcType=VARCHAR},#{xl,jdbcType=VARCHAR},#{xw,jdbcType=VARCHAR},#{zyjszw,jdbcType=VARCHAR},#{bmdm,jdbcType=VARCHAR},#{rjbj,jdbcType=VARCHAR},#{rjkc,jdbcType=VARCHAR},#{sfggk,jdbcType=CHAR},#{prqx,jdbcType=VARCHAR},#{rylb,jdbcType=VARCHAR},#{bz,jdbcType=VARCHAR},#{cjr,jdbcType=VARCHAR},#{cjsj},#{xgr,jdbcType=VARCHAR},#{xgsj},#{zt,jdbcType=VARCHAR}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+	update FZBRYXXB
+	<set>
+		<if test="ygh !=null">
+			ygh = #{ygh},
+		</if>
+		<if test="xm !=null">
+			xm = #{xm},
+		</if>
+		<if test="xb !=null">
+			xb = #{xb},
+		</if>
+		<if test="csny !=null">
+			csny = #{csny},
+		</if>
+		<if test="sfzh !=null">
+			sfzh = #{sfzh},
+		</if>
+		<if test="xl !=null">
+			xl = #{xl},
+		</if>
+		<if test="xw !=null">
+			xw = #{xw},
+		</if>
+		<if test="zyjszw !=null">
+			zyjszw = #{zyjszw},
+		</if>
+		<if test="bmdm !=null">
+			bmdm = #{bmdm},
+		</if>
+		<if test="rjbj !=null">
+			rjbj = #{rjbj},
+		</if>
+		<if test="rjkc !=null">
+			rjkc = #{rjkc},
+		</if>
+		<if test="sfggk !=null">
+			sfggk = #{sfggk},
+		</if>		
+		<if test="prqx !=null">
+			prqx = #{prqx},
+		</if>
+		<if test="rylb !=null">
+			rylb = #{rylb},
+		</if>
+		<if test="bz !=null">
+			bz = #{bz},
+		</if>
+		<if test="cjr !=null">
+			cjr = #{cjr},
+		</if>
+		<if test="cjsj !=null">
+			cjsj = #{cjsj},
+		</if>
+		<if test="xgr !=null">
+			xgr = #{xgr},
+		</if>
+		<if test="xgsj !=null">
+			xgsj = #{xgsj},
+		</if>
+		<if test="zt !=null">
+			zt = #{zt},
+		</if>
+	</set>
+	where id = #{id}
+	</update>
+	
+	<select id="getById" resultMap="wpjsDeclareMap">
+		select 
+			*
+		from FZBRYXXB 
+		where id = #{id}
+	</select>
+	
+	<delete id="delete">
+		delete from FZBRYXXB where id = #{id}
+	</delete>
+	
+	<!-- 获取分页信息 -->
+	<select id="getPagingList" resultMap="wpjsDeclareMap" >
+	select * from (select a.*, rownum rn from(
+		select 
+			*
+		from FZBRYXXB
+		<include refid="where"/>
+	 ) a )
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<!-- 获取分页计数 -->
+	<select id="getPagingCount" resultType="int">
+		select 
+			count(*) cnt
+		from FZBRYXXB 
+		<include refid="where"/>
+	</select>
+	
+	<sql id="where">
+	<where>
+		<if test="ygh != null and ygh != ''">
+			and ygh = #{ygh}
+		</if>
+	</where>
+	</sql>	
+</mapper>

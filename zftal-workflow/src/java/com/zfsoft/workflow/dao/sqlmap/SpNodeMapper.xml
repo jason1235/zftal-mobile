@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.workflow.dao.ISpNodeDao">
+
+	<resultMap id="spNodeMap" type="com.zfsoft.workflow.model.SpNode">
+		<result property="nodeId" column="NODE_ID" />
+		<result property="pid" column="P_ID" />
+		<result property="nodeName" column="NODE_NAME" />
+		<result property="nodeStatus" column="NODE_STATUS" />
+		<result property="nodeType" column="NODE_TYPE" />
+		<result property="nodeDesc" column="NODE_DESC" />
+		<result property="roleId" column="ROLE_ID" />
+		<result property="roleName" column="JSMC" />
+		<result property="inType" column="IN_TYPE" />
+		<result property="outType" column="OUT_TYPE" />
+		<result property="isAuto" column="IS_AUTO" />
+		<collection property="spTaskList" column="{nodeId=NODE_ID}" select="com.zfsoft.workflow.dao.ISpTaskDao.findTaskListByNodeId"/>
+		<collection property="spCommitNodeBillList" column="{nodeId=NODE_ID}" select="com.zfsoft.workflow.dao.ISpNodeBillDao.findCommitNodeBillListByNodeId"/>
+		<collection property="spApproveNodeBillList" column="{nodeId=NODE_ID}" select="com.zfsoft.workflow.dao.ISpNodeBillDao.findApproveNodeBillListByNodeId"/>
+		
+	</resultMap>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="nodeId">
+		<![CDATA[
+			INSERT INTO SP_NODE
+			  (NODE_ID,
+			   P_ID,
+			   NODE_NAME,
+			   NODE_STATUS,
+			   NODE_TYPE,
+			   NODE_DESC,
+			   ROLE_ID,
+			   IN_TYPE,
+			   OUT_TYPE,
+			   IS_AUTO)
+			VALUES
+			  (#{nodeId},
+			   #{pid},
+			   #{nodeName},
+			   #{nodeStatus,jdbcType=VARCHAR},
+			   #{nodeType,jdbcType=VARCHAR},
+			   #{nodeDesc,jdbcType=VARCHAR},
+			   #{roleId,jdbcType=VARCHAR},
+			   #{inType,jdbcType=VARCHAR},
+			   #{outType,jdbcType=VARCHAR},
+			   #{isAuto,jdbcType=VARCHAR})
+		]]>
+		
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="nodeId">
+			<![CDATA[
+			SELECT SYS_GUID() KHLC_ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<!-- 根据NODEID删除节点 -->
+	<delete id="delete">
+		<![CDATA[
+			DELETE FROM SP_NODE WHERE NODE_ID = #{nodeId}
+		]]>
+	</delete>
+	
+	<!-- 删除流程下所有节点 -->
+	<delete id="deleteByPid">
+		<![CDATA[
+			DELETE FROM SP_NODE WHERE P_ID = #{pid}
+		]]>
+	</delete>
+	
+	<!-- 删除节点下关联的任务 -->
+	<delete id="deleteTaskByNodeId">
+		<![CDATA[
+			DELETE FROM SP_NODE_TASK WHERE NODE_ID = #{nodeId}
+		]]>
+	</delete>
+
+	<!-- 修改节点 -->
+	<update id="update">
+		<![CDATA[
+			UPDATE SP_NODE
+			   SET P_ID        = #{pid},
+			       NODE_NAME   = #{nodeName},
+			       NODE_STATUS = #{nodeStatus,jdbcType=VARCHAR},
+			       NODE_TYPE   = #{nodeType,jdbcType=VARCHAR},
+			       NODE_DESC   = #{nodeDesc,jdbcType=VARCHAR},
+			       ROLE_ID     = #{roleId,jdbcType=VARCHAR},
+			       IN_TYPE     = #{inType,jdbcType=VARCHAR},
+			       OUT_TYPE    = #{outType,jdbcType=VARCHAR}
+			 WHERE NODE_ID = #{nodeId}
+		]]>
+	</update>
+	
+	<!-- 同一流程中是否存在相同名称的节点记录 -->
+	<select id="getCountByNodeNameAndPid"  resultType="int">
+        <![CDATA[ SELECT count(NODE_ID) from  SP_NODE where P_ID=#{pid} and NODE_NAME=#{nodeName} ]]>
+    </select> 
+    
+    <!-- 根据流程ID条件查询记录（结果一个或多个） -->
+    <select id="findNodeListByPid" resultMap="spNodeMap">
+    	<![CDATA[ 
+			SELECT NODE_ID, P_ID, NODE_NAME, NODE_STATUS, NODE_TYPE,  NODE_DESC, ROLE_ID, IN_TYPE, OUT_TYPE,zsj.jsmc
+			  FROM SP_NODE sn left join ZFTAL_XTGL_JSXXB  zsj on sn.ROLE_ID=zsj.jsdm
+			 WHERE P_ID = #{pid} 
+		]]>		 
+	</select>
+	  <!-- 根据流程ID条件查询记录（结果一个或多个） -->
+    <select id="findNodeById" resultMap="spNodeMap">
+    	<![CDATA[ 
+			SELECT NODE_ID, P_ID, NODE_NAME, NODE_STATUS, NODE_TYPE,  NODE_DESC, ROLE_ID, IN_TYPE, OUT_TYPE,zsj.jsmc
+			  FROM SP_NODE sn left join ZFTAL_XTGL_JSXXB  zsj on sn.ROLE_ID=zsj.jsdm
+			 WHERE NODE_ID = #{nodeId} 
+		]]>		 
+	</select>
+
+	<!-- 根据对象中的条件查询记录（结果一个或多个） -->
+	<select id="findNodeList" parameterType="com.zfsoft.workflow.model.SpNode" resultMap="spNodeMap">
+		SELECT NODE_ID, P_ID, NODE_NAME, NODE_STATUS, NODE_TYPE,  NODE_DESC, ROLE_ID, IN_TYPE, OUT_TYPE,zsj.jsmc
+		  FROM SP_NODE sn left join ZFTAL_XTGL_JSXXB  zsj on sn.ROLE_ID=zsj.jsdm
+		 WHERE 1=1
+		<if test="nodeId != null and nodeId != ''">
+			<![CDATA[ AND NODE_ID = #{nodeId} ]]>
+        </if>
+        <if test="pid != null and pid != ''">
+			<![CDATA[ AND P_ID = #{pid} ]]>
+        </if>
+		<if test="nodeName != null and nodeName != ''">
+			<![CDATA[ AND NODE_NAME = #{nodeName} ]]>
+        </if>
+        <if test="nodeStatus != null and nodeStatus != ''">
+			<![CDATA[ AND NODE_STATUS = #{nodeStatus} ]]>
+        </if>
+        <if test="nodeType != null and nodeType != ''">
+			<![CDATA[ AND NODE_TYPE = #{nodeType} ]]>
+        </if>
+        <if test="roleId != null and roleId != ''">
+			<![CDATA[ AND ROLE_ID = #{roleId} ]]>
+        </if>
+        <if test="inType != null and inType != ''">
+			<![CDATA[ AND IN_TYPE = #{inType} ]]>
+        </if>
+        <if test="outType != null and outType != ''">
+			<![CDATA[ AND OUT_TYPE = #{outType} ]]>
+        </if>
+	</select>
+
+</mapper>

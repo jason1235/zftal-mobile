@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources name="人力资源系统">
+	<context id="bmgl" name="部门过滤数据授权" view="/WEB-INF/" dealclass="com.zfsoft.dataprivilege.filter.impl.DealDeptFilter">
+		
+		<url>
+			<path>/org/orgSearch_list.html</path>
+			<!--比对唯一字段 -->
+<!--			<uniqueparam name="classId" value="8263219346823476"/>-->
+			<res id="mes_manager_findOrgList" name="查询所有组织机构" 
+				classname="com.zfsoft.hrm.baseinfo.org.dao.daointerface.IOrgSearchDao" method="findOrgList">
+				<param name="deptField" value="BMDM"/>
+			</res>
+		</url>
+		
+		<!-- 查询考核人员信息   -->
+		<url>
+			<path>/appraisal/auditingUser_list.html</path>
+			<res id="appraisal_query_appUser_1" name="查询考核人员信息" 
+				classname="com.zfsoft.hrm.appraisal.baseinfo.dao.daointerface.IAuditingUserDao" method="getPagedByCondition">
+			</res>
+		</url>
+		<url>
+			<path>/appraisal/auditingUser_search.html</path>
+			<res id="appraisal_query_appUser_2" name="查询考核人员信息" 
+				classname="com.zfsoft.hrm.appraisal.baseinfo.dao.daointerface.IAuditingUserDao" method="getPagedByCondition">
+			</res>
+		</url>
+		
+		<!-- 查询考核信息   -->
+		<url>
+			<path>/appraisal/auditingUser_listAllAuditing.html</path>
+			<res id="appraisal_user_query_auditing" name="查询考核信息" 
+				classname="com.zfsoft.hrm.appraisal.baseinfo.dao.daointerface.IAuditingUserDao" method="getPagedListByAuditing">
+			</res>
+		</url>
+		
+		<!-- 查询审核管理   -->
+		<url>
+			<path>/appraisal/auditingUser_listAuditing.html</path>
+			<res id="appraisal_auditing_query_auditing_1" name="查询考核信息" 
+				classname="com.zfsoft.hrm.appraisal.baseinfo.dao.daointerface.IAuditingUserDao" method="getPagedListByAuditing">
+			</res>
+		</url>
+		<url>
+			<path>/appraisal/auditingUser_searchAuditing.html</path>
+			<res id="appraisal_auditing_query_auditing_2" name="查询考核信息" 
+				classname="com.zfsoft.hrm.appraisal.baseinfo.dao.daointerface.IAuditingUserDao" method="getPagedListByAuditing">
+			</res>
+		</url>
+		
+		<!-- 查询考核流程监控   -->
+		<url>
+			<path>/appraisal/monitor_list.html</path>
+			<res id="appraisal_query_flow_monitor_1" name="查询考核流程监控" 
+				classname="com.zfsoft.hrm.appraisal.baseinfo.dao.daointerface.IAuditingUserDao" method="getPagedListByMoritor">
+			</res>
+		</url>
+		<url>
+			<path>/appraisal/monitor_search.html</path>
+			<res id="appraisal_query_flow_monitor_2" name="查询考核流程监控" 
+				classname="com.zfsoft.hrm.appraisal.baseinfo.dao.daointerface.IAuditingUserDao" method="getPagedListByMoritor">
+			</res>
+		</url>
+		<!-- 查询考核流程环节监控   -->
+		<url>
+			<path>/appraisal/monitor_queryMonitor.html</path>
+			<res id="appraisal_query_node_monitor_1" name="查询考核流程环节监控" 
+				classname="com.zfsoft.hrm.appraisal.base.dao.daointerface.IPhaseMonitorDao" method="findPhaseMonitor">
+			</res>
+			<res id="appraisal_query_node_monitor_2" name="查询当还没有教职工进行输入时显示当前行政年的考核流程监控结果信息" 
+				classname="com.zfsoft.hrm.appraisal.base.dao.daointerface.IPhaseMonitorDao" method="findMonitorResult">
+			</res>
+			<res id="appraisal_query_node_monitor_3" name="查询所有被考核人员总数" 
+				classname="com.zfsoft.hrm.appraisal.base.dao.daointerface.IPhaseMonitorDao" method="findCount">
+			</res>
+		</url>
+		<url>
+			<path>/appraisal/monitor_queryCollectList.html</path>
+			<res id="appraisal_query_node_monitor_4" name="查询当前行政年的所有被考核人员信息" 
+				classname="com.zfsoft.hrm.appraisal.base.dao.daointerface.IPhaseMonitorDao" method="getPagedCount">
+			</res>
+			<res id="appraisal_query_node_monitor_5" name="查询当前行政年的所有岗位信息" 
+				classname="com.zfsoft.hrm.appraisal.base.dao.daointerface.IPhaseMonitorDao" method="getPagedCollectList">
+			</res>
+		</url>
+		
+		<!-- 考核统计分析  -->
+		<url>
+			<path>/appraisal/auditingUser_listInfoCollect.html</path>
+			<res id="appraisal_stat_manager_query_stat_1" name="考核信息汇总" 
+				classname="com.zfsoft.hrm.appraisal.baseinfo.dao.daointerface.IAuditingUserDao" method="getPagedByCondition">
+			</res>
+		</url>
+		<url>
+			<path>/appraisal/auditingUser_searchInfoCollect.html</path>
+			<res id="appraisal_stat_manager_query_stat_2" name="考核信息汇总" 
+				classname="com.zfsoft.hrm.appraisal.baseinfo.dao.daointerface.IAuditingUserDao" method="getPagedByCondition">
+			</res>
+		</url>
+		
+		<!-- 查询考核结果统计汇总   -->
+		<url>
+			<path>/appraisal/monitor_queryCollect.html</path>
+			<res id="appraisal_stat_manager_query_stat_1" name="按部门查询每个被考核人员的岗位类别信息（包括职级、职务、职称、工人技术职务四大类）" 
+				classname="com.zfsoft.hrm.appraisal.base.dao.daointerface.IPostTypeCollectDao" method="findAuditingCollect">
+			</res>
+			<res id="appraisal_stat_manager_query_stat_2" name="查询每个被考核人员的岗位类别信息（包括职级、职务、职称、工人技术职务四大类）" 
+				classname="com.zfsoft.hrm.appraisal.base.dao.daointerface.IPostTypeCollectDao" method="findAuditingCollectResult">
+			</res>
+			<res id="appraisal_stat_manager_query_stat_3" name="查询当前行政年的职级、职务、职称、工人技术职务的考核统计结果集 " 
+				classname="com.zfsoft.hrm.appraisal.base.dao.daointerface.IPostTypeCollectDao" method="findCollectResult">
+			</res>
+		</url>
+		<url>
+			<path>/appraisal/monitor_queryFlowCollectList.html</path>
+			<res id="appraisal_stat_manager_query_stat_4" name="查询当前行政年的所有被考核人员信息" 
+				classname="com.zfsoft.hrm.appraisal.base.dao.daointerface.IPhaseMonitorDao" method="getPagedCount">
+			</res>
+			<res id="appraisal_stat_manager_query_stat_5" name="查询当前行政年的所有岗位信息" 
+				classname="com.zfsoft.hrm.appraisal.base.dao.daointerface.IPhaseMonitorDao" method="getPagedCollectList">
+			</res>
+		</url>
+	</context>
+</resources>

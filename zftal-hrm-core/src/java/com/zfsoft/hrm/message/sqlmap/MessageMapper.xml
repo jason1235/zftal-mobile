@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.message.dao.daointerface.IMessageDao" >
+	
+	<resultMap type="com.zfsoft.hrm.message.entity.Message" id="messageMap">
+		<result property="guid" column="guid"/>
+		<result property="title" column="xxbt"/>
+		<result property="sender" column="fsr"/>
+		<result property="receiver" column="jsr"/>
+		<result property="content" column="nr"/>
+		<result property="sendTime" column="fssj"/>
+		<result property="readTime" column="ydsj"/>
+		<result property="receiverType" column="jslx"/>
+		<result property="roleMc" column="jsmc"/>
+	</resultMap>
+	
+	<!-- 插入单条信息 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		insert into HRM_XXGL_XXNR (guid,xxbt,fsr,jsr,nr,fssj
+		<if test="receiverType != null and receiverType != ''">
+		,jslx
+		</if>
+		)
+		values(#{guid},
+			   #{title,jdbcType=VARCHAR},
+			   #{sender,jdbcType=VARCHAR},
+			   <if test="receiverType == 1">
+			   #{role,jdbcType=VARCHAR},
+			   </if>
+			   <if test="receiverType != 1">
+			   #{receiver,jdbcType=VARCHAR},
+			   </if>
+			   #{content,jdbcType=VARCHAR},
+			   #{sendTime}
+			   <if test="receiverType != null and receiverType != ''">
+               ,#{receiverType}
+               </if>
+            )
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() globalid from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<delete id="delete">
+		delete from HRM_XXGL_XXNR where guid = #{guid}
+	</delete>
+	
+	<sql id="where">
+		<where>
+		<if test='status != null and status =="0"'>
+			and xxzt.ydsj is null
+		</if>
+		<if test='status != null and status =="1"'>
+			and xxzt.ydsj is not null
+		</if>
+		<if test="receiver != null and receiver != ''">
+			and xxzt.jsr = #{receiver}
+		</if>
+		<if test="name != null and name != ''">
+			and xxnr.xxbt like '%' || #{name} || '%'
+		</if>
+    	</where>
+    </sql>
+    
+    <select id="getById" resultMap="messageMap">
+    	select 
+			xxnr.xxbt xxbt,
+			xxnr.fsr fsr,
+			xxnr.jsr jsr,
+			xxnr.nr nr,
+			xxnr.fssj fssj,
+			xxzt.ydsj ydsj,
+			xxzt.jsr jsr2,
+			xxzt.guid guid,
+			xxnr.jslx jslx,
+            case when xxnr.jslx = '1' then (select jsmc from zftal_xtgl_jsxxb where jsdm = xxnr.jsr)
+            else '' end jsmc
+		from HRM_XXGL_XXNR xxnr
+			left join HRM_XXGL_XXZT xxzt on xxnr.guid = xxzt.xxbh
+		where xxzt.guid = #{guid}
+    </select>
+	
+	<!-- 获取分页信息 -->
+	<select id="getPagingList" resultMap="messageMap" >
+	select * from (select a.*, rownum rn from(
+		select 
+			xxnr.xxbt xxbt,
+			xxnr.fsr fsr,
+			xxnr.jsr jsr,
+			xxnr.nr nr,
+			xxnr.fssj fssj,
+			xxzt.ydsj ydsj,
+			xxzt.jsr jsr2,
+			xxzt.guid guid,
+			xxnr.jslx jslx,
+            case when xxnr.jslx = '1' then (select jsmc from zftal_xtgl_jsxxb where jsdm = xxnr.jsr)
+            else '' end jsmc
+		from HRM_XXGL_XXNR xxnr
+			left join HRM_XXGL_XXZT xxzt on xxnr.guid = xxzt.xxbh
+		<include refid="where"/>
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if> 
+	 ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<!-- 获取分页计数 -->
+	<select id="getPagingCount" resultType="int">
+		select 
+			count(xxzt.jsr) cnt
+		from HRM_XXGL_XXNR xxnr
+			left join HRM_XXGL_XXZT xxzt on xxnr.guid = xxzt.xxbh
+		<include refid="where"/>
+		order by xxnr.fssj desc
+	</select>
+</mapper>

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.workflow.dao.ISpWorkTaskDao">
+
+	<resultMap id="spWorkTaskMap" type="com.zfsoft.workflow.model.SpWorkTask">
+		<result property="id" column="ID" />
+		<result property="taskId" column="TASK_ID" />
+		<result property="wid" column="W_ID" />
+		<result property="nodeId" column="NODE_ID" />
+		<result property="taskCode" column="TASK_CODE" />
+		<result property="taskName" column="TASK_NAME" />
+		<result property="taskType" column="TASK_TYPE" />
+		<result property="taskDesc" column="TASK_DESC" />
+		<result property="isMust" column="IS_MUST" />
+		<result property="isAuto" column="IS_AUTO" />
+		<result property="estatus" column="E_STATUS" />
+		<result property="operator" column="OPERATOR" />
+		<result property="opreateTime" column="OPREATE_TIME" />
+		<result property="result" column="RESULT" />
+		
+		<result property="billId" column="BILL_ID" />
+		<result property="classId" column="CLASS_ID" />
+		<result property="classModeType" column="CLASS_MODE_TYPE" />
+		<result property="exeCondition" column="EXE_CONDITION" />
+		<result property="decCondition" column="DEC_CONDITION" />
+		<result property="classPrivilege" column="CLASSES_PRIVILEGE" />
+		<result property="instanceId" column="INSTANCE_ID" />
+		
+	</resultMap>
+	
+	<insert id="addSpWorkTask" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO SP_WORK_TASK
+			  (ID,
+			   TASK_ID,
+			   W_ID,
+			   NODE_ID,
+			   TASK_CODE,
+			   TASK_NAME,
+			   TASK_TYPE,
+			   TASK_DESC,
+			   E_STATUS,
+			   IS_MUST,
+			   IS_AUTO,
+			   BILL_ID,
+			   CLASS_ID,
+			   CLASS_MODE_TYPE,
+			   EXE_CONDITION,
+			   DEC_CONDITION,
+			   CLASSES_PRIVILEGE,
+			   INSTANCE_ID)
+			VALUES
+			  (#{id},
+			   #{taskId,jdbcType=VARCHAR},
+			   #{wid,jdbcType=VARCHAR},
+			   #{nodeId,jdbcType=VARCHAR},
+			   #{taskCode,jdbcType=VARCHAR},
+			   #{taskName,jdbcType=VARCHAR},
+			   #{taskType,jdbcType=VARCHAR},
+			   #{taskDesc,jdbcType=VARCHAR},
+			   #{estatus,jdbcType=VARCHAR},
+			   #{isMust,jdbcType=VARCHAR},
+			   #{isAuto,jdbcType=VARCHAR},
+			   #{billId,jdbcType=VARCHAR},
+			   #{classId,jdbcType=VARCHAR},
+			   #{classModeType,jdbcType=VARCHAR},
+			   #{exeCondition,jdbcType=VARCHAR},
+			   #{decCondition,jdbcType=VARCHAR},
+			   #{classPrivilege,jdbcType=VARCHAR},
+			   #{instanceId,jdbcType=VARCHAR})
+		]]>
+		
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			SELECT SYS_GUID() KHLC_ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<!-- 根据ID删除工作审核任务 -->
+	<delete id="removeSpWorkTaskById">
+		<![CDATA[
+			DELETE FROM SP_WORK_TASK WHERE ID = #{id}
+		]]>
+	</delete>
+	
+	<!-- 根据条件删除工作审核任务 -->
+	<delete id="removeSpWorkTask">
+		<![CDATA[
+			DELETE FROM SP_WORK_TASK WHERE W_ID = #{wid} AND NODE_ID = #{nodeId}
+		]]>
+	</delete>
+	
+	<!-- 根据条件删除工作审核任务 -->
+	<delete id="removeSpWorkTaskByWid">
+		<![CDATA[
+			DELETE FROM SP_WORK_TASK WHERE W_ID = #{wid}
+		]]>
+	</delete>
+	
+	<!-- 执行审核操作，修改工作审核节点信息 -->
+	<update id="editSpWorkTask">
+		<![CDATA[
+			UPDATE SP_WORK_TASK
+			   SET 
+		]]>
+			<if test="operator != null and operator != ''">
+			   		OPERATOR   = #{operator},
+			</if>
+			<if test="result != null and result != ''">
+			        RESULT     = #{result},
+			</if>
+			<if test="estatus != null and estatus != ''">
+			        E_STATUS   = #{estatus},
+			</if>
+		<![CDATA[
+			        OPREATE_TIME = sysdate
+			 WHERE  W_ID = #{wid}
+		]]>
+			<if test="taskId != null and taskId != ''">
+			        AND TASK_ID = #{taskId}  
+			</if>
+			<if test="taskCode != null and taskCode != ''">
+			        AND TASK_CODE   = #{taskCode}
+			</if>
+	</update>
+	
+	<!-- 根据NODE_ID条件查询记录 -->
+	<select id="findWorkTaskListByNodeIdAndBid" resultMap="spWorkTaskMap">
+		<![CDATA[
+			SELECT ID,
+			       TASK_ID,
+			       W_ID,
+			       NODE_ID,
+			       TASK_CODE,
+			       TASK_NAME,
+			       TASK_TYPE,
+			       TASK_DESC,
+			       IS_MUST,
+			       IS_AUTO,
+				   BILL_ID,
+				   CLASS_ID,
+				   CLASS_MODE_TYPE,
+				   EXE_CONDITION,
+				   DEC_CONDITION,
+				   CLASSES_PRIVILEGE,
+				   INSTANCE_ID,
+			       E_STATUS,
+			       OPERATOR,
+			       OPREATE_TIME,
+			       RESULT
+			  FROM SP_WORK_TASK
+			 WHERE NODE_ID = #{nodeId}
+			   AND W_ID = #{wid}
+		]]>
+	</select>
+	
+	<!-- 根据任务ID和工作ID条件查询记录 -->
+	<select id="findWorkNodeByWidAndTaskId" resultMap="spWorkTaskMap">
+		<![CDATA[
+			SELECT ID,
+			       TASK_ID,
+			       W_ID,
+			       NODE_ID,
+			       TASK_CODE,
+			       TASK_NAME,
+			       TASK_TYPE,
+			       TASK_DESC,
+			       IS_MUST,
+			       IS_AUTO,
+				   BILL_ID,
+				   CLASS_ID,
+				   CLASS_MODE_TYPE,
+				   EXE_CONDITION,
+				   DEC_CONDITION,
+				   CLASSES_PRIVILEGE,
+				   INSTANCE_ID,
+			       E_STATUS,
+			       OPERATOR,
+			       OPREATE_TIME,
+			       RESULT
+			  FROM SP_WORK_TASK
+			 WHERE TASK_ID = #{taskId}
+			   AND W_ID = #{wid}
+			   AND ROWNUM = 1
+		]]>
+	</select>
+
+	<!-- 根据对象中的条件查询记录（结果一个或多个） -->
+	<select id="findWorkTaskList" parameterType="com.zfsoft.workflow.model.SpWorkTask" resultMap="spWorkTaskMap">
+		<![CDATA[
+			SELECT ID,
+			       TASK_ID,
+			       W_ID,
+			       NODE_ID,
+			       TASK_CODE,
+			       TASK_NAME,
+			       TASK_TYPE,
+			       TASK_DESC,
+			       IS_MUST,
+			       IS_AUTO,
+				   BILL_ID,
+				   CLASS_ID,
+				   CLASS_MODE_TYPE,
+				   EXE_CONDITION,
+				   DEC_CONDITION,
+				   CLASSES_PRIVILEGE,
+				   INSTANCE_ID,
+			       E_STATUS,
+			       OPERATOR,
+			       OPREATE_TIME,
+			       RESULT
+			  FROM SP_WORK_TASK
+			 WHERE 1 = 1
+		]]>
+		<if test="id != null and id != ''">
+			<![CDATA[ AND ID = #{id} ]]>
+        </if>
+        <if test="taskId != null and taskId != ''">
+			<![CDATA[ AND TASK_ID = #{taskId} ]]>
+        </if>
+        <if test="wid != null and wid != ''">
+			<![CDATA[ AND W_ID = #{wid} ]]>
+        </if>
+        <if test="nodeId != null and nodeId != ''">
+			<![CDATA[ AND NODE_ID = #{nodeId} ]]>
+        </if>
+        <if test="taskCode != null and taskCode != ''">
+			<![CDATA[ AND TASK_CODE = #{taskCode} ]]>
+        </if>
+        <if test="taskName != null and taskName != ''">
+			<![CDATA[ AND TASK_NAME = #{taskName} ]]>
+        </if>
+        <if test="estatus != null and estatus != ''">
+			<![CDATA[ AND E_STATUS = #{estatus} ]]>
+        </if>
+        <if test="taskType != null and taskType != ''">
+			<![CDATA[ AND TASK_TYPE = #{taskType} ]]>
+        </if>
+        <if test="operator != null and operator != ''">
+			<![CDATA[ AND OPERATOR = #{operator} ]]>
+        </if>
+	</select>
+	
+	<!-- 查询某节点执行状态为非 已执行 的计数 -->
+	<select id="countWorkTaskForNonExecute" parameterType="com.zfsoft.workflow.model.SpWorkTask" resultType="_int">
+		<![CDATA[
+			SELECT count(1)
+			  FROM SP_WORK_TASK
+			 WHERE 1 = 1
+		]]>
+        <if test="wid != null and wid != ''">
+			<![CDATA[ AND W_ID = #{wid} ]]>
+        </if>
+        <if test="nodeId != null and nodeId != ''">
+			<![CDATA[ AND NODE_ID = #{nodeId} ]]>
+        </if>
+        <if test="estatus != null and estatus != ''">
+			<![CDATA[ AND E_STATUS <> #{estatus} ]]>
+        </if>
+        <if test="isMust != null and isMust != ''">
+			<![CDATA[ AND IS_MUST <> #{isMust} ]]>
+        </if>
+        <if test="taskType != null and taskType != ''">
+			<![CDATA[ AND TASK_TYPE = #{taskType} ]]>
+        </if>
+	</select>
+
+</mapper>

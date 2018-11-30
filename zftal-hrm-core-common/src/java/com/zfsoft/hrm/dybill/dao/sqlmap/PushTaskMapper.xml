@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.dybill.dao.IPushTaskDao">
+    <sql id="where">
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+        </where>
+    </sql>
+    
+    <insert id="insert">
+        <![CDATA[
+            INSERT INTO SP_TASK
+              (TASK_ID, TASK_CODE, TASK_NAME, TASK_STATUS, TASK_TYPE, TASK_DESC, BELONG_TO_SYS)
+            VALUES
+              (#{id}, 'DATA_INPUT', #{name}, '1', 'AUTO_EXECUTE', #{name}, #{billConfigId})
+        ]]>
+    </insert>
+    
+    <!-- 修改任务 -->
+    <update id="update">
+        <![CDATA[
+            UPDATE SP_TASK
+               SET TASK_NAME   = #{name},
+                   TASK_DESC   = #{name},
+                   BELONG_TO_SYS = #{billConfigId}
+             WHERE TASK_ID = #{id}
+        ]]>
+    </update>
+
+    <delete id="delete">
+        delete from SP_TASK where TASK_ID = #{id}
+    </delete>
+    
+</mapper>

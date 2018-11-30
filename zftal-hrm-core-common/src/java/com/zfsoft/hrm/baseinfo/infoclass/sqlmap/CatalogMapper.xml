@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.infoclass.dao.daointerface.ICatalogDao">
+	<resultMap id="CatalogModel" type="com.zfsoft.hrm.baseinfo.infoclass.entities.Catalog">
+		<id property="guid" column="MLID" />
+		<result property="name" column="MLMC" />
+		<result property="index" column="MLXH" />
+		<result property="type" column="MLFL" />
+		<result property="menuId" column="CDBH" />
+	</resultMap>
+	
+	<sql id="commons">
+		MLID, MLMC, MLXH,MLFL,CDBH
+	</sql>
+	
+	<sql id="findWhere">
+		<where>
+			<if test="name != null and name != ''">
+				and MLMC = #{name}
+			</if>
+			<if test="type != null and type != ''">
+				and MLFL= #{type}
+			</if>
+		</where>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<![CDATA[
+			insert into XXLMLB( MLID, MLMC, MLXH,MLFL,CDBH) values( #{guid}, #{name}, #{index},#{type},#{menuId})
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			update XXLMLB set MLMC = #{name},CDBH=#{menuId} where MLID = #{guid}
+		]]>
+	</update>
+	
+	<update id="updateIndex">
+		<![CDATA[
+			update XXLMLB set MLXH = MLXH - 1 where MLXH > #{index}
+		]]>
+	</update>
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from XXLMLB where MLID = #{guid}
+		]]>
+	</delete>
+	
+	<select id="findCount" resultType="int">
+		select count(1)
+		from XXLMLB
+		<include refid="findWhere" />
+	</select>
+	
+	<select id="findList" resultMap="CatalogModel">
+		select <include refid="commons" />
+		from XXLMLB
+		<include refid="findWhere" />
+		order by MLXH
+	</select>
+	
+	<select id="findById" resultMap="CatalogModel">
+		select <include refid="commons" />
+		from XXLMLB
+		where MLID = #{guid}
+	</select>
+</mapper>

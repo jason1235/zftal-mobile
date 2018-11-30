@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="peEvaluation" namespace="/peEvaluation" extends="configuration" >
+		<action name="peEvaluation_*" class="peEvaluationAction" method="{1}" >
+		   
+		</action>
+	</package>
+	
+	<package name="htPeEvaluation" namespace="/htPeEvaluation" extends="configuration" >
+		<action name="htPeEvaluation_*" class="htPeEvaluationAction" method="{1}" >
+		   <result name="stulist">/WEB-INF/pages/mobile/peEvaluation/peStu_list.jsp</result>
+		   <result name="tycpdata">/WEB-INF/pages/mobile/peEvaluation/tycpdata_list.jsp</result>
+		   <result name="tycpScore">/WEB-INF/pages/mobile/peEvaluation/tycpScore_list.jsp</result>
+		   <result name="edit">/WEB-INF/pages/mobile/peEvaluation/peStu_edit.jsp</result>
+		   <result name="dataAnal">/WEB-INF/pages/mobile/peEvaluation/analdata_list.jsp</result>
+		   <result name="addStuData">/WEB-INF/pages/mobile/peEvaluation/addStuData.jsp</result>
+		</action>
+	</package>
+	
+</struts>

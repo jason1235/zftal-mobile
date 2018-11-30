@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.workflow.dao.ISpAuditingLogDao">
+
+	<resultMap id="spAuditingLogMap" type="com.zfsoft.workflow.model.SpAuditingLog">
+		<result property="logId" column="LOG_ID" />
+		<result property="logType" column="LOG_TYPE" />
+		<result property="logTime" column="LOG_TIME" />
+		<result property="wid" column="W_ID" />
+		<result property="btype" column="B_TYPE" />
+		<result property="ostatus" column="O_STATUS" />
+		<result property="otype" column="O_TYPE" />
+		<result property="oresult" column="O_RESULT" />
+		<result property="ocontent" column="O_CONTENT" />		
+		<result property="orole" column="O_ROLE" />
+		<result property="operator" column="OPERATOR" />
+		<result property="osuggestion" column="O_SUGGESTION" />
+	</resultMap>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="logId">
+		<![CDATA[
+			INSERT INTO SP_AUDITING_LOG
+			  (LOG_ID,
+			   LOG_TYPE,
+			   LOG_TIME,
+			   W_ID,
+			   B_TYPE,
+			   O_STATUS,
+			   O_TYPE,
+			   O_RESULT,
+			   O_CONTENT,
+			   O_ROLE,
+			   OPERATOR,
+			   O_SUGGESTION)
+			VALUES
+			  (#{logId},
+			   #{logType,jdbcType=VARCHAR},
+			   sysdate,
+			   #{wid,jdbcType=VARCHAR},
+			   #{btype,jdbcType=VARCHAR},
+			   #{ostatus,jdbcType=VARCHAR},
+			   #{otype,jdbcType=VARCHAR},
+			   #{oresult,jdbcType=VARCHAR},
+			   #{ocontent,jdbcType=VARCHAR},
+			   #{orole,jdbcType=VARCHAR},
+			   #{operator,jdbcType=VARCHAR},
+			   #{osuggestion,jdbcType=VARCHAR})
+			   
+		]]>
+		
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="logId">
+			<![CDATA[
+			SELECT SYS_GUID() KHLC_ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<select id="findAuditingLogByWid" resultMap="spAuditingLogMap">
+		SELECT LOG_ID, LOG_TYPE, LOG_TIME, W_ID, B_TYPE, O_STATUS, O_TYPE, O_RESULT, O_CONTENT, O_ROLE, OPERATOR,O_SUGGESTION
+		  FROM SP_AUDITING_LOG
+		 WHERE W_ID = #{wid}
+		 ORDER BY LOG_TIME DESC,LOG_ID DESC
+	</select>
+	
+	<select id="findAuditingLog" resultMap="spAuditingLogMap">
+		SELECT LOG_ID,
+		      LOG_TYPE,
+		      LOG_TIME,
+		      W_ID,
+		      B_TYPE,
+		      O_STATUS,
+		      O_TYPE,
+		      O_RESULT,
+		      O_CONTENT,
+		      O_ROLE,
+		      OPERATOR,
+		      O_SUGGESTION
+		FROM SP_AUDITING_LOG
+		WHERE W_ID = #{wid}
+		<if test="orole != null and orole != ''">
+			<![CDATA[ AND O_ROLE = #{orole} ]]>
+        </if>
+		ORDER BY LOG_TIME DESC,LOG_ID DESC
+	</select>
+
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.authpost.auth.dao.daointerface.IAuthDetailDao" >
+	
+	<resultMap type="com.zfsoft.hrm.authpost.auth.entities.AuthDetail" id="authDetailMap">
+		<result column="zgh" property="accountId"/>
+		<result column="xm" property="name"/>
+		<result column="dwm" property="deptId"/>
+		<result column="gwlb" property="postType"/>
+		<result column="gwdj" property="level"/>
+		<result column="gwid" property="postId"/>
+		<result column="gwzt" property="postStatus"/>
+		<result column="bzzt" property="authStatus"/>
+		<result column="bzlb" property="authType"/>
+	</resultMap>
+	
+	<sql id="where">
+    	<where>
+    		<if test="deptId != null and deptId !=''">
+    			and over.dwm = #{deptId}
+    		</if>
+    		<if test="postType != null and postType != ''">
+    			and gwztb.gwlb = #{postType}
+    		</if>
+    		<if test="level != null and level != ''">
+    			and gwztb.gwdjm = #{level}
+    		</if>
+    		<if test="postStatus != null and postStatus !=''">
+    			and ${postStatus}
+    		</if>
+    		<if test="authType != null and authType !=''">
+    			and over.bzlbm = #{authType}
+    		</if>
+		</where>
+    </sql>
+	<!-- 获取分页列表信息 -->
+	<select id="getPagingList" resultMap="authDetailMap">
+		select * from (select a.*, rownum rn from (
+			select over.gh as zgh,
+				over.xm as xm,
+				over.dwm as dwm,
+				over.bzlbm as bzlb,
+				gwztb.gwlb as gwlb,
+				gwztb.gwdjm as gwdj,
+				gwztb.gwbh as gwid,
+				gwztb.gwzt as gwzt,
+				gwztb.bzzt as bzzt
+			 from BZGL_GWZT_ST gwztb 
+				left join OVERALL over on gwztb.zgh = over.gh
+		<include refid="where" />
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if> 
+	     ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+	</select>
+	<!-- 获取分页列表计数 -->
+	<select id="getPagingCount" resultType="int">
+		select count(*) from BZGL_GWZT_ST gwztb 
+				left join OVERALL over on gwztb.zgh = over.gh
+		<include refid="where" />
+	</select>
+</mapper>

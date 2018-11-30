@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.dybill.dao.ISpBillDataPushRunDao">
+	<insert id="insert">
+		insert ${tableName}
+		<foreach collection="properties" open="(" item="property" close=")" separator=",">
+			${property.localPropertyId}
+		</foreach>
+		values
+		<foreach collection="properties" open="(" item="property" close=")" separator=",">
+			#{valueMap[property.billPropertyId]}
+		</foreach>
+	</insert>
+	
+	<update id="update">
+		update ${tableName}
+		set 
+		<foreach collection="properties" item="property" separator=",">
+			${property.localPropertyId}=#{valueMap[property.billPropertyId]}
+		</foreach>
+		<where>
+			${expression}
+		</where>
+	</update>
+</mapper>

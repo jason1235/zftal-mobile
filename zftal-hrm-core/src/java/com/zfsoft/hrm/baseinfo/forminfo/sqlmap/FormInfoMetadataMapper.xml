@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.baseinfo.forminfo.dao.daointerface.IFormInfoMetadataDao">
+
+	<resultMap id="formInfoMetadataModel" type="com.zfsoft.hrm.baseinfo.forminfo.entities.FormInfoMetadata">
+		<id property="guid" column="DJBSXBH"/>
+		<result property="editable" column="SFKBJ"/>
+		<result property="need" column="SFBT"/>
+		<result property="viewable" column="SFKXS"/>
+		<result property="defaultValue" column="MRZ"/>
+		<result property="formInfoTypeId" column="DJLBBBH"/>
+		<association property="infoProperty" javaType="com.zfsoft.hrm.baseinfo.infoclass.entities.InfoProperty">
+			<id property="guid" column="XXLSXBH"/>
+			<result property="name" column="SXMC"/>
+			<result property="fieldName" column="ZDMC"/>
+			<result property="classId" column="XXLBH"/>
+		</association>
+	</resultMap>
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+		<![CDATA[
+			insert into HRM_INFO_DJBYSJSXB(
+				DJBSXBH, DJLBBBH,XXLSXBH,SFKBJ,SFBT,SFKXS,MRZ) values(
+				#{guid}, #{formInfoTypeId}, #{infoProperty.guid},
+				#{editable}, #{need}, #{viewable}, #{defaultValue})
+		]]>
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			update HRM_INFO_DJBYSJSXB set
+				DJLBBBH = #{formInfoTypeId},
+				XXLSXBH = #{infoProperty.guid},
+				SFKBJ = #{editable},
+				SFBT = #{need},
+				SFKXS = #{viewable},
+				MRZ = #{defaultValue}
+			where DJBSXBH = #{guid}
+		]]>
+	</update>
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from HRM_INFO_DJBYSJSXB where DJBSXBH = #{guid}
+		]]>
+	</delete>
+	<select id="findList" resultMap="formInfoMetadataModel">
+		SELECT A.DJBSXBH,A.DJLBBBH,A.XXLSXBH,A.SFKBJ,A.SFBT,A.SFKXS,A.MRZ,
+	       	B.DJLBMC,C.SXMC,D.XXLMC,C.ZDMC,C.XXLBH  FROM HRM_INFO_DJBYSJSXB A 
+			LEFT JOIN HRM_INFO_DJLBB B ON A.DJLBBBH=B.DJLBBBH
+			LEFT JOIN XXSXYSJB C ON C.SXBH=A.XXLSXBH
+			LEFT JOIN XXLYSJB D ON D.XXLBH=C.XXLBH order by C.SXXH
+	</select>
+	<select id="findByGuid" resultMap="formInfoMetadataModel">
+		SELECT A.DJBSXBH,A.DJLBBBH,A.XXLSXBH,A.SFKBJ,A.SFBT,A.SFKXS,A.MRZ,
+	       	B.DJLBMC,C.SXMC,C.ZDMC,D.XXLMC,C.XXLBH  FROM HRM_INFO_DJBYSJSXB A 
+			LEFT JOIN HRM_INFO_DJLBB B ON A.DJLBBBH=B.DJLBBBH
+			LEFT JOIN XXSXYSJB C ON C.SXBH=A.XXLSXBH
+			LEFT JOIN XXLYSJB D ON D.XXLBH=C.XXLBH
+			WHERE A.DJBSXBH=#{guid} order by C.SXXH
+	</select>
+	<select id="findByFormInfoTypeId" resultMap="formInfoMetadataModel">
+		SELECT A.DJBSXBH,A.DJLBBBH,A.XXLSXBH,A.SFKBJ,A.SFBT,A.SFKXS,A.MRZ,
+	       	B.DJLBMC,C.SXMC,D.XXLMC,C.ZDMC,C.XXLBH  FROM HRM_INFO_DJBYSJSXB A 
+			LEFT JOIN HRM_INFO_DJLBB B ON A.DJLBBBH=B.DJLBBBH
+			LEFT JOIN XXSXYSJB C ON C.SXBH=A.XXLSXBH
+			LEFT JOIN XXLYSJB D ON D.XXLBH=C.XXLBH
+			WHERE A.DJLBBBH=#{formInfoTypeId} order by C.SXXH
+	</select>
+	<select id="findByInfoClassOfType" resultMap="formInfoMetadataModel">
+		SELECT A.DJBSXBH,A.DJLBBBH,A.XXLSXBH,A.SFKBJ,A.SFBT,A.SFKXS,A.MRZ,
+	       	B.DJLBMC,C.SXMC,D.XXLMC,C.ZDMC,C.XXLBH FROM HRM_INFO_DJBYSJSXB A 
+			LEFT JOIN HRM_INFO_DJLBB B ON A.DJLBBBH=B.DJLBBBH
+			LEFT JOIN XXSXYSJB C ON C.SXBH=A.XXLSXBH
+			LEFT JOIN XXLYSJB D ON D.XXLBH=C.XXLBH
+			WHERE A.DJLBBBH=#{0} and c.XXLBH=#{1} order by C.SXXH
+	</select>
+	<!-- 用户密码初始化 -->
+    <update id="updateMm" >
+        update zftal_xtgl_yhb set mm = #{mm}
+         where zgh=#{zgh} 
+    </update>
+</mapper>

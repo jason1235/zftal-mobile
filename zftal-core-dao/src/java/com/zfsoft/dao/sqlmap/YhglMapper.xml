@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IYhglDao" >
+
+	<!-- 获取分页列表信息 -->
+	<select id="getListNew" resultType="YhglModelNew">
+	select * from (
+		select b.*,rownum rn from
+				(
+					select a.zgh,
+				       a.xm,
+				       a.lxdh,
+				       a.sfqy,
+				       c.jsdm,
+				        c.jsmc jsmc,
+				        a.deviceid
+				  from zftal_xtgl_yhb a 
+				  		left join zftal_xtgl_yhjsb b on a.zgh = b.zgh
+               				left join zftal_xtgl_jsxxb c on b.jsdm = c.jsdm
+					<where>
+						a.zgh != 'hrmadmin'
+						<if test="zgh != null and zgh != ''">
+							and a.zgh like '%'||#{zgh}||'%'
+						</if>
+						<if test="xm != null and xm != ''">
+							and a.xm like '%'||#{xm}||'%'
+						</if>
+						<if test="lxdh != null and lxdh != ''">
+							and a.lxdh like '%'||#{lxdh}||'%'
+						</if>
+						<if test="sfqy != null and sfqy != ''">
+							and a.sfqy = #{sfqy}
+						</if>
+						<if test="jsdm != null and jsdm != ''">
+							and b.jsdm = #{jsdm}
+						</if>
+						<if test="grade != null and grade != ''">
+							and a.grade = #{grade}
+						</if>
+					</where>
+				 )
+				b 
+			)
+			<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} 
+			]]>	
+	</select>
+	
+	<select id="getListCountNew" resultType="int">
+			select count(*) from
+				(
+					select a.zgh,
+				       a.xm,
+				       a.lxdh,
+				       (case
+				         when a.sfqy = '1' then
+				          '是'
+				         when a.sfqy = '0' then
+				          '否'
+				         else
+				          sfqy
+				       end) sfqy,
+				        c.jsmc rylx
+				  	from zftal_xtgl_yhb a
+				  		left join zftal_xtgl_yhjsb b on a.zgh = b.zgh
+               				left join zftal_xtgl_jsxxb c on b.jsdm = c.jsdm
+					<where>
+						a.zgh != 'hrmadmin'
+						<if test="zgh != null and zgh != ''">
+							and a.zgh like '%'||#{zgh}||'%'
+						</if>
+						<if test="xm != null and xm != ''">
+							and a.xm like '%'||#{xm}||'%'
+						</if>
+						<if test="lxdh != null and lxdh != ''">
+							and a.lxdh like '%'||#{lxdh}||'%'
+						</if>
+						<if test="sfqy != null and sfqy != ''">
+							and a.sfqy = #{sfqy}
+						</if>
+						<if test="jsdm != null and jsdm != ''">
+							and b.jsdm = #{jsdm}
+						</if>
+					</where>
+				 )
+			b 
+	</select>
+
+	
+	
+
+	<!-- 查询用户信息列表 -->
+	<select id="getPagedList" parameterType="YhglModel" resultType="YhglModel">
+		select zgh,xm,mm,lxdh,dzyx,(case when sfqy='1' then '是' when sfqy='0' then '否' else sfqy end) sfqy,
+		(select count(*) from zftal_xtgl_yhjsb d,zftal_xtgl_jsxxb j where d.jsdm=j.jsdm and a.zgh=d.zgh
+			<if test="sysCode != null and sysCode != ''">
+				AND j.sysCode = #{sysCode}
+			</if>
+		) jss,
+		(select z.bmmc
+                          from overall t,HRM_BZGL_ZZJGB z
+                         where t.gh(+) = a.zgh and t.dwm = z.bmdm(+)) jgdm, 
+                         (case
+                         when rylx = 'student' then '学生'
+                              else '教师'
+                         end) rylx
+		from zftal_xtgl_yhb a 
+		<where>
+			zgh != 'hrmadmin'
+			<if test="zgh != null and zgh != ''">
+				and zgh like '%'||#{zgh}||'%'
+			</if>
+			<if test="xm != null and xm != ''">
+				and xm like '%'||#{xm}||'%'
+			</if>
+			<if test="sfqy != null and sfqy != ''">
+				and sfqy = #{sfqy}
+			</if>
+			<if test="jgdm != null and jgdm != ''">
+				and exists (
+                   select 1
+                          from overall t
+                         where t.gh = a.zgh
+                         and t.dwm like '%'||#{jgdm}||'%')
+			</if>	
+			<if test="jsdm != null and jsdm != ''">
+				and zgh in (select zgh from zftal_xtgl_yhjsb where jsdm = #{jsdm})
+			</if>
+		</where>
+	</select>
+	
+	<!-- 查询启用用户信息列表 -->
+	<select id="cxQyyhxxList" parameterType="YhglModel" resultType="YhglModel">
+		select zgh,xm,mm,lxdh,dzyx,(case when sfqy='1' then '是' when sfqy='0' then '否' else sfqy end) sfqy,
+		(select count(*) from zftal_xtgl_yhjsb d ,zftal_xtgl_jsxxb j where d.jsdm=j.jsdm and a.zgh=d.zgh
+			<if test="sysCode != null and sysCode != ''">
+				AND j.sysCode = #{sysCode}
+			</if>
+		) jss
+		from zftal_xtgl_yhb a 
+		<where>
+			zgh != 'hrmadmin' and sfqy = '1'
+		</where>
+		 	order by zgh
+	</select>
+	
+	
+	<!-- 查询用户部门信息 -->
+	<select id="getModelList" parameterType="YhglModel" resultType="YhglModel">
+		select bmdm_id,bmmc from zftal_xtgl_bmdmb
+	</select>
+	
+	 <!-- 查询角色列表 -->
+	<select id="cxJsdmList" parameterType="JsglModel" resultType="JsglModel">
+		select jsdm,jsmc,gnmkdm from zftal_xtgl_jsxxb
+		<where>
+			<if test="isAdmin !=null and !isAdmin">
+				and jscjr = #{jscjr}
+			</if>
+			<if test="sysCode != null and sysCode != ''">
+				AND sysCode = #{sysCode}
+			</if>
+		</where>
+	</select>
+	
+	<!-- 根据用户名获取秘钥 -->
+	<select id="getStrKeyByYhm" parameterType="YhglModel" resultType="String">
+		select strKey from zftal_xtgl_yhb where zgh = #{zgh}
+	</select>
+	
+	<!-- 获取用户秘钥 -->
+	<select id="getStrKey" parameterType="YhglModel" resultType="String">
+		select zgh from zftal_xtgl_yhb where strKey = #{apptoken}
+	</select>
+	
+    <!-- 修改用户信息 -->
+    <update id="updateStrKey" parameterType="YhglModel">
+    	update zftal_xtgl_yhb set strKey=#{strKey} where zgh=#{zgh} or lxdh=#{zgh}
+    </update>
+    
+    <!-- 修改用户信息 -->
+    <update id="updateJs" parameterType="YhglModelNew">
+    	update zftal_xtgl_yhb set rylx=#{jsdm} where zgh=#{zgh}
+    </update>
+    
+	 <!-- 保存用户信息 -->
+    <insert id="insert" parameterType="YhglModel">
+    	insert into zftal_xtgl_yhb (zgh,xm,mm,lxdh,dzyx,sfqy,jgdm) values (#{zgh},#{xm},#{mm},#{lxdh},#{dzyx},#{sfqy},#{jgdm})
+    </insert>
+    
+    	<!-- 保存用户角色信息 -->
+    <insert id="zjYhjsxx" parameterType="YhglModel">
+    	insert into zftal_xtgl_yhjsb (zgh,jsdm) values (#{zgh},#{jsdm})
+    </insert>
+    
+    	<!-- 查询单个用户信息 -->
+    <select id="getModel" parameterType="YhglModel" resultType="YhglModel">
+    	select zgh,xm,
+    	
+    	 (select f.jsmc
+          from (select zgh,
+                       wmsys.wm_concat(f.jsdm) jsdm,
+                       wmsys.wm_concat(f.jsmc) jsmc
+                  from (select f.zgh,
+                              f.jsdm,
+                               (select e.jsmc
+                                  from zftal_xtgl_jsxxb e
+                                 where f.jsdm = e.jsdm
+									<if test="sysCode != null and sysCode != ''">
+										AND sysCode = #{sysCode}
+									</if>
+                                 ) jsmc
+                          from zftal_xtgl_yhjsb f) f
+                 group by zgh) f
+         where a.zgh = f.zgh) jsmc,
+         
+         (select wmsys.wm_concat(f.jsdm) jsdm
+          from zftal_xtgl_yhjsb f,zftal_xtgl_jsxxb e
+          where f.jsdm=e.jsdm 
+          and f.zgh=a.zgh
+			<if test="sysCode != null and sysCode != ''">
+				AND sysCode = #{sysCode}
+			</if>          
+          group by f.zgh
+          
+          ) jsdm,
+         
+    	mm,lxdh,dzyx,sfqy,jgdm,err_num as errnum,
+    	(select t.bmmc from zftal_xtgl_bmdmb t where t.bmdm_id = a.jgdm) jgmc,
+        (select t.cydm_id_bmlb from zftal_xtgl_bmdmb t where t.bmdm_id = a.jgdm) cydm_id_bmlb    	
+    	 from zftal_xtgl_yhb a 
+    	where zgh = #{zgh}
+    </select>
+    
+    	<!-- 修改用户信息 -->
+    <update id="update" parameterType="YhglModel">
+    	update zftal_xtgl_yhb 
+    	<set>
+    		<if test="xm != null and xm != ''">
+    			xm = #{xm},
+    		</if>
+    		<if test="lxdh != null ">
+    			lxdh = #{lxdh},
+    		</if>
+    		<if test="dzyx != null ">
+    			dzyx = #{dzyx},
+    		</if>
+    		<if test="sfqy != null and sfqy !=''">
+    			sfqy = #{sfqy},
+    		</if>
+    		<if test="jgdm != null and jgdm !=''">
+    			jgdm = #{jgdm},
+    		</if> 
+    		<if test="scdljsdm != null and scdljsdm !=''">
+    			scdljsdm = #{scdljsdm}, 
+    		</if>
+    		<if test="jsdm != null and jsdm !=''">
+    			scdljsdm = #{jsdm}, 
+    		</if>
+    		<if test="jsdm != null and jsdm !=''">
+    			rylx = #{jsdm}, 
+    		</if>
+    		<if test="errNum != null and errNum !=''">
+                err_num = #{errNum},
+            </if>
+        	<!-- 不要删除 ，为了避免其它更新字段全为空，该update报错-->
+            sjly = sjly,
+    	</set> 
+    	where zgh=#{zgh} 
+    </update>
+    
+     <!-- 删除用户信息 -->
+    <delete id="batchDelete" >
+    	delete zftal_xtgl_yhb where 
+	    <foreach collection="list" item="item" index="index"
+				separator=" OR">
+			   zgh = #{item.zgh} 
+		</foreach>
+    </delete>
+    
+       <!-- 删除用户角色信息 -->
+    <delete id="scYhjsxx" >
+    	delete zftal_xtgl_yhjsb where 
+    	 <foreach collection="list" item="item" index="index"
+				separator=" OR">
+			   (zgh = #{item.zgh} 
+			   <if test="item.jsdm != null and item.jsdm != ''">
+			   and jsdm = #{item.jsdm}
+			   </if>)
+		</foreach>
+    </delete>
+    
+    <!-- 根据zgh获取zjhm,初始化密码为身份证号 -->
+    <select id="zjhmByZgh" resultType="String">
+    	select zjhm from zftal_xtgl_yhb where zgh = #{zgh}
+    </select>
+    <!-- 根据zgh获取用户总积分 -->
+    <select id="sourceByZgh" resultType="int">
+    	select nvl(source,0) from zftal_xtgl_yhb where zgh = #{userId}
+    </select>
+    <!-- 根据zgh获取用户排行榜 -->
+    <select id="getRankinglist" resultType="YhglModel" parameterType="map">
+    	 <![CDATA[
+    	select * from (
+		     select a.*,rownum rownum1 from (
+		        select y.zgh,y.xm,y.source,y.grade, ROW_NUMBER() OVER (ORDER BY nvl(y.source,0) DESC) as ranking
+		        from zftal_xtgl_yhb y 
+		        order by nvl(y.source,0) desc
+		     ) a 
+		     where rownum <=10  
+		union 
+		      select b.zgh,b.xm,b.source,b.grade,b.ranking,b.ranking as rownum1 from (
+		        select y.zgh,y.xm,y.source,y.grade, ROW_NUMBER() OVER (ORDER BY nvl(y.source,0) DESC) as ranking
+		        from zftal_xtgl_yhb y 
+		        order by nvl(y.source,0) desc
+		     ) b  where zgh = #{username} ) order by rownum1
+		  ]]>
+    </select>
+    
+    <select id="getGradeRankinglist" resultType="YhglModel" parameterType="map">
+    	 <![CDATA[
+    	select * from (
+		     select a.*,rownum rownum1 from (
+		        select y.zgh,y.xm,y.source,y.grade, ROW_NUMBER() OVER (PARTITION BY  grade ORDER  BY nvl(y.source,0) DESC) as ranking
+		        from zftal_xtgl_yhb y where  y.grade = ( select grade from zftal_xtgl_yhb where zgh = #{username} )
+		        order by nvl(y.source,0) desc
+		     ) a 
+		     where rownum <=10  
+		union 
+		      select b.zgh,b.xm,b.source,b.grade,b.ranking,b.ranking as rownum1 from (
+		        select y.zgh,y.xm,y.source,y.grade, ROW_NUMBER() OVER (PARTITION BY  grade ORDER  BY nvl(y.source,0) DESC) as ranking
+		        from zftal_xtgl_yhb y where  y.grade = ( select grade from zftal_xtgl_yhb where zgh = #{username} )
+		        order by nvl(y.source,0) desc
+		     ) b  where zgh = #{username} ) order by rownum1
+		    ]]>
+    </select>
+    
+    <!-- 根据zgh获取用户姓名 -->
+    <select id="xmByZgh" resultType="String">
+    	select xm from zftal_xtgl_yhb where zgh = #{userId}
+    </select>
+    
+    <!-- 根据zgh获取用户信息 -->
+    <select id="getInfoByZgh" resultType="hashmap">
+    	select * from zftal_xtgl_yhb where zgh = #{yhm}
+    </select>
+    
+    <!-- 根据zgh获取zjhm,初始化密码为身份证号 -->
+    <select id="zghList" resultType="String">
+    	select zgh from zftal_xtgl_yhb
+    </select>
+    
+     <!-- 用户密码初始化 -->
+    <update id="mmCsh" >
+    	update zftal_xtgl_yhb set mm = #{mm}
+    	 where zgh=#{pkValue} 
+    </update>
+    
+     <!-- 修改用户密码 -->
+    <update id="xgMm" >
+    	update zftal_xtgl_yhb set mm = #{mm}
+    	 where zgh=#{zgh} 
+    </update>
+    
+   
+    
+    <!-- 查询角色所属用户 -->
+    <select id="cxYhByJsdm" parameterType="YhglModel" resultType="YhglModel">
+		select b.zgh,b.xm
+ 		 from zftal_xtgl_yhjsb a, zftal_xtgl_yhb b
+ 			where a.zgh = b.zgh
+  			 and a.jsdm = #{jsdm} 
+    </select>
+     
+    <!-- 查询角色名称 -->
+    <select id="cxJsmcByJsdm" parameterType="JsglModel" resultType="JsglModel">
+		select a.jsmc from zftal_xtgl_jsxxb a where a.jsdm = #{jsdm} 
+    </select>
+    
+    <!-- 查询角色名称 -->
+    <select id="cxJsdm" parameterType="JsglModel" resultType="JsglModel">
+		select t.zgh, t.jsdm, t2.jsmc,t2.sfejsq
+		  from zftal_xtgl_yhjsb t, zftal_xtgl_jsxxb t2
+		 where t.jsdm = t2.jsdm
+		   and t.zgh = #{zgh}
+		   <if test="sysCode != null and sysCode != ''">
+		   	   and t2.sysCode=#{sysCode}
+		   </if>
+		order by t2.jsmc
+    </select>   
+    
+    <!-- 根据时间查询用户安装量 -->
+    <select id="getInstallsStatistic" parameterType="userStatictisModel" resultType="userStatictisModel">
+		select a.installs,a.datetime from m_tjgl_aztj a 
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[
+					and to_date(a.datetime, 'yyyy-mm-dd') >= to_date(#{startdate}, 'yyyy-mm-dd')
+				]]>	
+	        	
+        	</if>
+        	<if test='enddate != null and enddate != ""'>
+        		<![CDATA[	
+					and to_date(a.datetime, 'yyyy-mm-dd') <= to_date(#{enddate}, 'yyyy-mm-dd')
+				]]>	
+			</if>	
+       	</where>
+       	order by a.datetime asc
+    </select>
+    
+    <!-- 查询实时日期安装统计 -->
+    <select id="getInstallsCount"  resultType="int">
+		select count(*) from m_tjgl_aztj a where a.datetime = to_char(sysdate, 'yyyy-mm-dd') 
+    </select>
+    
+     <!-- app端进入app引导页调用此接口做安装统计，增加实时日期统计量  -->
+    <insert id="insertInstallsCount" >
+    	insert into m_tjgl_aztj
+		  (installs, datetime)
+	  	values
+		  (1, to_char(sysdate, 'yyyy-mm-dd'))
+    </insert>
+    
+    <!-- 更新安装统计  -->
+    <update id="updateInstallsCount">
+    	 update m_tjgl_aztj t set t.installs =  
+        ( 
+        <![CDATA[
+           select (nvl(max(installs), 0) + 1) from m_tjgl_aztj y where y.datetime = to_char(sysdate, 'yyyy-mm-dd') 
+          ]]>
+         )
+ 		where t.datetime  = to_char(sysdate, 'yyyy-mm-dd')
+    </update>
+    
+    
+    
+    <!-- 保存用户_子系统_上次登录角色 -->
+    <insert id="insertUserSubsystemRole" parameterType="YhglModel">
+    	insert into HRM_USER_SUB_LASTROLE ( USERID,SYSCODE,ROLEID) values (#{userId},#{sysCode},#{roleId})
+    </insert>
+    <!-- 更新用户上次访问子系统的角色 -->
+    <update id="updateRoleByUserAndSubsystem">
+    	update HRM_USER_SUB_LASTROLE 
+    	   set ROLEID = #{roleId}
+    	 where USERID =#{userId}
+	   	   and SYSCODE=#{sysCode}
+    </update>
+    
+    <!-- 查询用户_子系统_上次登录角色表 -->
+    <select id="findUserSubsystemRoles" resultType="com.zfsoft.dao.entities.UserSubsystemLastRole">
+		select USERID,SYSCODE,ROLEID
+		  from HRM_USER_SUB_LASTROLE
+		  <where>
+			  <if test="userId != null and userId != ''">
+			   and USERID =#{userId}
+			  </if>
+			  <if test="sysCode != null and sysCode != ''">
+		   	   and SYSCODE=#{sysCode}
+		   	  </if>
+			  <if test="roleId != null and roleId != ''">
+			   and ROLEID =#{roleId}
+			  </if>
+		  </where>
+    </select>    
+    
+    <update id="updateYhbSource">
+	  update ZFTAL_XTGL_YHB 
+		 <set>
+		 source=#{source}
+		 </set>
+	  where zgh=#{userId}
+	</update>
+    
+    
+     <!-- 寻物启事捡到者通过姓名加积分 -->
+    <update id="updateYhbSourceWithXm">
+	  update ZFTAL_XTGL_YHB 
+		 <set>
+		 source=source+5
+		 </set>
+	  where xm=#{xm}
+	</update>
+	
+	     <!-- 分析平台绑定设备 -->
+    <update id="bindDevice" parameterType="com.zfsoft.common.log.User">
+    	update zftal_xtgl_yhb set deviceid = #{deviceId} where zgh=#{yhm} 
+    </update>
+    
+    <select id="countUserByDeviceid" resultType="java.lang.Integer">
+    	select count(1)  from zftal_xtgl_yhb t where t.deviceid = #{deviceId}
+    	<if test="yhm != null and yhm != ''">
+			   and t.zgh =#{yhm}
+			  </if>
+    </select>
+    
+    <select id="unbindDeviceId" resultType="java.lang.Integer">
+    	update zftal_xtgl_yhb set deviceid = '' where zgh=#{zgh} 
+    </select>
+    
+    
+    <select id="getUserByDeviceidAndRylx" resultType="com.zfsoft.dao.entities.YhglModel">
+    	select zgh,xm,rylx,deviceid from zftal_xtgl_yhb t where t.deviceid = #{deviceid} and rylx = #{rylx}
+    </select>
+    
+    <update id="jbsbh">
+		update ZFTAL_XTGL_YHB   set  deviceid = '' where zgh = #{zgh} 
+	</update>
+    
+    <update id="jbyh">
+		update ZFTAL_XTGL_YHB   set  ERR_NUM = '0',SFQY='1' where zgh = #{zgh} 
+	</update>
+    
+    
+    <update id="bcsbh">
+		update ZFTAL_XTGL_YHB   set  deviceid = #{deviceid} where zgh = #{zgh} 
+	</update>
+	
+	
+	 <select id="getYhglModelByZgh" resultType="com.zfsoft.dao.entities.YhglModel">
+    	select zgh,xm,rylx,deviceid from zftal_xtgl_yhb t where zgh = #{zgh} 
+    </select>
+    
+    
+    <select id="getYhxxListCount" parameterType="com.zfsoft.dao.entities.YhxxbModel" resultType="java.lang.Integer">
+			select count(*) from
+				(
+					select * from yhxxb a
+					<where>
+						a.zgh != 'hrmadmin'
+						<if test="zgh != null and zgh != ''">
+							and a.zgh like '%'||#{zgh}||'%'
+						</if>
+						<if test="xm != null and xm != ''">
+							and a.xm like '%'||#{xm}||'%'
+						</if>
+						<if test="js != null and js != ''">
+							and a.js = #{js}
+						</if>
+					</where>
+				 )
+			b 
+	</select>
+	
+	<select id="getYhxxList" parameterType="com.zfsoft.dao.entities.YhxxbModel" resultType="com.zfsoft.dao.entities.YhxxbModel">
+	select * from (
+		select b.*,rownum rn from
+				(
+					select *  from yhxxb a 
+					<where>
+						a.zgh != 'hrmadmin'
+						<if test="zgh != null and zgh != ''">
+							and a.zgh like '%'||#{zgh}||'%'
+						</if>
+						<if test="xm != null and xm != ''">
+							and a.xm like '%'||#{xm}||'%'
+						</if>
+						<if test="sjhm != null and sjhm != ''">
+							and a.sjhm like '%'||#{sjhm}||'%'
+						</if>
+						<if test="js != null and js != ''">
+							and a.js = #{js}
+						</if>
+					</where>
+				 )
+				b 
+			)
+			<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} 
+			]]>	
+	</select>
+	
+	<select id="getYhxxModel" parameterType="com.zfsoft.dao.entities.YhxxbModel" resultType="com.zfsoft.dao.entities.YhxxbModel">
+		select * from yhxxb a where a.zgh = #{zgh}
+	</select>
+	
+    
+    
+	
+</mapper>

@@ -1,0 +1,451 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+  
+<mapper namespace="com.zfsoft.sjzx.jhpz.wspz.dao.IWsjhConfigDAO">  
+    <resultMap id="wsjhConfigMap" type="com.zfsoft.sjzx.jhpz.wspz.model.WsjhConfig">
+        <result column="wsjhmc" property="wsjhmc"/>
+        <result column="wsjhxh" property="wsjhxh"/>
+        <result column="wsjhb" property="wsjhb"/>
+        <result column="url" property="url"/>
+        <result column="namespace" property="namespace"/>
+        <result column="operate" property="operate"/>
+        <result column="isdzq" property="isdzq"/>       
+        <result column="wsjhds" property="wsjhds"/>
+        <result column="fhbl" property="fhbl"/>
+        <result column="params" property="params"/>
+        <result column="xgsj"   property="xgsj"/>
+        <result column="wsjhzcb" property="wsjhzcb"/>
+        <result column="issjc" property="issjc"/>
+        <result column="sjcz" property="sjcz"/>
+        <result column="istype" property="istype"/>
+        <result column="gys" property="gys"/>
+        <result column="zys" property="zys"/>
+        <result column="type" property="type"/>
+        <result column="oflag" property="oflag"/>
+        <result column="plbs" property="plbs"/>
+    </resultMap>
+    
+    <resultMap id="wsjhdzpzMap" type="com.zfsoft.sjzx.jhpz.wspz.model.WsjhdzConfig">
+        <result column="zdpzxh" property="zdpzxh"/>
+        <result column="fhbl" property="fhbl"/>
+        <result column="mbzd" property="mbzd"/>
+        <result column="jhpzxh" property="jhpzxh"/>
+        <result column="sfzj" property="sfzj"/>
+        <result column="mbzdsjlx" property="mbzdsjlx"/>     
+        <result column="sfgx" property="sfgx"/>
+        <result column="jhmc" property="jhmc"/>
+        <result column="jhlx" property="jhlx"/>
+    </resultMap>
+    <resultMap id="wsjhcspzMap" type="com.zfsoft.sjzx.jhpz.wspz.model.WsjhParamsConfig">
+        <result column="jhpxh" property="jhpxh"/>
+        <result column="jhmc" property="jhmc"/>
+        <result column="cszd" property="cszd"/>
+        <result column="csz" property="csz"/>
+        <result column="cszdt" property="cszdt"/>
+        <result column="jhlx" property="jhlx"/>
+    </resultMap>
+    
+    <resultMap id="wsjhrzbMap" type="com.zfsoft.sjzx.jhpz.wspz.model.WsjhRzb"> 
+        <result column="wsjhxh" property="wsjhxh"/>
+        <result column="log_field" property="log"/>
+        <result column="logdate" property="logDate"/>
+        <result column="enddate" property="endDate"/>
+        <result column="startdate" property="startDate"/>
+        <result column="errors" property="errors"/>
+        <result column="lines_read" property="readLines"/>
+        <result column="lines_updated" property="updateLines"/>
+        <result column="id_batch" property="id"/>
+        <result column="sjc" property="sjc"/>
+        <result column="failid" property="failid"/>
+    </resultMap>
+    
+    <resultMap id="wsjhdsqMap" type="com.zfsoft.sjzx.jhpz.wspz.model.WsjhDsqConfig">
+        <result column="dsqxh" property="dsqxh"/>
+        <result column="dsqmc" property="dsqmc"/>
+        <result column="cjsj" property="cjsj"/>
+        <result column="xgsj" property="xgsj"/>
+        <result column="jhpzmc" property="jhpzmc"/>
+        <result column="ddsjd" property="ddsjd"/>       
+        <result column="jgsj" property="jgsj"/>
+        <result column="jdjssj" property="jdjssj"/>
+        <result column="jdqssj" property="jdqssj"/>
+        <result column="czdxbh" property="czdxbh"/>
+        <result column="dsqlx" property="dsqlx"/>
+        <result column="sjdwbh" property="sjdwbh"/>
+        <result column="dsqzt" property="dsqzt"/>
+        <result column="jdzxjh" property="jdzxjh"/>
+        <result column="jhlx" property="jhlx"/>
+    </resultMap>
+    
+    <resultMap id="DsqlxMap" type="com.zfsoft.sjzx.jhpz.sjjhpzb.model.Dsqlx">
+        <result column="dsqlx" property="dsqlx"/>
+        <result column="dsqlxmc" property="dsqlxmc"/>
+    </resultMap>
+    
+    <resultMap id="SjlxMap" type="com.zfsoft.sjzx.jhpz.sjjhpzb.model.Sjlx">
+        <result column="sjlx" property="sjlx"/>
+        <result column="sjlxmc" property="sjlxmc"/>
+    </resultMap>
+    
+    <resultMap id="SjdwbMap" type="com.zfsoft.sjzx.jhpz.sjjhpzb.model.Sjdwb">
+        <result column="sjdwbh" property="sjdwbh"/>
+        <result column="sjdwmc" property="sjdwmc"/>
+    </resultMap>
+    
+    <select id="getPagingInfoByWsjhrzbCount" resultType="int">
+    
+    select count(*) from ws_jhrzb t
+        <where>
+            <if test='wsjhxh != null and wsjhxh != ""'> and t.wsjhxh like '%'||#{wsjhxh}||'%'</if>
+            <if test='startDate != null and startDate != ""'> 
+            <![CDATA[
+                and    to_date(t.startdate,'yyyy-mm-dd hh24:mi:ss')  >= to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss')
+                ]]>
+            </if>
+            <if test='endDate != null and endDate != ""'> 
+             <![CDATA[
+                and  to_date(t.endDate,'yyyy-mm-dd hh24:mi:ss')  <= to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+                ]]>
+            </if>
+            <if test='errors == "1"'> 
+                and t.errors >0
+            </if>
+        </where>
+            order by logdate 
+    
+    </select>
+    
+    <select id="getPagingInfoByWsjhrzbList" resultMap="wsjhrzbMap">
+        select * from (
+            select a.*,rownum rn  from (
+                select w.* from  ws_jhrzb  w 
+                   
+                <where>
+		            <if test='wsjhxh != null and wsjhxh != ""'> and t.wsjhxh like '%'||#{wsjhxh}||'%'</if>
+		            <if test='startDate != null and startDate != ""'> 
+		            <![CDATA[
+		                and    to_date(t.startdate,'yyyy-mm-dd hh24:mi:ss')  >= to_date(#{startDate},'yyyy-mm-dd hh24:mi:ss')
+		                ]]>
+		            </if>
+		            <if test='endDate != null and endDate != ""'> 
+		             <![CDATA[
+		                and    to_date(t.endDate,'yyyy-mm-dd hh24:mi:ss')  <= to_date(#{endDate},'yyyy-mm-dd hh24:mi:ss')
+		                ]]>
+		            </if>
+		            <if test='errors == "1"'> 
+		                and t.errors >0
+		            </if>             
+		        </where>
+              <![CDATA[
+              order by  to_date(logdate,'yyyy-mm-dd hh24:mi:ss') desc ) a)  
+               where rn>=#{startRow}  and rn<=#{endRow}
+              ]]>
+    </select>
+    
+    <select id="getLastWsjhRzbByWsjhxh" resultMap="wsjhrzbMap">
+        select * from (select * from ws_jhrzb where wsjhxh=#{wsjhxh} and errors=0 order by logdate desc) where rownum=1
+    </select>
+    
+    <select id="getLogs" resultMap="wsjhrzbMap">
+        SELECT * FROM ws_jhrzb WHERE id_batch=#{id}
+    </select>
+    
+    <select id="getWsjhDsqConfig" resultMap="wsjhdsqMap">
+        select * from ws_jhdsqpzb where jhpzmc =#{jhpzmc}  and jhlx=#{jhlx}
+    </select>
+    
+    <select id="getSjdw" resultMap="SjdwbMap">
+        select * from xt_sjdwb order by sjdwbh
+    </select>
+    
+    <select id="getWsjhParamsConfigList" resultMap="wsjhcspzMap">
+        select * from ws_jhcspz where jhmc =  #{jhmc}  and jhlx=#{jhlx}
+    </select>
+    
+    <select id="getWsjhdzConfigList" resultMap="wsjhdzpzMap">
+        select * from ws_jhdzpz where jhmc =  #{jhmc} and jhlx=#{jhlx}
+    </select>
+    
+    <select id="getDsqlx" resultMap="DsqlxMap">
+        select * from xt_dsqlx order by dsqlx
+    </select>
+    
+    
+    <select id="getWsjhConfig" resultMap="wsjhConfigMap">
+        select * from ws_jhpzb where wsjhmc=#{wsjhmc} and type=#{type}
+    </select>
+    
+    <select id="getSjlx" resultMap="SjlxMap">
+        select * from xt_sjlx order by sjlx
+    </select>
+    
+    <select id="getWsjhConfigList" resultMap="wsjhConfigMap">
+        select *
+        from (select t.*, rownum as rn
+          from (select w.* from  ws_jhpzb  w 
+		        <where>
+		            <if test='wsjhmc != null and wsjhmc != ""'> and w.wsjhmc like '%'||#{wsjhmc}||'%'</if>
+		            <if test='type != null and type != ""'> and w.type = #{type} </if>
+		        </where>
+              <![CDATA[
+              order by w.xgsj desc ) t)
+              where rn>=#{startRow}  and rn<=#{endRow}
+              ]]>
+    </select>
+    
+    <select id="getWsjhConfigListCount" resultType="int">
+        select count(*) from ws_jhpzb
+        <where>
+            <if test='wsjhmc != null and wsjhmc != ""'> and wsjhmc like '%'||#{wsjhmc}||'%'</if>
+            <if test='type != null and type != ""'> and type like '%'||#{type}||'%'</if>
+        </where>
+    </select>
+    
+    <select id="getInsertWsjhDsqConfig" resultType="int">
+        SELECT WS_JHDSQPZB_SEQ_ID.CURRVAL as dsqxh FROM DUAL
+    </select>
+    
+    <select id="getInsertWsjhrzb" resultType="int">
+        SELECT WS_JHRZB_SEQ_ID.CURRVAL as id FROM DUAL
+    </select>
+    
+    
+    <select id="getRunTasks" resultMap="wsjhdsqMap">
+        select * from ws_jhdsqpzb   
+    </select>
+    
+    
+    <insert id="insertWsjhrzb" >
+        
+            insert into ws_jhrzb(id_batch, lines_read,lines_updated,errors,startdate,
+                                 enddate,logdate,log_field,wsjhxh,sjc,failid)
+                          values(WS_JHRZB_SEQ_ID.nextval,
+                         <choose>
+                         	<when test="readLines != null">
+                         		#{readLines},
+                         	</when>
+                         	<otherwise>
+                         		'',
+                         	</otherwise>
+                         </choose>
+                          <choose>
+                         	<when test="updateLines != null">
+                         		#{updateLines},
+                         	</when>
+                         	<otherwise>
+                         		'',
+                         	</otherwise>
+                         </choose>
+                         <choose>
+                         	<when test="errors != null">
+                         		#{errors},
+                         	</when>
+                         	<otherwise>
+                         		'',
+                         	</otherwise>
+                         </choose> 
+                         #{startDate},#{endDate},#{logDate}, 
+                         <choose>
+                         	<when test="log != null">
+                         		#{log},
+                         	</when>
+                         	<otherwise>
+                         		'',
+                         	</otherwise>
+                         </choose> 
+                         <choose>
+                         	<when test="wsjhxh != null">
+                         		#{wsjhxh},
+                         	</when>
+                         	<otherwise>
+                         		'',
+                         	</otherwise>
+                         </choose>  
+                         <choose>
+                         	<when test="sjc != null">
+                         		#{sjc},
+                         	</when>
+                         	<otherwise>
+                         		'',
+                         	</otherwise>
+                         </choose>
+                          <choose>
+                         	<when test="failid != null">
+                         		#{failid}
+                         	</when>
+                         	<otherwise>
+                         		''
+                         	</otherwise>
+                         </choose>     
+                           )
+        
+    </insert>
+    
+    <insert id="batchInsertWsjhParamsConfig" >
+        
+            insert into ws_jhcspz(jhpxh, jhmc, cszd,csz,cszdt,jhlx)
+                 values(WS_JHCSPZ_SEQ_ID.nextval, #{jhmc}, #{cszd}, #{csz},#{cszdt},#{jhlx})
+        
+    </insert>
+    
+    <insert id="insertWsjhParamsConfig" >
+        
+            insert into ws_jhcspz(jhpxh, jhmc, cszd,csz,cszdt,jhlx)
+                 values(WS_JHCSPZ_SEQ_ID.nextval, #{jhmc}, #{cszd}, #{csz},#{cszdt},#{jhlx})
+        
+    </insert>
+    
+    <insert id="insertWsjhDsqConfig" >
+        
+            insert into ws_jhdsqpzb(
+                dsqxh, dsqmc, cjsj,xgsj, jhpzmc,  ddsjd,jgsj,jdqssj,
+                jdjssj,czdxbh,dsqlx,sjdwbh,dsqzt,jdzxjh,jhlx)
+            values(
+                WS_JHDSQPZB_SEQ_ID.nextval,#{dsqmc},#{cjsj},#{xgsj},#{jhpzmc},
+                #{ddsjd,jdbcType=VARCHAR},#{jgsj,jdbcType=VARCHAR},#{jdqssj,jdbcType=VARCHAR},
+                #{jdjssj,jdbcType=VARCHAR},#{czdxbh},#{dsqlx},#{sjdwbh},#{dsqzt},
+                #{jdzxjh,jdbcType=VARCHAR},#{jhlx})
+        
+    </insert>
+    
+    <insert id="insertWsjhConfig" >
+        
+            INSERT INTO 
+                ws_jhpzb
+                (
+                wsjhxh,wsjhmc,wsjhb,url,namespace,operate,isdzq,wsjhds,fhbl,
+                params,xgsj,wsjhzcb,issjc,sjcz,istype,gys,zys,type,oflag,plbs)
+            VALUES
+                (
+                WS_JHPZB_SEQ_ID.nextval,#{wsjhmc},#{wsjhb},#{url},#{namespace},
+                #{operate},#{isdzq},#{wsjhds},#{fhbl},#{params},#{xgsj},#{wsjhzcb},
+                #{issjc},#{sjcz},#{istype},#{gys},#{zys},#{type},#{oflag},#{plbs}
+                )
+        
+    </insert>
+    
+    <insert id="batchInsert" >
+        
+            insert into ws_jhdzpz(
+                zdpzxh, fhbl, mbzd,jhpzxh, sfzj,  mbzdsjlx,sfgx,jhmc,jhlx
+            )
+            values(
+                WS_JHDZPZ_SEQ_ID.nextval, #{fhbl}, #{mbzd}, #{jhpzxh,jdbcType=NUMERIC}, #{sfzj},  #{mbzdsjlx}, #{sfgx},#{jhmc},#{jhlx}
+                )
+        
+    </insert>
+    
+    <update id="batchUpdateWsjhParamsConfig">
+        update  ws_jhcspz 
+        <set>
+        <if test='csz != "" and csz != null'>
+            csz = #{csz},
+        </if> 
+        <if test='cszdt != "" and cszdt != null'>
+            cszdt = #{cszdt},
+        </if>
+        </set>
+        where jhmc=#{jhmc} and cszd=#{cszd}    and jhlx=#{jhlx}
+    </update>
+    
+    <update id="updateWsjhDsqConfig">
+        update  ws_jhdsqpzb 
+        <set>
+        <if test='dsqzt != "" and dsqzt != null'>
+            dsqzt = #{dsqzt},
+        </if>
+        </set> 
+        where dsqxh=#{dsqxh}
+    </update>
+    
+    
+    <update id="updateWsjhConfig">
+        update  ws_jhpzb 
+        <set>
+        <if test='wsjhb != "" and wsjhb != null'>
+            wsjhb = #{wsjhb},
+        </if>
+        <if test='url != "" and url != null'>
+            url = #{url},
+        </if>
+        <if test='namespace != "" and namespace != null'>
+            namespace = #{namespace},
+        </if>
+        <if test='operate != "" and operate != null'>
+            operate = #{operate},
+        </if>
+        <if test='isdzq != "" and isdzq != null'>
+            isdzq = #{isdzq},
+        </if>
+        <if test='wsjhds != "" and wsjhds != null'>
+            wsjhds = #{wsjhds},
+        </if>
+        <if test='fhbl != "" and fhbl != null'>
+            fhbl = #{fhbl},
+        </if>
+        <if test='params != "" and params != null'>
+            params = #{params},
+        </if>
+        <if test='xgsj != "" and xgsj != null'>
+            xgsj = #{xgsj},
+        </if>
+        <if test='wsjhzcb != "" and wsjhzcb != null'>
+            wsjhzcb = #{wsjhzcb},
+        </if>
+        <if test='issjc != "" and issjc != null'>
+            issjc = #{issjc},
+        </if>
+        <if test='sjcz != "" and sjcz != null'>
+            sjcz = #{sjcz},
+        </if>
+        <if test='istype != "" and istype != null'>
+            istype = #{istype},
+        </if>
+        <if test='gys != "" and gys != null'>
+            gys = #{gys},
+        </if>
+        <if test='zys != "" and zys != null'>
+            zys = #{zys},
+        </if>
+        <if test='type != "" and type != null'>
+            type = #{type},
+        </if>
+        <if test='oflag != "" and oflag != null'>
+            oflag = #{oflag},
+        </if>
+        <if test='plbs != "" and plbs != null'>
+            plbs = #{plbs},
+        </if>
+        </set> 
+        where wsjhmc = #{wsjhmc} and type = #{type}
+    </update>
+    
+    <delete id="deleteWsjhConfig">
+        <![CDATA[
+            delete from ws_jhpzb where wsjhmc=#{wsjhmc} and type=#{type}
+        ]]>
+    </delete>
+    
+    <delete id="deleteWsjhdzConfig">
+        <![CDATA[
+            delete from WS_JHDZPZ where jhmc=#{jhmc} and jhlx=#{jhlx}
+        ]]>
+    </delete>
+    
+    <delete id="deleteWsjhDsqConfig">
+        <![CDATA[
+            delete from ws_jhdsqpzb where dsqxh=#{dsqxh}
+        ]]>
+    </delete>
+    <delete id="deleteWsjhDsqConfigByJhmc">
+        <![CDATA[
+            delete from ws_jhdsqpzb where jhpzmc=#{jhpzmc}
+        ]]>
+    </delete>
+    
+    <delete id="deleteWsjhParamsConfig">
+        <![CDATA[
+            delete from ws_jhcspz where jhmc=#{jhmc} and jhlx=#{jhlx}
+        ]]>
+    </delete>
+</mapper>  

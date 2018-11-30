@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+    
+    <!-- 审核环节节点信息信息dao -->
+	<bean id="taskNodeDao" name="taskNodeDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.manoeuvre.configInfo.dao.daointerface.ITaskNodeDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!-- 审核设置信息dao -->
+	<bean id="auditConfigurationDao" name="auditConfigurationDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.manoeuvre.configInfo.dao.daointerface.IAuditConfigurationDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!-- 审核设置部门信息dao -->
+	<bean id="auditConfigOrgDao" name="auditConfigOrgDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.manoeuvre.configInfo.dao.daointerface.IAuditConfigOrgDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!-- 审核状态信息dao -->
+	<bean id="auditStatusDao" name="auditStatusDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.manoeuvre.configInfo.dao.daointerface.IAuditStatusDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+   	<!-- 人员调配信息dao -->
+	<bean id="manoeuvreDao" name="manoeuvreDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+		<property name="mapperInterface" value="com.zfsoft.hrm.manoeuvre.manoeuvreInfo.dao.daointerface.IManoeuvreDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+	
+</beans>

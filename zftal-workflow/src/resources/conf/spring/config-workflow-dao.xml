@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!--审核日志信息表 SpAuditingLogDao -->
+	<bean id="spAuditingLogDao" name="spAuditingLogDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpAuditingLogDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--业务管理信息表 SpBusinessDao-->
+	<bean id="spBusinessDao" name="spBusinessDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpBusinessDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--节点连线信息表 SpLineDao-->
+	<bean id="spLineDao" name="spLineDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpLineDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--节点信息表 SpNodeDao-->
+	<bean id="spNodeDao" name="spNodeDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpNodeDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--节点任务关联表 ISpNodeTaskDao-->
+    <bean id="spNodeTaskDao" name="spNodeTaskDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpNodeTaskDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--节点表单关联表 SpNodeBillDao-->
+	<bean id="spNodeBillDao" name="spNodeBillDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpNodeBillDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--流程信息表 SpProcedureDao-->
+	<bean id="spProcedureDao" name="spProcedureDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpProcedureDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--流程表单关联表 SpProcedureBillDao-->
+	<bean id="spProcedureBillDao" name="spProcedureBillDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpProcedureBillDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+        
+    <!--任务信息表 SpTaskDao-->
+	<bean id="spTaskDao" name="spTaskDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpTaskDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--审核工作节点连线信息表 SpWorkLineDao-->
+	<bean id="spWorkLineDao" name="spWorkLineDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpWorkLineDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--审核工作节点信息表 SpWorkNodeDao-->
+	<bean id="spWorkNodeDao" name="spWorkNodeDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpWorkNodeDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--审核工作流程信息表 SpWorkProcedureDao-->
+	<bean id="spWorkProcedureDao" name="spWorkProcedureDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpWorkProcedureDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--审核工作流程表单关联信息表 SpWorkProcedureBillDao-->
+	<bean id="spWorkProcedureBillDao" name="spWorkProcedureBillDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpWorkProcedureBillDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--审核工作任务信息表 SpWorkTaskDao-->
+	<bean id="spWorkTaskDao" name="spWorkTaskDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpWorkTaskDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--审核工作表单关联表 SpNodeBillDao-->
+	<bean id="spWorkNodeBillDao" name="spWorkNodeBillDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.workflow.dao.ISpWorkNodeBillDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+</beans>

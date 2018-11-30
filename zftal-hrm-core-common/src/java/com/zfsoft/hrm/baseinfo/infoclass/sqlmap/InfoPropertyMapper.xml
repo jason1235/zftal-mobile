@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.infoclass.dao.daointerface.IInfoPropertyDao">
+
+	<resultMap id="InfoPropertyModel" type="com.zfsoft.hrm.baseinfo.infoclass.entities.InfoProperty">
+		<id property="guid" column="SXBH" />
+		
+		<result property="name" column="SXMC" />
+		<result property="description" column="SXMS" />
+		<result property="fieldName" column="ZDMC" />
+		<result property="fieldType" column="ZDLX" />
+		
+		<result property="viewable" column="KXS" />
+		<result property="editable" column="KBJ" />
+		<result property="sourceInit" column="SFCSHZD" />
+		<result property="need" column="BT" />
+		<result property="defaultValue" column="MRZ" />
+		
+		<result property="displayFormula" column="XSBDS" />
+		
+		<result property="fieldLen" column="ZDCD" />
+		<result property="digits" column="XSWS" />
+		<result property="codeId" column="DMBM" />
+		<result property="unique" column="WYXBZ" />
+		
+		<result property="syncToField" column="TBZD" />
+		<result property="syncCondition" column="TBTJ" />
+
+		<result property="virtual" column="XNZD" />
+		<result property="index" column="SXXH" />
+		<result property="verifyType" column="YZZC" />
+		<result property="width" column="XSKD" />
+		<result property="height" column="XSGD" />
+		<result property="size" column="WJDX" />
+		<result property="classId" column="XXLBH"/>
+		<result property="viewStyle" column="ZSYS"/>
+	</resultMap>
+	
+	<sql id="columns">
+		SXBH, SXMC, SXMS, ZDMC, ZDLX, KXS, KBJ, BT, MRZ, XSBDS,
+		ZDCD, XSWS, DMBM, WYXBZ, TBZD, TBTJ, XNZD, SXXH, XXLBH,YZZC,XSGD,XSKD,WJDX,ZSYS,SFCSHZD
+	</sql>
+	
+	<sql id="where">
+		<where>
+			<if test="name != null and name != ''">
+				and SXMC = #{name}
+			</if>
+			<if test="fieldName != null and fieldName != ''">
+				and lower(ZDMC) = lower(#{fieldName})
+			</if>
+			<if test="classId != null and classId != ''">
+				and XXLBH = #{classId}
+			</if>
+			<if test="unique != null">
+				and WYXBZ = #{unique}
+			</if>
+			<if test="express !=null and express !=''">
+				and ${express}
+			</if>
+		</where>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		insert into XXSXYSJB(
+			SXBH, SXMC, SXMS, ZDMC, ZDLX, KXS, KBJ, BT, MRZ, XSBDS,
+			ZDCD, XSWS, DMBM, WYXBZ, TBZD, TBTJ, XNZD, SXXH, XXLBH,<if test="verifyType!=null">YZZC,</if> XSKD,XSGD,WJDX,ZSYS,SFCSHZD
+		) values(
+			#{guid}, #{name}, #{description}, #{fieldName}, #{fieldType},
+			#{viewable}, #{editable}, #{need}, #{defaultValue}, #{displayFormula},
+			#{fieldLen}, #{digits}, #{codeId}, #{unique}, #{syncToField},
+			#{syncCondition}, #{virtual}, #{index}, #{classId}, <if test="verifyType!=null"> #{verifyType},</if>#{width},#{height},#{size},#{viewStyle},#{sourceInit}
+		)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		update XXSXYSJB set
+			SXMC = #{name}, SXMS = #{description}, ZDLX = #{fieldType},
+			KXS = #{viewable}, KBJ = #{editable}, BT = #{need}, MRZ = #{defaultValue},
+			XSBDS = #{displayFormula}, ZDCD = #{fieldLen}, XSWS = #{digits},
+			DMBM = #{codeId}, WYXBZ = #{unique}, <if test="verifyType!=null">YZZC = #{verifyType},</if> XSGD=#{height},XSKD=#{width},WJDX=#{size},ZSYS=#{viewStyle}
+		where SXBH = #{guid}
+	</update>
+	
+	<update id="updateSync">
+		update XXSXYSJB set
+			TBZD = #{syncToField},TBTJ = #{syncCondition}
+		where SXBH = #{guid}
+	</update>
+	
+	<delete id="delete">
+		delete from XXSXYSJB where SXBH = #{guid}
+	</delete>
+	
+	<delete id="deleteMenuProperty">
+		delete from m_jcsz_xxlglb where XXLID = #{guid}
+	</delete>
+	
+	<delete id="deleteByClassId">
+		delete from XXSXYSJB where XXLBH = #{classId}
+	</delete>
+	
+	<select id="findById" resultMap="InfoPropertyModel">
+		select <include refid="columns" />
+		from XXSXYSJB
+		where SXBH = #{guid}
+	</select>
+	
+	<select id="findList" resultMap="InfoPropertyModel">
+		select <include refid="columns" />
+		from XXSXYSJB
+		<include refid="where" />
+		order by XXLBH, SXXH
+	</select>
+	
+	<select id="findCount" resultType="int">
+		select count(1) from XXSXYSJB
+		<include refid="where" />
+	</select>
+	
+	<select id="findByClassId" resultMap="InfoPropertyModel">
+		select <include refid="columns" />
+		from XXSXYSJB
+		where XXLBH = #{classId}
+		order by SXXH
+	</select>
+	
+	<update id="updateAllIndex">
+		update XXSXYSJB set SXXH = SXXH - 1 where XXLBH = #{classId} and sxxh > #{index}
+	</update>
+	
+	<update id="updateIndex">
+		update XXSXYSJB set SXXH = #{index} where SXBH = #{guid}
+	</update>
+	
+	<update id="syncProperty">
+       UPDATE ${targetTable} o SET ${targetField} = (
+       SELECT x.${infoField} FROM ${infoTable} x WHERE
+           <![CDATA[
+           x.deleted='0' and o.gh = x.gh AND ROWNUM<2 
+            ]]>
+           <if test="condition != null and condition != ''">
+           and ${condition}
+           </if>
+        )
+        WHERE (SELECT COUNT(1) FROM ${infoTable} x WHERE o.gh = x.gh and x.deleted='0'
+        <if test="condition != null and condition != ''">
+           and ${condition}
+         </if>
+         )>0
+    </update>
+</mapper>

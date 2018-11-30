@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.news.dao.INewsDao">
+
+	<resultMap id="newsMap" type="com.zfsoft.mobile.news.entity.News">
+		<result property="id" 		 column="zxid" />
+		<result property="title"   column="zxbt" />
+		<result property="source"   column="zxly" />
+		<result property="author"   column="zz" />
+		<result property="newsTime"   column="newsTime" /> 
+		<result property="catalogCode"   column="lbbm" />
+		<result property="business"   column="ssywxt" />
+		<result property="intro"   column="zxjj" />
+		<result property="content"   column="zxnr" />
+		<result property="picUrl"   column="zxtpdz" />
+		<result property="picId"   column="zxtpid" />
+		<result property="status"   column="syzt" />
+		<result property="top"   column="zdzt" />
+		<result property="recommend"   column="tjzt" />
+		<result property="createTime"   column="cjsj" />
+		<result property="creator"   column="cjzid" />
+		<result property="updateTime"   column="gxsj" />
+		<result property="updater"   column="gxzid" />
+		<result property="deleted"   column="deleted" />
+		<result property="catalogName"   column="lbmc" />
+		<result property="businessName"   column="xtmc" />
+		<result property="showType"   column="zxxs" />
+		<result property="headline"   column="ttzt" />
+		<result property="grabMethod"   column="zqfs" />
+		<result property="fwbm"   column="fwbm" />
+		<result property="isremotelogo"   column="isremotelogo" />
+		<result property="remotelogourl"   column="remotelogourl" />
+		<result property="newsURL"   column="url" />
+		<result property="vedioId"   column="vedioId" />
+		<result property="vedioUrl"   column="vedioUrl" />
+	</resultMap>
+	
+	<resultMap  id="countMap" type="com.zfsoft.mobile.news.entity.Counts">
+		<result property="topCount"   column="zds" />
+		<result property="rmdCount"   column="tjs" />
+		<result property="headCount"   column="tts" />
+	</resultMap>
+	
+	<sql id="where">
+		<where>
+			<if test='id != null and id != ""'> and t1.zxid = #{id}</if>
+			<if test='title != null and title != ""'> and t1.zxbt like '%'||#{title}||'%'</if>
+			<if test='newsTime != null and newsTime != ""'> and t1.newsTime like '%'||#{newsTime}||'%'</if>
+			<if test='catalogCode != null and catalogCode != ""'> and t1.lbbm = #{catalogCode}</if>
+			<if test='status != null and status != ""'> and t1.syzt = #{status} </if>
+			<if test='top != null and top != ""'> and t1.zdzt = #{top} </if>
+			<if test='recommend != null and recommend != ""'> and t1.tjzt = #{recommend} </if>
+			<if test='showType != null and showType != ""'> and zxxs = #{showType} </if>
+			<if test='business != null and business != ""'> and t1.ssywxt = #{business} </if>
+			<if test='headline != null and headline != ""'> and t1.ttzt = #{headline} </if>
+			and t1.deleted = '0'
+		</where>
+	</sql>
+	
+	<select id="getPageCount" resultType="int">
+		select count(*) from m_zxgl_zxglb t1 left join m_zxgl_zxlbglb t2 on t1.lbbm=t2.lbbm
+		<include refid="where" /> and t2.deleted = 0
+	</select>
+	
+	<select id="getPageList" resultMap="newsMap">
+	select * from(
+select t.*,rownum as rn from(
+select t1.zxid,t1.lbbm,t1.zxbt,t1.newsTime,t1.cjsj,t1.zxjj,t1.syzt,t1.zdzt,t1.ttzt,t1.tjzt,t1.zxtpid,t1.zxtpdz,t1.zqfs,t1.zz,t1.fwbm,t1.isremotelogo,t1.remotelogourl,t1.url,t1.vedioId,t1.vedioUrl,t2.lbmc,t2.zxxs,t3.xtmc from m_zxgl_zxglb t1
+left join m_zxgl_zxlbglb t2 on t1.lbbm = t2.lbbm
+left join m_fwgl_ywxtglb t3 on t1.ssywxt = t3.xtbm
+<include refid="where" /> and t2.deleted = '0'  order by t1.zdzt desc,t1.cjsj desc
+) t)
+                
+  <![CDATA[
+ where rn>=#{startRow}  and rn<=#{endRow}
+ ]]>
+	</select>
+	
+	<insert id="insert">
+			INSERT INTO 
+				m_zxgl_zxglb(
+					zxid,	
+					zxbt,
+					zxly,	
+					zz,
+					newsTime,
+					lbbm,
+					<if test='business != "" and business != null'>
+					ssywxt,
+					</if>
+					zxjj,
+					zxnr,
+					<if test='picUrl != "" and picUrl != null'>
+					zxtpdz,
+					</if>
+					<if test='picId != "" and picId != null'>
+					zxtpid,
+					</if>
+					<if test='fwbm != "" and fwbm != null'>
+					fwbm,
+					</if>
+					<if test='isremotelogo != "" and isremotelogo != null'>
+					isremotelogo,
+					</if>
+					<if test='remotelogourl != "" and remotelogourl != null'>
+					remotelogourl,
+					</if>
+					<if test='vedioId != "" and vedioId != null'>
+					vedioId,
+					</if>
+					<if test='vedioUrl != "" and vedioUrl != null'>
+					vedioUrl,
+					</if>
+					cjsj,
+					cjzid
+					
+					
+				)
+			VALUES(
+				#{id},  
+				#{title},  
+				#{source},           
+				#{author},
+			    #{newsTime},
+				#{catalogCode},
+				<if test='business != "" and business != null'>
+				#{business},
+				</if>
+				#{intro},
+				#{content,jdbcType=VARCHAR},
+				<if test='picUrl != "" and picUrl != null'>
+				#{picUrl},
+				</if>
+				<if test='picId != "" and picId != null'>
+				#{picId},
+				</if>
+				<if test='fwbm != "" and fwbm != null'>
+				#{fwbm},
+				</if>
+				<if test='isremotelogo != "" and isremotelogo != null'>
+				#{isremotelogo},
+				</if>
+				<if test='remotelogourl != "" and remotelogourl != null'>
+				#{remotelogourl},
+				</if>
+				<if test='vedioId != "" and vedioId != null'>
+					#{vedioId},
+				</if>
+				<if test='vedioUrl != "" and vedioUrl != null'>
+				#{vedioUrl},
+				</if>
+				sysdate,
+				#{creator}
+				
+				)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+		
+	
+	<select id="findById" resultMap="newsMap">
+		select t1.*,t2.lbmc,t2.zxxs,t3.xtmc from  m_zxgl_zxglb t1 left join m_zxgl_zxlbglb t2 on t1.lbbm = t2.lbbm
+		left join m_fwgl_ywxtglb t3 on t1.ssywxt=t3.xtbm
+		<where>
+			zxid = #{id} and t2.deleted=0
+		</where>
+	</select>
+	
+	
+	<update id="update">
+		update m_zxgl_zxglb
+		 <set>
+		 	<if test='catalogCode != "" and catalogCode != null'>
+		 		lbbm=#{catalogCode},
+		 	</if>
+		 	<if test='title != null'>
+		 		zxbt=#{title},
+		 	</if>
+		 	<if test='newsTime !="" and newsTime !=null'>
+		 	    newsTime=#{newsTime},
+		 	</if>
+		 	
+		 		zz=#{author},
+		 	<if test='source != "" and source != null'>
+		 		zxly=#{source},
+		 	</if>
+		 	<if test='business != "" and business != null'>
+		 		ssywxt=#{business},
+		 	</if>
+		 	
+		 		zxjj=#{intro},
+		 	
+		 		gxsj=sysdate,
+		 	
+		 	<if test='updater != "" and updater != null'>
+		 		gxzid=#{updater},
+		 	</if>
+		 	<if test='isremotelogo != "" and isremotelogo != null'>
+		 		isremotelogo=#{isremotelogo},
+		 	</if>
+		 		remotelogourl=#{remotelogourl,jdbcType=VARCHAR},
+		 	
+		 	<if test='picId != null'>
+		 		zxtpid=#{picId},
+		 	</if>
+		 	<if test='picUrl != null'>
+		 		zxtpdz=#{picUrl},
+		 	</if>
+		 	<if test='vedioId != "" and vedioId != null'>
+				vedioId=#{vedioId},
+			</if>
+			<if test='vedioUrl != "" and vedioUrl != null'>
+				vedioUrl=#{vedioUrl},
+			</if>
+		 	    zxnr=#{content,jdbcType=VARCHAR},
+		 </set>
+		   where zxid = #{id}
+	</update>
+	
+	<!-- 资讯控制（启用，撤销启用，置顶，撤销置顶，推荐，撤销推荐，删除） -->
+	<update id="newsControl">
+		update m_zxgl_zxglb 
+		<set>
+		<if test='status == "1"'>
+			syzt = '1'
+		</if>
+		<if test='status == "0"'>
+			syzt = '0',
+			zdzt = '0',
+			tjzt = '0',
+		</if>
+		<if test='top == "1"'>
+			ZDZT = '1'
+		</if>
+		<if test='top == "0"'>
+			ZDZT = '0'
+		</if>
+		<if test='recommend == "1"'>
+			TJZT = '1'
+		</if>
+		<if test='recommend == "0"'>
+			TJZT = '0'
+		</if>
+		<if test='headline == "1"'>
+			ttzt = '1'
+		</if>
+		<if test='headline == "0"'>
+			ttzt = '0'
+		</if>
+		<if test='deleted == "1"'>
+			zdzt = '0',
+			tjzt = '0',
+			syzt = '0',
+			DELETED = '1'
+		</if>
+		</set> 
+		 where zxid = #{id} 
+	</update>
+	
+	<!-- 根据资讯类别获取置顶和推荐资讯数 -->
+	<select id="getTopAndRmdCount" resultMap="countMap">
+		select sum(zdzt) as zds,sum(tjzt) as tjs from m_zxgl_zxglb where  deleted=0
+	</select>
+	
+	<select id="getHeadlineCount" resultType="int">
+		select sum(ttzt) from m_zxgl_zxglb where deleted = 0
+	</select>
+	
+	<!-- 将详情下的所有除此资讯停用 -->
+	<update id="updateDetail">
+		update m_zxgl_zxglb set syzt = '0' where 
+		<if test='id != null and id != ""'>
+			<![CDATA[zxid <> #{id}]]>
+		</if>
+		zxid in 
+(select t1.zxid from m_zxgl_zxglb t1 left join m_zxgl_zxlbglb t2 on t1.lbbm=t2.lbbm where t2.zxxs = #{showType})
+	</update>
+	
+	<!-- 根据分类取得推荐资讯 -->
+	<select id="getRmdByCatalogCode" resultMap="newsMap">
+		select * from m_zxgl_zxglb
+		<where>
+			<if test='catalogCode!=null and catalogCode!=""'>
+				lbbm = #{catalogCode}
+				and tjzt=1 and deleted=0
+			</if>
+		</where>
+	</select>
+	
+	<select id="getRmdByCatalogName" resultMap="newsMap">
+		select t1.*,t2.lbmc from m_zxgl_zxglb t1 left join m_zxgl_zxlbglb t2 on t1.lbbm=t2.lbbm where t2.lbmc=#{catalogName} and t1.tjzt=1 and t1.deleted=0 and t2.deleted=0 
+	</select>
+	
+	<!-- 根据分类取得资讯(除推荐) -->
+	<select id="getUnRmdByCatalogCode" resultMap="newsMap">
+		select * from m_zxgl_zxglb
+		<where>
+			<if test='catalogCode!=null and catalogCode!=""'>
+				lbbm = #{catalogCode}
+				and tjzt=0 and syzt=1 and deleted=0
+			</if>
+		</where>
+	</select>
+	
+	<select id="getUnRmdByCatalogName" resultMap="newsMap">
+		select t1.*,t2.lbmc from m_zxgl_zxglb t1 left join m_zxgl_zxlbglb t2 on t1.lbbm=t2.lbbm where t2.lbmc=#{catalogName} and t1.tjzt=0 and syzt=1 and t1.deleted=0 and t2.deleted=0 
+	</select>
+	
+</mapper>

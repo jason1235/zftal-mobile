@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!-- 审核环节节点信息action -->
+	<bean id="taskNodeAction" class="com.zfsoft.hrm.manoeuvre.configInfo.action.TaskNodeAction" scope="prototype">
+		<property name="taskNodeService" ref="taskNodeService"></property>
+	</bean>
+	
+	<!-- 审核设置信息action -->
+	<bean id="auditConfigurationAction" class="com.zfsoft.hrm.manoeuvre.configInfo.action.AuditConfigurationAction" scope="prototype">
+		<property name="auditConfigurationService" ref="auditConfigurationService"></property>
+		<property name="taskNodeService" ref="taskNodeService"></property>
+	</bean>
+	
+	<!-- 审核设置部门信息action -->
+	<bean id="auditConfigOrgAction" class="com.zfsoft.hrm.manoeuvre.configInfo.action.AuditConfigOrgAction" scope="prototype">
+		<property name="auditConfigOrgService" ref="auditConfigOrgService"></property>
+	</bean>
+	
+	<!-- 审核设置信息action -->
+	<bean id="auditStatusAction" class="com.zfsoft.hrm.manoeuvre.configInfo.action.AuditStatusAction" scope="prototype">
+		<property name="auditStatusService" ref="auditStatusService"></property>
+	</bean>
+	
+	<!-- 人员调配信息action -->
+	<bean id="manoeuvreAction" name="manoeuvreAction"
+		 class="com.zfsoft.hrm.manoeuvre.manoeuvreInfo.action.ManoeuvreAction" scope="prototype">
+			<property name="service" ref="manoeuvreService"></property>
+			<property name="auditStatusService" ref="auditStatusService"></property>
+			<property name="auditConfigurationService" ref="auditConfigurationService"></property>
+			<property name="overAllService" ref="overAllService"></property>
+	</bean>
+
+</beans>

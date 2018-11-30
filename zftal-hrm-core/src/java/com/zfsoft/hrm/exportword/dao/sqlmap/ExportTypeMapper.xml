@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.hrm.exportword.dao.IExportTypeDao">
+    <resultMap id="exportType" type="com.zfsoft.hrm.exportword.entity.ExportType">
+        <result column="ID"     property="id"/>     
+        <result column="NAME"        property="name"/>    
+        <result column="DIR"            property="dir"/>
+    </resultMap>
+
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO 
+                HRM_EXPORT_TYPE(
+                    ID, 
+                    NAME,
+                    DIR,        
+                    PXM
+                )
+            VALUES(
+                #{id},
+                #{name}, 
+                #{id},                   
+                (select NVL(MAX(pxm),0)+1 from HRM_EXPORT_TYPE)
+            )                      
+        ]]>
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            <![CDATA[
+            select SYS_GUID() XSYSHYX_ID from DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    <delete id="delete">
+        <![CDATA[
+            DELETE FROM
+                HRM_EXPORT_TYPE
+            WHERE
+                ID = #{id}
+        ]]>
+    </delete>
+    
+    <update id="update">
+        <![CDATA[
+            UPDATE
+                HRM_EXPORT_TYPE 
+            SET
+                NAME = #{name},
+                DIR = #{dir}
+            WHERE
+                ID = #{id}
+        ]]>
+    </update>
+    
+    <select id="findById" resultMap="exportType">
+        SELECT
+            ID, 
+            NAME,
+            DIR
+        FROM HRM_EXPORT_TYPE
+        WHERE
+            ID = #{id}
+    </select>
+    
+    <select id="getTypeList" resultMap="exportType">
+        SELECT
+            ID, 
+            NAME,
+            DIR
+        FROM HRM_EXPORT_TYPE
+        <where>
+            <if test="id != null and id != ''">
+                and ID = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and NAME like '%'||#{type.key}||'%'
+            </if>
+        </where>
+        order by pxm
+    </select>
+</mapper>

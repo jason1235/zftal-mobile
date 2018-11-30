@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>	
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="com.zfsoft.mobile.favourites.dao.IFavouritesDao">
+		<resultMap id="favouritesMap" type="com.zfsoft.mobile.favourites.entity.FavouritesEntity">
+			<result property="favourid" 		 	column="FAVOURID" />
+			<result property="favouritesort"   		column="FAVOURITESORT" />
+			<result property="favouriteavatar"   	column="FAVOURITEAVATAR" />
+			<result property="favouritecustom"   	column="FAVOURITECUSTOM" />
+			<result property="favouritetitle"   	column="FAVOURITETITLE" />
+			<result property="favouritecontent"   	column="FAVOURITECONTENT" />
+			<result property="favouriteimage"   	column="FAVOURITEIMAGE" />
+			<result property="attachmentcon"   		column="ATTACHMENTCON" />
+			<result property="favouriteattachmentsort"   	column="FAVOURITEATTACHMENTSORT" />
+			<result property="favouriteattachmentsize"   	column="FAVOURITEATTACHMENTSIZE" />
+			<result property="favouritedate"   	column="FAVOURITEDATE" />
+			<result property="userid"   		column="USERID" />
+			<result property="md5str"   		column="md5str" />
+			<result property="attachmentPath"   	column="attachmentPath" />
+		</resultMap>
+		
+		<sql id="where">
+	    	<where>
+				<if test="favourid != null and favourid != ''">
+	   				and m.favourid = #{favourid}
+		   		</if>
+	    		<if test="userid != null and userid != ''">
+	    			and m.userid like '%'||#{userid}||'%'
+	    		</if>
+	    	</where>
+	    </sql> 
+	    
+	    <select id="getPageCount" resultType="int">
+			select count(*) from
+				(select * from XT_FRAVOURITES m
+				<include refid="where" /> )
+			a 
+	    </select>
+	    
+	<!-- 获取分页列表信息 -->
+	<select id="getPageList" resultMap="favouritesMap">
+		select * from (
+		select a.*,rownum rn from(
+			select * from XT_FRAVOURITES m 
+				<include refid="where" /> order by m.favouritedate desc 
+		) a)	
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+	</select>
+	
+	<insert id="insert" >
+		<![CDATA[
+			INSERT INTO 
+				XT_FRAVOURITES(
+					favourid,	
+					favouritesort,
+					favouritedate,
+					favouriteavatar,
+					favouritecustom,
+					favouritetitle,
+					favouritecontent,
+					attachmentcon,
+					md5str,
+					userid,
+					favouriteattachmentsort,
+					favouriteattachmentsize,
+					attachmentPath
+				)
+			VALUES(
+				#{favourid},           
+				#{favouritesort},
+				sysdate,
+				#{favouriteavatar,jdbcType=VARCHAR},
+				#{favouritecustom,jdbcType=VARCHAR},
+				#{favouritetitle,jdbcType=VARCHAR},
+				#{favouritecontent,jdbcType=VARCHAR},
+				#{attachmentcon,jdbcType=VARCHAR},
+				#{md5str,jdbcType=VARCHAR},
+				#{userid},
+				#{favouriteattachmentsort,jdbcType=VARCHAR},
+				#{favouriteattachmentsize,jdbcType=VARCHAR},
+				#{attachmentPath,jdbcType=VARCHAR}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="favourid">
+			<![CDATA[
+			select SYS_GUID() favourid from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<select id="checkAndGetMd5Str" resultMap="favouritesMap">
+	   select t1.* from XT_FRAVOURITES t1
+		<where>
+			md5str = #{md5str} and userid=#{userid}
+		</where>
+	</select>
+	
+	
+	<select id="findById" resultMap="favouritesMap">
+		select t1.* from XT_FRAVOURITES t1
+		<where>
+			favourid = #{favourid}
+		</where>
+	</select>
+	
+	<delete id="delete">
+		delete from  XT_FRAVOURITES
+		<where>
+		 favourid in #{favourid}
+		</where>
+	</delete>
+	</mapper>

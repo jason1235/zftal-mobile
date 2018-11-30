@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="manoeuvre" namespace="/manoeuvre" extends="configuration">
+		
+		
+		<!--审核环节节点信息-->
+		<action name="TaskNode_*" class="taskNodeAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/manoeuvre/cfginfo/taskNode/manoeuvre_taskNode_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/manoeuvre/cfginfo/taskNode/manoeuvre_taskNode_edit.jsp</result>
+         	<result name="showWinError">/WEB-INF/pages/hrm/manoeuvre/errorPage/showWinError.jsp</result>
+		</action>
+		
+		<!--审核设置信息-->
+		<action name="AuditConfiguration_*" class="auditConfigurationAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/manoeuvre/cfginfo/auditConfiguration/manoeuvre_auditConfiguration_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/manoeuvre/cfginfo/auditConfiguration/manoeuvre_auditConfiguration_edit.jsp</result>
+         	<result name="showWinError">/WEB-INF/pages/hrm/manoeuvre/errorPage/showWinError.jsp</result>
+		</action>
+		
+		<!--审核设置部门信息-->
+		<action name="AuditConfigOrgInfo_*" class="auditConfigOrgAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/manoeuvre/cfginfo/auditConfigOrg/list.jsp</result>
+		</action>
+		
+		<!--审核状态信息-->
+		<action name="AuditStatus_*" class="auditStatusAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/manoeuvre/cfginfo/auditStatus/manoeuvre_auditStatus_list.jsp</result>
+			<result name="show">/WEB-INF/pages/hrm/manoeuvre/cfginfo/auditStatus/manoeuvre_auditStatus_show.jsp</result>
+         	<result name="showWinError">/WEB-INF/pages/hrm/manoeuvre/errorPage/showWinError.jsp</result>
+		</action>
+		
+		<!-- 人员调动信息 -->
+		<action name="manoeuvre_*" class="manoeuvreAction" method="{1}">
+			<result name="view">/WEB-INF/pages/hrm/manoeuvre/manoeuvreInfo/manoeuvre_manoeuvreInfo_view.jsp</result>
+			<result name="list">/WEB-INF/pages/hrm/manoeuvre/manoeuvreInfo/manoeuvre_manoeuvreInfo_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/manoeuvre/manoeuvreInfo/manoeuvre_manoeuvreInfo_edit.jsp</result>
+			<result name="audit">/WEB-INF/pages/hrm/manoeuvre/manoeuvreInfo/manoeuvre_manoeuvreInfo_audit.jsp</result>
+			<result name="show">/WEB-INF/pages/hrm/manoeuvre/manoeuvreInfo/manoeuvre_manoeuvreInfo_show.jsp</result>
+			<result name="export">/WEB-INF/pages/hrm/manoeuvre/manoeuvreInfo/manoeuvre_manoeuvreInfo_export.jsp</result>
+			<result name="passlist">/WEB-INF/pages/hrm/manoeuvre/manoeuvreInfo/manoeuvre_manoeuvreInfo_passinfo_list.jsp</result>
+			<result name="passedit">/WEB-INF/pages/hrm/manoeuvre/manoeuvreInfo/manoeuvre_manoeuvreInfo_passinfo_edit.jsp</result>
+         	<result name="showWinError">/WEB-INF/pages/hrm/manoeuvre/errorPage/showWinError.jsp</result>
+         	<result name="viewlist">/WEB-INF/pages/hrm/manoeuvre/manoeuvreInfo/manoeuvre_manoeuvreInfo_viewlist.jsp</result>
+         	<!-- 20140506 add start -->
+         	<result name="exportList">/WEB-INF/pages/hrm/manoeuvre/manoeuvreInfo/manoeuvre_manoeuvreInfo_export_list.jsp</result>
+         	<!-- 20140506 add end -->
+		</action>
+		
+	</package>
+	
+</struts>

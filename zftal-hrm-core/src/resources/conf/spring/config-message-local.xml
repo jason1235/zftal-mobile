@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!-- 消息定时配置DAO -->
+    <bean id="messageTimerSendConfigDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.message.dao.daointerface.MessageTimerSendConfigDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+	<!-- 消息信息DAO -->
+    <bean id="messageDao" name="messageDao" 
+    		class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.message.dao.daointerface.IMessageDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!-- 消息状态DAO -->
+    <bean id="messageStatusDao" name="messageStatusDao" 
+    		class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.message.dao.daointerface.IMessageStatusDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--消息信息Business-->
+	<bean id="messageBusiness" class="com.zfsoft.hrm.message.business.impl.MessageBusinessImpl">
+		<property name="messageDao" ref="messageDao"/>
+		<property name="messageStatusDao" ref="messageStatusDao"/>
+	</bean>
+	
+	<!--消息信息service-->
+	<bean id="messageService" class="com.zfsoft.hrm.message.service.impl.MessageServiceImpl">
+		<property name="messageBusiness" ref="messageBusiness"/>
+	</bean>
+	<!--消息信息action-->
+	<bean id="messageAction" class="com.zfsoft.hrm.message.action.MessageAction" scope="prototype">
+		<property name="messageService" ref="messageService"/>
+	</bean>
+	
+	<!--消息信息配置action-->
+	<bean id="messageSetupAction" class="com.zfsoft.hrm.message.action.MessageSetupAction" scope="prototype">
+		<property name="scheduleControlService" ref="scheduleControlService"/>
+		<property name="messageTimerSendConfigService" ref="messageTimerSendConfigService"/>
+	</bean>
+	
+	<!--消息定时发送配置service-->
+	<bean id="messageTimerSendConfigService" class="com.zfsoft.hrm.message.service.impl.MessageTimerSendConfigServiceImpl">
+		<property name="messageTimerSendConfigDao" ref="messageTimerSendConfigDao"/>
+		<property name="messageBusiness" ref="messageBusiness"/>
+	</bean>
+	
+	<!--消息定时发送配置service-->
+    <bean id="sendMessageAfterDynabeanBusiness" class="com.zfsoft.hrm.message.business.impl.SendMessageAfterDynabeanBusinessImpl">
+        <property name="messageTimerSendConfigService" ref="messageTimerSendConfigService"/>
+    </bean>
+	
+	<!-- 合同提醒DAO -->
+    <bean id="contractRemindDao" name="contractRemindDao" 
+    		class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.message.dao.daointerface.IContractRemindDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--合同提醒Business-->
+	<bean id="contractRemindBusiness" class="com.zfsoft.hrm.message.business.impl.ContractRemindBusinessImpl">
+		<property name="remindDao" ref="contractRemindDao"/>
+	</bean>
+	
+	<!--合同提醒service-->
+	<bean id="contractRemindService" class="com.zfsoft.hrm.message.service.impl.ContractRemindServiceImpl">
+		<property name="remindBusiness" ref="contractRemindBusiness"/>
+		<property name="messageBusiness" ref="messageBusiness"/>
+	</bean>
+	
+	<!-- 发送人消息信息DAO -->
+    <bean id="messageSendDao" name="messageSendDao" 
+    		class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.message.dao.daointerface.IMessageSendDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--发送人消息信息Business-->
+	<bean id="messageSendBusiness" class="com.zfsoft.hrm.message.business.impl.MessageSendBusinessImpl">
+		<property name="messageSendDao" ref="messageSendDao"/>
+	</bean>
+	
+	<!--发送人消息信息service-->
+	<bean id="messageSendService" class="com.zfsoft.hrm.message.service.impl.MessageSendServiceImpl">
+		<property name="messageSendBusiness" ref="messageSendBusiness"/>
+	</bean>
+	
+	<!--发送人消息信息action-->
+	<bean id="messageSendAction" class="com.zfsoft.hrm.message.action.MessageSendAction" scope="prototype">
+		<property name="messageSendService" ref="messageSendService"/>
+		<property name="messageService" ref="messageService"/>
+	</bean>
+	
+	<!-- 最新通知DAO -->
+    <bean id="noticeDao" name="noticeDao" 
+    		class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.notice.dao.INoticeDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--最新通知Business-->
+	<bean id="noticeBusiness" class="com.zfsoft.hrm.notice.business.impl.NoticeBusinessImpl">
+		<property name="noticeDao" ref="noticeDao"/>
+	</bean>
+	
+	<!--最新通知service-->
+	<bean id="noticeService" class="com.zfsoft.hrm.notice.service.impl.NoticeServiceImpl">
+		<property name="noticeBusiness" ref="noticeBusiness"/>
+		<property name="attachementBusiness" ref="fileAttachementBusiness"></property>
+	</bean>
+	
+	<!--通知管理service-->
+	<bean id="noticeAction" class="com.zfsoft.hrm.notice.action.NoticeAction" scope="prototype">
+		<property name="noticeService" ref="noticeService"/>
+	</bean>
+	
+	<!--通知查看service-->
+	<bean id="noticeViewAction" class="com.zfsoft.hrm.notice.action.NoticeViewAction" scope="prototype">
+		<property name="noticeService" ref="noticeService"/>
+		<property name="staffInfoService" ref="staffInfoService"/>
+	</bean>
+	
+	<!-- 文件下载DAO -->
+    <bean id="fileDownDao" name="fileDownDao" 
+    		class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.download.dao.IFileDownDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+	<!--文件下载service-->
+	<bean id="fileDownService" class="com.zfsoft.hrm.download.service.impl.FileDownServiceImpl">
+		<property name="fileDownDao" ref="fileDownDao"/>
+		<property name="attachementBusiness" ref="fileAttachementBusiness"></property>
+	</bean>
+	
+	<!--文件管理action-->
+	<bean id="fileDownAction" class="com.zfsoft.hrm.download.action.FileDownAction" scope="prototype">
+		<property name="fileDownService" ref="fileDownService"/>
+	</bean>
+	
+	<!-- 消息中心 用户分配DAO -->
+    <bean id="messageAllotDao" name="messageAllotDao" 
+            class="org.mybatis.spring.mapper.MapperFactoryBean" >
+        <property name="mapperInterface" value="com.zfsoft.hrm.yhfpgl.dao.IMessageAllotDao"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--消息中心 用户分配service-->
+    <bean id="messageAllotService" class="com.zfsoft.hrm.yhfpgl.service.impl.MessageAllotServiceImpl">
+        <property name="messageAllotDao" ref="messageAllotDao"/>
+    </bean>
+    
+    <!--消息中心 用户分配action-->
+    <bean id="messageAllotAction" class="com.zfsoft.hrm.yhfpgl.action.MessageAllotAction" scope="prototype">
+        <property name="messageAllotService" ref="messageAllotService"/>
+    </bean>
+</beans>

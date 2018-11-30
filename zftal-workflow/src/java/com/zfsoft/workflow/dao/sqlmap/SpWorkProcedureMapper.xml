@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.workflow.dao.ISpWorkProcedureDao">
+
+	<resultMap id="spWorkProcedureMap" type="com.zfsoft.workflow.model.SpWorkProcedure">
+		<result property="id" column="ID" />
+		<result property="wid" column="W_ID" />
+		<result property="pid" column="P_ID" />
+		<result property="pname" column="P_NAME" />
+		<result property="ptype" column="P_TYPE" />
+		<result property="pdesc" column="P_DESC" />
+		<result property="bcode" column="B_CODE" />
+		<result property="link" column="LINK" />
+		<result property="userId" column="USER_ID" />
+		<result property="departmentId" column="DEP_ID" />
+		<collection property="spWorkLineList" column="{wid=W_ID}" select="com.zfsoft.workflow.dao.ISpWorkLineDao.findWorkLineListByWid"/>
+		<collection property="spWorkNodeList" column="{wid=W_ID}" select="com.zfsoft.workflow.dao.ISpWorkNodeDao.findWorkNodeListByWid"/>
+		<collection property="spWorkCommitBillList" column="{pid=P_ID}" select="com.zfsoft.workflow.dao.ISpWorkProcedureBillDao.findWorkCommitBillListByPIdAndBillType"/>
+		<collection property="spWorkApproveBillList" column="{pid=P_ID}" select="com.zfsoft.workflow.dao.ISpWorkProcedureBillDao.findWorkApproveBillListByPIdAndBillType"/>
+		<collection property="spAuditingLogList" column="{wid=W_ID}" select="com.zfsoft.workflow.dao.ISpAuditingLogDao.findAuditingLogByWid"/>
+	</resultMap>
+	
+	<insert id="addSpWorkProcedure" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO SP_WORK_PROCEDURE
+			  (ID, 
+			  W_ID, 
+			  P_ID, 
+			  P_NAME, 
+			  P_TYPE, 
+			  P_DESC, 
+			  B_CODE,
+			  LINK,
+			  USER_ID,
+			  DEP_ID)
+			VALUES
+			  (#{id}, 
+			  #{wid}, 
+			  #{pid}, 
+			  #{pname,jdbcType=VARCHAR}, 
+			  #{ptype,jdbcType=VARCHAR}, 
+			  #{pdesc,jdbcType=VARCHAR}, 
+			  #{bcode,jdbcType=VARCHAR},
+			  #{link,jdbcType=VARCHAR},
+			  #{userId,jdbcType=VARCHAR},
+			  #{departmentId,jdbcType=VARCHAR})
+		]]>
+		
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			SELECT SYS_GUID() KHLC_ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<!-- 根据ID删除工作审核流程 -->
+	<delete id="removeSpWorkProcedureById">
+		<![CDATA[
+			DELETE FROM SP_WORK_PROCEDURE WHERE ID = #{id}
+		]]>
+	</delete>
+	
+	<!-- 根据条件删除工作审核流程 -->
+	<delete id="removeSpWorkProcedureByWid">
+		<![CDATA[
+			DELETE FROM SP_WORK_PROCEDURE WHERE W_ID = #{wid}
+		]]>
+	</delete>
+
+	<!-- 根据对象中的条件查询记录（结果一个或多个） -->
+	<select id="findWorkProcedureList" parameterType="com.zfsoft.workflow.model.SpWorkProcedure" resultMap="spWorkProcedureMap">
+		<![CDATA[
+			SELECT ID, W_ID, P_ID, P_NAME, P_TYPE, P_DESC, B_CODE, LINK,USER_ID
+			  FROM SP_WORK_PROCEDURE
+			 WHERE 1=1
+		 ]]>
+		<if test="id != null and id != ''">
+			<![CDATA[ AND ID = #{id} ]]>
+        </if>
+        <if test="wid != null and wid != ''">
+			<![CDATA[ AND W_ID = #{wid} ]]>
+        </if>
+        <if test="pid != null and pid != ''">
+			<![CDATA[ AND P_ID = #{pid} ]]>
+        </if>
+        <if test="bcode != null and bcode != ''">
+			<![CDATA[ AND B_CODE = #{bcode} ]]>
+        </if>
+        <if test="userId != null and userId != ''">
+			<![CDATA[ AND USER_ID = #{userId} ]]>
+        </if>
+        <if test="departmentId != null and departmentId != ''">
+			<![CDATA[ AND DEP_ID = #{departmentId} ]]>
+        </if>
+	</select>
+
+</mapper>

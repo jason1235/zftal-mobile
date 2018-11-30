@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.mail.dao.daointerface.IMailTemplateDao">
+
+	<resultMap id="mailTemplateMap" type="com.zfsoft.hrm.mail.entities.MailTemplate">
+		<result property="id"        	   	column="ID" />
+		<result property="taskName"   		column="MBMC" />
+		<result property="taskId"       	column="MBJM" />
+		<result property="content"        		column="MBNR" />
+		<result property="defaultValue"        		column="SFMR" />
+	</resultMap>
+	
+	<insert id="insert">
+		<![CDATA[
+			INSERT INTO 
+				ZP_YJMBB(
+					ID,
+					MBMC,
+					MBJM,
+					SFMR,
+					MBNR
+				)
+			VALUES(
+				#{id},        	  
+				#{taskName},         
+				#{taskId},
+				'0',
+				#{content}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			SELECT SYS_GUID() ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<select id="findMailTemplate" resultMap="mailTemplateMap">
+		SELECT
+			A.ID,
+			A.MBMC,
+			A.MBJM,
+			A.SFMR,
+			A.MBNR
+		FROM 
+			ZP_YJMBB A
+		WHERE
+			A.ID = #{id}
+	</select>
+	
+	<select id="findMailTemplates" resultMap="mailTemplateMap">
+		SELECT
+			A.ID,
+			A.MBMC,
+			A.MBJM,
+			A.SFMR,
+			A.MBNR
+		FROM 
+			ZP_YJMBB A
+	</select>
+	
+	<select id="findMailTemplateByTaskId" resultMap="mailTemplateMap">
+		SELECT
+			A.ID,
+			A.MBMC,
+			A.MBJM,
+			A.SFMR,
+			A.MBNR
+		FROM 
+			ZP_YJMBB A
+		WHERE
+			A.MBJM = #{taskId} 
+		AND
+			A.SFMR = #{defaultValue}
+	</select>
+	
+	<update id="update">
+		<![CDATA[
+			UPDATE
+				ZP_YJMBB 
+			SET
+				MBNR = #{content}
+			WHERE
+				ID = #{id}
+		]]>
+	</update>
+	
+	<delete id="delete">
+		<![CDATA[
+			DELETE FROM
+				ZP_YJMBB 
+			WHERE
+				ID = #{id}
+		]]>
+	</delete>
+</mapper>

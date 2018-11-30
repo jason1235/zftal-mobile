@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.ISjfwdxDao" >
+    
+	<!-- 查询数据范围对象信息 -->
+	<select id="cxSjfwdx" resultType="SjfwdxModel">
+		select sjfwdx_id, bm, zddm, zdmc ,zwmc, xssx ,sfqy from zftal_xtgl_sjfwdxb where sfqy='1' order by to_number(xssx) 
+	</select>
+	
+	<!-- 根据数据范围对象，查询数据范围内容 -->
+	<select id="cxSjfwnr" resultType="SjfwdxModel" parameterType="SjfwdxModel">
+		select ${zddm} as zddm ,${zdmc} as zdmc from ${bm} 
+	</select>
+	
+	<!-- 查询数据范围内容  分页-->
+	<select id="getPagedList" resultType="SjfwdxModel" parameterType="SjfwdxModel">
+		select ${zddm} as zddm ,${zdmc} as zdmc from ${bm} 
+		<where>
+			<if test="ls_bmdm != null and ls_bmdm != ''">
+				and bmdm_id = ${ls_bmdm}
+			</if>
+			<if test="ls_zydm != null and ls_zydm != ''">
+				and zydm_id = ${ls_zydm}
+			</if>			
+		</where>
+		
+	</select>
+</mapper>

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.springframework.org/schema/tx
+				http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+				http://www.springframework.org/schema/aop
+				http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<bean id="infoCatalogType_teacher" class="com.zfsoft.hrm.config.type.InfoCatalogType">
+		<property name="name" value="teacher" />
+		<property name="text" value="教职工" />
+		<property name="appendix">
+			<props>
+				<prop key="primaryName">工号</prop>
+				<prop key="primaryFieldName">gh</prop>
+				<prop key="log">true</prop>
+				<prop key="snap">true</prop>
+			</props>
+		</property>
+		<property name="menus">
+            <props>
+                <prop key="N11">/normal/staffInfo_list.html</prop>
+                <prop key="N12">/normal/staffBatch_list.html</prop>
+            </props>
+        </property>
+	</bean>
+	
+	<bean id="infoCatalogType_student" class="com.zfsoft.hrm.config.type.InfoCatalogType">
+		<property name="name" value="student" />
+		<property name="text" value="学生" />
+		<property name="appendix">
+			<props>
+				<prop key="primaryName">学号</prop>
+				<prop key="primaryFieldName">xh</prop>
+				<prop key="log">false</prop>
+				<prop key="snap">false</prop>
+			</props>
+		</property>
+	</bean>
+	
+    <bean id="infoCatalogType_business" class="com.zfsoft.hrm.config.type.InfoCatalogType">
+        <property name="name" value="business" />
+        <property name="text" value="业务信息" />
+        <property name="appendix">
+            <props>
+                <prop key="primaryName">工号</prop>
+                <prop key="primaryFieldName">gh</prop>
+                <prop key="log">false</prop>
+                <prop key="snap">false</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="infoCatalogType_salary" class="com.zfsoft.hrm.config.type.InfoCatalogType">
+        <property name="name" value="salary" />
+        <property name="text" value="薪资信息" />
+        <property name="appendix">
+            <props>
+                <prop key="primaryName">工号</prop>
+                <prop key="primaryFieldName">gh</prop>
+                <prop key="log">false</prop>
+                <prop key="snap">false</prop>
+            </props>
+        </property>
+    </bean>
+    
+    <bean id="infoCatalogType_baseData" class="com.zfsoft.hrm.config.type.InfoCatalogType">
+        <property name="name" value="baseData" />
+        <property name="text" value="基础数据" />
+        <property name="appendix">
+            <props>
+                <prop key="primaryName">编号</prop>
+                <prop key="primaryFieldName">bh</prop>
+                <prop key="log">false</prop>
+                <prop key="snap">false</prop>
+            </props>
+        </property>
+        <property name="menus">
+            <props>
+                <prop key="N92">/basedata/basedata_synBaseData.html</prop>
+            </props>
+        </property>
+    </bean>
+	
+	<bean id="infoCatalogTypes" class="com.zfsoft.hrm.config.Types">
+		<property name="types">
+			<list>
+				<ref bean="infoCatalogType_teacher"></ref>
+				<ref bean="infoCatalogType_student"></ref>
+				<ref bean="infoCatalogType_business"></ref>
+				<ref bean="infoCatalogType_salary"></ref>
+				<ref bean="infoCatalogType_baseData"></ref>
+			</list>
+		</property>
+	</bean>
+</beans>

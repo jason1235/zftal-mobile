@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="version" namespace="/version" extends="configuration" >
+		
+		<action name="version_*" class="versionManagerAction" method="{1}">
+			<result name="list">/WEB-INF/pages/mobile/version/version_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/version/version_edit.jsp</result>
+		</action>
+	</package>
+	
+</struts>

@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.hrm.expertvote.vote.dao.IExpertTaskDao">
+
+    <resultMap id="expertTask" type="com.zfsoft.hrm.expertvote.vote.entity.ExpertTask">
+        <result property="id"           column="ID" />
+        <result property="name"         column="name" />
+        <result property="passPoint"         column="pass_point" />
+        <result property="level"    column="audit_level" />
+        <result property="pointType"         column="comple_type" />
+        <result property="belongToSys"         column="BELONG_TO_SYS" />
+        <result property="belongToSysName"         column="gnmkmc" />
+    </resultMap>
+    
+    
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO 
+                hrm_expert_votetask(
+                    id,
+                    name,
+                    pass_point,
+                    comple_type,
+                    audit_level
+                )
+                VALUES(
+                    #{id},
+                    #{name},
+                    #{passPoint},
+                    #{pointType},
+                    #{level}
+                )
+        ]]>
+    </insert>
+    
+    <update id="update">
+        update hrm_expert_votetask 
+        <set>
+            <if test="name !=null">
+                name = #{name},
+            </if>
+	        <if test="passPoint != null">
+	            pass_point = #{passPoint},
+	        </if>
+	        <if test="pointType != null">
+	            comple_type = #{pointType},
+	        </if>
+	         <if test="level !=null">
+	            audit_level = #{level},
+	         </if>
+        </set>
+        where id = #{id}
+    </update>
+    
+    <delete id="delete">
+       delete from hrm_expert_votetask where id = #{id}
+    </delete>
+    
+    <!-- 获取分页计数 -->
+    <select id="getUseCount" resultType="int">
+        select count(*) from sp_work_task t where t.task_id = #{id}
+    </select>
+    
+    <select id="getById" resultMap="expertTask">
+        select 
+            k.id,
+            k.name,
+            k.pass_point,
+            k.comple_type,
+            k.audit_level,
+            task.belong_to_sys,
+            task.gnmkmc
+	       from hrm_expert_votetask k
+			left join (select t.task_id,t.belong_to_sys,cd.gnmkmc
+			 from sp_task t left join zftal_xtgl_jsgnmkdmb cd on cd.gnmkdm = t.belong_to_sys) task
+			 on (task.task_id = k.id)
+        where k.id = #{id}
+    </select>
+    
+     <select id="findGroupByBsnsClassId" resultType="java.lang.String" >
+        select z.zjz_id from hrm_expert_voteinstance z
+            join (select p.id
+	            from hrm_businessinfo_change p
+	            join (SELECT wt.*,wn.status
+	                     FROM SP_WORK_TASK wt, SP_WORK_NODE wn
+	                    WHERE wt.NODE_ID = wn.NODE_ID
+	                      AND wt.W_ID = wn.W_ID
+	                      AND wt.TASK_ID = #{id}) t 
+	            on (p.id = t.w_id)
+	            WHERE p.status in ('IN_AUDITING', 'WAIT_AUDITING')
+	            AND p.bsnsclass_id = #{businessClassId}) pr
+            on( z.w_id = pr.id)
+        where z.task_id = #{id}
+        group by z.zjz_id
+    </select>
+    
+    <select id="getBsnsClassIdOfTask" resultType="java.lang.String" >
+        select bsnsclass_id
+		    from hrm_businessinfo_change p
+		    join (SELECT wt.*,wn.status
+                     FROM SP_WORK_TASK wt, SP_WORK_NODE wn
+                    WHERE wt.NODE_ID = wn.NODE_ID
+                      AND wt.W_ID = wn.W_ID
+                      AND wt.TASK_ID = #{id}) t 
+            on (p.id = t.w_id)
+            WHERE p.status in ('IN_AUDITING', 'WAIT_AUDITING') 
+            <if test="send!=null and send != ''">
+                and p.id 
+                <if test="send == 'NotSend'">
+                    not 
+                </if>
+                in (select w_id from hrm_expert_voteinstance z where z.task_id = #{id})
+            </if>
+            group by bsnsclass_id
+    </select>
+    
+    <select id="getTaskCount" resultType="hashMap" >
+        select count(1) num,t.status,t.e_status
+            from hrm_businessinfo_change p
+            join (SELECT wt.*,wn.status
+                     FROM SP_WORK_TASK wt, SP_WORK_NODE wn
+                    WHERE wt.NODE_ID = wn.NODE_ID
+                      AND wt.W_ID = wn.W_ID
+                      AND wt.TASK_ID = #{id}) t 
+            on (p.id = t.w_id)
+            WHERE p.status in ('IN_AUDITING', 'WAIT_AUDITING')
+            <if test="businessClassId != null and businessClassId != ''">
+                AND p.bsnsclass_id = #{businessClassId}
+            </if>
+            group by t.status,t.e_status
+    </select>
+    
+    <select id="getList" resultMap="expertTask" >
+        select 
+            k.id,
+            k.name,
+            k.pass_point,
+            k.comple_type,
+            k.audit_level,
+            task.belong_to_sys,
+            task.gnmkmc
+        from hrm_expert_votetask k
+            left join (select t.task_id,t.belong_to_sys,cd.gnmkmc
+             from sp_task t left join zftal_xtgl_jsgnmkdmb cd on cd.gnmkdm = t.belong_to_sys) task
+        on (task.task_id = k.id)
+        <include refid="where"/>
+        <if test="orderStr != null and orderStr != ''">
+            order by ${orderStr}
+        </if> 
+    </select>
+        <!-- 获取分页信息 -->
+    <select id="getPagingList" resultMap="expertTask" >
+    select * from (select a.*, rownum rn from(
+        select 
+            k.id,
+            k.name,
+            k.pass_point,
+            k.comple_type,
+            k.audit_level,
+            task.belong_to_sys,
+            task.gnmkmc
+        from hrm_expert_votetask k
+            left join (select t.task_id,t.belong_to_sys,cd.gnmkmc
+             from sp_task t left join zftal_xtgl_jsgnmkdmb cd on cd.gnmkdm = t.belong_to_sys) task
+        on (task.task_id = k.id)
+        <include refid="where"/>
+        <if test="orderStr != null and orderStr != ''">
+            order by ${orderStr}
+        </if> 
+     ) a )
+        <![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+    </select>
+    
+    <!-- 获取分页计数 -->
+    <select id="getPagingCount" resultType="int">
+        select 
+            count(distinct k.id) cnt
+        from hrm_expert_votetask k
+        <include refid="where"/>
+    </select>
+    
+    <sql id="where">
+    <where>
+        <if test="id != null and id != ''">
+            and k.id = #{id}
+        </if>
+        <if test="name != null and name != ''">
+            and k.name = #{name}
+        </if>
+        <if test="passPoint != null and passPoint != ''">
+            and k.pass_point = #{passPoint}
+        </if>
+         <if test="level !=null and level != '' ">
+            and k.audit_level = #{level}
+         </if>
+         <if test="groupId !=null and groupId != '' ">
+            and k.id in 
+                (select task_id from hrm_expert_voteinstance 
+                where zjz_id = #{groupId})
+         </if>
+         <if test="expertGh !=null and expertGh != '' ">
+            and k.id in 
+	            (select psb.task_id from hrm_expert_voteinstance psb 
+	            left join hrm_expert_info zjk on zjk.id=psb.zj_id 
+	            where zjk.gh=#{expertGh})
+         </if>
+    </where>
+    </sql>
+    
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.weibo.dao.IWeiboDao" >
+	
+	<resultMap id="WeiBoEntityMap" type="com.zfsoft.weibo.action.entity.WeiBoEntity">
+		<result property="wbbh" 		 		column="wbbh" />
+		<result property="wbmc"   				column="wbmc" />
+		<result property="client_id"   			column="client_id" />
+		<result property="client_sercret"   	column="client_sercret" />
+		<result property="istimeout"   			column="istimeout" />
+		<result property="sfqy"   				column="sfqy" />
+	</resultMap>
+	
+	
+	<select id="getPageListCount" resultType="int">
+			select count(*) from
+				(
+					select * from m_weibo_wbglb m
+					<where>
+						<if test="wbbh != null and wbbh != ''">
+								and m.wbbh = #{wbbh}
+			        	</if>	
+			        	<if test='wbmc != null and wbmc != ""'>
+								and m.wbmc = #{wbmc}
+						</if>	
+			       	</where>
+				)
+			a 
+	</select>
+	
+	
+	<select id="getPageList" resultMap="WeiBoEntityMap">
+		select * from (
+		     select a.*,rownum rn from 
+				(
+					select * from m_weibo_wbglb m
+					<where>
+						<if test="wbbh != null and wbbh != ''">
+								and m.wbbh = #{wbbh}
+			        	</if>	
+			        	<if test='wbmc != null and wbmc != ""'>
+								and m.wbmc = #{wbmc}
+						</if>	
+			       	</where>
+				) a
+		)
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>	
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<![CDATA[
+			insert into m_weibo_wbglb(
+				wbbh,wbmc,client_id,client_sercret,istimeout,sfqy
+			) values(
+				#{wbbh}, #{wbmc}, #{client_id}, #{client_sercret}, #{istimeout}, #{sfqy}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="wbbh">
+			<![CDATA[
+			select SYS_GUID() wbbh from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			update m_weibo_wbglb set
+			wbmc = #{wbmc}, client_id = #{client_id}, client_sercret = #{client_sercret}
+			where wbbh = #{wbbh}
+		]]>
+	</update>
+	
+	<update id="updateById">
+		<![CDATA[
+			update m_weibo_wbglb set
+				sfqy = #{sfqy}
+			where wbbh = #{wbbh}
+		]]>
+	</update>
+	
+	<update id="updateAccessById">
+			update m_weibo_wbglb set
+				accesstoken = #{accesstoken}
+				
+				<if test="istimeout != null and istimeout != ''">
+								, istimeout = #{istimeout}
+	        	</if>	
+			where client_id = #{client_id}
+	</update>
+	
+	
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from  m_weibo_wbglb 
+			where wbbh = #{wbbh}
+		]]>
+	</delete>
+	
+	
+	
+	
+</mapper>

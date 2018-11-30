@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.table.dao.daointerface.IColumnDao" >
+
+	<!-- 新增字段 -->
+	<update id="add">
+		alter table ${tableName} add ${columnName} ${type} 
+		<if test="defaultV != null and defaultV !='' ">
+			default '${defaultV}'
+		</if>
+		<if test="!nullable">
+			not null
+		</if>
+	</update>
+	
+	   <!-- 增加索引 -->
+    <update id="addIndex">
+        create index INDEX_${tableName}_${columnName} on ${tableName} (${columnName})
+    </update>
+      <!-- 增加索引 -->
+    <update id="removeIndex">
+        drop index INDEX_${tableName}_${columnName}
+    </update>
+	
+	<!-- 注释 -->
+    <update id="comment">
+    	<if test="comment != null">
+		comment on column ${tableName}.${columnName} is '${comment}'
+		</if>
+    </update>
+    
+    <!-- 更名 -->
+    <update id="rename">
+    	alter table ${tableName} rename column ${columnName} to ${newName}
+    </update>
+    
+    <!-- 删除 -->
+    <update id="drop" >
+    	alter table ${tableName} drop column ${columnName}
+    </update>
+    
+    <!-- 修改类型 -->
+    <update id="modify" >
+    	alter table ${tableName} modify ( ${columnName} ${type} 
+    	<if test="defaultV != null">
+			default '${defaultV}'
+		</if>
+    	)
+    </update>
+    
+    <select id="findCount" resultType="int" >
+    	select count(*) from cols where table_name = upper(#{tableName}) and column_name = upper(#{columnName})
+    </select>
+</mapper>

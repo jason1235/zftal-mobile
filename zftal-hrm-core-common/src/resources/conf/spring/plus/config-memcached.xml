@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-2.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-2.0.xsd">
+
+
+     <!-- bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath*:conf/memcached.properties</value>
+            </list>
+        </property>
+    </bean-->
+
+    <!-- memcache缓存池 -->
+     <!-- bean id="memcachedPool" class="com.cache.memcached.SockIOPool"
+          factory-method="getInstance" init-method="initialize" destroy-method="shutDown">
+        <property name="servers">
+            <list>
+                <value>${servers}</value>
+            </list>
+        </property>
+        <property name="weights">
+            <list>
+                <value>${weights}</value>
+            </list>
+        </property>
+        <property name="initConn">
+            <value>${init_conn}</value>
+        </property>
+        <property name="minConn">
+            <value>${mini_conn}</value>
+        </property>
+        <property name="maxConn">
+            <value>${max_conn}</value>
+        </property>
+        <property name="maxIdle">
+            <value>${max_idle}</value>
+        </property>
+        <property name="maintSleep">
+            <value>${main_sleep}</value>
+        </property>
+        <property name="socketTO">
+            <value>${socket_TO}</value>
+        </property>
+    </bean-->
+
+    <!-- 缓存客服端 -->
+     <!-- bean id="memcachedClient" class="com.cache.memcached.MemcachedClient"></bean>
+
+    <bean id="_cache_" class="com.cache.memcached.util.Mem">
+        <property name="cacheClient" ref="memcachedClient"></property>
+        <property name="properties">
+            <props>
+                <prop key="session_time">${session.time}</prop>
+                <prop key="default_time">${default.time}</prop>
+                <prop key="cache">${cache}</prop>
+            </props>
+        </property>
+    </bean-->
+
+</beans>

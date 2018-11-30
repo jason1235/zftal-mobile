@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.classCommunity.dao.IDynamicDao">
+
+    <!-- 我的圈子列表 -->
+	<select id="getClassList" parameterType="com.zfsoft.mobile.classCommunity.query.ClassEntityQuery" resultType="com.zfsoft.mobile.classCommunity.entity.ClassEntity">
+	    <!--
+		select *
+		  from (select a.*, rownum rn
+		          from (select t.*, t1.name as institutename
+		                  from M_COMMUNITY_CLASSINFO t
+		                 inner join M_COMMUNITY_INSTITUTEINFO t1
+		                    on t.instituteid = t1.id
+		                 inner join m_community_class_user t2
+		                    on t.id = t2.classid
+		                 inner join m_community_userinfo t3
+		                    on t2.username = t3.username
+		                 where 1 = 1
+		                <if test="name != null and name != ''">
+		                   and t.name like '%'||#{name}||'%'
+		                </if>
+		                <if test="username != null and username != ''">
+		                   and t3.username = #{username}
+		                </if>
+		                 ) a)
+		<![CDATA[                 
+		 where rn >= #{startRow}
+		   and rn <= #{endRow}
+		]]>		 
+	    -->
+         select t.*, t1.name as institutename
+          from M_COMMUNITY_CLASSINFO t
+         inner join M_COMMUNITY_INSTITUTEINFO t1
+            on t.instituteid = t1.id
+         inner join m_community_class_user t2
+            on t.id = t2.classid
+         inner join m_community_userinfo t3
+            on t2.username = t3.username
+         where 1 = 1
+        <if test="name != null and name != ''">
+           and t.name like '%'||#{name}||'%'
+        </if>
+        <if test="username != null and username != ''">
+           and t3.username = #{username}
+        </if>
+	</select>
+	
+	<!-- 班级圈子总数 -->
+	<select id="getClassListCount" parameterType="com.zfsoft.mobile.classCommunity.query.ClassEntityQuery"  resultType="int">
+		select count(*) from M_COMMUNITY_CLASSINFO t where 1=1  
+		                <if test="name != null and name != ''">
+		                   and t.name like '%'||#{name}||'%'
+		                </if>
+	</select>
+	
+	<!-- 我未加入的班级圈子列表 -->
+	<select id="getMyWantClassList" parameterType="com.zfsoft.mobile.classCommunity.query.ClassEntityQuery" resultType="com.zfsoft.mobile.classCommunity.entity.ClassEntity">
+		select t.*, t1.name as institutename
+		  from M_COMMUNITY_CLASSINFO t
+		 inner join M_COMMUNITY_INSTITUTEINFO t1
+            on t.instituteid = t1.id  
+		 where t.id not in (select t1.classid
+		                      from M_community_class_user t1
+		                     where t1.username = #{username})
+		 <if test="name != null and name != ''">
+           and t.name like '%'||#{name}||'%'
+         </if>                    
+	</select>
+	
+	<!-- 班级圈子成员总数 -->
+	<select id="getClassMemberCount" parameterType="string" resultType="int">
+		select count(t1.username)
+		  from m_community_userinfo t1
+		 inner join m_community_class_user t2
+		    on t1.username = t2.username
+		 inner join m_community_classinfo t3
+		    on t2.classid = t3.id
+		 where 1 = 1
+		   and t3.id = #{classId}
+	</select>
+	
+	
+	<!-- 班级圈子帖子总数 -->
+	<select id="getClassDynamicCount" parameterType="string" resultType="int">
+		select count(1) as dynamicCount
+			  from M_COMMUNITY_DYNAMIC t
+			 where t.publisherid in (select t1.username
+			                           from m_community_userinfo t1
+			                          inner join m_community_class_user t2
+			                             on t1.username = t2.username
+			                          inner join m_community_classinfo t3
+			                             on t2.classid = t3.id
+			                          where 1 = 1
+			                            and t3.id = #{classId})	
+	</select>
+	
+	
+	<!-- 查询帖子分页列表 -->
+	<select id="getDynamicPageList" parameterType="com.zfsoft.mobile.classCommunity.query.DynamicEntityQuery" resultType="com.zfsoft.mobile.classCommunity.entity.DynamicEntity">
+	    select *
+		  from (select a.*, rownum rn
+		          from (select t.*
+		                  from m_community_dynamic t
+		                 where t.classid = #{classId}
+		                 order by t.createtime desc) a)
+		<![CDATA[                 
+		 where rn >= #{startRow}
+		   and rn <= #{endRow}
+		]]>		
+	</select>
+	
+	<!-- 根据班级查询帖子总数 -->
+	<select id="getDynamicListCount" parameterType="com.zfsoft.mobile.classCommunity.query.DynamicEntityQuery" resultType="int">
+	   select count(1)
+		  from m_community_dynamic t
+		 where t.publisherid in (select t1.username
+		                           from M_community_class_user t1
+		                          where t1.classid = #{classId})	
+	</select>
+	
+	<!-- 根据帖子id查询所有附件图片列表 -->
+	<select id="getPictureList" parameterType="string" resultType="com.zfsoft.mobile.classCommunity.entity.DynamicFileEntity">
+	    select t.*
+		  from M_COMMUNITY_DYNAMIC_FILE t
+		 where 1 = 1
+		   and t.dynamicid = #{dynamicId}
+	</select>
+	
+	<!-- 根据帖子id查询所有评论列表 -->
+	<select id="getCommentList" parameterType="string" resultType="com.zfsoft.mobile.classCommunity.entity.DynamicCommentEntity">
+	    select t.*
+		  from M_COMMUNITY_DYNAMIC_COMMENT t
+		 where 1 = 1
+		   and t.dynamicid = #{dynamicId}
+		 order by t.createTime desc  
+	</select>
+	
+	<!-- 根据评论id查询所有回复列表 -->
+	<select id="getReplyList" parameterType="string" resultType="com.zfsoft.mobile.classCommunity.entity.DynamicCommentReplyEntity">
+	    select t.*
+		  from M_COMMUNITY_REPLY t
+		 where 1 = 1
+		   and t.commentid = #{commentId}
+		 order by t.createTime desc 
+	</select>
+	
+    <!-- 新增帖子 --> 	
+	<insert id="insertDynamic" parameterType="com.zfsoft.mobile.classCommunity.entity.DynamicEntity">
+			insert into m_community_dynamic(
+				id,content,praiseCount,createTime,isTop,type,publisherId,publisherName,classid
+			) values(
+				#{id},#{content,jdbcType=VARCHAR},#{praiseCount},#{createTime,jdbcType=VARCHAR},#{isTop,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{publisherId,jdbcType=VARCHAR},#{publisherName,jdbcType=VARCHAR},#{classId,jdbcType=VARCHAR}
+			)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<!-- 新增帖子图片 -->
+	<insert id="insertDynamicPicture"  parameterType="com.zfsoft.mobile.classCommunity.entity.DynamicFileEntity">
+			INSERT INTO 
+				m_community_dynamic_file(
+					id,	
+					fileName,
+					fileContent,
+					filePath,
+					createTime,
+					dynamicId
+				)
+			VALUES(
+				#{id},           
+				#{fileName},
+				#{fileContent},
+				#{filePath},
+				#{createTime},
+				#{dynamicId}
+			)
+		  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		  </selectKey>	
+	</insert>
+	
+	
+	<!-- 新增评论 -->
+	<insert id="insertDynamicComment"  parameterType="com.zfsoft.mobile.classCommunity.entity.DynamicCommentEntity">
+			INSERT INTO 
+				M_COMMUNITY_DYNAMIC_COMMENT(
+					id,	
+					publisherId,
+					publisherName,
+					content,
+					createTime,
+					dynamicId
+				)
+			VALUES(
+				#{id},           
+				#{publisherId},
+				#{publisherName},
+				#{content},
+				#{createTime},
+				#{dynamicId}
+			)
+		  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		  </selectKey>	
+	</insert>
+	
+	<!-- 新增评论回复 -->
+	<insert id="insertDynamicCommentReply"  parameterType="com.zfsoft.mobile.classCommunity.entity.DynamicCommentReplyEntity">
+			INSERT INTO 
+				M_COMMUNITY_DYNAMIC_COMMENT(
+					id,	
+					publisherId,
+					publisherName,
+					content,
+					createTime,
+					commentId,
+					toPersonId,
+					toPersonName
+				)
+			VALUES(
+				#{id},           
+				#{publisherId},
+				#{publisherName},
+				#{content},
+				#{createTime},
+				#{commentId},
+				#{toPersonId},
+				#{toPersonName}
+			)
+		  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		  </selectKey>	
+	</insert>
+	
+	<!-- 点赞次数加一 -->
+	<update id="updatePraiseCount" parameterType="string">
+	    update m_community_dynamic t set t.praiseCount=t.praiseCount+1 where t.id = #{dynamicId}
+	</update>
+	
+	<!-- 查询某个账号是否点赞过某个帖子 -->
+	<select id="getUserPraiseRecordCount" parameterType="map" resultType="int">
+	  select count(1)
+	  from M_COMMUNITY_PRAISERECORD t
+	 where t.username = #{username}
+	   and t.dynamicid = #{dynamicId}
+	</select>
+	
+	<!-- 新增帖子点赞记录 -->
+	<insert id="insertUserPraiseRecord"  parameterType="map">
+			INSERT INTO 
+				M_COMMUNITY_PRAISERECORD(
+					id,	
+					username,
+					dynamicId
+				)
+			VALUES(
+				#{id},           
+				#{username},
+				#{dynamicId}
+			)
+		  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		  </selectKey>	
+	</insert>
+</mapper>

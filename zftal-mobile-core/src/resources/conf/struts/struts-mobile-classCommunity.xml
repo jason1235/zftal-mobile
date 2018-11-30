@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="classCommunity" namespace="/classCommunity" extends="configuration" >
+		<action name="dynamic_*" class="dynamicAction" method="{1}" >
+		   
+		</action>
+		
+		<action name="classSignIn_*" class="classSignInAction" method="{1}" >
+		   
+		</action>
+		
+		<action name="firstAnswer_*" class="firstAnswerAction" method="{1}" >
+		   
+		</action>
+		
+	</package>
+</struts>

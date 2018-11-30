@@ -1,0 +1,422 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.myportal.dao.IMyPortalDao">
+
+	<resultMap id="myPortalMap" type="com.zfsoft.mobile.myportal.entity.MyPortal">
+		<result property="id" 		 column="sid" />
+		<result property="name"   column="mc" />
+		<result property="code"   column="fwbm" />
+		<result property="ms"   column="ms" />
+		<result property="type"   column="fwlx" />
+		<result property="addr"   column="yydz" />
+		<result property="status"   column="zt" />
+		<result property="bz"   column="bz" />
+		<result property="tbid"   column="tbid" />
+		<result property="tburl"   column="tburl" />
+		<result property="creator"   column="cjzid" />
+		<result property="createTime"   column="cjsj" />
+		<result property="updater"   column="gxzid" />
+		<result property="updateTime"   column="gxsj" />
+		<result property="deleted"   column="deleted" />
+		<result property="pxm"   column="pxm" />
+		<result property="tsgn"   column="tsgn" />
+		<result property="isfx"   column="isfx" />
+	</resultMap>
+	
+	<resultMap id="CardBusinessMap" type="com.zfsoft.mobile.webservices.entity.CardBusinessEntity">
+		<result property="classLsh" 		 column="LSH" />
+		<result property="classJysj"   		column="JYSJ" />
+		<result property="classJye"   		column="JYE" />
+		<result property="classSbbh"   		column="SBBH" />
+		<result property="classSh"   		column="SH" />
+		<result property="classYe"   		column="YE" />
+	</resultMap>
+	
+	<sql id="where">
+		<where>
+			<if test='name != null and name != ""'> and mc like '%'||#{name}||'%'</if>
+			<if test='type != null and type != ""'> and fwlx = #{type} </if>
+			<if test='status != null and status != ""'> and zt = #{status} </if>
+			
+			and t.deleted = '0'
+		</where>
+	</sql>
+	
+	<select id="getPageCount" resultType="int">
+		select count(*) from m_wdmh t
+		<include refid="where" />
+	</select>
+	
+	<select id="getAllMyPortal" resultMap="myPortalMap">
+		select b.* from m_mhgl_mhqx y 
+               left join  m_wdmh b on y.fwbm = b.fwbm
+               where b.zt = 1 and b.deleted = 0 and b.isfx='0' and y.yhid = #{userName}
+              order by b.tsgn,b.pxm    
+	</select>
+	
+	<select id="getPageList" resultMap="myPortalMap">
+	select * from(
+		select t.*,rownum as rn from m_wdmh t <include refid="where" /> )
+                
+	  <![CDATA[
+	 where rn>=#{startRow}  and rn<=#{endRow} order by pxm
+	 ]]>
+	</select>
+	
+	<select id="getMaxWebFwbm" resultType="int">
+	<![CDATA[
+		  select 
+			 case 
+				 when max(to_number(fwbm))<9000then 9001 
+				 else  max(to_number(fwbm))+1
+			 end
+		  from m_wdmh where deleted = '0'
+			 ]]>
+	</select>
+	
+	<select id="getodetailCount" resultType="int">
+		select count(*) from (
+	
+	
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH,a.ye from zftal_xtgl_yktjsxfb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		union all 
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH,a.ye from zftal_xtgl_yktxsxfb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		) c	
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[ 
+					and JYSJ >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+	        	]]>
+	        	</if>	
+        	<if test='startdate != null and startdate != ""'>
+	        	<![CDATA[ 
+					and JYSJ <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+				]]>
+			</if>	
+       	</where>
+       		
+	</select>
+	
+	<select id="getodetailList" resultMap="CardBusinessMap">
+	select * from(
+			select t.*,rownum as rn from(
+		
+		select * from (
+	
+	
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH,a.ye from zftal_xtgl_yktjsxfb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		union all 
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH,a.ye from zftal_xtgl_yktxsxfb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		) c	order by c.jysj desc
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[ 
+					and JYSJ >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+	        	]]>
+	        	</if>	
+        	<if test='startdate != null and startdate != ""'>
+	        	<![CDATA[ 
+					and JYSJ <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+				]]>
+			</if>	
+       	</where>
+       	) t)
+                
+		  <![CDATA[
+		 where rn>=#{startRow}  and rn<=#{endRow} 
+		 ]]>
+	</select>
+	
+	<select id="getcdetailCount" resultType="int">
+		select count(*) from (
+	
+	
+		select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH,a.czye as ye from zftal_xtgl_yktjsczb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		union all 
+		 select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH,a.czye as ye from zftal_xtgl_yktxsczb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		) c	
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[ 
+					and JYSJ >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+	        	]]>
+	        	</if>	
+        	<if test='startdate != null and startdate != ""'>
+	        	<![CDATA[ 
+					and JYSJ <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+				]]>
+			</if>	
+       	</where>
+	</select>
+	
+	<select id="getcdetailList" resultMap="CardBusinessMap">
+	select * from(
+			select t.*,rownum as rn from(
+		select * from (
+	
+	
+		select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH,a.czye as ye from zftal_xtgl_yktjsczb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		union all 
+		 select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH,a.czye as ye from zftal_xtgl_yktxsczb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		) c	order by c.jysj desc
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[ 
+					and JYSJ >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+	        	]]>
+	        	</if>	
+        	<if test='startdate != null and startdate != ""'>
+	        	<![CDATA[ 
+					and JYSJ <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+				]]>
+			</if>	
+       	</where>
+       	) t)
+                
+		  <![CDATA[
+		 where rn>=#{startRow}  and rn<=#{endRow} 
+		 ]]>
+	</select>
+	
+	<insert id="insert" >
+		
+			INSERT INTO 
+				m_wdmh(
+						
+					mc,	
+					fwbm,
+					ms,
+					fwlx,
+					<if test='addr != "" and addr != null'>
+						yydz,
+					</if>
+					<if test='tbid != "" and tbid != null'>
+					tbid,
+					</if>
+					<if test='tburl != "" and tburl != null'>
+					tburl,
+					</if>
+					
+					<if test='status != "" and status != null'>
+					zt,
+					</if>
+					<if test='bz != "" and bz != null'>
+					bz,
+					</if>
+					<if test='pxm != "" and pxm != null'>
+					pxm,
+					</if>
+					tsgn,
+					isfx,
+					cjsj,
+					cjzid
+				)
+			VALUES(
+				   
+				#{name},           
+				#{code},
+				#{ms},
+				#{type},
+						<if test='addr != "" and addr != null'>
+						#{addr},
+					</if>
+					<if test='tbid != "" and tbid != null'>
+					#{tbid},
+					</if>
+					<if test='tburl != "" and tburl != null'>
+					#{tburl},
+					</if>
+					
+					<if test='status != "" and status != null'>
+					#{status},
+					</if>
+					<if test='bz != "" and bz != null'>
+					#{bz},
+					</if>
+					<if test='pxm != "" and pxm != null'>
+					#{pxm},
+					</if>
+			    #{tsgn},
+			    #{isfx},	
+				sysdate,
+				#{creator}
+				
+				)
+		
+	</insert>
+		
+	
+	<select id="findById" resultMap="myPortalMap">
+		select * from  m_wdmh
+		<where>
+			sid = #{id} and deleted=0
+		</where>
+	</select>
+	
+	<select id="findByCode" resultMap="myPortalMap">
+		select * from  m_wdmh
+		<where>
+			fwbm = #{code} and deleted=0
+		</where>
+	</select>
+	
+	<update id="update">
+		update m_wdmh
+		 <set>
+		 	<if test='name != "" and name != null'>
+		 		mc=#{name},
+		 	</if>
+		 	
+		 		ms=#{ms},
+		 	
+		 	<if test='code != "" and code != null'>
+		 		fwbm=#{code},
+		 	</if>
+		 	<if test='type != "" and type != null'>
+		 		fwlx=#{type},
+		 	</if>
+		 	
+		 		yydz=#{addr},
+		 	
+		 	<if test='tbid != "" and tbid != null'>
+		 		tbid=#{tbid},
+		 	</if>
+		 	<if test='tbid == "" or tbid == null'>
+		 		tbid='',
+		 	</if>
+		 	
+		 	<if test='tsgn != "" and tsgn != null'>
+		 		tsgn=#{tsgn},
+		 	</if>
+		 	<if test='isfx != "" and isfx != null'>
+		 		isfx=#{isfx},
+		 	</if>
+		 	
+					tburl=#{tburl,jdbcType=VARCHAR},
+			
+		 	<if test='status != "" and status != null'>
+		 		zt=#{status},
+		 	</if>
+		 	<if test='bz != "" and bz != null'>
+		 		bz=#{bz},
+		 	</if>
+		 	
+		 		gxsj=sysdate,
+		 	
+		 	<if test='updater != "" and updater != null'>
+		 		gxzid=#{updater},
+		 	</if>
+		 	
+		 	
+		 </set>
+		   where sid = #{id}
+	</update>
+	
+	<!-- 我的门户控制 -->
+	<update id="myPortalControl">
+		update m_wdmh 
+		<set>
+		<if test='status == "1"'>
+			zt = '1'
+		</if>
+		<if test='status == "0"'>
+			zt = '0',
+			
+		</if>
+		
+		<if test='deleted == "1"'>
+			zt = '0',
+			DELETED = '1'
+		</if>
+		</set> 
+		 where sid = #{id} 
+		
+	</update>
+	
+	<update id="updateIndex">
+		update m_wdmh 
+		set pxm = #{index}
+		 where sid = #{id} 
+		
+	</update>
+	<select id="getMaxPxm" resultType="int">
+		select nvl(max(pxm),0) from m_wdmh
+	</select>
+	
+	<!-- 添加特色类别 -->
+	<insert id="insertTslb" >
+			INSERT INTO 
+				m_wdmh_tslb(
+					lbmc,	
+					lbms,
+					createtime
+				)
+			VALUES(
+				#{lbmc,jdbcType=VARCHAR},           
+				#{lbms,jdbcType=VARCHAR},
+				sysdate
+			)
+	</insert>
+	
+	<!-- 查询是否存在该类别名称 -->
+	<select id="getHaveTslbByLbmc" resultType="int">
+	    select count(*) from m_wdmh_tslb t where 1=1 and t.lbmc=#{lbmc}
+	</select>
+	
+	<!-- 门户特色功能类型 -->
+	<select id="getMhlbList" resultType="com.zfsoft.mobile.myportal.entity.MhTslbEntity">
+	    select t.* from m_wdmh_tslb t where 1=1
+	</select>
+	
+	<!-- 查询门户表m_wdmh中所有门户服务特色功能类别-->
+	<select id="getMhLbListInWdmh" resultType="String">
+	   select distinct(t.tsgn) from M_WDMH t where t.isfx='0'
+	</select>
+	
+	<!-- 根据特色功能类别查询门户表m_wdmh中 服务信息列表-->
+	<select id="getFwListByTsgn"  resultMap="myPortalMap">
+	   select b.* from m_mhgl_mhqx y 
+               left join  m_wdmh b on y.fwbm = b.fwbm
+               where b.zt = 1 and b.deleted = 0 and b.isfx='0' and b.tsgn=#{tsgn} and y.yhid = #{userName}
+              order by b.pxm    
+	</select>
+	
+	<!-- 查询门户表m_wdmh中所有发现服务特色功能类别-->
+	<select id="getFxLbListInWdmh" resultType="String">
+	   select distinct(t.tsgn) from M_WDMH t where t.isfx='1'
+	</select>
+	
+	<!-- 获取我的发现服务 -->
+	<select id="getAllMyFx" resultMap="myPortalMap">
+		select b.* from m_mhgl_mhqx y 
+               left join  m_wdmh b on y.fwbm = b.fwbm
+               where b.zt = 1 and b.deleted = 0 and b.isfx='1' and b.tsgn=#{tsgn} and y.yhid = #{userName}
+              order by b.tsgn,b.pxm    
+	</select>
+</mapper>

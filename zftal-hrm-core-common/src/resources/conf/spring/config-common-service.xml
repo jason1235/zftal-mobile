@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!-- 编目service -->
+	<bean id="baseCodeCatalogService" name="baseCodeCatalogService" class="com.zfsoft.hrm.baseinfo.code.service.impl.CatalogServiceImpl">
+		<property name="catalogDao" ref="baseCodeCatalogDao"></property>
+		<property name="itemDao" ref="baseCodeItemDao"></property>
+	</bean>
+	<!-- 条目service -->
+	<bean id="baseCodeItemService" name="baseCodeItemService" class="com.zfsoft.hrm.baseinfo.code.service.impl.ItemServiceImpl">
+		<property name="catalogDao" ref="baseCodeCatalogDao"></property>
+		<property name="itemDao" ref="baseCodeItemDao"></property>
+	</bean>
+	<!-- 信息类目录Service -->
+	<bean id="baseInfoCatalogService" name="baseInfoCatalogService"
+			class="com.zfsoft.hrm.baseinfo.infoclass.service.impl.CatalogServiceImpl">
+		<property name="dao" ref="baseInfoCatalogDao"></property>
+		<property name="infoClassService" ref="baseInfoClassService"></property>
+		<property name="menuBusiness" ref="menuBusiness"></property>
+	</bean> 
+	
+	<!-- 信息类信息Service -->
+	<bean id="baseInfoClassService" name="baseInfoClassService"
+			class="com.zfsoft.hrm.baseinfo.infoclass.service.impl.InfoClassServiceImpl">
+		<property name="dao" ref="baseInfoClassDao"></property>
+		<property name="propertyService" ref="baseInfoClassPropertyService"></property>
+		<property name="tableService" ref="oracleTableService"></property>
+		<property name="catalogBusiness" ref="baseInfoCatalogBusiness"></property>
+		<property name="menuBusiness" ref="menuBusiness"></property>
+		<property name="menuOperateBusiness" ref="menuOperateBusiness"></property>
+	</bean>
+	
+	<!-- 信息类属性Service -->
+	<bean id="baseInfoClassPropertyService" name="baseInfoPropertyService"
+			class="com.zfsoft.hrm.baseinfo.infoclass.service.impl.InfoPropertyServiceImpl">
+		<property name="dao" ref="baseInfoClassPropertyDao"></property>
+		<property name="columnService" ref="oracleColumnService"></property>
+		<property name="catalogBusiness" ref="baseInfoCatalogBusiness" />
+		<property name="tableService" ref="oracleTableService"></property>
+	</bean>
+	
+	<!-- 组织机构service -->
+	<bean id="baseOrgService" name="baseOrgService" class="com.zfsoft.hrm.baseinfo.org.service.impl.OrgServiceImpl">
+		<property name="orgBusiness" ref="baseOrgBusiness"></property>
+	</bean>
+	
+	<!-- 组织机构查询service -->
+	<bean id="baseOrgSearchService" name="baseOrgSearchService" class="com.zfsoft.hrm.baseinfo.org.service.impl.OrgSearchServiceImpl">
+		<property name="orgBusiness" ref="baseOrgBusiness"></property>
+		<property name="orgSearchBusiness" ref="baseOrgSearchBusiness"></property>
+	</bean>
+	
+	<!-- 组织机构人员service -->
+	<bean id="baseOrgPeopleService" name="baseOrgPeopleService" class="com.zfsoft.hrm.baseinfo.org.service.impl.OrgPeopleServiceImpl">
+		<property name="dynaBeanBusiness" ref="baseDynaBeanBusiness"/>
+	</bean>
+
+	<!-- 表操作service -->
+	<bean id="oracleTableService" name="oracleTableService" class="com.zfsoft.hrm.baseinfo.table.service.impl.OracleTableServiceImpl">
+		<property name="tableDao" ref="tableDao"></property>
+		<property name="columnDao" ref="columnDao"></property>
+	</bean>
+	
+	<!-- 表字段操作service -->
+	<bean id="oracleColumnService" name="oracleColumnService" class="com.zfsoft.hrm.baseinfo.table.service.impl.OracleColumnServiceImpl">
+		<property name="columnDao" ref="columnDao"></property>
+	</bean>
+	
+	<!-- 信息属性展示配置 -->
+	<bean id="infoPropertyViewService" class="com.zfsoft.hrm.baseinfo.infoclass.service.impl.InfoPropertyViewServiceImpl">
+		<property name="viewBusiness" ref="infoPropertyViewBusiness"></property>
+	</bean>
+	
+	<bean id="baseDynaBeanService" name="baseDynaBeanService" class="com.zfsoft.hrm.baseinfo.dyna.service.impl.DynaBeanServiceImpl">
+		<property name="business" ref="baseDynaBeanBusiness"></property>
+	</bean>
+	
+	<bean id="baseDynaBeanLogService" name="baseDynaBeanLogService" class="com.zfsoft.hrm.baseinfo.dyna.service.impl.DynaBeanLogServiceImpl">
+		<property name="dynaBeanLogBusiness" ref="baseDynaBeanLogBusiness"></property>
+	</bean>
+	
+	<!--代码库启动程序-->
+	<bean id="personUtil" class="com.zfsoft.hrm.baseinfo.org.entities.PersonUtilImpl">
+	</bean>
+</beans>

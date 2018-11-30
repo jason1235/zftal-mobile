@@ -1,0 +1,418 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.vote.dao.IVoteDao">
+
+    <sql id="where">
+    	<where>
+			<if test="voteId != null and voteId != ''">
+   				and m.voteId = #{voteId}
+	   		</if>
+			<if test="voteTitle != null and voteTitle != ''">
+    			and m.voteTitle  like '%'||#{voteTitle}||'%' 
+    		</if>
+    		<if test="voteType != null and voteType != ''">
+    			and m.voteType  = #{voteType} 
+    		</if>
+    		<if test="mineVoteFlag != null and mineVoteFlag != ''">
+		    	and m.voteOrganiserId = #{userId}  
+		    </if>
+		    <if test="voteIsDraft != null and voteIsDraft != ''">
+		    	and m.voteIsDraft = #{voteIsDraft}  
+		    </if>
+		</where>
+    </sql> 
+
+	<select id="getList" resultType="com.zfsoft.mobile.vote.entity.VoteMainEntity">
+		  select * from (
+		     select a.*,rownum rn from 
+				(
+				   select a1.*,(case
+			         when a1.voteenddate - sysdate &lt; 0 then
+			          '已结束'
+			         else
+			           '进行中'
+			         end) status from m_votemain a1
+					  left join m_votegroup a2
+					    on a1.voteid = a2.votemainid
+					  left join mobile_qzb a3
+					    on a2.qzid = a3.id
+					  left join mobile_ryqzb a4
+					    on a3.id = a4.group_id
+				  where 1=1
+				    and a4.user_id=#{userId}
+				    <if test="mineVoteFlag != null and mineVoteFlag != ''">
+		    			and a1.voteOrganiserId = #{userId}  
+		    		</if>
+		    		<if test="voteIsDraft != null and voteIsDraft != ''"> 
+		    			and a1.voteIsDraft = #{voteIsDraft}  
+		    		</if>
+				   order by a1.votestartdate desc
+				) a
+			)
+			
+			where rn &gt;=#{startRow} and rn &lt;=#{endRow}
+	</select>
+	
+	<select id="getListCount" resultType="int">
+		select count(*) from
+			(select * from m_votemain m
+			<include refid="where" /> ) a 
+	</select>
+	
+	
+	<!-- 我参与的 -->
+	<select id="getMyPartInList" resultType="com.zfsoft.mobile.vote.entity.VoteMainEntity">
+		select *
+		  from (select ttt.*, (case
+			         when ttt.voteenddate - sysdate &lt; 0 then
+			          '已结束'
+			         else
+			           '进行中'
+			         end) status,rownum rn
+		          from m_votemain ttt
+		         where ttt.voteid in
+		               (select tt.votemainid
+		                  from M_VOTEOPTION tt
+		                 where tt.voteoptionid in
+		                       (select t.voteoptionid
+		                          from M_VOTERESULT t
+		                         where t.voteuserid = #{userId}))
+		                           <if test="voteId != null and voteId != ''">
+						   				and ttt.voteId = #{voteId}
+							   		</if>
+									<if test="voteTitle != null and voteTitle != ''">
+						    			and ttt.voteTitle  like '%'||#{voteTitle}||'%' 
+						    		</if>
+						    		<if test="mineVoteFlag != null and mineVoteFlag != ''">
+								    	and ttt.voteOrganiserId = #{userId}  
+								    </if>
+								    <if test="voteIsDraft != null and voteIsDraft != ''">
+								    	and ttt.voteIsDraft = #{voteIsDraft}  
+								    </if>    
+		                         )
+		where rn &gt;=#{startRow} and rn &lt;=#{endRow}
+	</select>
+	
+	<!-- 我参与的ListCount -->
+	<select id="getMyPartInListCount" resultType="int">
+		select count(*)
+		  from m_votemain ttt
+		 where ttt.voteid in
+		       (select tt.votemainid
+		          from M_VOTEOPTION tt
+		         where tt.voteoptionid in
+		               (select t.voteoptionid
+		                  from M_VOTERESULT t
+		                 where t.voteuserid = #{userId}))
+		    <if test="voteId != null and voteId != ''">
+   				and ttt.voteId = #{voteId}
+	   		</if>
+			<if test="voteTitle != null and voteTitle != ''">
+    			and ttt.voteTitle  like '%'||#{voteTitle}||'%' 
+    		</if>
+    		<if test="mineVoteFlag != null and mineVoteFlag != ''">
+		    	and ttt.voteOrganiserId = #{userId}  
+		    </if>
+		    <if test="voteIsDraft != null and voteIsDraft != ''">
+		    	and ttt.voteIsDraft = #{voteIsDraft}  
+		    </if>                
+	</select>
+	
+	
+	
+	
+	<select id="getVoteById"  resultType="com.zfsoft.mobile.vote.entity.VoteMainEntity" parameterType="map">
+		select m.*,(case
+			         when m.voteenddate - sysdate &lt; 0 then
+			          '已结束'
+			         else
+			           '进行中'
+			         end) status from m_votemain m where 1=1 and voteId = #{voteId}
+	</select>
+	
+	<insert id="insertVoteMain" parameterType="com.zfsoft.mobile.vote.entity.VoteMainEntity">
+			insert into m_votemain(
+				voteId,voteTitle,voteDescription,voteType,voteIsMultiSelect,voteMaxChoice,voteIsAnonymous,voteResultOnlySee,voteEndDate,voteStartDate,voteMaxScore,voteScoreMethod,voteOrganiserId,voteOrganiserName,voteIsDraft
+			) values(
+				#{voteId},#{voteTitle},#{voteDescription},#{voteType},#{voteIsMultiSelect},#{voteMaxChoice},#{voteIsAnonymous},#{voteResultOnlySee},#{voteEndDate},#{voteStartDate},#{voteMaxScore},#{voteScoreMethod,jdbcType=VARCHAR},#{voteOrganiserId},
+				#{voteOrganiserName},#{voteIsDraft}
+			)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="voteId">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<select id="checkHaveOrNotVote" resultType="int">
+	select count(*)
+		  from M_VOTERESULT t
+		 inner join m_voteoption t1
+		    on t.voteoptionid = t1.voteoptionid
+		 where t1.votemainid = #{voteId} and t.voteuserid=#{userId}
+	</select>
+	
+	<insert id="insertVoteOption" parameterType="com.zfsoft.mobile.vote.entity.VoteOptionEntity">
+			insert into m_voteoption(voteOptionId,voteOptionDescription,voteOptionSort,voteMainId,picturename,picturecontent,picturepath) 
+			  values(
+				#{voteOptionId},#{voteOptionDescription},#{voteOptionSort},#{voteMainId},#{pictureName,jdbcType=VARCHAR},#{pictureContent,jdbcType=BLOB},#{picturePath,jdbcType=VARCHAR})
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="voteOptionId">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insertVoteGroup" parameterType="map">
+			insert into m_votegroup(voteMainId,qzId) 
+			  values(
+				#{voteMainId},#{qzId})
+	</insert>
+	
+	<update id="updateVoteMain" parameterType="com.zfsoft.mobile.vote.entity.VoteMainEntity">
+	    update m_votemain
+	         <set>
+				<if test="voteTitle != null and voteTitle != ''">
+	    			voteTitle = #{voteTitle},
+	    		</if>
+	    		<if test="voteDescription != null and voteDescription != ''">
+	    			voteDescription = #{voteDescription},
+	    		</if>
+	    		<if test="voteType != null and voteType != ''">
+	    			voteType = #{voteType},
+	    		</if>
+				<if test="voteIsMultiSelect != null and voteIsMultiSelect != ''">
+	    			voteIsMultiSelect = #{voteIsMultiSelect},
+	    		</if>
+	    		<if test="voteMaxChoice != null and voteMaxChoice != ''">
+	    			voteMaxChoice = #{voteMaxChoice},
+	    		</if>
+	    		<if test="voteIsAnonymous != null and voteIsAnonymous != ''">
+	    			voteIsAnonymous = #{voteIsAnonymous},
+	    		</if>
+	    		<if test="voteResultOnlySee != null and voteResultOnlySee != ''">
+	    			voteResultOnlySee = #{voteResultOnlySee},
+	    		</if>
+	    		<if test="voteEndDate != null and voteEndDate != ''">
+	    			voteEndDate = #{voteEndDate},
+	    		</if>
+	    		<if test="voteStartDate != null and voteStartDate != ''">
+	    			voteStartDate = #{voteStartDate},
+	    		</if>
+	    		<if test="voteOrganiserId != null and voteOrganiserId != ''">
+	    			voteOrganiserId = #{voteOrganiserId},
+	    		</if>
+	    		<if test="voteOrganiserName != null and voteOrganiserName != ''">
+	    			voteOrganiserName = #{voteOrganiserName},
+	    		</if>
+	    		<if test="voteMaxScore != null and voteMaxScore != ''">
+	    			voteMaxScore = #{voteMaxScore},
+	    		</if>
+	    		<if test="voteScoreMethod != null and voteScoreMethod != ''">
+	    			voteScoreMethod = #{voteScoreMethod},
+	    		</if>
+	    		<if test="voteIsDraft != null and voteIsDraft != ''">
+	    			voteIsDraft = #{voteIsDraft},
+	    		</if>
+	    		<if test="voteStop != null and voteStop != ''">
+	    			voteStop = #{voteStop},
+	    		</if>
+	    	</set>	
+			where voteId = #{voteId}
+	</update>
+	
+	<select id="getOptionsByVoteId" resultType="com.zfsoft.mobile.vote.entity.VoteOptionEntity"  parameterType="map">
+	   select t.voteOptionId,t.voteOptionDescription,t.voteOptionSort,t.voteMainId,t.pictureName,t.picturePath from m_voteoption t where 1=1 and t.voteMainId = #{voteMainId}
+	</select>
+	
+	<insert id="insertVoteResult" parameterType="com.zfsoft.mobile.vote.entity.VoteResultEntity">
+			insert into m_voteresult(voteResultId,voteUserId,voteOptionId,voteOptionScore,voteTime) 
+			  values(
+				#{voteResultId},#{voteUserId},#{voteOptionId},#{voteOptionScore},#{voteTime})
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="voteResultId">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<!-- 统计某项投票结果 -->
+	<select id="getVoteResultCount"  resultType="com.zfsoft.mobile.vote.entity.VoteCountEntity" parameterType="map">
+		select tt.voteoptionid optionid,
+           tt.voteoptiondescription description,
+           count(voteoptionid)amount,
+           sum(voteoptionscore) score,
+           round(count(voteoptionid)/(
+             select count(*)
+              from (select t3.*, o3.voteoptiondescription
+                      from M_VOTERESULT t3
+                     inner join m_voteoption o3
+                        on t3.voteoptionid = o3.voteoptionid
+                     inner join m_votemain m3
+                        on m3.voteid = o3.votemainid
+                     where m3.voteid = #{voteId}) tt3
+	           ),4) percentage
+	      from (
+	            select t.*, o.voteoptiondescription
+	              from M_VOTERESULT t
+	             inner join m_voteoption o
+	                on t.voteoptionid = o.voteoptionid
+	             inner join m_votemain m
+	                on m.voteid = o.votemainid
+	             where m.voteid = #{voteId}) tt
+	     group by tt.voteoptionid, tt.voteoptiondescription
+	</select>
+	
+	<!-- 获取某项投票总计投票次数 -->
+	<select id="getVoteResultTotalTimes"  resultType="long" parameterType="map">
+		select count(*)
+		  from (select t.*, o.voteoptiondescription
+		          from M_VOTERESULT t
+		         inner join m_voteoption o
+		            on t.voteoptionid = o.voteoptionid
+		         inner join m_votemain m
+		            on m.voteid = o.votemainid
+		         where m.voteid = #{voteId}) tt
+	</select>
+	
+	<!-- 获取某项投票参与人数 -->
+	<select id="getVoteResultTotalPartInPersons"  resultType="long" parameterType="map">
+		select count(*) persons
+		  from (select distinct (t.voteuserid) userid
+		          from M_VOTERESULT t
+		         inner join m_voteoption o
+		            on t.voteoptionid = o.voteoptionid
+		         inner join m_votemain m
+		            on m.voteid = o.votemainid
+		         where m.voteid = #{voteId}) tt
+	</select>
+	
+	<!-- 获取某项投票结果详情 -->
+	<select id="getVoteResultDetail"  resultType="com.zfsoft.mobile.vote.entity.VoteResultDetailEntity" parameterType="map">
+		select tt.voteuserid userId,
+		       count(tt.voteuserid) times,
+		       tt.xm xm,
+		       max(tt.votetime) lastVoteTime
+		  from (select t.*, o.voteoptiondescription, y.xm
+		          from M_VOTERESULT t
+		         inner join m_voteoption o
+		            on t.voteoptionid = o.voteoptionid
+		         inner join m_votemain m
+		            on m.voteid = o.votemainid
+		         inner join zftal_xtgl_yhb y
+		            on y.zgh = t.voteuserid
+		         where m.voteid = #{voteId}) tt
+		 group by tt.voteuserid, tt.xm
+	</select>
+	
+	<!-- 获取某项投票群组内参与人员 -->
+	<select id="getVoteHavePartInPersons"  resultType="com.zfsoft.mobile.vote.entity.VotePartInPersonEntity" parameterType="map">
+		select tt3.user_id userid, y3.xm xm
+		  from mobile_ryqzb tt3
+		 inner join zftal_xtgl_yhb y3
+		    on y3.zgh = tt3.user_id
+		 where tt3.group_id =
+		       (select qzid
+		          from m_votegroup t3
+		         where t3.votemainid = #{voteId})
+		INTERSECT
+		select distinct (t.voteuserid) userid, y.xm xm
+		  from M_VOTERESULT t
+		 inner join m_voteoption o
+		    on t.voteoptionid = o.voteoptionid
+		 inner join m_votemain m
+		    on m.voteid = o.votemainid
+		 inner join zftal_xtgl_yhb y
+		    on t.voteuserid = y.zgh
+		 where m.voteid = #{voteId}
+	</select>
+	
+	<!-- 获取某项投票群组内未参与人员 -->
+	<select id="getVoteHaveNotPartInPersons"  resultType="com.zfsoft.mobile.vote.entity.VotePartInPersonEntity" parameterType="map">
+		select tt3.user_id userid, y3.xm xm
+		  from mobile_ryqzb tt3
+		 inner join zftal_xtgl_yhb y3
+		    on y3.zgh = tt3.user_id
+		 where tt3.group_id =
+		       (select qzid
+		          from m_votegroup t3
+		         where t3.votemainid = #{voteId})
+		MINUS
+		select distinct (t.voteuserid) userid, y.xm xm
+		  from M_VOTERESULT t
+		 inner join m_voteoption o
+		    on t.voteoptionid = o.voteoptionid
+		 inner join m_votemain m
+		    on m.voteid = o.votemainid
+		 inner join zftal_xtgl_yhb y
+		    on t.voteuserid = y.zgh
+		 where m.voteid = #{voteId}
+	</select>
+	
+	<!-- 查询群组 -->
+	<select id="getQzList" resultType="com.zfsoft.mobile.vote.entity.QzEntity">
+	  select t.id qzId,t.qzmc qzName from MOBILE_QZB t
+	</select>
+	
+	<!-- 根据投票选项id和用户名查询是否投过该选项 -->
+	<select id="getCheckedOptionByUserId" resultType="com.zfsoft.mobile.vote.entity.VoteResultEntity">
+	  select *
+	  from M_VOTERESULT t
+	 where t.voteuserid = #{voteuserid}
+	   and t.voteoptionid = #{voteoptionid}
+	</select>
+	
+	<!-- 移动后台查询语句开始 -->
+	
+	<select id="getYdhtList" resultType="com.zfsoft.mobile.vote.entity.VoteMainEntity">
+		select c.*,rn from (
+		    select a.*,rownum rn from(
+				select m.*,(case
+					         when m.voteenddate - sysdate &lt; 0 then
+					          '已结束'
+					         else
+					           '进行中'
+					         end) status from M_VOTEMAIN m <include refid="where" />  order by m.votestartdate desc
+			)a order by a.votestartdate desc
+	     ) c
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>			         
+	</select>
+	
+	<select id="getYdhtListCount" resultType="int">
+		select count(*) from
+			(select * from m_votemain m
+			<include refid="where" /> ) a 
+	</select>
+	
+	<!-- 查询投票相关的群组 -->
+	<select id="getVoteGroupById" resultType="com.zfsoft.mobile.vote.entity.VoteGroupEntity">
+		select * from m_votegroup t where t.votemainId = #{voteId} 
+	</select>
+	
+	<delete id="deleteVoteByVoteId" parameterType="map">
+	     delete from m_votemain t where t.voteId=#{voteId} 
+	</delete>
+	
+	<!-- 删除投票相关分组信息 -->
+	<delete id="deleteVoteGroupByVoteId" parameterType="map">
+	     delete from M_VOTEGROUP t where t.voteMainId=#{voteId} 
+	</delete>
+	
+	<!-- 删除投票相关选项信息 -->
+	<delete id="deleteVoteOptionsByVoteId" parameterType="map">
+	     delete from M_VOTEOPTION t where t.voteMainId=#{voteId} 
+	</delete>
+	
+	<!-- 删除投票相关结果信息 -->
+	<delete id="deleteVoteResultsByVoteId" parameterType="map">
+	     delete
+		  from M_VOTERESULT t
+		 where t.voteoptionid in
+       (select t2.voteoptionid from m_voteoption t2 where t2.votemainid = #{voteId}) 
+	</delete>
+	<!-- 移动后台查询语句结束 -->
+</mapper>

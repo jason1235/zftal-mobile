@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.hrm.file.dao.daointerface.IAttachementDao">
+	<resultMap  id="AttachementModel" type="com.zfsoft.hrm.file.entity.Attachement">
+		<result property="guId" column="FJBH" />
+		<result property="formId" column="BDBH" />
+		<result property="type" column="FJLX" />
+		<result property="name" column="WJMC" />
+		<result property="size" column="FJDX" />
+		<result property="content" column="FJNR" />
+		<result property="uploadTime" column="SCSJ" />
+		<result property="uploadMan" column="SCR" />
+		<result property="uploadManName" column="XM" />
+		<result property="remark" column="BZ" />
+	</resultMap>
+	
+	<sql id="columns">
+		a.FJBH, a.BDBH,
+		a.FJLX, a.WJMC, a.FJDX,
+		a.SCSJ, a.SCR, b.XM, a.BZ
+	</sql>
+	
+	<sql id="where">
+		<where>
+			a.SCR = b.ZGH(+)
+			<if test="formId != null and formId != ''">
+			and a.BDBH = #{formId}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findList" resultMap="AttachementModel">
+		select <include refid="columns" /> 
+		from HRM_XTGL_FJXXB a, ZFTAL_XTGL_YHB b
+		<include refid="where"/>
+	</select>
+	
+	<select id="findById" resultMap="AttachementModel">
+		select a.FJBH, a.BDBH,
+			a.FJLX, a.WJMC, a.FJDX, a.FJNR,
+			a.SCSJ, a.SCR, b.XM, a.BZ
+		from HRM_XTGL_FJXXB a, ZFTAL_XTGL_YHB b
+		where a.SCR = b.ZGH(+) and a.FJBH = #{guId}
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guId">
+		insert into HRM_XTGL_FJXXB(
+			FJBH, BDBH,
+			FJLX, WJMC, FJDX, FJNR,
+			SCSJ, SCR, BZ
+		) values(
+			#{guId}, #{formId},
+			#{type}, #{name}, #{size}, #{content},
+			#{uploadTime}, #{uploadMan}, #{remark}
+		)
+		
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guId">
+			select SYS_GUID() GUID from DUAL
+        </selectKey>
+	</insert>
+	
+	<update id="update" >
+		update HRM_XTGL_FJXXB
+		set
+			BDBH=#{formId},
+			FJLX=#{type}, 
+			WJMC=#{name}, 
+			FJDX=#{size}, 
+			FJNR= #{content},
+			SCSJ=#{uploadTime}, 
+			SCR=#{uploadMan}, 
+			BZ=#{remark}
+		where fjbh=#{guId}
+	</update>
+	
+	<delete id="deleteById">
+		delete HRM_XTGL_FJXXB where FJBH = #{guId}
+	</delete>
+	
+	<delete id="deleteByFormId">
+		delete HRM_XTGL_FJXXB where BDBH = #{formId}
+	</delete>
+</mapper>

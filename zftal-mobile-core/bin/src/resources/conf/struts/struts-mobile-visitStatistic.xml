@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="visit" namespace="/visit" extends="configuration" >
+		<action name="visit_*" class="visitAction" method="{1}">
+			<result name="visitForDayStatistic">/WEB-INF/pages/mobile/visit/visit_visitForDayStatistic.jsp</result>
+		</action>
+	</package>
+	
+</struts>

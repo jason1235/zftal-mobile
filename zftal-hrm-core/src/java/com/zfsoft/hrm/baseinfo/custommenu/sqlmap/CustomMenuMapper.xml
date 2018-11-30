@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.custommenu.dao.ICustomMenuDao" >
+
+	<resultMap id="customMenuMap" type="com.zfsoft.hrm.baseinfo.custommenu.entity.CustomMenu">
+		<id property="menuId" column="menuId" />
+		<result property="name" column="name" />
+		<result property="conditonJson" column="conditonJson" />
+		<result property="type" column="type" />
+	</resultMap>
+	
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		insert into HRM_XTGL_ZDYCDB(
+			menuId,name,conditonJson,type
+		) values(
+			#{menuId},#{name},#{conditonJson},#{type}
+		)
+	</insert>
+	
+	<update id="update">
+		update HRM_XTGL_ZDYCDB 
+		<set>
+				conditonJson = #{conditonJson},
+			<if test="name != null and name != ''">
+				name = #{name},
+			</if>
+			<if test="type != null and type != ''">
+				type = #{type},
+			</if>
+		</set>
+		where menuId = #{menuId}
+	</update>
+	
+	<delete id="delete">
+		delete from HRM_XTGL_ZDYCDB where menuId = #{menuId}
+	</delete>
+	
+	<select id="getById" resultMap="customMenuMap">
+		select menuId,name,conditonJson,type
+		from HRM_XTGL_ZDYCDB
+		where menuId = #{menuId}
+	</select>
+	
+	<select id="getPagingCount" resultType="int">
+		select count(1)
+		from HRM_XTGL_ZDYCDB
+		<include refid="where" />
+	</select>
+	
+	<select id="getPagingList" resultMap="customMenuMap">
+		select * from (select a.*, rownum rn from (select menuId,name,conditonJson,type
+		from HRM_XTGL_ZDYCDB left join ZFTAL_XTGL_JSGNMKDMB t 
+		on menuId = t.gnmkdm
+		<include refid="where" />
+		order by to_number(t.xssx) ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<sql id="where">
+	</sql>
+</mapper>

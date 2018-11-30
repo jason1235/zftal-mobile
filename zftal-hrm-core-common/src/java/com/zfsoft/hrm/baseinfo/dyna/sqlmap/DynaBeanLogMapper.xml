@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.dyna.dao.daointerface.IDynaBeanLogDao" >
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="values.logid">
+		insert into ${clazz.identityName}_LOG (
+			LOGID, GLOBALID, GH, OPERATOR_, OPERATION_, OPERATION_TIME_, LASTMODIFYTIME, DELETED
+			<foreach collection="clazz.editables" item="property">
+				<if test="property.fieldName != 'gh'">
+				, ${property.fieldName}
+				</if>
+			</foreach>
+		) values(
+			#{values.logid}, #{values.globalid}, #{values.gh}, #{values.operator_}, #{values.operation_}, sysdate, sysdate, '0'
+			<foreach collection="clazz.editables" item="property">
+				<if test="property.fieldName != 'gh'">
+				, #{values.${property.fieldName}}
+				</if>
+			</foreach>
+		)
+		
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="values.logid">
+			<![CDATA[
+			select SYS_GUID() globalid from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<select id="getById" resultType="hashmap">
+		select * from ${clazz.identityName}_LOG where logid = #{values.logid}
+	</select>
+	
+	<update id="removeById">
+		update ${clazz.identityName}_LOG set deleted='1' where logid = #{values.logid}
+	</update>
+	
+	<select id="getPagingList" resultType="hashmap">
+		select * from (select a.*, rownum rn from (select 
+			t.*,
+			o.dwm as dwm2,
+			o.xm as xm2
+			from ${clazz.identityName}_LOG t
+			left join overall o
+				on t.gh = o.gh
+		<include refid="where" />
+	   	<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if> ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+		
+	</select>
+	
+	<select id="getPagingCount" resultType="int">
+		select count(1) from ${clazz.identityName}_LOG t 
+		left join overall o 
+		on t.gh = o.gh
+		<include refid="where" />
+	</select>
+	
+	<sql id="where">
+		<where>
+			<if test="deleted != null">
+				and t.deleted = #{deleted}
+			</if>
+			<if test="express != null and express != ''">
+				and ${express}
+			</if>
+		</where>
+	</sql>
+</mapper>

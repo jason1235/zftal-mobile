@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.zfsoft.mobile.canteenfood.dao.IFoodcataofcanteenDao">
+
+	<resultMap id="foodcataMap" type="com.zfsoft.mobile.canteenfood.entity.Foodcataofcanteen">
+	   <result property="foodcataId" 	column="FOODCATAID" />
+	   <result property="canteenId" 	column="CANTEENID"/>
+	   <result property="foodcataName" 	column="FOODCATANAME"/>
+	   <result property="isactive" 		column="ISACTIVE"/>
+	   <result property="createtime" 	column="CREATETIME"/>
+	</resultMap>
+	
+	<sql id="where">
+		 <where>
+		 	<if test="foodcataId!=null and foodcataId!=''">
+		 	  and m.foodcataid=#{foodcataId}
+		 	</if>
+		 	<if test="foodcataName!=null and foodcataName!=''">
+		 	  and m.foodcataname like '%'||#{foodcataName}||'%'
+		 	</if>
+		 	<if test="canteenId!=null and canteenId!=''">
+		 	  and m.canteenid=#{canteenId}
+		 	</if>
+		 	<if test="isactive != null and isactive != ''"> 
+		 		and m.isactive = #{isactive} 
+		 	</if>
+		 </where>
+	</sql>
+	
+	<select id="getPageCount" resultType="int">
+		select count(*) from
+			(select * from M_CANTEEN_FOODCATALOG m
+			<include refid="where" /> ) a 
+	</select>
+
+	<!-- 获取分页列表信息 -->
+	<select id="getPageList" resultMap="foodcataMap">
+	 select * from (
+      select a.*,rownum rn from (
+        select m.*,c.canteenname  as canname from M_CANTEEN_FOODCATALOG m 
+        left join M_CANTEEN c on c.canteenid=m.canteenid
+        <include refid="where" /> 
+        order by m.createtime asc
+      ) a)
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+	</select>
+	
+	<select id="findById" resultMap="foodcataMap">
+		select t1.* from M_CANTEEN_FOODCATALOG t1
+		<where>
+			t1.foodcataid = #{foodcataId}
+		</where>
+	</select>
+	
+	<select id="getFoodcataList" resultMap="foodcataMap">
+	   select * from M_CANTEEN_FOODCATALOG m  
+	   <include refid="where" />
+	   order by m.isactive desc,m.createtime desc
+	</select>
+	
+	<select id="getFoodcataIdList" resultType="String">
+	   select foodcataId from M_CANTEEN_FOODCATALOG m  
+	   <include refid="where" />
+	   order by m.isactive desc,m.createtime desc
+	</select>
+
+	<insert id="insertFoodcata" >
+		<![CDATA[
+			INSERT INTO 
+				M_CANTEEN_FOODCATALOG(
+					foodcataid,
+					canteenid,
+					foodcataname,
+					isactive,
+					createtime
+				)
+			VALUES(
+				#{foodcataId},
+				#{canteenId},
+				#{foodcataName,jdbcType=VARCHAR},
+				#{isactive},         
+			    sysdate
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="foodcataId">
+			<![CDATA[
+			select SYS_GUID() foodcataId from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="updateFoodcata">
+		update M_CANTEEN_FOODCATALOG
+		 <set>
+		  canteenid=#{canteenId,jdbcType=VARCHAR},
+		  foodcataname=#{foodcataName,jdbcType=VARCHAR},
+		  isactive=#{isactive}
+		 </set>
+		 where foodcataid= #{foodcataId}
+	</update>
+	
+	<delete id="deleteFoodcata">
+		delete from M_CANTEEN_FOODCATALOG <where> foodcataid= #{foodcataId}</where>
+	</delete>
+	
+	<delete id="deleteFoodcataById">
+		delete from M_CANTEEN_FOODCATALOG <where> foodcataid= #{foodcataId}</where>
+	</delete>
+	
+	<update id="control">
+		update M_CANTEEN_FOODCATALOG
+		<set>
+			<if test='isactive == "1"'>
+				isactive = '1'
+			</if>
+			<if test='isactive == "0"'>
+				isactive = '0'
+			</if>
+		</set>
+		where foodcataid= #{foodcataId}
+	</update>
+
+
+</mapper>

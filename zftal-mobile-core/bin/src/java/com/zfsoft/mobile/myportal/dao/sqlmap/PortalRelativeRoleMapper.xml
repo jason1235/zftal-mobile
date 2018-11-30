@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.myportal.dao.IPortalRelativeRoleDao" >
+	
+	<resultMap type="com.zfsoft.mobile.myportal.entity.PortalRelativeRole" id="PortalRelativeRoleMap">
+		<result column="fwbm" property="classFwbm"/>
+		<result column="jsid" property="classJsid"/>
+		<result column="mc" property="classFwmc"/>
+	</resultMap>
+	
+	<sql id="where">
+    	<where>
+			<if test="classJsid != null">
+   				and a.jsid like '%'||#{classJsid}||'%' 
+	   		</if>
+			<if test="classFwbm != null">
+    			and a.fwbm like '%'||#{classFwbm}||'%' 
+    		</if>
+		</where>
+    </sql> 
+    
+	<!-- 获取分页列表信息 -->
+	<select id="getPagedList" resultMap="PortalRelativeRoleMap">
+	select * from (
+		select a.*,b.mc from M_MHGL_JSFPMHGLB a left join M_WDMH b on a.fwbm = b.fwbm
+		<include refid="where" />
+		and b.deleted='0'
+		)
+	</select>
+	
+	<!-- 为分配门户选项计数 -->
+	<select id="getPagedListWeiCount" resultType="int">
+			select count(*) from M_WDMH b where fwbm not in(
+				select fwbm from M_MHGL_JSFPMHGLB a 
+			    <include refid="where" />
+			) and b.deleted = '0' and b.zt = '1'
+	</select>
+	
+	<select id="getPagedListWeifp" resultMap="PortalRelativeRoleMap">
+	select * from (
+	 	select a.*,rownum rn from (
+			select c.fwbm,b.jsid,c.mc from M_WDMH c left join M_MHGL_JSFPMHGLB b on c.fwbm = b.fwbm where c.fwbm not in(
+				select fwbm from M_MHGL_JSFPMHGLB a
+				<if test="classJsid != null and classJsid != ''">
+				  where a.jsid = #{classJsid}  
+	    		</if>
+			)
+			<if test="classFwbm != null and classFwbm != ''">
+    			and c.fwbm like '%'||#{classFwbm}||'%' 
+    		</if>
+    		<if test="classFwmc != null and classFwmc != ''">
+    		and c.mc like '%'||#{classFwmc}||'%' 
+    		</if>
+    		and c.deleted = '0' and c.zt = '1'
+    					) a order by a.fwbm
+    			  )
+    		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>	
+	</select>
+	
+	
+	<insert id="insert" >
+		<![CDATA[
+			insert into M_MHGL_JSFPMHGLB(
+				jsid,fwbm
+			) 
+				select #{jsid},t.fwbm from m_wdmh t 
+		]]>
+			<where>
+		        <if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and t.fwbm in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+		        </if>
+		      and t.deleted='0'
+		     </where>
+		
+	</insert>
+	
+	<!--<insert id="insertYhqx" >
+		<![CDATA[
+			insert into m_mhgl_mhqx(
+				yhid,fwbm
+			) 
+			select yh.zgh,mh.fwbm
+			from zftal_xtgl_yhb yh,m_wdmh mh
+		]]>
+		<where>
+			<if test="jsid != null and jsid == 'student'">
+   				and yh.rylx = 'student' 
+	   		</if>
+			<if test="jsid != 'student'">
+    			and (yh.rylx != 'student' or yh.rylx is null)
+    		</if>
+    		<if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and mh.fwbm in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+	        </if>
+	        and mh.deleted='0'
+		</where>
+	</insert>
+	-->
+	
+	<insert id="insertYhqx" >
+		<![CDATA[
+			insert into m_mhgl_mhqx(
+				yhid,fwbm
+			) 
+			select yh.zgh,mh.fwbm
+			from zftal_xtgl_yhb yh,m_wdmh mh
+		]]>
+		<where>
+			<if test="jsid != null and jsid != ''">
+   				and yh.rylx = #{jsid}   
+	   		</if>
+    		<if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and mh.fwbm in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+	        </if>
+	        and mh.deleted='0'
+		</where>
+	</insert>
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from M_MHGL_JSFPMHGLB  t
+		]]>
+		<where>
+			<if test="jsid != null and jsid != ''">
+   				and t.jsid = #{jsid} 
+	   		</if>
+			
+    		<if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and t.fwbm in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+	        </if>
+		</where>
+		
+	</delete>
+	
+	<delete id="deleteYhqx">
+		<![CDATA[
+			delete from m_mhgl_mhqx  t 
+		]]>
+			<where>
+		        <if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and t.fwbm in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+		        </if>
+		        
+		        and t.yhid in (
+		        	select yh.zgh from zftal_xtgl_yhb yh where  yh.rylx = #{jsid}
+		        )
+		      
+		     </where>
+	</delete>
+	
+	
+	
+</mapper>

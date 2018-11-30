@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="menu" namespace="/menu" extends="configuration">
+        
+        <action name="menu_*" class="baseMenuAction" method="{1}">
+            <result name="page">/WEB-INF/pages/hrm/menu/menu_page.jsp</result>
+            <result name="edit">/WEB-INF/pages/hrm/menu/menu_edit.jsp</result>
+            <result name="404">/page/error/404.html</result>
+            <result name="fpmenu">/WEB-INF/pages/hrm/menu/menu_fpmenu.jsp</result>
+        </action>
+        <action name="apiMenu_*" class="apiMenuAction" method="{1}">
+            <result name="page">/WEB-INF/pages/hrm/menu/apimenu_page.jsp</result>
+            <result name="edit">/WEB-INF/pages/hrm/menu/apimenu_edit.jsp</result>
+            <result name="list">/WEB-INF/pages/hrm/menu/apimenu_list.jsp</result>
+        </action>
+    </package>
+</struts>

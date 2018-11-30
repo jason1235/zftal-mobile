@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.base.xtgl.dao.IMenuDao">
+
+	<resultMap type="com.base.xtgl.entity.IndexModel" id="MenuMap">
+			<result column="gnmkdm" property="gnmkdm"/>
+			<result column="gnmkmc" property="gnmkmc"/>
+			<result column="fjgndm" property="fjgndm"/>
+			<result column="dyym" property="dyym"/>
+			<result column="xssx" property="xssx"/>
+			<result column="sfqy" property="sfqy"/>
+	</resultMap>
+	<resultMap type="com.base.xtgl.entity.MenuPermissionEntity" id="MenuPerMap">
+		<result column="userId" property="userId"/>
+		<result column="gnmkdm" property="gnmkdm"/>
+	</resultMap>
+	<sql id="where">
+    	<where>
+			<if test="gnmkdm != null and gnmkdm != ''">
+   				and m.gnmkdm = #{gnmkdm}
+	   		</if>
+			<if test="gnmkmc != null and gnmkmc != ''">
+    			and m.gnmkmc  like '%'||#{gnmkmc}||'%' 
+    		</if>
+    		<if test="fjgndm != null and fjgndm != ''">
+    			and m.fjgndm = #{fjgndm}
+    		</if>
+    		<if test="sfqy != null and sfqy != ''">
+    			and m.sfqy = #{sfqy}
+    		</if>
+		</where>
+    </sql>
+     
+    <!-- 获取用户已分配菜单列表信息 -->
+	<select id="getNotPermissionList" resultMap="MenuPerMap">
+			   select m.gnmkdm,#{userId} from m_menu m left join m_menu_yh yh on m.gnmkdm = yh.gnmkdm where m.gnmkdm not in
+	             (
+	               select n.gnmkdm  from m_menu_yh n  where n.userid=#{userId}
+	             )
+	</select>
+	
+    <!-- 获取用户已分配菜单列表信息 -->
+	<select id="getPermissionList" resultMap="MenuPerMap">
+			
+				select * from M_MENU_YH where userId =#{userId} 
+	</select>
+	
+	
+     <!-- 获取分页列表信息 -->
+	<select id="getAllListByUser" resultMap="MenuMap">
+			
+				select m.* from M_MENU m 
+				where m.sfqy='1'  order by m.xssx asc
+	</select>
+	
+     <!-- 获取分页列表信息 -->
+	<select id="getAllList" resultMap="MenuMap">
+			
+				select * from M_MENU where sfqy='1' order by xssx asc
+	</select>
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getList" resultMap="MenuMap">
+			select c.*,c.rn from (
+				select a.*,rownum rn from
+				(select * from M_MENU m
+				<include refid="where" /> )
+				a
+			) c
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} order by xssx asc
+			]]>	
+	</select>
+	
+	<select id="getListCount" resultType="int">
+			select count(*) from
+				(select * from M_MENU m
+				<include refid="where" /> )
+			a  
+	</select>
+	
+	<select id="yanzheng" resultType="int">
+			select count(*) from
+				(
+					select * from M_MENU_YH  ym  left join M_MENU  m on ym.gnmkdm = m.gnmkdm
+					where userId =#{userId} and m.dyym like '%'||#{path}||'%'  
+				)
+			a  
+	</select>
+	
+	
+	<insert id="insertYhMenu" >
+		<![CDATA[
+			insert into M_MENU_YH(
+				userId,gnmkdm
+			) 
+				select #{userId},t.gnmkdm from M_MENU t 
+		]]>
+			<where>
+		        <if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and t.gnmkdm in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+		        </if>
+		     </where>
+		
+	</insert>
+	
+	<insert id="insertMenu">
+		insert into M_MENU(
+		gnmkdm,
+		gnmkmc,
+		fjgndm,
+        <if test="dyym != null and dyym != ''">dyym,</if>
+        xssx,
+        sfqy
+		)
+		values(
+			#{gnmkdm},
+			#{gnmkmc},
+			#{fjgndm},
+			<if test="dyym != null and dyym != ''">#{dyym},</if>
+			#{xssx},
+			#{sfqy}
+		)
+	</insert>
+	
+	<update id="updateSfqy">
+		update M_MENU set sfqy=#{sfqy} where gnmkdm=#{gnmkdm} or fjgndm  like '%'||#{gnmkdm}||'%'
+	</update>
+	
+	<update id="update">
+		update M_MENU set gnmkmc=#{gnmkmc},dyym=#{dyym,jdbcType=VARCHAR} where gnmkdm=#{gnmkdm}
+	</update>
+	
+	<delete id="deleteYhMenu">
+		<![CDATA[
+			delete from M_MENU_YH  t
+		]]>
+		<where>
+			<if test="userId != null and userId != ''">
+   				and t.userId = #{userId} 
+	   		</if>
+			
+    		<if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and t.gnmkdm in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+	        </if>
+		</where>
+		
+	</delete>
+	
+	<delete id="delete">
+		delete from M_MENU where gnmkdm=#{gnmkdm} 
+	</delete>
+	
+</mapper>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.contract.dao.ICategoryConfigDao" >
+	
+	<resultMap type="com.zfsoft.hrm.contract.entity.CategoryConfig" id="categoryConfigMap">
+		<result property="htzldm" column="htzldm"/>
+		<result property="htzlmc" column="htzlmc"/>
+		<result property="dqtxts" column="dqtxts"/>
+		<result property="xqtxts" column="xqtxts"/>
+		<result property="syqtxts" column="syqtxts"/>
+		<result property="glry" column="glry"/>
+		<result property="sfqy" column="sfqy"/>
+		<result property="sfzdtx" column="sfzdtx"/>
+		<result property="bz" column="bz"/>
+		<result property="cjr" column="cjr"/>
+		<result property="cjsj" column="cjsj"/>
+		<result property="xgr" column="xgr"/>
+		<result property="xgsj" column="xgsj"/>
+	</resultMap>
+	
+	<!-- 获取合同种类信息 -->
+	<select id="getPagedList" resultMap="categoryConfigMap" >
+		select htzldm,htzlmc,dqtxts,xqtxts,syqtxts,glry from HT_HTZLGLB
+	</select>
+	<!-- 添加合同种类 -->
+	<insert id="insert">
+		insert into HT_HTZLGLB (HTZLDM,HTZLMC,DQTXTS,XQTXTS,SYQTXTS,GLRY,SFQY,SFZDTX,BZ,CJR,CJSJ) values
+		(#{htzldm},#{htzlmc},#{dqtxts,jdbcType=INTEGER},#{xqtxts,jdbcType=INTEGER},#{syqtxts,jdbcType=INTEGER},#{glry,jdbcType=VARCHAR},#{sfqy,jdbcType=VARCHAR},#{sfzdtx,jdbcType=VARCHAR},#{bz,jdbcType=VARCHAR},#{cjr,jdbcType=VARCHAR},#{cjsj,jdbcType=DATE})
+	</insert>
+	
+	<select id="getById" resultMap="categoryConfigMap">
+		select * from HT_HTZLGLB where htzldm = #{htzldm,jdbcType=VARCHAR}
+	</select>
+	
+	<update id="update">
+		update HT_HTZLGLB set htzldm = #{htzldm,jdbcType=VARCHAR},htzlmc = #{htzlmc,jdbcType=VARCHAR},dqtxts = #{dqtxts,jdbcType=INTEGER},xqtxts = #{xqtxts,jdbcType=INTEGER},syqtxts = #{syqtxts,jdbcType=INTEGER},glry = #{glry,jdbcType=VARCHAR},sfqy = #{sfqy,jdbcType=VARCHAR},
+							  sfzdtx = #{sfzdtx,jdbcType=VARCHAR},bz = #{bz,jdbcType=VARCHAR},xgr = #{xgr,jdbcType=VARCHAR},xgsj = #{xgsj,jdbcType=VARCHAR} where htzldm = #{htzldm,jdbcType=VARCHAR}
+	</update>
+	
+	<delete id="delete">
+		delete from HT_HTZLGLB where htzldm = #{htzldm}
+	</delete>
+	
+	<select id="checkDm" resultType="java.lang.Integer">
+		select count(*) from HT_HTZLGLB where htzldm = #{htzldm}
+	</select>
+	
+	<select id="getXm" resultType="java.lang.String">
+		select xm from overall where gh = #{gh}
+	</select>
+</mapper>

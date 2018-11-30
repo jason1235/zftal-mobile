@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IWdyyDao" >
+	<!-- 查询我的应用   老师版 -->
+	<select id="cxLsWdyy" resultType="com.zfsoft.dao.entities.WdyyModel" useCache="false"
+		resultSetType="FORWARD_ONLY" flushCache="false" statementType="PREPARED"
+		timeout="20000">
+			select distinct wdyy.yhdm   as yhdm,
+			       wdyy.gnmkdm as gnmkdm,
+			       wdyy.xssx   as xssx,
+			       wdyy.fjgndm as fjgndm,
+			       gnmk.gnmkmc as gnmkmc,
+			       gnmk.dyym   as dyym
+			  from zftal_xtgl_wdyygnmkczb wdyy,
+			       zftal_xtgl_yhjsb       userrole,
+			       zftal_xtgl_jsgnmkczb   rolefun,
+			       zftal_xtgl_jsgnmkdmb   gnmk,
+			       zftal_xtgl_jsxxb r
+		 	<where>
+		 		wdyy.yhdm = userrole.zgh
+				and userrole.jsdm = rolefun.jsdm
+				and rolefun.gnmkdm = wdyy.gnmkdm
+				and wdyy.gnmkdm = gnmk.gnmkdm
+				and userrole.jsdm=r.jsdm
+		 		<if test="jsdms != null and !jsdms.empty">
+					<foreach collection="jsdms" item="jsdm" open="and userrole.jsdm in (" close=")" separator="," >
+						#{jsdm}
+					</foreach>
+	    		</if>
+		 		<if test="yhdm != null">
+					and wdyy.yhdm = #{yhdm}
+	    		</if>
+	    		<if test="gnmkdm != null">
+					and wdyy.gnmkdm = #{gnmkdm}
+	    		</if>
+	    		<if test="fjgndm!= null">
+					and wdyy.fjgndm = #{fjgndm}
+	    		</if>
+				<if test="sysCode != null and sysCode != ''">
+					AND r.sysCode = #{sysCode}
+				</if>
+		 	</where>
+		 	order by wdyy.xssx asc
+    </select>
+    
+    <!-- 查询我的应用   学生版 -->
+	<select id="cxXsWdyy" parameterType="string"
+		resultType="com.zfsoft.dao.entities.WdyyModel" useCache="false"
+		resultSetType="FORWARD_ONLY" flushCache="false" statementType="PREPARED"
+		timeout="20000">
+		select wdyy.yhdm as yhdm,wdyy.gnmkdm as gnmkdm,wdyy.xssx as xssx,wdyy.fjgndm as fjgndm,
+      	gnmk.gnmkmc as gnmkmc,gnmk.dyym as dyym
+      		 from zftal_xtgl_wdyygnmkczb wdyy ,zftal_xtgl_xsgnmkdmb gnmk
+		 	<where>
+		 		wdyy.gnmkdm=gnmk.gnmkdm 
+		 		<if test="yhdm != null">
+					and wdyy.yhdm = #{yhdm}
+	    		</if>
+	    		<if test="gnmkdm != null">
+					and wdyy.gnmkdm = #{gnmkdm}
+	    		</if>
+	    		<if test="fjgndm!= null">
+					and wdyy.fjgndm = #{fjgndm}
+	    		</if>
+		 	</where>
+		 	order by wdyy.xssx asc
+    </select>
+    <!-- 增加我的应用 -->
+    <insert id="insert" parameterType="com.zfsoft.dao.entities.WdyyModel"
+		flushCache="false" statementType="PREPARED" timeout="20000">
+       	insert into zftal_xtgl_wdyygnmkczb(yhdm,gnmkdm,xssx,fjgndm) 
+      		 values(#{yhdm},#{gnmkdm},
+            	 ((select nvl(max(wdyy.xssx),0)+1 as xssx from zftal_xtgl_wdyygnmkczb wdyy 
+                     where 1=1 and wdyy.yhdm=#{yhdm} and wdyy.fjgndm =#{fjgndm}))
+             ,#{fjgndm})
+    </insert>
+    <!-- 删除我的应用 -->
+    <delete id="scWdyy" parameterType="list"
+		flushCache="false" statementType="PREPARED" timeout="20000">
+		delete zftal_xtgl_wdyygnmkczb wdyy 
+			<where>
+		 		1=1
+		 		<if test="yhdm != null">
+					and wdyy.yhdm = #{yhdm}
+	    		</if>
+	    		<if test="gnmkdm != null">
+					and wdyy.gnmkdm = #{gnmkdm}
+	    		</if>
+	    		<if test="fjgndm!= null">
+					and wdyy.fjgndm = #{fjgndm}
+	    		</if>
+		 	</where>
+	</delete>
+   
+</mapper>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="helpguide" namespace="/helpguide" extends="configuration" >
+		<action name="helpguide_*" class="helpGuideAction" method="{1}">
+			<result name="list">/WEB-INF/pages/mobile/helpguide/helpguide_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/helpguide/helpguide_edit.jsp</result>
+			<result name="view">/WEB-INF/pages/mobile/helpguide/helpguide_view.jsp</result>
+			<result name="viewdetail">/WEB-INF/pages/mobile/helpguide/helpguide_viewdetail.jsp</result>
+		</action>
+	</package>
+	
+</struts>

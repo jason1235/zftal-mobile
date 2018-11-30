@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.dybill.dao.ISpBillDefineCatchDao" >
+    <sql id="selectColumn">
+        t.*,
+        ${uniqueField} as globalid
+        <foreach collection="catchFields" item="catchfield" >
+            <if test="catchfield.fieldName != null and catchfield.fieldName != ''">
+            ,${catchfield.fieldName } as ${catchfield.billProperty.fieldName}
+            </if>
+        </foreach>
+    </sql>
+    <select id="findList" resultType="hashmap" >
+        select
+        <include refid="selectColumn"/>
+        from ${tableName} t
+        where 
+        ${expression}
+    </select>
+</mapper>

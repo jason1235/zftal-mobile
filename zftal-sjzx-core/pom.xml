@@ -1,0 +1,154 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  
+  <parent>
+		<groupId>com.zfsoft</groupId>
+		<artifactId>zftal-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+</parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.zfsoft</groupId>
+  <artifactId>zftal-sjzx-core</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>zftal-sjzx-core</name>
+   <build>
+		<sourceDirectory>src/java</sourceDirectory>
+		<resources>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/resources</directory>
+			</resource>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+		</resources>
+	</build>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>	
+		<axis2.version>1.6.2</axis2.version>  
+	</properties>
+		
+	<dependencies>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>zftal-hrm-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>zftal-middleware-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		
+		
+		<!-- https://mvnrepository.com/artifact/axis/axis -->
+		<!-- axis 1.4 jar start -->
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-discovery</groupId>
+            <artifactId>commons-discovery</artifactId>
+            <version>0.2</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis-jaxrpc</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis-saaj</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.4</version>
+        </dependency>
+        <!-- axis 1.4 jar end -->
+        
+        
+         <dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2</artifactId>
+			<version>${axis2.version}</version>
+			<type>pom</type>
+			<scope>compile</scope>
+		</dependency>
+        
+        <dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2-adb</artifactId>
+			<version>${axis2.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2-kernel</artifactId>
+			<version>${axis2.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2-transport-http</artifactId>
+			<version>${axis2.version}</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2-transport-local</artifactId>
+			<version>${axis2.version}</version>
+		</dependency>
+		
+		
+		
+		
+		
+		<dependency> 
+		    <groupId>com.zfsoft</groupId>  
+		    <artifactId>zfjob</artifactId> 
+		    <version>1.0</version> 
+		    <scope>system</scope> 
+		    <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/zfjob-1.0.jar</systemPath> 
+		</dependency> 
+		
+		
+		<!-- https://mvnrepository.com/artifact/backport-util-concurrent/backport-util-concurrent -->
+		<dependency>
+		    <groupId>backport-util-concurrent</groupId>
+		    <artifactId>backport-util-concurrent</artifactId>
+		    <version>3.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/net.sf.ehcache/ehcache -->
+		<dependency>
+		    <groupId>net.sf.ehcache</groupId>
+		    <artifactId>ehcache</artifactId>
+		    <version>1.5.0</version>
+		</dependency>
+		
+		
+		
+		
+		
+		
+		
+	</dependencies>
+</project>

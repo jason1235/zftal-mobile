@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.workflow.dao.ISpProcedureBillDao">
+
+	<resultMap id="spProcedureBillMap" type="com.zfsoft.workflow.model.SpProcedureBill">
+		<result property="id" column="ID" />
+		<result property="pid" column="P_ID" />
+		<result property="billId" column="BILL_ID" />
+		<result property="billType" column="BILL_TYPE" />
+		<result property="classesPrivilege" column="CLASSES_PRIVILEGE" />
+	</resultMap>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO SP_PROCEDURE_BILL
+			  (ID, BILL_ID, BILL_TYPE, P_ID, CLASSES_PRIVILEGE)
+			VALUES
+			  (#{id}, 
+			  #{billId}, 
+			  #{billType}, 
+			  #{pid},
+			  #{classesPrivilege,jdbcType=VARCHAR})
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			SELECT SYS_GUID() KHLC_ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<!-- 修改 -->
+	<update id="update">
+		<![CDATA[
+			UPDATE SP_PROCEDURE_BILL
+			   SET CLASSES_PRIVILEGE = #{classesPrivilege,jdbcType=VARCHAR}
+			 WHERE BILL_ID = #{billId}
+			   AND P_ID = #{pid}
+		]]>
+	</update>
+	
+	<!-- 根据节点ID和表单ID删除关联关系 -->
+	<delete id="delete">
+		<![CDATA[
+			DELETE FROM SP_PROCEDURE_BILL WHERE P_ID = #{pid} and BILL_ID = #{billId}
+		]]>
+	</delete>
+	
+	<!-- 删除下所有节点 -->
+	<delete id="deleteByPId">
+		<![CDATA[
+			DELETE FROM SP_PROCEDURE_BILL WHERE P_ID = #{pid}
+		]]>
+	</delete>
+
+	<!-- 根据PID条件查询记录（结果一个或多个） -->
+    <select id="findProcedureBillListByPId" resultMap="spProcedureBillMap">
+    	<![CDATA[ 
+			SELECT ID, P_ID, BILL_ID, BILL_TYPE,CLASSES_PRIVILEGE
+			  FROM SP_PROCEDURE_BILL 
+			 WHERE P_ID = #{0} 
+		]]>		 
+	</select>
+	
+	<!-- 根据PID和WID条件查询记录（结果一个或多个） -->
+    <select id="findProcedureBillListByPIdAndWid" resultMap="spProcedureBillMap">
+    	<![CDATA[ 
+			SELECT ID, P_ID, BILL_ID, BILL_TYPE,CLASSES_PRIVILEGE
+			  FROM SP_PROCEDURE_BILL 
+			 WHERE P_ID = #{pid}
+			   AND W_ID = #{wid} 
+		]]>		 
+	</select>
+	
+	<!-- 根据PID和BILLTYPE条件查询记录（结果一个或多个） -->
+    <select id="findCommitBillListByPIdAndBillType" resultMap="spProcedureBillMap">
+    	<![CDATA[ 
+			SELECT ID, P_ID, BILL_ID, BILL_TYPE,CLASSES_PRIVILEGE
+			  FROM SP_PROCEDURE_BILL 
+			 WHERE P_ID = #{pid}
+			   AND BILL_TYPE = 'COMMIT' 
+		]]>		 
+	</select>
+	
+	<!-- 根据PID和BILLTYPE条件查询记录（结果一个或多个） -->
+    <select id="findApproveBillListByPIdAndBillType" resultMap="spProcedureBillMap">
+    	<![CDATA[ 
+			SELECT ID, P_ID, BILL_ID, BILL_TYPE,CLASSES_PRIVILEGE
+			  FROM SP_PROCEDURE_BILL 
+			 WHERE P_ID = #{pid}
+			   AND BILL_TYPE = 'APPROVE' 
+		]]>		 
+	</select>
+	
+	<!-- 根据节点ID和CLASSID条件查询记录（结果一个或多个） -->
+	<select id="getCountByPIdAndClassId" resultType="int">
+		SELECT COUNT(ID) FROM SP_PROCEDURE_BILL WHERE P_ID = #{pid} AND BILL_ID = #{billId} 
+	</select>
+	
+</mapper>

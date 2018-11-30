@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="serviceManager" namespace="/serviceManager" extends="configuration" >
+		<action name="business_*" class="businessAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/services/business_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/services/business_edit.jsp</result>
+		</action>
+		<action name="serviceManager_*" class="serviceManagerAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/services/serviceManager_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/services/serviceManager_edit.jsp</result>
+			<result name="fwbmVisits">/WEB-INF/pages/mobile/services/refwbmVisits.jsp</result>
+			<result name="visitsServiceStatistic">/WEB-INF/pages/mobile/services/visitsServiceStatistic.jsp</result>
+		</action>
+		<action name="fwdyjs_*" class="fwdyjsAction" method="{1}" >
+			<!--<result name="fwdyjslist">/WEB-INF/pages/mobile/services/fuwulist.jsp</result>
+			-->
+			<result name="fwdyjslist">/WEB-INF/pages/mobile/services/fuwulist_new.jsp</result>
+		</action>
+		<action name="WXApplicationCenter_*" class="WXApplicationCenterAction" method="{1}" >
+			<result name="edit">/WEB-INF/pages/mobile/services/applicationCenterBook.jsp</result>
+			<result name="list">/WEB-INF/pages/mobile/services/applicationCenter.jsp</result>
+		</action>
+		<action name="question_*" class="questionAction" method="{1}" >
+			<result name="edit">/WEB-INF/pages/mobile/services/questionmain_edit.jsp</result>
+			<result name="list">/WEB-INF/pages/mobile/services/question_list.jsp</result>
+			<result name="que_modify">/WEB-INF/pages/mobile/services/question_edit.jsp</result>
+			<result name="addType">/WEB-INF/pages/mobile/services/questiontype_add.jsp</result>
+			<result name="ExamResult">/WEB-INF/pages/mobile/services/ExamResult.jsp</result>
+			<result name="toShenHe">/WEB-INF/pages/mobile/services/question_shenhe.jsp</result>
+			
+			<result name="answerList">/WEB-INF/pages/mobile/services/question_answerList.jsp</result>
+		</action>
+		
+		<action name="twoQuestion_*" class="twoQuestionAction" method="{1}" >
+			<result name="edit">/WEB-INF/pages/mobile/services/twoQuestionmain_edit.jsp</result>
+			<result name="list">/WEB-INF/pages/mobile/services/twoQuestion_list.jsp</result>
+			<result name="que_modify">/WEB-INF/pages/mobile/services/twoQuestion_edit.jsp</result>
+			<result name="addType">/WEB-INF/pages/mobile/services/twoQuestiontype_add.jsp</result>
+			<result name="ExamResult">/WEB-INF/pages/mobile/services/twoExamResult.jsp</result>
+			<result name="toShenHe">/WEB-INF/pages/mobile/services/twoQuestion_shenhe.jsp</result>
+			
+			<result name="answerList">/WEB-INF/pages/mobile/services/twoQuestion_answerList.jsp</result>
+			<result name="userList">/WEB-INF/pages/mobile/services/twoQuestion_userList.jsp</result>
+			
+		</action>
+		
+		
+		<action name="gaoDeMap_*" class="gaoDeMapAction" method="{1}" >
+			<result name="upload">/WEB-INF/pages/mobile/services/baidumap_upload.jsp</result>
+		</action>
+		<action name="loss_*" class="lossObjectAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/services/lossObject_list.jsp</result>
+			<result name="shenhe">/WEB-INF/pages/mobile/services/lossObject_shenhe.jsp</result>
+			<result name="zlrsh">/WEB-INF/pages/mobile/services/lossObject_zlrsh.jsp</result>
+			<result name="detail">/WEB-INF/pages/mobile/services/lossObject_detail.jsp</result>
+		</action>
+		
+	</package>
+	
+</struts>

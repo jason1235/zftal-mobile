@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IBmdmDao" >
+
+	<!-- 增加部门代码 -->
+    <insert id="insert" parameterType="BmdmModel">
+		insert into zftal_xtgl_bmdmb
+		  (bmdm_id,
+		   bmmc,
+		   bmdm_id_ls,
+		   ywmc,
+		   bmjc,
+		   cydm_id_bmlb,
+		   sfyx,
+		   sfst,
+		   bmfzr,
+		   kkxy,
+		   zjr,
+		   zjsj,
+		   xgr,
+		   xgsj)
+		values
+		  (zftal_seq_bmdm.nextval,
+		   #{bmmc},
+		   #{bmdm_id_ls},
+		   #{ywmc},
+		   #{bmjc},
+		   #{cydm_id_bmlb},
+		   #{sfyx},
+		   #{sfst},
+		   #{bmfzr},
+		   #{kkxy},
+		   #{zjr},
+		   #{zjsj},
+		   #{xgr},
+		   #{xgsj})
+    </insert>
+    
+    <!-- 修改部门代码 -->    
+    <update id="update" parameterType="BmdmModel">
+		update zftal_xtgl_bmdmb
+		<set>
+			<if test="bmmc != null and bmmc != ''">
+		   	   bmmc = #{bmmc},
+		   	</if>
+		   	<if test="bmdm_id_ls != null and bmdm_id_ls != ''">
+		       bmdm_id_ls = #{bmdm_id_ls},
+		   	</if>
+		   	<if test="ywmc != null and ywmc != ''">
+		   	   ywmc = #{ywmc},
+		   	</if>
+			<if test="bmjc != null and bmjc != ''">
+			   bmjc = #{bmjc},
+			</if>		       
+			<if test="cydm_id_bmlb != null and cydm_id_bmlb != ''">
+			   cydm_id_bmlb = #{cydm_id_bmlb},
+			</if>	
+			<if test="sfyx != null and sfyx != ''">
+			   sfyx = #{sfyx},
+			</if> 
+			<if test="sfst != null and sfst != ''">
+			   sfst = #{sfst},
+			</if> 
+			<if test="bmfzr != null and bmfzr != ''">
+			   bmfzr = #{bmfzr},
+			</if> 
+			<if test="kkxy != null and kkxy != ''">
+			   kkxy = #{kkxy},
+			</if> 
+			<if test="zjr != null and zjr != ''">
+			   zjr = #{zjr},
+			</if>
+			<if test="zjsj != null and zjsj != ''">
+			   zjsj = #{zjsj},
+			</if>
+			<if test="xgr != null and xgr != ''">
+			   xgr = #{xgr},
+			</if>
+			<if test="xgsj != null and xgsj != ''">
+			   xgsj = #{xgsj}
+			</if>
+		</set>
+		 where bmdm_id = #{bmdm_id}
+    </update>
+    
+     <!-- 删除部门代码 -->
+    <delete id="batchDelete" parameterType="hashMap"
+		flushCache="false" statementType="PREPARED" timeout="20000">
+    	delete zftal_xtgl_bmdmb where
+    	 <foreach collection="list" item="item" index="index"
+				separator=" OR">
+			   bmdm_id = #{item.pkvalue} 
+		</foreach>
+    </delete>
+    
+	<!-- 查询部门代码（分页）-->
+	<select id="getPagedList" parameterType="BmdmModel" resultType="BmdmModel">
+	    select bmdm_id,
+	           bmmc,
+	           (select bmmc from zftal_xtgl_bmdmb where bmdm_id_ls = bmdm_id) as bmdm_id_ls,
+	           ywmc,
+	           bmjc,
+	           (select dmmc
+	              from zftal_xtgl_cydmb
+	             where cydm_id = cydm_id_bmlb
+	               and sfyx = '1') as cydm_id_bmmc,
+	           cydm_id_bmlb,
+	           sfyx,
+	           sfst,
+	           bmfzr,
+	           kkxy
+	      from zftal_xtgl_bmdmb
+		<where>
+			<if test="bmmc != null and bmmc != ''">
+				and bmmc like '%' || #{bmmc} || '%'
+			</if>
+			<if test="bmjc != null and bmjc != ''">
+				and bmjc like '%' || #{bmjc}|| '%'
+			</if>
+			<if test="cydm_id_bmlb != null and cydm_id_bmlb != ''">
+				and cycm_id_bmlb = #{cydm_id_bmlb}
+			</if>
+			<if test="sfyx != null and sfyx != ''">
+				and sfyx = #{sfyx}
+			</if>
+			<if test="sfst != null and sfst != ''">
+				and sfst = #{sfst}
+			</if>
+			<if test="kkxy != null and kkxy != ''">
+				and kkxy = #{kkxy}
+			</if>			
+		</where>
+	</select>
+	
+	<!-- 查询所有机构代码-->
+	<select id="getModelList" parameterType="BmdmModel" resultType="BmdmModel">
+		select bmdm_id,bmmc,cydm_id_bmlb from zftal_xtgl_bmdmb
+		<if test="bmmc!=null and bmmc!=''">
+			where bmmc like '%' || #{bmmc} || '%'
+		</if>
+		order by bmdm_id
+	</select>
+	
+	<!-- 根据开课学院,查询部门列表-->
+	<select id="queryModel" parameterType="hashMap" resultType="BmdmModel">
+	    select 
+	    	bmdm_id, bmmc, kkxy,bmdm_id_ls
+	    from 
+	      	zftal_xtgl_bmdmb bm 
+	    where
+	    	bm.sfyx = '1'
+	    	<if test="kkxy != null and kkxy != ''">
+      			and bm.kkxy= #{kkxy}
+	    	</if> 
+	    	<if test="bmdm_id_ls != null and bmdm_id_ls != ''">
+      			and bm.bmdm_id_ls= #{bmdm_id_ls}
+	    	</if> 
+	</select>
+ 
+</mapper>

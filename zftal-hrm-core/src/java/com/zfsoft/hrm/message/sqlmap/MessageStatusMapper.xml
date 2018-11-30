@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.message.dao.daointerface.IMessageStatusDao" >
+	
+	<resultMap type="com.zfsoft.hrm.message.entity.MessageStatus" id="messageStatusMap">
+		<result property="guid" column="guid"/>
+		<result property="receiver" column="jsr"/>
+		<result property="messageId" column="xxbh"/>
+		<result property="readTime" column="ydsj"/>
+	</resultMap>
+	
+	<!-- 插入单条信息 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		insert into HRM_XXGL_XXZT (guid,xxbh,jsr)
+		values(#{guid},#{messageId},#{receiver})
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() globalid from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		update HRM_XXGL_XXZT set ydsj = #{readTime} where guid = #{guid}
+	</update>
+	
+</mapper>

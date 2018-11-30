@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.snapshot.dao.daointerface.ISnapshotInfoDao" >
+
+    <sql id="sql_overall_snap">
+      select
+          t.*
+        from
+         overall_snap t
+      <where>
+        <if test="express != null and express != ''">
+        and ${express}
+        </if>
+        <if test="snapTimeStart != null">
+        and t.snap_time &gt;= #{snapTimeStart}
+        </if>
+        <if test="snapTimeEnd != null">
+        and t.snap_time &lt;= #{snapTimeEnd}
+        </if>
+      </where>
+    </sql>
+    
+    <select id="getPagingCount" resultType="int">
+      select count(*)
+        from  
+        <if test="clazz.identityName != 'OVERALL'">
+        ${clazz.identityName}_snap t1,
+        (<include refid="sql_overall_snap"/>) t2
+        </if>
+        <if test="clazz.identityName == 'OVERALL'">
+        (<include refid="sql_overall_snap"/>) t2
+        </if>
+      <where>
+        <if test="clazz.identityName != 'OVERALL'">
+        t1.gh = t2.gh
+        and t1.snap_time = t2.snap_time
+        </if>
+      </where>
+    </select>
+    
+    <select id="getPagingList" resultType="hashmap">
+      select *
+      from (
+      select
+        a.*,
+        rownum rn
+      from
+         <if test="clazz.identityName != 'OVERALL'">
+        (select t1.*
+         from
+        ${clazz.identityName}_snap t1, 
+        (<include refid="sql_overall_snap"/>) t2
+        </if>
+        <if test="clazz.identityName == 'OVERALL'">
+        (<include refid="sql_overall_snap"/>
+        </if>
+      <where>
+        <if test="clazz.identityName != 'OVERALL'">
+        t1.gh = t2.gh
+        and t1.snap_time = t2.snap_time
+        </if>
+      </where>
+      <if test="clazz.identityName != 'OVERALL'">
+         order by t1.snap_time desc, t1.globalid desc) a)
+      </if>
+      <if test="clazz.identityName == 'OVERALL'">
+         order by t.snap_time desc, t.globalid desc) a)
+      </if>
+      <![CDATA[
+      where
+        rn >= #{startRow}
+        and rn <= #{endRow}
+      ]]>
+    </select>
+</mapper>

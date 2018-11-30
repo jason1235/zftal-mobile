@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="txl" namespace="/txl" extends="configuration" >
+		<action name="txl_*" class="xgdTxlAction" method="{1}" >
+			<result name="index">/WEB-INF/pages/mobile/txl/index.jsp</result>
+			<result name="upload">/WEB-INF/pages/mobile/txl/upload.jsp</result>
+			<result name="detail">/WEB-INF/pages/mobile/txl/detail.jsp</result>
+		</action>
+		
+	</package>
+	
+</struts>

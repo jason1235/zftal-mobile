@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="ydht" namespace="/ydht" extends="configuration" >
+		
+		<action name="ydht_*" class="ydhtAction" method="{1}">
+			
+		</action>
+	</package>
+	
+</struts>

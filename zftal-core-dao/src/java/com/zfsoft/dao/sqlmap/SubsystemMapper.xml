@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.SubsystemDao" >
+	
+	<sql id="wClause">
+		<where>
+			<if test="sysCode != null and sysCode != ''">
+				and sysCode=#{sysCode}
+			</if>
+			<if test="sysName != null and sysName != ''">
+				and sysName like '%'||#{sysCode}||'%'
+			</if>
+			<if test="sysDesc != null and sysDesc != ''">
+				and sysDesc like '%'||#{sysDesc}||'%'
+			</if>
+			<if test="sysCode != null and sysCode != ''">
+				and sysCode=#{sysCode}
+			</if>
+			<if test="enabled != null and enabled != ''">
+				and enabled=#{enabled}
+			</if>
+		</where>
+	</sql>
+	<select id="findList" resultType="com.zfsoft.common.log.Subsystem">
+		select * from hrm_subsystem 
+		<include refid="wClause"/>
+		<if test="orderStr != null and orderStr != ''">
+			${orderStr}
+		</if>
+	</select>
+	
+</mapper>

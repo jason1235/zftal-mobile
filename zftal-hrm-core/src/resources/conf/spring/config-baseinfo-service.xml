@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!--信息类组合条件-->
+	<bean id="infoGroupConditionService" name="infoGroupConditionService"
+			class="com.zfsoft.hrm.baseinfo.infoclass.service.impl.InfoGroupConditionServiceImpl" scope="prototype">
+		<property name="infoGroupConditionDao" ref="baseinfoGroupConditionDao"></property>
+	</bean>
+	
+	<!-- 登记类别service -->
+	<bean id="formInfoTypeService" name="formInfoTypeService" class="com.zfsoft.hrm.baseinfo.forminfo.service.impl.FormInfoTypeServiceImpl" scope="prototype">
+		<property name="formInfoTypeDao" ref="formInfoTypeDao"></property>
+		<property name="formInfoMetadataDao" ref="formInfoMetadataDao"></property>
+		<property name="menuBusiness" ref="menuBusiness"></property>
+	</bean>
+	
+	<!-- 登记类别元数据表service -->
+	<bean id="formInfoMetadataService" name="formInfoMetadataService" class="com.zfsoft.hrm.baseinfo.forminfo.service.impl.FormInfoMetadataServiceImpl" scope="prototype">
+		<property name="formInfoMetadataDao" ref="formInfoMetadataDao"></property>
+	</bean>
+	<bean id="formInfoUtilService" name="formInfoUtilService" class="com.zfsoft.hrm.baseinfo.forminfo.service.impl.FormInfoUtilServiceImpl" scope="prototype">
+		<property name="formInfoMetadataDao" ref="formInfoMetadataDao"></property>
+		<property name="dynaBeanService" ref="baseDynaBeanService"></property>
+	</bean>
+	
+	<!-- 条件系列Service -->
+	<bean id="baseSearchConditionService" name="baseSearchConditionService" class="com.zfsoft.hrm.baseinfo.search.service.impl.ConditionServiceImpl" scope="prototype">
+		<property name="dao" ref="baseSearchConditionDao"></property>
+	</bean>
+	
+	<!-- 常用查询Service -->
+	<bean id="baseCommonSearchService" name="baseCommonSearchService" class="com.zfsoft.hrm.baseinfo.search.service.impl.CommonSearchServiceImpl" scope="prototype">
+		<property name="commonSearchDao" ref="baseCommonSearchDao"></property>
+		<property name="conditionService" ref="baseSearchConditionService"></property>
+		<property name="dynaBeanService" ref="baseDynaBeanService"></property>
+		<property name="menuBusiness" ref="menuBusiness"></property>
+	</bean>
+	
+	<!-- 自定义菜单查询(分类查询)Service -->
+	<bean id="customMenuService" name="customMenuService" class="com.zfsoft.hrm.baseinfo.custommenu.service.impl.CustomMenuServiceImpl">
+		<property name="customMenuBusiness" ref="customMenuBusiness"></property>
+		<property name="menuBusiness" ref="menuBusiness"></property>
+	</bean>
+	
+	<!-- 快照service -->
+	<bean id="snapshotService" name="snapshotService" class="com.zfsoft.hrm.baseinfo.snapshot.service.impl.SnapshotServiceImpl">
+		<property name="snapshotDao" ref="snapshotDao"></property>
+		<property name="snapshotLogService" ref="snapshotLogService"></property>
+		<property name="snapshotLogDetailService" ref="snapshotLogDetailService"></property>
+	</bean>
+	<bean id="snapshotLogService" name="snapshotLogService" class="com.zfsoft.hrm.baseinfo.snapshot.service.impl.SnapshotLogServiceImpl">
+		<property name="snapshotLogDao" ref="snapshotLogDao"></property>
+	</bean>
+	<bean id="snapshotLogDetailService" name="snapshotLogDetailService" class="com.zfsoft.hrm.baseinfo.snapshot.service.impl.SnapshotLogDetailServiceImpl">
+		<property name="snapshotLogDetailDao" ref="snapshotLogDetailDao"></property>
+	</bean>
+	<!-- 20140416 add start -->
+	<bean id="snapshotInfoService" name="snapshotInfoService" class="com.zfsoft.hrm.baseinfo.snapshot.service.impl.SnapshotInfoServiceImpl">
+		<property name="snapshotInfoDao" ref="snapshotInfoDao"></property>
+	</bean>
+	<!-- 20140416 add end -->
+	
+	<!-- 信息维护 -->
+	<bean id="baseFormInfoMemberService" class="com.zfsoft.hrm.baseinfo.finfo.service.impl.FormInfoMemberNoDBServiceImpl">
+	</bean>
+	<bean id="baseFormInfoMemberPropertyService" class="com.zfsoft.hrm.baseinfo.finfo.service.impl.FormInfoMemberPropertyServiceImpl">
+		<property name="formInfoMemberPropertyBusiness" ref="baseFormInfoMemberPropertyBusiness"></property>
+	</bean>
+	
+	
+	<!-- 信息审核 -->
+	<bean id="baseAuditDefineService" class="com.zfsoft.hrm.baseinfo.audit.service.impl.AuditDefineServiceImpl">
+		<property name="defineBusiness" ref="baseAuditDefineBusiness"></property>
+		<property name="processBusiness" ref="baseAuditProcessBusiness"></property>
+		<property name="infoBusiness" ref="baseAuditInfoBusiness"></property>
+	</bean>
+	
+	<bean id="baseAuditProcessService" class="com.zfsoft.hrm.baseinfo.audit.service.impl.AuditProcessServiceImpl">
+		<property name="processBusiness" ref="baseAuditProcessBusiness"></property>
+		<property name="infoBusiness" ref="baseAuditInfoBusiness"></property>
+		<property name="dynaBeanBusiness" ref="baseDynaBeanBusiness"></property>
+		<property name="dynaBeanLogBusiness" ref="baseDynaBeanLogBusiness"></property>
+	</bean>
+	
+	<!-- 角色信息 -->
+	<bean id="baseRoleService" class="com.zfsoft.hrm.baseinfo.role.service.impl.RoleServiceImpl">
+		<property name="roleBusiness" ref="baseRoleBusiness"></property>
+	</bean>
+	
+	<!-- 数据导入 -->
+	<bean id="infoClassDataService" class="com.zfsoft.hrm.baseinfo.data.service.impl.InfoClassDataServiceImpl">
+		<property name="dynaBeanBusiness" ref="baseDynaBeanBusiness"></property>
+	</bean>
+</beans>

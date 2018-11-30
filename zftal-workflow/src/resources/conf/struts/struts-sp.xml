@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="sp" namespace="/sp" extends="configuration">
+	  
+	  <action name="spprocedure_*" class="spProcedureAction" method="{1}" >
+	  	<result name="list">/WEB-INF/pages/sp/procedure/procedure_list.jsp</result>
+	  	<result name="edit">/WEB-INF/pages/sp/procedure/procedure_edit.jsp</result>
+	  	<result name="config">/WEB-INF/pages/sp/procedure/procedure_config.jsp</result>
+	  	<result name="preview">/WEB-INF/pages/sp/procedure/procedure_preview.jsp</result>
+	  	<result name="detail">/WEB-INF/pages/sp/procedure/procedure_detail.jsp</result>
+	  </action>
+	  <action name="spnode_*" class="spNodeAction" method="{1}" >
+	  	<result name="list">/WEB-INF/pages/sp/node/node_list.jsp</result>
+	  	<result name="edit">/WEB-INF/pages/sp/node/node_edit.jsp</result>
+	  </action>
+	   <action name="spline_*" class="spLineAction" method="{1}" >
+	  	<result name="list">/WEB-INF/pages/sp/line/line_list.jsp</result>
+	  	<result name="edit">/WEB-INF/pages/sp/line/line_edit.jsp</result>
+	  </action>
+	  <action name="spbusiness_*" class="spBusinessAction" method="{1}" >
+	  	<result name="list">/WEB-INF/pages/sp/business/business_list.jsp</result>
+	  	<result name="edit">/WEB-INF/pages/sp/business/business_edit.jsp</result>
+	  	<result name="add">/WEB-INF/pages/sp/business/business_add.jsp</result>
+	  </action>
+	  <action name="spworkflow_*" class="spWorkFlowAction" method="{1}" >
+	  	<result name="detail">/WEB-INF/pages/sp/workflow/workflow_detail.jsp</result>
+	  </action>
+	</package>
+</struts>

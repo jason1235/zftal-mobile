@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.sms.dao.daointerface.ISMSTemplateDao">
+
+     <resultMap id="SMSTemplate" type="com.zfsoft.hrm.sms.entities.SMSTemplate">
+        <result property="id"           column="id" />
+        <result property="sendType"         column="SEND_TYPE" />
+        <result property="content"        column="CONTENT" />
+        <result property="defaultCont"        column="DEF_CONTENT" />
+        <result property="lastModify"        column="LAST_MODIFY" />
+    </resultMap>
+    
+    <select id="findList" resultMap="SMSTemplate">
+        select
+              ID,
+              SEND_TYPE,
+              CONTENT,
+              DEF_CONTENT,
+              LAST_MODIFY 
+        from HRM_XTGL_DXMBB 
+    </select>
+    
+    <select id="findByType" resultMap="SMSTemplate">
+        select
+              ID,
+              SEND_TYPE,
+              CONTENT,
+              DEF_CONTENT,
+              LAST_MODIFY 
+        from HRM_XTGL_DXMBB 
+        <where>
+             SEND_TYPE = #{sendType}
+        </where>
+    </select>
+    
+    <update id="update">
+        update HRM_XTGL_DXMBB 
+        <set>
+            CONTENT=#{content},
+            LAST_MODIFY=sysdate
+        </set>
+        where id = #{id}
+    </update>
+
+    
+</mapper>

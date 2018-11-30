@@ -1,0 +1,96 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta chaset="UTF-8">
+<%@ include file="/WEB-INF/pages/mobile/web/new/meta.jsp" %>
+<title></title>
+<style type="text/css">
+        .am-table td {
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .am-table td:hover {
+            background-color: #eeeeee;
+            border-bottom: 1px solid deepskyblue;
+        }
+        
+        ::-webkit-scrollbar {
+        	display:none;
+        }
+
+    </style>
+</head>
+<body>
+	<script type="text/x-handlebars-template" id="amz-tpl">
+    {{>header header}}
+
+	<nav data-am-widget="menu" class="am-menu  am-menu-offcanvas2" data-am-menu-offcanvas> 
+    <a href="javascript: void(0)" class="am-menu-toggle">
+          <i class="am-menu-toggle-icon am-icon-bars"></i>
+    </a>
+
+    <div class="am-offcanvas">
+      <div class="am-offcanvas-bar am-offcanvas-bar-flip">
+
+      <ul class="am-menu-nav am-avg-sm-3">
+          {{#each this.menuInfo}}
+          <li class="">
+            <a href="{{this.id}}" class="" >{{this.name}}</a>
+          </li>
+		{{/each}}
+      </ul>
+      </div>
+    </div>
+  </nav>
+
+    <div class="am-scrollable-horizontal">
+        <table class="am-table  am-text-nowrap" style="margin-bottom:0">
+            <tbody>
+                <tr>
+					{{#each this.menuInfo}}
+					<td onclick="chooseMenu({{this.id}})">{{this.name}}</td>
+					{{/each}}
+				</tr>
+            </tbody>
+        </table>
+    </div>
+
+    {{>list_news list_news}}
+
+    {{>navbar navbar}}
+  
+
+</script>
+
+<%@ include file="/WEB-INF/pages/mobile/web/new/js.jsp" %>
+<script type="text/javascript"> 
+	var newsList = ${newsList};
+	var menu = ${menu};
+    var $tpl = $('#amz-tpl');
+    var source = $tpl.text();
+    var template = Handlebars.compile(source);
+    data.menuInfo = menu;
+    var mainData = [];
+  	if (newsList) {
+  		for (var i = 0,len = newsList.length; i < len; i++) {
+  			var obj = {};
+  			obj.title = newsList[i].title;
+  			//TODO: 链接需要修改，现在只是传入ID
+  			obj.link = _path + "/mobile/web_content.html?newsId=" + newsList[i].id;
+  			if (newsList[i].logopath) {
+  				obj.img = newsList[i].logopath.replace(/\\/g,"/");
+  			} else {
+  				obj.img = _path + "/assets/i/avatar.jpg";
+  			}
+  			mainData.push(obj);
+  		}
+  		data.list_news.content.main = mainData;
+  	}
+    var html = template(data);
+    $tpl.before(html);
+</script>	
+</body>
+</html>

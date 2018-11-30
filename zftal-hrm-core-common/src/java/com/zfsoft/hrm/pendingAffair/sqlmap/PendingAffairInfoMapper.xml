@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.pendingAffair.dao.IPendingAffairInfoDao">
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+    		</if>
+    		<if test="affairName != null">
+				and dbsym = #{affairName}
+    		</if>
+    		<if test="businessId != null">
+				and ywid like '%'||#{businessId}||'%'
+    		</if>
+    		<if test="menu != null">
+				and cdlj = #{menu}
+    		</if>
+    		<if test="affairType != null">
+				and dblx = #{affairType}
+    		</if>
+    		<if test="status != null">
+				and dbzt = #{status}
+    		</if>
+    		<if test="userId != null">
+				and glr = #{userId}
+    		</if>
+		</where>
+	</sql>
+	
+	<select id="findList" resultType="com.zfsoft.hrm.pendingAffair.entities.PendingAffairInfo">
+		select
+		<foreach collection="sqlNamesAll" item="item" separator=",">
+			<![CDATA[${item} as ${sqlLocalNameMap[item]}]]>
+		</foreach>
+		from ${tableName} 
+		<include refid="where" />
+	</select>
+	
+	<select id="findByUserId" resultType="com.zfsoft.hrm.pendingAffair.entities.PendingAffairInfo">
+		SELECT dblx as affairType, cdlj as menu, COUNT(*) as sumNumber
+  		FROM ${tableName}
+		<include refid="where" />
+		GROUP BY dblx, cdlj
+	</select>
+	
+	<select id="findByRoleIds" resultType="com.zfsoft.hrm.pendingAffair.entities.PendingAffairInfo">
+		SELECT dblx as affairType, cdlj as menu, COUNT(*) as sumNumber
+		FROM ${tableName} t
+		<where>
+		    dbzt=0  
+			<foreach collection="queryRoleIds" item="queryRoleId" separator="," open=" and jsdm in (" close=")">
+				#{queryRoleId}
+			</foreach>
+			<if test="expression != null and expression != ''">
+			    and ${expression}
+			</if>
+		</where>
+		GROUP BY dblx, cdlj
+	</select>
+	
+	<select id="findById" resultType="com.zfsoft.hrm.pendingAffair.entities.PendingAffairInfo">
+		select
+		<foreach collection="sqlNamesAll" item="item" separator=",">
+			<![CDATA[${item} as ${sqlLocalNameMap[item]}]]>
+		</foreach>
+		from ${tableName}
+		<where>
+			${keyOf}=#{${keyOf}}
+		</where>
+	</select>
+	
+
+	<insert id="insert" keyProperty="id">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+		insert into ${tableName}(${keyOf},
+		<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+			${item}
+		</foreach>
+		values (#{${keyOf}},
+		<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+			#{${sqlLocalNameMap[item]}}
+		</foreach>
+	</insert>
+
+	<update id="update">
+		update ${tableName}
+		<set>
+			<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," >
+				 ${item}=#{${sqlLocalNameMap[item]}}
+			</foreach>
+		</set>
+		where ${keyOf}=#{${keyOf}}
+	</update>
+	
+	<update id="modifyByYwId">
+		UPDATE ${tableName}
+		<![CDATA[
+			   SET dbzt = #{status}
+			 WHERE ywid = #{businessId}
+		]]>
+	</update>
+
+	<!-- 删除岗位信息 -->
+	<delete id="delete">
+		delete from ${tableName} 
+		<include refid="where" />
+	</delete>
+
+</mapper>

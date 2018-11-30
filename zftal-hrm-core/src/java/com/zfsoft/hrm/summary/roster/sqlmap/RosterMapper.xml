@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.summary.roster.dao.daointerface.IRosterDao" >
+	
+	<resultMap type="com.zfsoft.hrm.summary.roster.entity.Roster" id="rosterMap">
+		<result property="guid" column="guid"/>
+		<result property="name" column="bt"/>
+		<result property="rosterType" column="lx"/>
+		<result property="description" column="zs"/>
+		<result property="createtime" column="createtime"/>
+		<result property="creator" column="creator"/>
+	</resultMap>
+	
+	<!-- 插入单条信息 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		insert into HRM_TJFX_HMCB (guid,bt,zs,lx,createtime,creator)
+		values(#{guid},#{name},#{description},#{rosterType},#{createtime},#{creator})
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() globalid from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<sql id="where">
+		<where>
+		and (creator = #{creator} or LX='PUBLIC')
+		<if test="name != null and name != ''">
+			and bt like '%' || #{name} || '%'
+		</if>
+		
+    	</where>
+    </sql>
+    
+    <select id="getById" resultMap="rosterMap">
+    	select 
+			*
+		from HRM_TJFX_HMCB hmc
+		where hmc.guid = #{guid}
+    </select>
+	
+	<!-- 获取分页信息 -->
+	<select id="getPagingList" resultMap="rosterMap" >
+	select * from (select a.*, rownum rn from(
+		select 
+			*
+		from HRM_TJFX_HMCB hmc
+		<include refid="where"/>
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if> 
+	 ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<!-- 获取分页计数 -->
+	<select id="getPagingCount" resultType="int">
+		select 
+			count(bt) cnt
+		from HRM_TJFX_HMCB hmc
+		<include refid="where"/>
+		order by createtime desc
+	</select>
+	
+	<update id="update">
+		update HRM_TJFX_HMCB set bt = #{name},zs = #{description},lx = #{rosterType} where guid = #{guid}
+	</update>
+	
+	<delete id="delete">
+		delete from HRM_TJFX_HMCB where guid = #{guid}
+	</delete>
+</mapper>

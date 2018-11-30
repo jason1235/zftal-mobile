@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<!--配置文件的详细介绍可参考:http://limingnihao.iteye.com/blog/1060764-->
+<configuration>
+    <settings>
+        <!--全局地禁用或启用延迟加载。禁用时，所有关联查询会被马上加载default:true-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--当启用时，使用延迟加载属性的对象在发起任何延迟属性的调用时会被完全加载。否则，每个属性在请求时就加载。default:true-->
+        <setting name="aggressiveLazyLoading" value="false"/>
+        
+
+        <!--
+        详情查看:
+        http://blog.csdn.net/theoffspring/article/details/5930481
+        http://liu400liu.iteye.com/blog/1199673
+
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="multipleResultSetsEnabled" value="true"/>
+        <setting name="useColumnLabel" value="true"/>
+        <setting name="useGeneratedKeys" value="false"/>
+        <setting name="enhancementEnabled" value="false"/>
+        <setting name="defaultExecutorType" value="SIMPLE"/>
+        <setting name="defaultStatementTimeout" value="25000"/>-->
+    </settings>
+    <typeAliases>
+    	<typeAlias alias="userStatictisModel" 	type="com.zfsoft.dao.entities.userStatictisEntity"/>
+        <typeAlias alias="YhglModel" 	type="com.zfsoft.dao.entities.YhglModel"/>
+        <typeAlias alias="YhglModelNew" 	type="com.zfsoft.dao.entities.YhglModelNew"/>
+        <typeAlias alias="JsglModel" 	type="com.zfsoft.dao.entities.JsglModel"/>
+        <typeAlias alias="NewJsglModel" 	type="com.zfsoft.dao.entities.NewJsglModel"/> 
+        <typeAlias alias="RzglModel" 	type="com.zfsoft.dao.entities.RzglModel"/>
+        <typeAlias alias="JcsjModel" 	type="com.zfsoft.dao.entities.JcsjModel"/>
+        <typeAlias alias="DczdpzModel" 	type="com.zfsoft.dao.entities.DczdpzModel"/>
+        <typeAlias alias="IndexModel" 	type="com.zfsoft.dao.entities.IndexModel"/>
+        <typeAlias alias="IndexModelNew" 	type="com.zfsoft.dao.entities.IndexModelNew"/>
+        <typeAlias alias="AncdModel" 	type="com.zfsoft.dao.entities.AncdModel"/>
+        <typeAlias alias="LoginModel" 	type="com.zfsoft.dao.entities.LoginModel"/>
+        <typeAlias alias="XtszModel" 	type="com.zfsoft.dao.entities.XtszModel"/>
+        <typeAlias alias="BmdmModel" 	type="com.zfsoft.dao.entities.BmdmModel"/>
+        <typeAlias alias="BjdmModel" 	type="com.zfsoft.dao.entities.BjdmModel"/>
+        <typeAlias alias="CydmModel"	type="com.zfsoft.dao.entities.CydmModel"/>
+        <typeAlias alias="NjdmModel" 	type="com.zfsoft.dao.entities.NjdmModel"/>
+        <typeAlias alias="XqdmModel" 	type="com.zfsoft.dao.entities.XqdmModel"/>
+        <typeAlias alias="ZydmModel" 	type="com.zfsoft.dao.entities.ZydmModel"/>
+        <typeAlias alias="XsglfwModel" 	type="com.zfsoft.dao.entities.XsglfwModel"/>              
+        <typeAlias alias="GnmkModel" 	type="com.zfsoft.dao.entities.GnmkModel"/>
+        <typeAlias alias="YhjsfwModel" 	type="com.zfsoft.dao.entities.YhjsfwModel"/>
+        <typeAlias alias="SjfwzModel" 	type="com.zfsoft.dao.entities.SjfwzModel"/>
+        <typeAlias alias="SjfwdxModel" 	type="com.zfsoft.dao.entities.SjfwdxModel"/>   
+        <typeAlias alias="XsmmModel" 	type="com.zfsoft.dao.entities.XsmmModel"/>   
+      </typeAliases>
+    <plugins>
+		<plugin interceptor="com.zfsoft.service.common.plugin.SqlPlugin">
+			<property name="dialect" value="oracle"/>
+			<property name="scopeId" value=".*ByScope*.*"/><!-- 数据范围拦截,配置以*byScope*开始的Id-->
+			<property name="pageSqlId" value=".*getPaged*.*"/><!-- 分页拦截,配置以*getPaged*开始的Id-->
+		</plugin>
+	</plugins>
+</configuration>  

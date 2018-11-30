@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.expertvote.vote.dao.IGroupMemberDao">
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id"
+		parameterType="com.zfsoft.hrm.expertvote.vote.entity.GroupMember">
+        <![CDATA[
+            INSERT INTO 
+                hrm_expert_group_member(
+                    id,
+                    group_id,
+                    expert_id
+                )
+                VALUES(
+                    #{id},
+                    #{zjz_id,jdbcType=VARCHAR},
+                    #{zj_id,jdbcType=VARCHAR}
+                )
+        ]]>
+		<selectKey resultType="java.lang.String" order="BEFORE"
+			keyProperty="id">
+            <![CDATA[
+            select SYS_GUID() globalid from DUAL
+            ]]>
+		</selectKey>
+	</insert>
+
+	<select id="getPagedList"
+		parameterType="com.zfsoft.hrm.expertvote.vote.query.GroupMemberQuery"
+		resultType="com.zfsoft.hrm.expertvote.vote.query.GroupMemberQuery">
+		select cy.id id,o.gh gh, o.xm xm, o.dwm dwm, zjk.type type
+		from overall o, hrm_expert_group_info zjz, hrm_expert_info zjk, hrm_expert_group_member cy
+		where cy.group_id
+		= zjz.id
+		and cy.expert_id = zjk.id
+		and zjk.gh = o.gh(+)
+		and
+		cy.group_id=#{zjz_id}
+    </select>
+
+	<delete id="remove" parameterType="java.lang.String">
+		delete from hrm_expert_group_member where
+		id=#{id}
+	</delete>
+
+	<select id="getZj_id" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		select count(1) from hrm_expert_group_member where expert_id = #{0} and group_id = #{1}
+	</select>
+	
+	<select id="getMemberCount" resultType="java.lang.Integer">
+		select count(1) from hrm_expert_group_member where expert_id = #{id}
+	</select>
+</mapper>

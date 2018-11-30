@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.hrm.dagl.dao.IArchivesLogDao">
+
+    <resultMap id="archivesLogMap" type="com.zfsoft.hrm.dagl.entity.ArchivesLog">
+        <result property="id"               column="ID" />
+        <result property="archivesId"               column="ARCHIVESID" />
+        <result property="archiveItem"               column="ITEMID" />
+        <result property="logTime"               column="LOG_TIME" />
+        <result property="logOperator"               column="LOG_OPERATOR" />
+        <result property="operatorTime"               column="OPERATOR_TIME" />
+        <result property="logMessage"               column="LOG_MESSAGE" />
+    </resultMap>
+    
+     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO 
+                HRM_DAGL_LOG(
+                      ID,
+                      ARCHIVESID,
+					  ITEMID,
+					  LOG_TIME,
+					  LOG_MESSAGE,
+					  LOG_OPERATOR ,
+					  OPERATOR_TIME
+                )
+            VALUES(
+                #{id},
+                #{archivesId},
+                #{archiveItem,jdbcType=VARCHAR},
+                sysdate,
+                #{logMessage},
+                #{logOperator},
+                #{operatorTime}
+            )
+        ]]>
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            <![CDATA[
+            select SYS_GUID() globalid from DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    <!-- 获取信息 -->
+    <select id="getList" resultMap="archivesLogMap" >
+        SELECT * FROM (
+			SELECT l.id,l.archivesid,l.itemid,l.log_time,l.log_message,l.log_operator,l.operator_time FROM Hrm_Dagl_log l
+			UNION
+			SELECT d.ID,c.archiveid,d.clid,d.jysj,'材料借阅：'||d.xm||'('||d.gh||') 于'||to_char(d.jysj,'yyyy-mm-dd')||'借阅材料'||c.NAME AS message,gh,jysj FROM DACLJYB d
+			LEFT JOIN HRM_DAGL_CLXX c ON c.itemid=d.clid WHERE d.jysj IS NOT NULL
+			UNION
+			SELECT d.ID,c.archiveid,d.clid,d.ghsj,'材料归还：'||d.xm||'('||d.gh||') 于'||to_char(d.ghsj,'yyyy-mm-dd')||'归还材料'||c.NAME AS message,gh,ghsj FROM DACLJYB d
+			LEFT JOIN HRM_DAGL_CLXX c ON c.itemid=d.clid WHERE d.ghsj IS NOT NULL) t
+        <include refid="where"/>
+        ORDER BY OPERATOR_TIME DESC,LOG_TIME DESC
+    </select>
+    
+    <sql id="where">
+    <where>
+        <if test="archivesId != null and archivesId != ''">
+            ARCHIVESID=#{archivesId}
+        </if>
+        <if test="archiveItem != null and archiveItem != ''">
+            ITEMID=#{archiveItem}
+        </if>
+    </where>
+    </sql>
+</mapper>

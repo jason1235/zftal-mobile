@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.search.dao.daointerface.IConditionDao" >
+
+	<resultMap id="Model" type="com.zfsoft.hrm.baseinfo.search.entities.Condition">
+		<id property="guid" column="TJID" />
+		<result property="title" column="BT" />
+		<result property="express" column="BDS" />
+		<result property="text" column="MSXX" />
+		<result property="parentId" column="FK_ID" />
+		<result property="index" column="XH" />
+	</resultMap>
+	
+	<sql id="columns">
+		<![CDATA[
+		TJID, BT, BDS, MSXX, FK_ID, XH,TYPE
+		]]>
+	</sql>
+	
+	<sql id="where">
+		<where>
+			<if test="parentId != null and parentId != ''">
+			and FK_ID = #{parentId}
+			</if>
+			<if test="title != null and title != ''">
+			and bt like '%' || #{title} || '%'
+			</if>
+			<if test="type != null and type != ''">
+			and type = #{type}
+			</if>
+		</where>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		insert into HRM_CXTJ_TJXLB(
+			TJID, BT, BDS, MSXX, FK_ID, XH,TYPE
+		) values(
+			#{guid}, #{title}, #{express}, #{text}, #{parentId}, #{index},#{type}
+		)
+	
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		update HRM_CXTJ_TJXLB 
+		<set>
+			<if test="title != null and title != ''">
+				BT = #{title},
+			</if>
+			<if test="express != null and express != ''">
+				BDS = #{express},
+			</if>
+			<if test="text != null">
+				MSXX = #{text},
+			</if>
+			<if test="index != 0">
+				xh = #{index},
+			</if>
+		</set>
+		where TJID = #{guid}
+	</update>
+	
+	<update id="updateOrder">
+		update HRM_CXTJ_TJXLB set
+			xh = #{index}
+		where TJID = #{guid}
+	</update>
+	
+	<delete id="delete">
+		delete from HRM_CXTJ_TJXLB where TJID = #{tjid}
+	</delete>
+	
+	<select id="findById" resultMap="Model">
+		select <include refid="columns" />
+		from HRM_CXTJ_TJXLB
+		where TJID = #{tjid}
+	</select>
+	
+	<select id="count" resultType="int">
+		select count(1)
+		from HRM_CXTJ_TJXLB
+		<include refid="where" />
+	</select>
+	
+	<select id="findList" resultMap="Model">
+		select <include refid="columns" />
+		from HRM_CXTJ_TJXLB
+		<include refid="where" />
+		order by FK_ID, XH
+	</select>
+	
+	<select id="findPagingInfoList" resultMap="Model">
+		select * from (select a.*, rownum rn from (select <include refid="columns" />
+		from HRM_CXTJ_TJXLB
+		<include refid="where" />
+		order by FK_ID, XH ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<select id="findPagingCount"  resultType="int">
+        select count(*) from  HRM_CXTJ_TJXLB
+        <include refid="where" />
+    </select> 
+	
+	<insert id="insertWithGuid">
+		insert into HRM_CXTJ_TJXLB(
+			TJID, BT, BDS, MSXX, FK_ID, XH,TYPE
+		) values(
+			#{guid}, #{title}, #{express}, #{text}, #{parentId}, #{index},#{type}
+		)
+	</insert>
+</mapper>

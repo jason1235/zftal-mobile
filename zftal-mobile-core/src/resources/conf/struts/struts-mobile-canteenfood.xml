@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="ydst" namespace="/canteenfood" extends="configuration" >
+		<action name="canteen_*" class="canteenAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/canteenfood/canteen_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/canteenfood/canteen_edit.jsp</result>
+		</action>
+		
+		<action name="foodcata_*" class="foodcataAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/canteenfood/foodcata_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/canteenfood/foodcata_edit.jsp</result>
+		</action>
+		
+		<action name="food_*" class="foodAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/canteenfood/food_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/canteenfood/food_edit.jsp</result>
+		</action>
+		
+		<action name="order_*" class="orderAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/canteenfood/order_list.jsp</result>
+		</action>
+		
+	</package>
+	
+</struts>

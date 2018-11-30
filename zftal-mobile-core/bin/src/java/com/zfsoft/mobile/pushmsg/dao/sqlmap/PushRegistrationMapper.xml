@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.pushmsg.dao.IPushRegistrationDao">
+
+    <resultMap type="com.zfsoft.mobile.pushmsg.entity.PushRegistration"
+        id="pushRegistrationMap">
+        <result property="id" column="id" />
+        <result property="userId" column="user_id" />
+        <result property="registrationId" column="sbid" />
+        <result property="appType" column="app_type" />
+        <result property="sbType" column="sbType" />
+    </resultMap>
+
+    <!-- 插入单条信息 -->
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="tsid">
+    <![CDATA[
+        insert into MOBILE_RYSBB(
+            ID,
+            USER_ID,
+            APP_TYPE,
+            SBID,
+            SBTYPE)
+        values(
+            #{id},
+	        #{userId},
+	        #{appType},
+	        #{registrationId},
+	        #{sbType,jdbcType=VARCHAR}
+        )
+            ]]>
+        <selectKey resultType="java.lang.String" order="BEFORE"
+            keyProperty="id">
+            <![CDATA[
+            select SYS_GUID() globalid from DUAL
+            ]]>
+        </selectKey>
+    </insert>
+
+    <delete id="delete">
+        delete from MOBILE_RYSBB where id = #{id}
+    </delete>
+
+    <sql id="where">
+        <where> app_type=#{appType}
+            <if test="userIds != null and userIds != ''">
+                <foreach collection="userIds" item="userId" open=" and user_id in (" separator=" , " close=")">
+                    #{userId}
+                </foreach>
+            </if>
+            <if test="groupIds != null and groupIds != ''">
+               and exists (select 1 from mobile_ryqzb b where 
+                 <foreach collection="groupIds" item="groupId" open=" b.group_id in (" separator=" , " close=")">
+                    #{groupId}
+                </foreach>
+                 and t.user_id=b.user_id)
+            </if>
+            <if test="registrationId != null and registrationId != ''">
+                and sbid=#{registrationId}
+            </if>
+            <if test="sbType != null and sbType != ''">
+                and sbtype=#{sbType}
+            </if>
+            <if test="exists != null">
+            and
+                <if test="!exists">
+	                not 
+	            </if>
+                exists (select 1 from zftal_xtgl_yhb b where t.user_id=b.zgh)
+            </if>
+        </where>
+    </sql>
+
+    <select id="getPushRegistrationList" resultMap="pushRegistrationMap">
+        select
+            ID,
+            USER_ID,
+            SBID,
+            SBTYPE
+        from MOBILE_RYSBB t
+        <include refid="where" />
+    </select>
+</mapper>

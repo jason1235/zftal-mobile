@@ -1,0 +1,1 @@
+java -jar ReplceAll.jar field.properties test.xml 167A8FB1DE57D919E050007F01004F76.xml

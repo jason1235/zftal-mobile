@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IIndexDao" >
+     <!-- 查询一级老师功能模块代码列表 -->
+    <select id="cxLsYjGmdmGjJs" resultType="hashmap" parameterType="list">
+    	select gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym,gnxx1.xssx from zftal_xtgl_jsgnmkdmb gnxx1, 
+		    (select gnxx2.gnmkdm,gnxx2.gnmkmc,gnxx2.fjgndm,gnxx2.dyym from zftal_xtgl_jsgnmkdmb gnxx2,(
+		        select gnxx.fjgndm from zftal_xtgl_jsgnmkczb jsgn,zftal_xtgl_jsgnmkdmb gnxx
+		               <where>
+		                    jsgn.gnmkdm=gnxx.gnmkdm
+		                    <if test="list != null">
+					    	    <foreach collection="list" item="item" index="index"
+								open=" and (" separator="or" close=")">
+								 	jsgn.jsdm = #{item} 
+								</foreach>
+							</if>
+				    	</where>
+		               group by gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym) gnxx3
+		        where gnxx2.gnmkdm=gnxx3.fjgndm
+		        group by gnxx2.gnmkdm,gnxx2.gnmkmc,gnxx2.fjgndm,gnxx2.dyym) gnxx2_1
+		    where gnxx1.gnmkdm= gnxx2_1.fjgndm 
+		    group by gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym,gnxx1.xssx
+        order by to_number(gnxx1.xssx)
+    </select>
+    <!-- 查询一级老师功能模块代码列表    对应一级栏目下的二级栏目,没有三级的情况 -->
+    <select id="cxLsYjGmdmGjJsWsj" resultType="hashmap" parameterType="list">
+    	select gnxx2.gnmkdm,gnxx2.gnmkmc,gnxx2.fjgndm,gnxx2.dyym,gnxx2.xssx from zftal_xtgl_jsgnmkdmb gnxx2,(
+		        select gnxx.fjgndm from zftal_xtgl_jsgnmkczb jsgn,zftal_xtgl_jsgnmkdmb gnxx
+		               <where>
+		                    jsgn.gnmkdm=gnxx.gnmkdm
+		                    <if test="list != null">
+					    	    <foreach collection="list" item="item" index="index"
+								open=" and (" separator="or" close=")">
+								 	jsgn.jsdm = #{item} 
+								</foreach>
+							</if>
+				    	</where>
+		               group by gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym) gnxx3
+		        where gnxx2.gnmkdm=gnxx3.fjgndm and gnxx2.fjgndm='N'
+		        group by gnxx2.gnmkdm,gnxx2.gnmkmc,gnxx2.fjgndm,gnxx2.dyym,gnxx2.xssx
+		   
+        order by to_number(gnxx2.xssx)
+    </select>
+    
+     <!-- 查询二级老师功能模块代码列表    对应一级栏目下的二级栏目 -->
+    <select id="cxLsEJGmdmGjJs" resultType="hashmap" >
+		select gnxx2.gnmkdm,gnxx2.gnmkmc,gnxx2.fjgndm,gnxx2.dyym,gnxx2.xssx from zftal_xtgl_jsgnmkdmb gnxx2,(
+		    select gnxx.fjgndm from zftal_xtgl_jsgnmkczb jsgn,zftal_xtgl_jsgnmkdmb gnxx
+		           <where>
+		                    jsgn.gnmkdm=gnxx.gnmkdm
+		                    <if test="list != null">
+					    	    <foreach collection="list" item="item" index="index"
+								open=" and (" separator="or" close=")">
+								 jsgn.jsdm = #{item} 
+								</foreach>
+							</if>
+				    </where>
+		           group by gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym) gnxx3
+		    	<where>
+		                    gnxx2.gnmkdm=gnxx3.fjgndm
+		                    <if test="model.gnmkdm != null and model.gnmkdm != ''">
+				    	    and gnxx2.fjgndm=#{model.gnmkdm}
+				    	    </if>
+				  </where>
+		    	
+		    group by gnxx2.gnmkdm,gnxx2.gnmkmc,gnxx2.fjgndm,gnxx2.dyym,gnxx2.xssx 
+        order by to_number(gnxx2.xssx)
+    </select>
+
+     <!-- 查询三级老师功能模块代码列表    对应一级栏目下的三级栏目 -->
+    <select id="cxLsSjGmdmGjJs" resultType="hashmap" parameterType="list">
+    	select gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym,gnxx.xssx
+    		from zftal_xtgl_jsgnmkczb jsgn,zftal_xtgl_jsgnmkdmb gnxx
+       			<where>
+		               jsgn.gnmkdm=gnxx.gnmkdm
+		               <if test="model.gnmkdm !=null">
+		               	and gnxx.fjgndm like '${model.gnmkdm}%'
+		               </if>
+		               <if test="model.gnmkmc !=null">
+		                and gnxx.gnmkmc like '%${model.gnmkmc}%'
+		               </if>
+		               <if test="list != null">
+					    	<foreach collection="list" item="item" index="index"
+								open=" and (" separator="or" close=")">
+								 jsgn.jsdm = #{item} 
+							</foreach>
+						</if>
+				 </where>
+       				group by gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym,gnxx.xssx
+              order by to_number(gnxx.xssx)
+    </select>
+    
+    <!-- 查询三级老师功能模块代码列表   当前用户下的 -->
+    <select id="cxLsSjGmdm" resultType="hashmap" parameterType="list">
+    	select gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym,gnxx.xssx
+    		from zftal_xtgl_jsgnmkczb jsgn,zftal_xtgl_jsgnmkdmb gnxx
+       			<where>
+		               jsgn.gnmkdm=gnxx.gnmkdm
+		               <if test="model.fjgndm !=null">
+		               	and gnxx.fjgndm = #{model.fjgndm}
+		               </if>
+		               <if test="model.dyym !=null">
+		               	and gnxx.dyym = #{model.dyym}
+		               </if>
+		               <if test="list != null">
+					    	<foreach collection="list" item="item" index="index"
+								open=" and (" separator="or" close=")">
+								 jsgn.jsdm = #{item} 
+							</foreach>
+						</if>
+				 </where>
+       				group by gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym,gnxx.xssx
+              order by to_number(gnxx.xssx)
+    </select>
+    
+     <!-- 查询学生功能带按摩 -->
+    <select id="cxXsGmdm" resultType="hashmap" parameterType="IndexModel">
+    	select gnmkdm,gnmkmc,fjgndm,dyym,xssx from zftal_xtgl_xsgnmkdmb
+    	<where>
+    		1=1
+    	    <if test="fjgndm != null">
+    	    	and fjgndm = #{fjgndm}
+    	    </if>
+    	</where>
+    	order by to_number(xssx)
+    </select>
+    
+     <!-- 查询学生三级功能模块代码列表 -->
+    <select id="cxXsGmdmSj" resultType="hashmap" parameterType="IndexModel">
+    	select gnmkdm,gnmkmc,fjgndm,dyym,xssx from zftal_xtgl_xsgnmkdmb
+    	<where>
+    		1=1
+    	    <if test="fjgndm != null">
+    	    	and substr(fjgndm,0,3) = #{fjgndm} and length(fjgndm) = 5
+    	    </if>
+    	</where>
+    	order by to_number(xssx)
+    </select>
+    
+    <!-- 查询角色信息列表 -->
+    <select id="cxJsxxLb" resultType="hashmap" parameterType="com.zfsoft.common.log.User">
+    	select yhjs.zgh as yhm,yhjs.jsdm as jsdm from zftal_xtgl_yhjsb yhjs
+    	<where>
+    		1=1
+    	    <if test="yhm != null">
+    	     	and yhjs.zgh=#{yhm}
+    	    </if>
+    	</where>
+    </select>
+    
+    <!--通过用户名密码获取教师信息  -->
+    <select id="getTeaxx" parameterType="IndexModel" resultType="hashmap">
+      select yhgw.zgh,yhgw.xm,yhgw.bmdm_id,yhgw.gwjbdm,yhgw.gwjbmc,bm.bmmc,yhgw.fszgh from 
+         (select yh.zgh,yh.xm,yh.bmdm_id,yh.gwjbdm,gw.gwjbmc,yh.fszgh
+                 from zftal_xtgl_yhb yh 
+                 left join zftal_xtgl_gwjbdmb gw 
+                 on yh.gwjbdm=gw.gwjbdm 
+	               <where>
+			    		1=1
+			    		<if test="yhm != null and yhm != ''">
+			    			and yh.zgh = #{yhm}
+			    		</if>
+			    		<if test="fsZgh!=null and fsZgh!=''">
+			    			and fszgh=#{fsZgh}
+			    		</if>
+			      </where> 
+	        ) yhgw
+        left join zftal_xtgl_bmdmb bm on yhgw.bmdm_id=bm.bmdm_id        
+    </select>
+    
+    <!-- 获取用户信息结果集 -->
+    <select id="cxYhxx" resultType="hashmap" parameterType="LoginModel">
+    	select zgh,xm,fszgh from zftal_xtgl_yhb 
+    	<where>
+    		<if test="yhm!=null and yhm!=''">
+    			and zgh = #{yhm}
+    		</if>
+    		<if test="fsZgh!=null and fsZgh!=''">
+    			and fszgh=#{fsZgh}
+    		</if>
+    		<if test="xm!=null and xm !=''">
+    			and xm like '%'||'${xm}'||'%'
+    		</if>
+    	</where>
+    </select>
+    
+    <!-- 查询老师一级模块对应页面 （当前用户） -->
+    <select id="cxLsmrdyym" resultType="hashmap">
+		select t.gnmkdm,t.gnmkmc,t.fjgndm,t.dyym,t.xssx
+		  from zftal_xtgl_jsgnmkdmb t,
+		       (
+		        
+		        select gnxx2.gnmkdm,
+		                gnxx2.gnmkmc,
+		                gnxx2.fjgndm,
+		                gnxx2.dyym,
+		                gnxx2.xssx
+		          from zftal_xtgl_jsgnmkdmb gnxx2,
+		                (select gnxx.fjgndm
+		                   from zftal_xtgl_jsgnmkczb jsgn, zftal_xtgl_jsgnmkdmb gnxx
+		                  WHERE jsgn.gnmkdm = gnxx.gnmkdm
+					    	<foreach collection="list" item="item" index="index"
+								open=" and (" separator="or" close=")">
+								 jsgn.jsdm = #{item} 
+							</foreach>
+		                  group by gnxx.gnmkdm, gnxx.gnmkmc, gnxx.fjgndm, gnxx.dyym) gnxx3
+		         WHERE gnxx2.gnmkdm = gnxx3.fjgndm
+		              
+		          and gnxx2.fjgndm = #{fjgndm}
+		        
+		         group by gnxx2.gnmkdm,
+		                   gnxx2.gnmkmc,
+		                   gnxx2.fjgndm,
+		                   gnxx2.dyym,
+		                   gnxx2.xssx
+		         order by to_number(gnxx2.xssx)) b
+		 where t.fjgndm = b.gnmkdm and rownum   =   1
+    </select>
+    
+</mapper>

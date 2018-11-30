@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.mobile.ballot.dao.BallotRecordDao">
+  <resultMap id="BaseResultMap" type="com.zfsoft.mobile.ballot.entity.BallotRecord">
+    	<result property="id" 		 column="id" />
+		<result property="userId"   column="userid" />
+		<result property="ballotDetailId"   column="ballotdetailid" />
+		<result property="ballotTime"   column="ballottime" />
+		<result property="ballotId"   column="ballotid" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+    id, userid,ballotdetailid,ballottime,ballotid
+  </sql>
+
+	<select id="countBallotNum" resultType="java.lang.Integer">
+		select count (1) from m_wytp_ballot_record where userid =#{userId} and ballotdetailid =#{ballotDetailId}
+		<if test='ballotTime != "" and ballotTime != null'>
+		and ballottime =#{ballotTime}
+		</if>
+	</select>
+
+<select id="countBallotNumByBallotId" resultType="java.lang.Integer">
+		select count (1) from m_wytp_ballot_record where userid =#{userId} and ballotid =#{ballotId}
+		<if test='ballotTime != "" and ballotTime != null'>
+		and ballottime =#{ballotTime}
+		</if>
+	</select>
+
+
+	<insert id="insert" parameterType="com.zfsoft.mobile.ballot.entity.BallotRecord"  useGeneratedKeys="true" keyProperty="id" >
+        <selectKey keyProperty="id" resultType="java.lang.String" order="BEFORE">
+	　　　　select SYS_GUID() id from DUAL
+	　　</selectKey>
+	
+	    insert into m_wytp_ballot_record
+	    <trim prefix="(" suffix=")" suffixOverrides=",">
+	        id,
+	      <if test="userId != null">
+	        userid,
+	      </if>
+	      <if test="ballotDetailId != null">
+	        ballotdetailid,
+	      </if>
+	      <if test="ballotTime != null">
+	        ballottime,
+	      </if>
+	      <if test="ballotId != null">
+	        ballotid,
+	      </if>
+	    </trim>
+	    <trim prefix="values (" suffix=")" suffixOverrides=",">
+	      	SYS_GUID(),
+	      <if test="userId != null">
+	        #{userId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="ballotDetailId != null">
+	        #{ballotDetailId,jdbcType=VARCHAR},
+	      </if>
+	       <if test="ballotTime != null">
+	        #{ballotTime,jdbcType=VARCHAR},
+	      </if>
+	       <if test="ballotId != null">
+	        #{ballotId,jdbcType=VARCHAR},
+	      </if>
+	    </trim>
+    </insert>
+
+
+	<update id="update">
+		update m_wytp_ballot_record
+		 <set>
+		 	<if test='userId != "" and userId != null'>
+		 		userid=#{userId},
+		 	</if>
+		 	<if test='ballotDetailId != "" and ballotDetailId != null'>
+		 		ballotdetailid=#{ballotDetailId},
+		 	</if>
+		 	<if test='ballotTime != "" and ballotTime != null'>
+		 		ballottime=#{ballotTime},
+		 	</if>
+		 	<if test='ballotId != "" and ballotId != null'>
+		 		ballotid=#{ballotId},
+		 	</if>
+		 </set>
+		   where id = #{id}
+	</update>
+
+    <delete id="delete" parameterType="java.lang.String">
+        delete from m_wytp_ballot_record where userid=#{userId} and ballotdetailid =#{ballotDetailId}
+    </delete>
+
+</mapper>

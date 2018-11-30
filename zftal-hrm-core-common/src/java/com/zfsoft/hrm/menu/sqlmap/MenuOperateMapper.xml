@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.menu.dao.IMenuOperateDao">
+	<resultMap id="MenuOperateModel" type="com.zfsoft.hrm.menu.entity.MenuOperate">
+		<result property="menuId" column="gnmkdm" />
+		<result property="operate" column="czdm" />
+	</resultMap>
+
+	<insert id="insert">
+		insert into ZFTAL_XTGL_GNMKCZB(gnmkdm,czdm) values(
+			#{menuId},
+			#{operate}
+		)
+	</insert>
+	
+	<delete id="deleteByMenuId">
+		delete from ZFTAL_XTGL_GNMKCZB where gnmkdm=#{menuId}
+	</delete>
+	
+	<select id="getList" resultMap="MenuOperateModel">
+		select * from ZFTAL_XTGL_GNMKCZB 
+		<where>
+			<if test="menuId != null and menuId != ''">
+				 gnmkdm = #{menuId} 
+			</if>
+			<if test="operate != null and operate != ''">
+				and czdm = #{operate}
+			</if>
+		</where>
+	</select>
+	<select id="getEntity" resultMap="MenuOperateModel">
+		select * from ZFTAL_XTGL_GNMKCZB where gnmkdm = #{menuId}  and czdm = #{operate}
+	</select>
+</mapper>

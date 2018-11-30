@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.dyna.dao.daointerface.IDynaBeanDao" >
+	
+	<sql id="where">
+		<where>
+			<if test="snapTime == null">
+			<if test="deleted != null">
+				and t.deleted = #{deleted}
+			</if>
+			</if>
+			<if test="express != null and express != ''">
+				and ${express}
+			</if>
+			
+			<if test="snapTime != null">
+				and t.SNAP_TIME = #{snapTime}
+			</if>
+			
+			<if test="snapTimeStart != null">
+				and t.SNAP_TIME &gt;= #{snapTimeStart}
+			</if>
+			
+			<if test="snapTimeEnd != null">
+				and t.SNAP_TIME &lt;= #{snapTimeEnd}
+			</if>
+			
+			<if test="history == false and clazz.uniqables.size > 0">
+				<foreach collection="clazz.uniqables" item="property" open=" and (" separator=" or " close=")">
+					t.${property.fieldName} = 1
+				</foreach>
+			</if>
+		</where>
+	</sql>
+	<sql id="whereNoUniqable">
+		<where>
+			<if test="query.deleted != null">
+				and (t.deleted = #{query.deleted} or t.deleted is null)
+			</if>
+			
+			<if test="query.express != null and query.express != ''">
+				and ${query.express}
+			</if>
+		</where>
+	</sql>
+	<sql id="selectColumn">
+		t.*
+		<foreach collection="clazz.properties" item="property" >
+			<if test="property.virtual">
+			<if test="property.displayFormula != null">
+			,${property.getDisplayFormula('t') } as ${property.fieldName}
+			</if>
+			</if>
+		</foreach>
+	</sql>
+	
+	<select id="findList" resultType="hashmap" >
+		select
+		<include refid="selectColumn"/>
+		from ${clazz.identityName} t
+		<include refid="where" />
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if>
+	</select>
+	
+	<select id="findListNoUniqable" resultType="hashmap" >
+		select * from (select a.*, rownum rn from (
+			select t.*,o.gh overall_gh,o.xm overall_xm,o.dwm overall_dwm,o.dqztm overall_dqztm,o.bzlbm overall_bzlbm,o.sfzh overall_sfzh
+			from 
+				(select t1.*
+				<foreach collection="query.clazz.properties" item="property" >
+	                <if test="property.virtual">
+	                    <if test="property.displayFormula != null">
+	                        ,${property.getDisplayFormula('t1') } as ${property.fieldName}
+	                    </if>
+	                </if>
+	            </foreach> 
+	            from ${query.clazz.identityName} t1) t
+			    ${joinType} overall o on t.gh=o.gh
+			<include refid="whereNoUniqable" />
+			<if test="query.orderStr != null and query.orderStr != ''">
+				order by ${query.orderStr}
+			</if>
+			) a )
+		<![CDATA[
+			where rn>=#{query.startRow}  and rn<=#{query.endRow}
+		]]>
+	</select>
+	<select id="findPagingInfoList" resultType="hashmap">
+		select * from (select a.*, rownum rn from (select 
+		<include refid="selectColumn"/>
+ 		from ${clazz.identityName} t
+		<include refid="where" />
+	   	<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if> ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+		
+	</select>
+    <select id="findPagingInfoListLeftJoinOverAll" resultType="hashmap">
+        select * from (select a.*, rownum rn from (select 
+        o.xm as overall_xm,o.dwm as overall_dwm,
+        <include refid="selectColumn"/>
+        from ${clazz.identityName} t left join overall o on o.gh=t.gh
+        <include refid="where" />
+        <if test="orderStr != null and orderStr != ''">
+            order by ${orderStr}
+        </if> ) a )
+        <![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+        
+    </select>
+	<select id="findCountNoUniqable" resultType="int">
+		select count(1) from ${query.clazz.identityName}  t ${joinType} overall o on t.gh=o.gh
+		<include refid="whereNoUniqable" />
+	</select>
+	<select id="findCount" resultType="int">
+		select count(1) from ${clazz.identityName} t
+		<include refid="where" />
+	</select>
+	
+	<select id="findById" resultType="hashmap">
+		select 
+		<include refid="selectColumn"/>
+		 from ${clazz.identityName} t where globalid = #{values.globalid}
+	</select>
+	
+	<update id="update">
+		update ${clazz.identityName} 
+		<set>
+			LASTMODIFYTIME = sysdate ,
+			<foreach collection="editables" item="property" separator=", ">
+				${property.fieldName} = #{values.${property.fieldName}}
+			</foreach>
+		</set>
+		where globalid = #{values.globalid}
+	</update>
+	
+	<delete id="delete">
+		update ${clazz.identityName} set DELETED = '1' where GLOBALID = #{values.globalid}
+	</delete>
+	
+	<delete id="deleteByStaffid">
+		update ${clazz.identityName} set DELETED = '1' where GH = #{values.gh}
+	</delete>
+	
+	<insert id="insert">
+		insert into ${clazz.identityName} (
+			GLOBALID, GH, LASTMODIFYTIME, DELETED
+			<foreach collection="clazz.editables" item="property">
+				<if test="property.fieldName != 'gh'">
+				, ${property.fieldName}
+				</if>
+			</foreach>
+		) values(
+			#{values.globalid}, #{values.gh,jdbcType=VARCHAR}, sysdate, '0'
+			<foreach collection="clazz.editables" item="property">
+				<if test="property.fieldName != 'gh'">
+				, #{values.${property.fieldName}}
+				</if>
+			</foreach>
+		)
+	</insert>
+	
+	<insert id="insertLog" useGeneratedKeys="true" keyProperty="values.logid">
+		insert into ${clazz.identityName}_LOG (
+			LOGID, GLOBALID, GH, OPERATOR_, OPERATION_, OPERATION_TIME_, LASTMODIFYTIME, DELETED
+			<foreach collection="clazz.editables" item="property">
+				<if test="property.fieldName != 'gh'">
+				, ${property.fieldName}
+				</if>
+			</foreach>
+		) values(
+			#{values.logid}, #{values.globalid}, #{values.gh}, #{values.operator_}, #{values.operation_}, sysdate, sysdate, '0'
+			<foreach collection="clazz.editables" item="property">
+				<if test="property.fieldName != 'gh'">
+				, #{values.${property.fieldName}}
+				</if>
+			</foreach>
+		)
+		
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="values.logid">
+			<![CDATA[
+			select SYS_GUID() globalid from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="updateUniquely">
+		update ${table} set ${column} = 0 where GH = #{staffid} and globalid != #{globalid}
+	</update>
+	
+	<update id="updateSync">
+		update ${clazz.identityName} set
+			LASTMODIFYTIME = sysdate,
+		<foreach collection="fields" item="field" separator=", ">
+			${field} = #{values.${field}}
+		</foreach>
+		where GH = #{values.gh}
+	</update>
+	
+	<select id="findListNoUniqableForCJ" resultType="hashmap" >
+		select * from (select a.*, rownum rn from (
+			select t.*
+			<foreach collection="query.clazz.properties" item="property" >
+				<if test="property.virtual">
+					<if test="property.displayFormula != null">
+						,${property.getDisplayFormula('t') } as ${property.fieldName}
+					</if>
+				</if>
+			</foreach>
+			,
+			<if test="query.flag != null and query.flag != ''">kq.day_sum,</if>
+			o.gh overall_gh,o.xm overall_xm,o.dwm overall_dwm,o.dqztm overall_dqztm
+			from ${query.clazz.identityName} t ${joinType} overall o on t.gh=o.gh
+			<if test="query.flag != null and query.flag != ''">
+				left join (select sum(k1.num_day) as day_sum, k.gh,q.attencetime from kq_attencedata k
+				left join kq_attenceinstane k1 on (k1.data_id = k.id)
+				left join kq_attencedeclare q on (k1.audit_id = q.id and q.status='PASS_AUDITING')
+				group by k.gh,q.attencetime) kq on t.gh = kq.gh and to_char(t.time,'yyyy-MM') = kq.attencetime
+			</if>
+			<include refid="whereNoUniqable" />
+			<if test="query.orderStr != null and query.orderStr != ''">
+				order by ${query.orderStr}
+			</if>
+			) a )
+		<![CDATA[
+			where rn>=#{query.startRow}  and rn<=#{query.endRow}
+		]]>
+	</select>
+	
+	<select id="findCountNoUniqableForCJ" resultType="int">
+		select count(1) from ${query.clazz.identityName}  t ${joinType} overall o on t.gh=o.gh
+		<if test="query.flag != null and query.flag != ''">
+			left join (select sum(k1.num_day) as day_sum, k.gh,q.attencetime from kq_attencedata k
+			left join kq_attenceinstane k1 on (k1.data_id = k.id)
+			left join kq_attencedeclare q on (k1.audit_id = q.id and q.status='PASS_AUDITING')
+			group by k.gh,q.attencetime) kq on t.gh = kq.gh and to_char(t.time,'yyyy-MM') = kq.attencetime
+		</if>
+		<include refid="whereNoUniqable" />
+	</select>
+	
+	<select id="deleteForCJ" resultType="hashmap" >
+		delete from ${query.clazz.identityName} t 
+		<where>
+		<if test="gh != null and gh != ''">
+			and t.gh = #{gh}
+		</if>
+		<if test="query.time != null and query.time != ''">
+			and to_char(t.time,'yyyy-MM') = #{query.time}
+		</if>
+		</where>
+	</select>
+</mapper>

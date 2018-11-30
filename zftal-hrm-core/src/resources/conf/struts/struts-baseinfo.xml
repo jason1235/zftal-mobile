@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="baseinfo" namespace="/baseinfo" extends="configuration">
+		<!-- 组合查询 -->
+		<action name="infogroup_*" class="baseInfoGroupConditionAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/baseinfo/infoclass/infoclass_groupfind_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/baseinfo/infoclass/infoclass_groupfind_config.jsp</result>
+		</action>
+		
+		<action name="infogroupfind_*" class="baseInfoGroupFindAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/baseinfo/infoclass/infoclass_groupfind_find.jsp</result>
+		</action>
+		<action name="infogroupsearch_*" class="baseInfoGroupSearchAction" method="{1}">
+            <result name="list">/WEB-INF/pages/hrm/baseinfo/infoclass/infoclass_groupsearch_find.jsp</result>
+        </action>
+		
+	  
+	  <!-- 登记类别管理 -->
+	  <action name="forminfo_*" class="formInfoTypeAction" method="{1}">
+	     <result name="list">/WEB-INF/pages/hrm/baseinfo/forminfo/forminfo_list.jsp</result>
+	     <result name="edit">/WEB-INF/pages/hrm/baseinfo/forminfo/forminfo_edit.jsp</result>
+	 	 <result name="class_list">/WEB-INF/pages/hrm/baseinfo/forminfo/forminfo_class_list.jsp</result>
+	  </action>
+	  
+	  <action name="forminfometadata_*" class="formInfoMetadataAction" method="{1}">
+	     <result name="prop_list">/WEB-INF/pages/hrm/baseinfo/forminfo/forminfo_metadata_prop_list.jsp</result>
+	     <result name="edit">/WEB-INF/pages/hrm/baseinfo/forminfo/forminfo_metadata_prop_edit.jsp</result>
+	  </action>
+	  
+	   <action name="forminfoutil_*" class="formInfoUtilAction" method="{1}">
+	     <result name="list">/WEB-INF/pages/hrm/baseinfo/forminfo/forminfoutil_list.jsp</result>
+	      <result name="edit">/WEB-INF/pages/hrm/baseinfo/forminfo/forminfoutil_edit.jsp</result>
+	  </action>
+	  
+	  <!-- 常用查询 -->
+	  <action name="commonSearch2_*_*_*" class="commonSearchAction" method="{1}" >
+	     <result name="stuprimary">/WEB-INF/pages/hrm/baseinfo/commonsearch/stuprimary.jsp</result>
+	  </action>
+	  <action name="commonSearch_*" class="commonSearchAction" method="{1}" >
+	     <result name="primary">/WEB-INF/pages/hrm/baseinfo/commonsearch/primary.jsp</result>
+	     <result name="list">/WEB-INF/pages/hrm/baseinfo/commonsearch/list.jsp</result>
+	     <result name="edit">/WEB-INF/pages/hrm/baseinfo/commonsearch/edit.jsp</result>
+	  </action>
+	  
+	  <!-- 条件定义 -->
+	  <action name="conditionDefined_*" class="conditionDefinedAction" method="{1}" >
+	     <result name="root_list">/WEB-INF/pages/hrm/baseinfo/condition/root_list.jsp</result>
+	     <result name="root_edit">/WEB-INF/pages/hrm/baseinfo/condition/root_edit.jsp</result>
+	     <result name="item_list">/WEB-INF/pages/hrm/baseinfo/condition/item_list.jsp</result>
+	     <result name="item_edit">/WEB-INF/pages/hrm/baseinfo/condition/item_edit.jsp</result>
+	  </action>
+	  
+	  <!-- 条件批量处理 -->
+	  <action name="conditionBatch_*" class="conditionBatchAction" method="{1}" >
+	     <result name="setup">/WEB-INF/pages/hrm/baseinfo/condition/batch_setup.jsp</result>
+	  </action>
+	  
+	  <!-- 自定义菜单查询(分类查询) -->
+	  <action name="customMenu_*" class="customMenuAction" method="{1}" >
+	     <result name="edit">/WEB-INF/pages/hrm/baseinfo/custommenu/customMenu_edit.jsp</result>
+	     <result name="page">/WEB-INF/pages/hrm/baseinfo/custommenu/customMenu_page.jsp</result>
+	     <result name="codeSelect">/WEB-INF/pages/hrm/baseinfo/custommenu/customMenu_codeSelect.jsp</result>
+	  </action>
+	  
+	  <!-- 快照 -->
+	  <action name="snapshot_*" class="snapshotAction" method="{1}" >
+	  	 <result name="handle">/WEB-INF/pages/hrm/baseinfo/snapshot/handle.jsp</result>
+	  	 <result name="setup">/WEB-INF/pages/hrm/baseinfo/snapshot/setup.jsp</result>
+	     <result name="detailPage">/WEB-INF/pages/hrm/baseinfo/snapshot/detailPage.jsp</result>
+	  </action>
+	  <action name="snapshotLog_*" class="snapshotLogAction" method="{1}" >
+	     <result name="logPage">/WEB-INF/pages/hrm/baseinfo/snapshot/logPage.jsp</result>
+	  </action>
+	  <action name="snapshotQuery_*" class="snapshotQueryAction" method="{1}" >
+	     <result name="page">/WEB-INF/pages/hrm/baseinfo/snapshot/snapQuery_page.jsp</result>
+	     <result name="export">/WEB-INF/pages/hrm/baseinfo/snapshot/snapQuery_export.jsp</result>
+	  </action>
+	  <action name="snapshotData_*" class="snapshotDataAction" method="{1}" >
+	     <result name="page">/WEB-INF/pages/hrm/baseinfo/snapshot/snapData_page.jsp</result>
+	     <result name="view">/WEB-INF/pages/hrm/baseinfo/snapshot/snapData_view.jsp</result>
+	  </action>
+	  <!-- 20140416 add start -->
+	  <action name="snapshotInfo_*" class="snapshotInfoAction" method="{1}" >
+	     <result name="view">/WEB-INF/pages/hrm/baseinfo/snapshot/snapInfo_view.jsp</result>
+	     <result name="property">/WEB-INF/pages/hrm/baseinfo/snapshot/snapInfo_property.jsp</result>
+	     <result name="info">/WEB-INF/pages/hrm/baseinfo/snapshot/snapInfo_info.jsp</result>
+	     <result name="export">/WEB-INF/pages/hrm/baseinfo/snapshot/snapInfo_export.jsp</result>
+	  </action>
+	  <!-- 20140416 add end -->
+	  
+	  <!-- 信息维护 -->
+	  <action name="formInfoMember_*" class="baseFormInfoMemberAction" method="{1}">
+	  	<result name="list">/WEB-INF/pages/hrm/baseinfo/forminfo/member_list.jsp</result>
+	  	<result name="edit">/WEB-INF/pages/hrm/baseinfo/forminfo/member_edit.jsp</result>
+	  </action>
+	  <action name="formInfoMemberProperty_*" class="baseFormInfoMemberPropertyAction" method="{1}">
+	  	<result name="list">/WEB-INF/pages/hrm/baseinfo/forminfo/member_property_list.jsp</result>
+	  	<result name="edit">/WEB-INF/pages/hrm/baseinfo/forminfo/member_property_edit.jsp</result>
+	  </action>
+	  
+	  <!-- 信息审核 -->
+	  <action name="auditDefine_*" class="baseAuditDefineAction" method="{1}">
+	  	<result name="list">/WEB-INF/pages/hrm/baseinfo/audit/auditDefine_list.jsp</result>
+	  	<result name="edit">/WEB-INF/pages/hrm/baseinfo/audit/auditDefine_edit.jsp</result>
+	  	<result name="info">/WEB-INF/pages/hrm/baseinfo/audit/auditDefine_info.jsp</result>
+	  </action>
+	  
+	  <action name="auditProcess_*" class="baseAuditProcessAction" method="{1}">
+	  	<result name="viewPage">/WEB-INF/pages/hrm/baseinfo/audit/auditProcess_viewPage.jsp</result>
+	  	<result name="view">/WEB-INF/pages/hrm/baseinfo/audit/auditProcess_view.jsp</result>
+	  	<result name="viewMore">/WEB-INF/pages/hrm/baseinfo/audit/auditProcess_viewMore.jsp</result>
+	  	<result name="auditPage">/WEB-INF/pages/hrm/baseinfo/audit/auditProcess_auditPage.jsp</result>
+	  	<result name="adminPrompt">/WEB-INF/pages/hrm/baseinfo/audit/auditProcess_adminPrompt.jsp</result>
+	  	<result name="audit">/WEB-INF/pages/hrm/baseinfo/audit/auditProcess_audit.jsp</result>
+	  </action>
+	  
+	  <!-- 角色信息 -->
+	  <action name="role_*" class="baseRoleAction" method="{1}">
+	  </action>
+	  
+	  <!-- 信息导入 -->
+	  <action name="infoClassData_*" class="baseInfoClassDataAction" method="{1}">
+	  	<result name="list">/WEB-INF/pages/hrm/baseinfo/data/dataImport_list.jsp</result>
+	  	<result name="upload">/WEB-INF/pages/hrm/baseinfo/data/dataImport_upload.jsp</result>
+	  	<result name="upload_nocheckgh">/WEB-INF/pages/hrm/baseinfo/data/upload_nocheckgh.jsp</result>
+	  </action>
+	   <!-- 信息导入 -->
+      <action name="infoClassCheck_*" class="infoClassCheckAction" method="{1}">
+        <result name="list">/WEB-INF/pages/hrm/baseinfo/data/dataCheck_list.jsp</result>
+        <result name="upload">/WEB-INF/pages/hrm/baseinfo/data/dataCheck_upload.jsp</result>
+      </action>
+	  
+	  <!-- 信息高级导入制作模版 -->
+	  <action name="highImport_*" class="templateAction" method="{1}">
+	  	<result name="list">/WEB-INF/pages/hrm/baseinfo/highimport/template_list.jsp</result>
+		<result name="edit">/WEB-INF/pages/hrm/baseinfo/highimport/template_input.jsp</result>
+	  </action>
+	  
+	  <!-- 信息高级导入模版属性配置 -->
+	  <action name="property_*" class="propertyAction" method="{1}">
+	  	<result name="list">/WEB-INF/pages/hrm/baseinfo/highimport/property_list.jsp</result>
+		<result name="select">/WEB-INF/pages/hrm/baseinfo/highimport/property_select.jsp</result>
+		<result name="upload">/WEB-INF/pages/hrm/baseinfo/highimport/property_upload.jsp</result>
+	  </action>
+	  
+	  <!-- 日志查询 -->
+	  <action name="dynalog_*" class="dynaLogAction" method="{1}">
+	  	<result name="page">/WEB-INF/pages/hrm/baseinfo/dynalog/dynalog_page.jsp</result>
+	  	<result name="userPage">/WEB-INF/pages/hrm/baseinfo/dynalog/dynalog_userPage.jsp</result>
+	  	<result name="detail">/WEB-INF/pages/hrm/baseinfo/dynalog/dynalog_detail.jsp</result>
+	  	<result name="userDetail">/WEB-INF/pages/hrm/baseinfo/dynalog/dynalog_userDetail.jsp</result>
+	  </action>
+	  
+	  <!-- 执行回填表单到信息类方法 -->
+      <action name="pushInfo_*" class="PushDyBill2InfoClassAction" method="{1}">
+        <result name="push">/WEB-INF/pages/hrm/baseinfo/data/dataPush_push.jsp</result>
+      </action>
+      
+      <!-- 组织机构 -->
+      <action name="dept_*" class="DepartmentAction" method="{1}">
+        <result name="upload">/WEB-INF/pages/hrm/org/org_upload.jsp</result>
+      </action>
+	</package>
+</struts>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+    
+    <bean id="signinDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.zfsoft.mobile.sourceexchange.dao.ISourcesigninDao"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <bean id="sourceSignService" class="com.zfsoft.mobile.sourceexchange.service.impl.ISourcesigninServiceImpl">
+        <property name="signinDao" ref="signinDao"/>
+    </bean>
+    <bean id="sourcesigninAction" class="com.zfsoft.mobile.sourceexchange.action.SourcesigninAction" scope="prototype">
+        <property name="sourceSignService" ref="sourceSignService"></property>
+    </bean>
+    
+    
+    <bean id="sourceGoodsDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.zfsoft.mobile.sourceexchange.dao.ISourcegoodsDao"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <bean id="goodsService" class="com.zfsoft.mobile.sourceexchange.service.impl.ISourcegoodsServiceImpl">
+        <property name="sourceGoodsDao" ref="sourceGoodsDao"/>
+    </bean>
+    <bean id="sourcegoodsAction" class="com.zfsoft.mobile.sourceexchange.action.SourcegoodsAction" scope="prototype">
+        <property name="goodsService" ref="goodsService"></property>
+        <property name="mobileCommonService" ref="mobileCommonService"></property>
+    </bean>
+    
+    
+    <bean id="consumingHisDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+        <property name="mapperInterface" value="com.zfsoft.mobile.sourceexchange.dao.ISourceconsumerhisDao"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <bean id="consumingHisService" class="com.zfsoft.mobile.sourceexchange.service.impl.ISourceconsumerhisServiceImpl">
+        <property name="consumingHisDao" ref="consumingHisDao"/>
+    </bean>
+    <bean id="sourceconsumerhisAction" class="com.zfsoft.mobile.sourceexchange.action.SourceconsumerhisAction" scope="prototype">
+        <property name="consumingHisService" ref="consumingHisService"></property>
+    </bean>
+    
+  </beans>

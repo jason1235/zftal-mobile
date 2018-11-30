@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.code.dao.daointerface.IItemDao" >
+
+	<resultMap id="itemMap" type="com.zfsoft.hrm.baseinfo.code.entities.Item" >
+		<result property="guid" column="tmid"/>
+		<result property="description" column="tmxx"/>
+		<result property="comment" column="tmzs"/>
+		<result property="visible" column="sfxs"/>
+		<result property="dumped" column="sfqy"/>
+		<result property="checked" column="sfkxz"/>
+		<result property="hasParentNodeInfo" column="sfbhfjdxx"/>
+		<result property="order" column="sxm"/>
+		<result property="catalogId" column="ssbm"/>
+		<result property="tip" column="tsxx"/>
+		<result property="parentId" column="tmfjd"/>
+	</resultMap>
+
+	<!-- 获取单条信息 -->
+	<select id="getEntity" resultMap="itemMap">
+		select * from HRM_XTGL_DMTMB where tmid = #{guid} and ssbm = #{catalogId}
+	</select>
+    
+    <!-- 更新 -->
+    <update id="update">
+    	update HRM_XTGL_DMTMB 
+    	<set>
+    		<if test="description != null">
+    			tmxx = #{description},
+    		</if>
+    		<if test="comment != null">
+    			tmzs = #{comment},
+    		</if>
+    		<if test="visible != null">
+    			sfxs = #{visible},
+    		</if>
+    		<if test="dumped != null">
+    			sfqy = #{dumped},
+    		</if>
+    		<if test="checked != null">
+    			sfkxz = #{checked},
+    		</if>
+    		<if test="hasParentNodeInfo != null">
+    			sfbhfjdxx = #{hasParentNodeInfo},
+    		</if>
+    		<if test="order != null">
+    			sxm = #{order},
+    		</if>
+    		<if test="tip != null">
+    			tsxx = #{tip},
+    		</if>
+    		<if test="parentId != null and parentId !=''">
+    			tmfjd = #{parentId},
+    		</if>
+    	</set>
+    	where tmid = #{guid} and ssbm = #{catalogId}
+    </update>
+    
+    <!-- 新增 -->
+    <insert id="insert" >
+    	insert into HRM_XTGL_DMTMB(tmid,tmxx,tmzs,sfxs,sfqy,sfkxz,sfbhfjdxx,sxm,ssbm,tsxx,tmfjd) 
+    		values (#{guid},#{description},#{comment},#{visible},#{dumped},#{checked},
+    		#{hasParentNodeInfo},#{order},#{catalogId},#{tip},#{parentId})
+    </insert>
+    
+    <!-- 批量删除 -->
+    <delete id="batchDelete" >
+    	delete HRM_XTGL_DMTMB where 
+	    <foreach collection="list" item="item" index="index"
+				separator=" OR">
+			   zgh = #{item.tmid} 
+		</foreach>
+    </delete>
+    
+    <!-- 删除 -->
+    <delete id="delete" >
+    	delete HRM_XTGL_DMTMB where tmid = #{guid} and ssbm = #{catalogId}
+    </delete>
+    
+    <!-- 编目所属条目删除 -->
+    <delete id="deleteCatalogRealatedItems">
+    	delete HRM_XTGL_DMTMB where ssbm = #{guid}
+    </delete>
+    
+    <!-- 查询列表 -->
+	<select id="getList" resultMap="itemMap">
+ 		select * from HRM_XTGL_DMTMB 
+ 		<where>
+ 			<if test="catalogId != null">
+ 				and ssbm = #{catalogId}
+ 			</if>
+ 			<if test="parentId != null">
+ 				and tmfjd = #{parentId}
+ 			</if>
+ 		</where>
+			 order by lpad(sxm,8,0) asc
+	</select>
+	
+	<select id="getTopNodeList" resultMap="itemMap">
+ 		select * from HRM_XTGL_DMTMB 
+ 		<where>
+ 			<if test="catalogId != null">
+ 				and ssbm = #{catalogId}
+ 			</if>
+ 			<if test="parentId == null or parentId == ''">
+ 				and tmfjd is null
+ 			</if>
+ 			<if test="parentId != null and parentId != ''">
+ 				and tmfjd = #{parentId}
+ 			</if>
+ 		</where>
+			 order by lpad(sxm,8,0) asc
+	</select>
+    
+</mapper>

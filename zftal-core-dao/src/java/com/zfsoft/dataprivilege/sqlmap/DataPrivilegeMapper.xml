@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dataprivilege.dao.IDataPrivilegeDao">
+	<!-- 插入单条信息 -->
+	<insert id="insert">
+		insert into ${tableName}
+		<foreach collection="sqlNamesHasKeyAndNotNull" item="item" open="(" separator="," close=")">
+			${item}
+		</foreach>
+		values
+		<foreach collection="sqlNamesHasKeyAndNotNull" item="item" open="(" separator="," close=")">
+			#{${sqlLocalNameMap[item]}}
+		</foreach>
+	</insert>
+
+	<update id="update">
+		update ${tableName}
+		<set>
+			<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," >
+				 ${item}=#{${sqlLocalNameMap[item]}}
+			</foreach>
+		</set>
+		where JSBH=#{roleId} and  YHBH=#{userId} and  GLZBH=#{filterId}
+	</update>
+
+	<!-- 删除岗位信息 -->
+	<delete id="delete">
+		delete from ${tableName} where JSBH=#{roleId} and  YHBH=#{userId} and  GLZBH=#{filterId}
+	</delete>
+
+	<sql id="where">
+		<where>
+			<if test="userId != null">
+				and t.YHBH = #{userId}
+    		</if>
+    		<if test="roleId != null">
+				and t.JSBH = #{roleId}
+    		</if>
+    		<if test="filterId != null">
+				and t.GLZBH = #{filterId}
+    		</if>
+		</where>
+	</sql>
+
+	<select id="findByQuery" resultType="com.zfsoft.dataprivilege.entity.DataPrivilege">
+		select
+		<foreach collection="sqlNamesAll" item="item" separator=",">
+			<![CDATA[t.${item} as ${sqlLocalNameMap[item]}]]>
+		</foreach>
+		from ${tableName} t
+		<include refid="where" />
+	</select>
+	
+</mapper>

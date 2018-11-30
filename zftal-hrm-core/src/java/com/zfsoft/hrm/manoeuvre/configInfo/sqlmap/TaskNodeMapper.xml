@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.manoeuvre.configInfo.dao.daointerface.ITaskNodeDao" >
+	
+	<resultMap id="taskNodeRM" type="com.zfsoft.hrm.manoeuvre.configInfo.entities.TaskNode">
+		<result property="nid" column="HJDM" />
+		<result property="nodeName" column="HJMC" />
+		<result property="order" column="SXM" />
+		<result property="remark" column="BZ" />
+	</resultMap>
+	
+    <sql id="prefix">
+		HJDM,
+	    HJMC,
+	    SXM,
+	    BZ
+	</sql>
+	
+	<sql id="suffix">
+		<where>
+			<if test="nid != null and nid != ''">
+				and HJDM=#{nid}
+			</if>
+			
+			<if test="nodeName != null and nodeName != ''">
+				and HJMC like '%'||#{nodeName}||'%'
+			</if>
+			
+			<if test="order != null and order != ''">
+				and SXM=#{order}
+			</if>
+			
+			<if test="remark != null and remark != ''">
+				and BZ like '%'||#{remark}||'%'
+			</if>
+		</where>
+		
+		<if test="sortCol != null and sortCol != ''">
+			order by ${sortCol}
+		</if>
+		<if test="sortCol == null or sortCol == ''">
+			order by SXM
+		</if>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="nid">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="nid">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+		insert into HRM_RYDP_HJB (
+		
+				HJDM
+			
+			<if test="nodeName != null and nodeName != ''">
+				,HJMC
+			</if>
+			
+			<if test="order != null and order != ''">
+				,SXM
+			</if>
+			
+			<if test="remark != null and remark != ''">
+				,BZ
+			</if>
+			
+		) values (
+
+				#{nid}
+			
+			<if test="nodeName != null and nodeName != ''">
+				,#{nodeName}
+			</if>
+			
+			<if test="order != null and order != ''">
+				,#{order}
+			</if>
+			
+			<if test="remark != null and remark != ''">
+				,#{remark}
+			</if>
+		)
+	</insert>
+	
+	<update id="update">
+		update HRM_RYDP_HJB 
+		<set>
+			
+			<if test="nodeName != null and nodeName != ''">
+				HJMC=#{nodeName},
+			</if>
+			
+			<if test="order != null and order != ''">
+				SXM=#{order},
+			</if>
+			
+			<if test="remark != null">
+				BZ=#{remark},
+			</if>
+			 
+		</set>
+		where HJDM=#{nid}
+	</update>
+	
+	<delete id="delete">
+		delete from HRM_RYDP_HJB where HJDM=#{nid}
+	</delete>
+	
+	<select id="findList" resultMap="taskNodeRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_HJB
+		<include refid="suffix" /> 
+	</select>
+	
+	<select id="findPage" resultMap="taskNodeRM">
+		
+		select <include refid="prefix" /> 
+		from (
+			select <include refid="prefix" />,rownum rn 
+			from (
+				select <include refid="prefix" />
+				from HRM_RYDP_HJB
+				<include refid="suffix" /> 
+			)
+		) 
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<select id="findPageCount" resultType="int">
+		select count(1)
+		from HRM_RYDP_HJB
+		<include refid="suffix" /> 
+	</select>
+	
+	<select id="findById" resultMap="taskNodeRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_HJB
+		where HJDM=#{nid}
+	</select>
+	
+	<select id="findLastNode" resultMap="taskNodeRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_HJB t
+		where t.SXM = (select max(o.SXM) from HRM_RYDP_HJB o)
+	</select>
+	
+	<select id="findFirstNode" resultMap="taskNodeRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_HJB t
+		where t.SXM = (select min(o.SXM) from HRM_RYDP_HJB o)
+	</select> 
+	
+	<select id="findNext" resultMap="taskNodeRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_HJB t
+		where 
+			t.SXM = (select min(j.SXM)
+			         from HRM_RYDP_HJB j
+			         where <![CDATA[ j.SXM > (select o.SXM from HRM_RYDP_HJB o where o.HJDM = #{nid})) ]]>
+	</select>
+	
+	<select id="findPrev" resultMap="taskNodeRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_HJB t
+		where 
+			t.SXM = (select max(j.SXM)
+			        from HRM_RYDP_HJB j
+			        where <![CDATA[ j.SXM < (select o.SXM from HRM_RYDP_HJB o where o.HJDM = #{nid})) ]]>
+	</select>
+	
+	<update id="plusOne">
+		<![CDATA[
+			update HRM_RYDP_HJB t 
+			set t.sxm=t.sxm+1
+			where t.sxm >= #{0}
+		]]>
+	</update>
+	
+	<update id="partPlusOne">
+		<![CDATA[
+			update HRM_RYDP_HJB t 
+			set t.sxm=t.sxm+1
+			where t.sxm >= #{0} and t.sxm < #{1}
+		]]>
+	</update>
+	
+	<update id="reduceOne">
+		<![CDATA[
+			update HRM_RYDP_HJB t 
+			set t.sxm=t.sxm-1
+			where t.sxm > #{0}
+		]]>
+	</update>
+	
+	<update id="partReduceOne">
+		<![CDATA[
+			update HRM_RYDP_HJB t 
+			set t.sxm=t.sxm-1
+			where t.sxm > #{0} and t.sxm <= #{1}
+		]]>
+	</update>
+	
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="contract" namespace="/contract" extends="configuration">
+		<!-- 合同种类维护 -->
+		<action name="categoryConfig_*" class="categoryConfigAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/contract/category/categoryconfig_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/contract/category/categoryconfig_edit.jsp</result>
+		</action>
+		<action name="contractNew_*" class="contractNewAction" method="{1}">
+			<result name="listStaff">/WEB-INF/pages/hrm/contract/contract_staffList.jsp</result>
+			<result name="signature">/WEB-INF/pages/hrm/contract/contract_signature.jsp</result>
+			<result name="view">/WEB-INF/pages/hrm/contract/contract_view.jsp</result>
+			<result name="listSignature">/WEB-INF/pages/hrm/contract/contract_signatureList.jsp</result>
+			<result name="listWill">/WEB-INF/pages/hrm/contract/contract_willList.jsp</result>
+			<result name="listOver">/WEB-INF/pages/hrm/contract/contract_overList.jsp</result>
+			<result name="listHistory">/WEB-INF/pages/hrm/contract/contract_historyList.jsp</result>
+			<result name="listAll">/WEB-INF/pages/hrm/contract/contract_allList.jsp</result>
+			<result name="listChange">/WEB-INF/pages/hrm/contract/contract_changeList.jsp</result>
+			<result name="listProbation">/WEB-INF/pages/hrm/contract/contract_probationList.jsp</result>
+			<result name="listSequel">/WEB-INF/pages/hrm/contract/contract_sequelList.jsp</result>
+			<result name="over">/WEB-INF/pages/hrm/contract/contract_over.jsp</result>
+			<result name="delay">/WEB-INF/pages/hrm/contract/contract_delay.jsp</result>
+			<result name="ravel">/WEB-INF/pages/hrm/contract/contract_ravel.jsp</result>
+			<result name="regular">/WEB-INF/pages/hrm/contract/contract_regular.jsp</result>
+			<result name="forward">/WEB-INF/pages/hrm/contract/contract_forward.jsp</result>
+			<result name="import">/WEB-INF/pages/hrm/contract/contract_import.jsp</result>
+		</action>
+	</package>
+</struts>

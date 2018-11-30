@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.baseinfo.forminfo.dao.daointerface.IFormInfoTypeDao">
+
+	<resultMap id="fromInfoTypeModel" type="com.zfsoft.hrm.baseinfo.forminfo.entities.FormInfoType">
+		<id property="guid" column="DJLBBBH" />
+		<result property="name" column="DJLBMC" />
+		<result property="seq" column="SEQ" />
+	</resultMap>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+		<![CDATA[
+			INSERT INTO HRM_INFO_DJLBB(
+				DJLBBBH, DJLBMC,SEQ) VALUES(
+				#{guid}, #{name},#{seq})
+		]]>
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			update HRM_INFO_DJLBB set
+				DJLBMC = #{name}
+			where DJLBBBH = #{guid}
+		]]>
+	</update>
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from HRM_INFO_DJLBB where DJLBBBH = #{guid}
+		]]>
+	</delete>
+	<select id="findList" resultMap="fromInfoTypeModel">
+		select djb.DJLBBBH, djb.DJLBMC from HRM_INFO_DJLBB djb order by djb.seq
+	</select>
+	
+	<select id="findByGuid" resultMap="fromInfoTypeModel">
+		select djb.DJLBBBH, djb.DJLBMC from HRM_INFO_DJLBB djb
+		where djb.DJLBBBH=#{guid}
+	</select>
+</mapper>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="ballot" namespace="/ballot" extends="configuration" >
+		<action name="ballot_*" class="ballotAction" method="{1}" >
+			
+		</action>
+	</package>
+	
+	<package name="htballot" namespace="/htballot" extends="configuration" >
+		<action name="htballot_*" class="htballotAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/ballot/ballot_list.jsp</result>
+			<result name="toAdd">/WEB-INF/pages/mobile/ballot/ballot_add.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/ballot/ballot_edit.jsp</result>
+			<result name="detailList">/WEB-INF/pages/mobile/ballot/ballotDetail_list.jsp</result>
+			<result name="editDetail">/WEB-INF/pages/mobile/ballot/ballotDetail_edit.jsp</result>
+		</action>
+	</package>
+	
+</struts>

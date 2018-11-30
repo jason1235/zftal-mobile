@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.configuration.dao.INewsConfigDao">
+
+	<resultMap id="newsConfigMap" type="com.zfsoft.mobile.configuration.entity.NewsConfig">
+		<result property="key" 		 column="sk" />
+		<result property="value"   column="sv" />
+		<result property="comment"   column="sc" />
+		
+	</resultMap>
+	
+	<select id="getAll" resultMap="newsConfigMap">
+		select * from m_system_settings
+	</select>
+	
+	<select id="findByKey" resultMap="newsConfigMap">
+		select * from m_system_settings where sk = #{key}
+	</select>
+	
+	<insert id="add">
+		insert into m_system_settings(sk,sv,sc) values(#{key},#{value},#{comment})
+	</insert>
+	
+	<update id="update">
+		update m_system_settings
+		 <set>
+		 	<if test='value != null'>
+		 		sv=#{value},
+		 	</if>
+		 	<if test='comment != null'>
+		 		sc=#{comment},
+		 	</if>		
+		 	
+		 </set>
+		   where sk = #{key}
+	</update>
+	
+	<delete id="delete">
+		delete from m_system_settings where sk = #{key}
+	</delete>
+</mapper>

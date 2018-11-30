@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.services.dao.daointerface.ILossObjectDao" >
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.LossObjectEntity" id="LossObjectMap">
+		<result column="id" property="id"/>
+		<result column="title" property="title"/>
+		<result column="content" property="content"/>
+		<result column="place" property="place"/>
+		<result column="timecreate" property="timecreate"/>
+		<result column="ispass" property="ispass"/>
+		<result column="rejectreason" property="rejectreason"/>
+		<result column="isover" property="isover"/>
+		<result column="username" property="username"/>
+		<result column="name" property="name"/>
+		<result column="lossuser" property="lossuser"/>
+		<result column="overtime" property="overtime"/>
+		<result column="flag" property="flag"/>
+		<result column="telephone" property="telephone"/>
+		<result column="goodsName" property="goodsName"/>
+		<result column="qq" property="qq"/>
+	</resultMap>
+	
+	<resultMap id="LossObjectPictureEntityMap" type="com.zfsoft.mobile.services.entity.LossObjectPictureEntity">
+		<result property="lossObjectId" 		 	column="lossObjectId" />
+		<result property="title"   					column="title" />
+		<result property="pictureContent"   		column="pictureContent" />
+		<result property="picturePath"   			column="picturePath" />
+		<result property="createTime"   			column="createTime" />
+	</resultMap>
+	
+	<sql id="where">
+    	<where>
+			<if test="id != null and id != ''">
+   				and m.id = #{id}
+	   		</if>
+			<if test="title != null and title != ''">
+    			and m.title  like '%'||#{title}||'%' 
+    		</if>
+    		<if test="place != null and place != ''">
+    			and m.place  like '%'||#{place}||'%' 
+    		</if>
+    		<if test='ispass != null and ispass != "" and ispass != "4"'>
+    			and m.ispass = #{ispass}
+    		</if>
+    		<if test="isover != null and isover != ''">
+    			and m.isover = #{isover}
+    		</if>
+    		<if test="username != null and username != ''">
+    			and m.username = #{username}
+    		</if>
+    		<if test="lossuser != null and lossuser != ''">
+    			and m.lossuser like '%'||#{lossuser}||'%' 
+    		</if>
+    		<if test='flag != null and flag != "" '>
+    			and m.flag = #{flag} 
+    		</if>
+    		<if test='ispass != null and ispass != "" and ispass == "4"'>
+    			and m.ispass != '3' 
+    		</if>
+    		<if test="name != null and name != ''">
+    			and m.name like '%'||#{name}||'%' 
+    		</if>
+    		<if test="goodsName != null and goodsName != ''">
+    			and m.goodsName like '%'||#{goodsName}||'%' 
+    		</if>
+    		<if test="timestart != null and timestart != ''">
+    			<![CDATA[
+    				and m.timecreate >= #{timestart}
+   				]]>	
+    		</if>
+    		<if test="timeend != null and timeend != ''">
+    			<![CDATA[
+    				and m.timecreate <= #{timeend}
+   				]]>	
+    		</if>
+		</where>
+    </sql> 
+    
+    <!-- 获取分页列表信息 -->
+	<select id="getPictureList" resultMap="LossObjectPictureEntityMap">
+			select m.lossObjectId,m.title,m.picturePath,m.createtime from m_lossobject_picture m where m.lossobjectid=#{lossobjectid}
+	</select>
+    
+    <!-- 获取分页列表信息 -->
+	<select id="getList" resultMap="LossObjectMap">
+			select * from (
+		     select a.*,rownum rn from 
+				(select * from M_LOSSOBJECT m
+				<include refid="where" />
+				order by m.timecreate desc,m.ispass asc,m.isover asc) a
+			)
+			<![CDATA[
+					where rn>=#{startRow} and rn<=#{endRow}
+			]]>	
+	</select>
+	
+	<!-- 获取详情-->
+	<select id="getOne" resultMap="LossObjectMap">
+			select m.* from M_LOSSOBJECT m where 1=1
+			<if test="id != null and id != ''">
+    			and m.id = #{id} 
+    		</if>
+	</select>
+	
+	<select id="getListCount" resultType="int">
+			select count(*) from
+				(select * from M_LOSSOBJECT m
+				<include refid="where" /> )
+			a 
+	</select>
+	
+	<insert id="insert" >
+		<![CDATA[
+			insert into M_LOSSOBJECT(
+				id,title,content,place,timecreate,ispass,isover,username,name,flag,telephone
+			) values(
+				#{id}, #{title}, #{content,jdbcType=VARCHAR}, #{place,jdbcType=VARCHAR}, 
+				sysdate, #{ispass},#{isover},#{username},#{name},#{flag},#{telephone,jdbcType=VARCHAR}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="newInsert" >
+			insert into M_LOSSOBJECT(
+				id,title,goodsName,content,timecreate,ispass,isover,username,name,flag,telephone,place,qq
+			) values(
+				#{id},#{title},#{goodsName},#{content},sysdate,#{ispass},#{isover},#{username},#{name},#{flag},#{telephone},
+				#{place},#{qq}
+			)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insertLossObjectPicture" >
+		<![CDATA[
+			INSERT INTO 
+				m_lossobject_picture(
+					lossObjectId,	
+					title,
+					pictureContent,
+					picturePath,
+					createTime
+				)
+			VALUES(
+				#{lossObjectId},           
+				#{title},
+				#{pictureContent},
+				#{picturePath},
+				sysdate
+				)
+		]]>
+	</insert>
+	
+	<update id="update">
+			update M_LOSSOBJECT set
+				<if test="ispass != null and ispass != ''">
+	    			ispass = #{ispass}
+	    		</if>
+	    		<if test="rejectreason != null and rejectreason != ''">
+	    			,rejectreason = #{rejectreason}
+	    		</if>
+				<if test="isover != null and isover != ''">
+	    			isover = #{isover}
+	    		</if>
+	    		<if test="lossuser != null and lossuser != ''">
+	    			,lossuser = #{lossuser}
+	    		</if>
+	    		<if test="isover != null and isover != ''">
+	    			,overtime = sysdate
+	    		</if>
+			where id = #{id}
+	</update>
+	
+	<update id="updateLosser">
+			update M_LOSSOBJECT set lossuser = #{lossuser}
+			where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from  M_LOSSOBJECT where id = #{id}
+		]]>
+	</delete>
+	
+	
+</mapper>

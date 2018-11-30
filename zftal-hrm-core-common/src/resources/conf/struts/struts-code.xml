@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="code" namespace="/code" extends="configuration">
+		<!-- 代码库管理 -->
+		<action name="codeCatalog_*" class="baseCodeCatalogAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/code/catalog_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/code/catalog_edit.jsp</result>
+			<result name="toFile">/WEB-INF/pages/hrm/code/toFile.jsp</result>
+			<result name="file">/WEB-INF/pages/hrm/code/result.jsp</result>
+		</action>
+		<action name="codeItem_*" class="baseCodeItemAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/code/item_list.jsp</result>
+			<result name="toFile">/WEB-INF/pages/hrm/code/toFile.jsp</result>
+			<result name="file">/WEB-INF/pages/hrm/code/result.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/code/item_edit.jsp</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.servlet.myPortalHttp.dao.daointerface.IMyPortalHttpDao" >
+	<resultMap id="imageDB" type="com.zfsoft.hrm.file.entity.ImageDB">
+		<result property="fileName" 	column="WJBT"/> 
+		<result property="fileContent" 	column="WJNR"/>
+		<result property="path" 		column="WJLJ"/>
+		<result property="uploadTime" 	column="SCRQ"/>
+		<result property="opUser" 		column="USERID"/>
+	</resultMap>
+	<resultMap id="CardBusinessMap" type="com.zfsoft.mobile.webservices.entity.CardBusinessEntity">
+		<result property="classLsh" 		 column="LSH" />
+		<result property="classJysj"   		column="JYSJ" />
+		<result property="classJye"   		column="JYE" />
+		<result property="classSbbh"   		column="SBBH" />
+		<result property="classSh"   		column="SH" />
+		<result property="classYe"   		column="YE" />
+	</resultMap>
+
+	<!-- 取得用户头像 -->
+    <select id="getMyPicture" resultMap="imageDB" >
+        select * from M_ZPB t where  t.USERID= #{userId}
+    </select>
+	
+	<select id="getCardKH" resultType="String">
+		select a.kh from zftal_xtgl_yktjbxxb a 
+		<![CDATA[
+			where a.ryh = #{userid}
+			]]>
+	</select> 
+	
+	<select id="getCardNumber" resultType="float">
+		select to_number(nvl(a.yue,0)) from zftal_xtgl_yktjbxxb a 
+		<![CDATA[
+			where a.ryh = #{userid}
+			]]>
+	</select>
+	
+	
+	<select id="getcdetailList" resultMap="CardBusinessMap">
+	select * from(
+			select t.*,rownum as rn from(
+		select * from (
+	
+	
+		select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH,a.czye as ye from zftal_xtgl_yktjsczb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		union all 
+		 select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH,a.czye as ye from zftal_xtgl_yktxsczb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		) c	order by c.jysj desc
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[ 
+					and JYSJ >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+	        	]]>
+	        	</if>	
+        	<if test='startdate != null and startdate != ""'>
+	        	<![CDATA[ 
+					and JYSJ <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+				]]>
+			</if>	
+       	</where>
+       	) t)
+                
+		  <![CDATA[
+		 where rn>=#{startRow}  and rn<=#{endRow} 
+		 ]]>
+	</select>
+	
+	<select id="getcdetailCount" resultType="int">
+		select count(*) from (
+	
+	
+		select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH,a.czye as ye from zftal_xtgl_yktjsczb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		union all 
+		 select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH,a.czye as ye from zftal_xtgl_yktxsczb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		) c	
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[ 
+					and JYSJ >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+	        	]]>
+	        	</if>	
+        	<if test='startdate != null and startdate != ""'>
+	        	<![CDATA[ 
+					and JYSJ <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+				]]>
+			</if>	
+       	</where>
+	</select>
+	
+	<select id="getodetailList" resultMap="CardBusinessMap">
+	select * from(
+			select t.*,rownum as rn from(
+		
+		select * from (
+	
+	
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH,a.ye from zftal_xtgl_yktjsxfb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		union all 
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH,a.ye from zftal_xtgl_yktxsxfb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		) c	order by c.jysj desc
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[ 
+					and JYSJ >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+	        	]]>
+	        	</if>	
+        	<if test='startdate != null and startdate != ""'>
+	        	<![CDATA[ 
+					and JYSJ <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+				]]>
+			</if>	
+       	</where>
+       	) t)
+                
+		  <![CDATA[
+		 where rn>=#{startRow}  and rn<=#{endRow} 
+		 ]]>
+	</select>
+	
+	<select id="getodetailCount" resultType="int">
+		select count(*) from (
+	
+	
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH,a.ye from zftal_xtgl_yktjsxfb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		union all 
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH,a.ye from zftal_xtgl_yktxsxfb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		) c	
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[ 
+					and JYSJ >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+	        	]]>
+	        	</if>	
+        	<if test='startdate != null and startdate != ""'>
+	        	<![CDATA[ 
+					and JYSJ <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+				]]>
+			</if>	
+       	</where>
+       		
+	</select>
+	
+	<select id="getPortalSource" resultType="hashmap" >      
+      select source,isTodaySign from (
+		   select u.source,r.isTodaySign from ZFTAL_XTGL_YHB u left join
+		   (select userid,count(*) as isTodaySign from M_SOURCE_SIGNINHIS s 
+		       where to_char(s.createtime,'yyyy-mm-dd') = to_char(sysdate,'yyyy-mm-dd')  group by userid) r
+		  on r.userid=u.zgh  
+		  where  u.zgh=#{userId}
+		)
+    </select>
+	
+	
+	<!-- 添加常用服务 -->
+    <insert id="insertMyPicture">
+         insert into M_ZPB(
+							
+							WJBT,
+							WJNR,
+							WJLJ,
+							SCRQ,
+							USERID
+							) 
+				   values(
+							
+							#{fileName}, 
+							#{fileContent}, 
+							#{path},
+							sysdate,
+							#{opUser}
+							)
+    </insert>
+	
+	
+	<!-- 更新用户头像-->
+    <update id="updateMyPicture">
+        update M_ZPB
+        set WJBT = #{fileName},
+            WJNR = #{fileContent},
+            WJLJ = #{path},
+            SCRQ = sysdate
+        where USERID = #{opUser}
+    </update>
+	
+	
+</mapper>

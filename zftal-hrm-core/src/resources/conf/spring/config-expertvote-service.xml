@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+    
+    <!-- 专家推荐上报-->
+    <bean id="expertDeclareService_expertvote" class="com.zfsoft.hrm.expertvote.expertmanage.service.impl.ExpertDeclareServiceImpl">
+        <property name="expertDeclareDao" ref="expertDeclareDao_expertvote"/>
+        <property name="spWorkFlowService" ref="spWorkFlowService"/>
+        <property name="spBillInstanceService" ref="spBillInstanceService"/>
+        <property name="spBusinessService" ref="spBusinessService"/>
+    </bean>
+    <!-- 专家推荐审核-->
+    <bean id="expertAuditService_expertvote" class="com.zfsoft.hrm.expertvote.expertmanage.service.impl.ExpertAuditServiceImpl">
+        <property name="spWorkFlowService" ref="spWorkFlowService"/>
+        <property name="expertDeclareService" ref="expertDeclareService_expertvote"/>
+        <property name="messageService" ref="messageService"/>
+        <property name="expertInfoService" ref="expertInfoService_expertvote"/>
+    </bean>
+    <!-- 专家信息维护-->
+    <bean id="expertInfoService_expertvote" class="com.zfsoft.hrm.expertvote.expertmanage.service.impl.ExpertInfoServiceImpl">
+        <property name="expertInfoDao" ref="expertInfoDao_expertvote"/>
+    </bean>
+    
+    <!--专家组-->
+    <bean id="expertGroupService_expertvote" class="com.zfsoft.hrm.expertvote.vote.service.impl.ExpertGroupServiceImpl" scope="prototype">
+        <property name="expertGroupDao" ref="expertGroupDao_expertvote"></property>
+    </bean>
+     <!--专家任务-->
+    <bean id="expertTaskService_expertvote" class="com.zfsoft.hrm.expertvote.vote.service.impl.ExpertTaskServiceImpl" scope="prototype">
+        <property name="expertTaskDao" ref="expertTaskDao_expertvote"></property>
+        <property name="spTaskService" ref="spTaskService"></property>
+    </bean>
+     <!--专家组成员-->
+    <bean id="groupMemberService_expertvote" class="com.zfsoft.hrm.expertvote.vote.service.impl.GroupMemberServiceImpl" scope="prototype">
+        <property name="groupMemberDao" ref="groupMemberDao_expertvote"></property>
+    </bean>
+     <!--专家评审-->
+    <bean id="expertAssessService_expertvote" class="com.zfsoft.hrm.expertvote.vote.service.impl.ExpertAssessServiceImpl" scope="prototype">
+        <property name="expertAssessDao" ref="expertAssessDao_expertvote"></property>
+        <property name="spWorkFlowService" ref="spWorkFlowService"></property>
+    </bean>
+    
+     <!--申报实例查询-->
+    <bean id="declareInstanceService_expertvote" class="com.zfsoft.hrm.expertvote.vote.service.impl.DeclareInstanceServiceImpl" scope="prototype">
+        <property name="declareInstanceDao" ref="declareInstanceDao_expertvote"></property>
+    </bean>
+</beans>

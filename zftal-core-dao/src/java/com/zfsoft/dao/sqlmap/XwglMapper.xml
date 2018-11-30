@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IXwglDao">
+	<insert id="insert" parameterType="com.zfsoft.dao.entities.XwglModel"
+		flushCache="false" statementType="PREPARED" timeout="20000">
+		insert into
+		ZFTAL_XTGL_XWFBB ( xwbh,
+		xwbt,
+		fbsj,
+		fbr,
+		fbdx,
+		fbnr,
+		sffb,
+		sfzd
+		)
+		values
+		(sys_guid() , #{xwbt},
+		#{fbsj},#{fbr},
+		#{fbdx},
+		#{fbnr}, #{sffb},
+		#{sfzd})   
+       
+       
+    </insert>
+	<update id="update" parameterType="com.zfsoft.dao.entities.XwglModel"
+		flushCache="true" statementType="PREPARED" timeout="20000">
+		update ZFTAL_XTGL_XWFBB
+		<set>
+			<if test="xwbt != null">
+				xwbt = #{xwbt},
+    		</if>
+			<if test="fbsj != null">
+				fbsj = #{fbsj},
+    		</if>
+			<if test="fbdx != null">
+				fbdx = #{fbdx},
+    		</if>
+			<if test="fbr != null">
+				fbr = #{fbr},
+    		</if>
+			<if test="sffb != null">
+				sffb = #{sffb},
+    		</if>
+			<if test="sfzd != null">
+				sfzd = #{sfzd},
+    		</if>
+			<if test="fbnr != null">
+				fbnr = #{fbnr}
+    		</if>
+		</set>
+		where xwbh=#{xwbh}
+	</update>
+	<update id="batchUpdate" parameterType="hashMap" flushCache="true"
+		statementType="PREPARED" timeout="20000">
+		update ZFTAL_XTGL_XWFBB
+		<set>
+			<if test="sffb != null">
+				sffb = #{sffb}
+    		</if>
+			<if test="sfzd != null">
+				sfzd = #{sfzd}
+    		</if>
+		</set>
+		<where>
+			<foreach collection="list" item="item" index="index"
+				separator=" OR">
+			   xwbh = #{item.xwbh} 
+			</foreach>
+		</where>
+	</update>
+
+	
+	<delete id="batchDelete" parameterType="hashMap"
+		flushCache="false" statementType="PREPARED" timeout="20000">
+		delete from ZFTAL_XTGL_XWFBB
+		<where>
+			<foreach collection="list" item="item" index="index"
+				separator=" OR">
+			   xwbh = #{item.xwbh} 
+			</foreach>
+		</where>
+	</delete>
+
+	<select id="getModel" parameterType="string"
+		resultType="com.zfsoft.dao.entities.XwglModel" useCache="false"
+		resultSetType="FORWARD_ONLY" flushCache="false" statementType="PREPARED"
+		timeout="20000">
+		select t1.*,t2.xm fbrxm
+		from ZFTAL_XTGL_XWFBB t1 left join ZFTAL_XTGL_yhb t2 on t1.fbr=t2.zgh where t1.xwbh=#{xwbh}
+    </select>
+    
+    
+    <select id="getPagedList" parameterType="com.zfsoft.dao.entities.XwglModel"
+		resultType="com.zfsoft.dao.entities.XwglModel">
+		select t1.xwbh,t1.xwbt,fbsj,t2.xm fbr,
+		       case when t1.fbdx='all' then '全校'
+		            when t1.fbdx='tea' then '全体教师'
+		            when t1.fbdx='stu' then '全体学生'
+		       end fbdx,
+		       case when t1.sffb='1' then '是' else '否' end sffb,
+		       case when t1.sfzd='1' then '是' else '否' end sfzd
+		from ZFTAL_XTGL_XWFBB t1
+		left join ZFTAL_XTGL_yhb t2 on t1.fbr=t2.zgh
+		<where>
+			1=1 
+			<if test="xwbt != null and xwbt !=''">
+				and t1.xwbt like '%'||#{xwbt}||'%'
+			</if>
+			<if test="sffb != null and sffb !=''">
+				and t1.sffb = #{sffb}
+			</if>
+			<if test="sfzd != null and sfzd !=''">
+				and t1.sfzd = #{sfzd}
+			</if>
+		</where>
+    </select>
+    
+	<!--<select id="cxDtxw" parameterType="hashMap"
+		resultType="com.zfsoft.comp.xtgl.xwgl.model.XwglModel" useCache="false"
+		resultSetType="FORWARD_ONLY" flushCache="false" statementType="PREPARED"
+		timeout="20000">
+		select *
+		from XG_XTGL_XWFBB
+		<where>
+			<if test="condition != null">${condition}</if>
+		</where>
+
+	</select>
+--></mapper>

@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.mobile.group.dao.IPushGroupDao">
+
+    <resultMap id="pushGroupMap" type="com.zfsoft.mobile.group.entity.PushGroup">
+        <result property="id"                   column="id"/>
+        <result property="name"                   column="qzmc"/>  
+        <result property="type"                   column="qzlx"/>  
+        <result property="status"                   column="status"/>  
+        <result property="detail"                  column="detail"/>  
+        <result property="pid"                   column="sjqz"/>  
+        <result property="level"                   column="qzjb"/>  
+        <result property="creator"                   column="creator"/>  
+        <result property="createDate"                   column="create_time"/>  
+    </resultMap>
+    <resultMap id="pushGroupMemberMap" type="com.zfsoft.mobile.group.entity.PushGroupMember">
+        <result property="id"                   column="id"/>
+        <result property="sfzs"                   column="directly"/>
+        <result property="userId"                   column="user_id"/>  
+        <result property="userName"                   column="user_name"/>  
+        <result property="groupId"                   column="group_id"/>  
+        <result property="groupName"                  column="group_name"/>
+        <result property="academy"                  	column="academy"/>
+        <result property="classgrade"                  	column="classgrade"/>
+        <result property="grade"                  		column="grade"/>
+        <result property="sex"                  		column="sex"/>
+    </resultMap>
+    <!-- 获取分页信息 -->
+    <select id="getPagingList" resultMap="pushGroupMap" >
+    select * from (select a.*, rownum rn from(
+        select
+	        id,
+	        qzmc,
+	        qzlx,
+	        qzjb,
+	        sjqz,
+	        status,
+	        detail,
+	        creator,
+	        create_time
+        from MOBILE_QZB
+        <include refid="where"/>
+     ) a )
+        <![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+    </select>
+    
+    <insert id="insert">
+        INSERT INTO 
+                MOBILE_QZB(
+                    ID,
+                    qzmc,
+			        qzlx,
+			        sjqz,
+			        qzjb,
+			        status,
+			        detail,
+			        creator,
+			        create_time
+                )
+            VALUES(
+                #{id},
+                #{name,jdbcType=VARCHAR},
+                #{type,jdbcType=VARCHAR},
+                #{pid,jdbcType=VARCHAR},
+                NVL((select qzjb from MOBILE_QZB where id = #{pid,jdbcType=VARCHAR}),0)+1,
+                #{status,jdbcType=VARCHAR},
+                #{detail,jdbcType=VARCHAR},
+                #{creator},
+                sysdate
+                )
+         <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            <![CDATA[
+            SELECT SYS_GUID() ID FROM DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    <delete id="delete">
+        delete from MOBILE_QZB where id = #{id} 
+    </delete>
+    <update id="update">
+        update MOBILE_QZB
+        <set>
+            <if test="name != null and name != ''">
+                 qzmc = #{name},
+            </if>
+            <if test="status != null and status != ''">
+                 status = #{status},
+            </if>
+            <if test="detail != null and detail != ''">
+                 detail = #{detail},
+            </if>
+        </set>
+        where id = #{id} 
+    </update>
+    
+    <select id="findById" resultMap="pushGroupMap" >
+        select
+            id,
+            qzmc,
+            qzlx,
+            qzjb,
+            sjqz,
+            status,
+            detail,
+            creator,
+            create_time
+        from MOBILE_QZB
+        where id = #{id}
+    </select>
+    
+    <!-- 获取分页计数 -->
+    <select id="getPagingCount" resultType="int">
+        select 
+            count(distinct id) cnt
+        from MOBILE_QZB
+        <include refid="where"/>
+    </select>
+    <sql id="where">
+        <where>
+            1=1
+            <if test="name != null and name != ''">
+                and qzmc like '%'||#{name}||'%'
+            </if>
+            <if test="type != null and type != ''">
+                and qzlx = #{type}
+            </if>
+            <if test="status != null and status != ''">
+                and status = #{status}
+            </if>
+            <if test="detail !=null and detail != ''">
+                and detail like '%'||#{detail}||'%'
+            </if>
+            <if test="pid !=null and pid != ''">
+                and sjqz = #{pid}
+            </if>
+             <if test="level !=null and level != ''">
+                and qzjb = #{level}
+            </if>
+             <if test="creator !=null and creator != ''">
+                and creator = #{creator}
+            </if>
+            <if test="academy !=null and academy != ''">
+                and academy = #{academy}
+            </if>
+            <if test="classgrade !=null and classgrade != ''">
+                and classgrade = #{classgrade}
+            </if>
+            <if test="grade !=null and grade != ''">
+                and grade = #{grade}
+            </if>
+            <if test="sex !=null and sex != ''">
+                and sex = #{sex}
+            </if>
+            <if test="orderStr != null and orderStr != ''">
+                order by ${orderStr}
+            </if> 
+        </where>
+    </sql>
+    
+    
+     <!-- 查询未分配用户信息列表 -->
+    <select id="getPagedListByYhid" resultMap="pushGroupMemberMap">
+        select zgh as user_id,xm as user_name,academy,classgrade,grade , sex 
+        from zftal_xtgl_yhb a 
+        where not exists (select 1 from mobile_ryqzb b where b.group_id=#{groupId} and a.zgh=b.user_id)
+            <if test="userId != null and userId != ''">
+                and zgh = #{userId} 
+            </if>
+            <if test="userName != null and userName != ''">
+                and xm like '%'||#{userName}||'%'
+            </if>
+            <if test="academy !=null and academy != ''">
+                and academy  like '%'||#{academy}||'%'
+            </if>
+            <if test="classgrade !=null and classgrade != ''">
+                and classgrade like '%'||#{classgrade}||'%'
+            </if>
+            <if test="grade !=null and grade != ''">
+                and grade like '%'||#{grade}||'%'
+            </if>
+            <if test="sex !=null and sex != ''">
+                and sex = #{sex}
+            </if>
+    </select>
+    
+    
+    <!-- 查询未分配用户信息列表 -->
+    <select id="getPagingCountReWfpYh" resultType="int">
+    select count(*) from (
+        select a.zgh as user_id,a.xm as user_name,a.academy,a.classgrade,a.grade , a.sex 
+        from zftal_xtgl_yhb a 
+        	left join zftal_xtgl_yhjsb b on a.zgh = b.zgh 
+        where not exists (select 1 from mobile_ryqzb b where b.group_id=#{groupId} and a.zgh=b.user_id)
+            <if test="userId != null and userId != ''">
+                and a.zgh like '%'||#{userId}||'%'
+            </if>
+            <if test="userName != null and userName != ''">
+                and a.xm like '%'||#{userName}||'%'
+            </if>
+            <if test="academy !=null and academy != ''">
+                and a.academy  like '%'||#{academy}||'%'
+            </if>
+            <if test="classgrade !=null and classgrade != ''">
+                and a.classgrade like '%'||#{classgrade}||'%'
+            </if>
+            <if test="grade !=null and grade != ''">
+                and a.grade like '%'||#{grade}||'%'
+            </if>
+            <if test="sex !=null and sex != ''">
+                and a.sex = #{sex}
+            </if>
+            <if test="jsdm !=null and jsdm != ''">
+                and b.jsdm = #{jsdm}
+            </if>
+            
+            )
+    </select>
+    
+    <!-- 查询未分配用户信息列表 -->
+    <select id="getPagingListReWfpYh" resultMap="pushGroupMemberMap">
+    	select * from (
+    	 select x.*,rownum rn from (
+	        select a.zgh as user_id,a.xm as user_name,a.academy,a.classgrade,a.grade , a.sex 
+	        from zftal_xtgl_yhb a 
+	        	left join zftal_xtgl_yhjsb b on a.zgh = b.zgh 
+	        where not exists (select 1 from mobile_ryqzb b where b.group_id=#{groupId} and a.zgh=b.user_id)
+	            <if test="userId != null and userId != ''">
+	                and a.zgh like '%'||#{userId}||'%'
+	            </if>
+	            <if test="userName != null and userName != ''">
+	                and a.xm like '%'||#{userName}||'%'
+	            </if>
+	            <if test="academy !=null and academy != ''">
+	                and a.academy  like '%'||#{academy}||'%'
+	            </if>
+	            <if test="classgrade !=null and classgrade != ''">
+	                and a.classgrade like '%'||#{classgrade}||'%'
+	            </if>
+	            <if test="grade !=null and grade != ''">
+	                and a.grade like '%'||#{grade}||'%'
+	            </if>
+	            <if test="sex !=null and sex != ''">
+	                and a.sex = #{sex}
+	            </if>
+	            <if test="jsdm !=null and jsdm != ''">
+	                and b.jsdm = #{jsdm}
+	            </if>
+            ) x
+         )
+         <![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} order by user_id asc
+			]]>	
+    </select>
+    
+    
+     <!-- 查询未分配用户信息列表 -->
+    <select id="getPagedListWfpYh" resultMap="pushGroupMemberMap">
+        select zgh as user_id,xm as user_name,academy,classgrade,grade , sex 
+        from zftal_xtgl_yhb a 
+        where not exists (select 1 from mobile_ryqzb b where b.group_id=#{groupId} and a.zgh=b.user_id)
+            <if test="userId != null and userId != ''">
+                and zgh like '%'||#{userId}||'%'
+            </if>
+            <if test="userName != null and userName != ''">
+                and xm like '%'||#{userName}||'%'
+            </if>
+            <if test="academy !=null and academy != ''">
+                and academy  like '%'||#{academy}||'%'
+            </if>
+            <if test="classgrade !=null and classgrade != ''">
+                and classgrade like '%'||#{classgrade}||'%'
+            </if>
+            <if test="grade !=null and grade != ''">
+                and grade like '%'||#{grade}||'%'
+            </if>
+            <if test="sex !=null and sex != ''">
+                and sex = #{sex}
+            </if>
+    </select>
+    
+    <!-- 查询已分配用户信息列表 -->
+    <select id="getPageCountReYfpYh" resultType="int">
+     select count(*) from (
+        select 
+            a.id,a.sfzs,
+            b.zgh as user_id,b.xm as user_name,
+            c.qzmc as group_name,c.id as group_id,b.academy,b.classgrade,b.grade , b.sex 
+        from mobile_ryqzb a 
+        left join zftal_xtgl_yhb b on (b.zgh=a.user_id)
+        left join mobile_qzb c on (c.id=a.group_id)
+        where a.group_id=#{groupId}
+        <if test="userId != null and userId != ''">
+                 and a.user_id = #{userId}
+            </if>
+            order by b.zgh asc
+     )
+    </select>
+    
+    <!-- 查询已分配用户信息列表 -->
+    <select id="getPagedListReYfpYh" resultMap="pushGroupMemberMap">
+     select * from (
+    	 select x.*,rownum rn from (
+    	 
+	       select 
+	           a.id,a.sfzs,
+	           b.zgh as user_id,b.xm as user_name,
+	           c.qzmc as group_name,c.id as group_id,b.academy,b.classgrade,b.grade , b.sex 
+	       from mobile_ryqzb a 
+	       left join zftal_xtgl_yhb b on (b.zgh=a.user_id)
+	       left join mobile_qzb c on (c.id=a.group_id)
+	       where a.group_id=#{groupId}
+	       <if test="userId != null and userId != ''">
+	                and a.user_id = #{userId}
+	           </if>
+	           order by b.zgh asc
+	     	) x
+         )
+         <![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} order by user_id asc
+			]]>	
+	    
+    </select>
+    
+    <!-- 查询已分配用户信息列表 -->
+    <select id="getPagedListYfpYh" resultMap="pushGroupMemberMap">
+        select 
+            a.id,a.sfzs,
+            b.zgh as user_id,b.xm as user_name,
+            c.qzmc as group_name,c.id as group_id,b.academy,b.classgrade,b.grade , b.sex 
+        from mobile_ryqzb a 
+        left join zftal_xtgl_yhb b on (b.zgh=a.user_id)
+        left join mobile_qzb c on (c.id=a.group_id)
+        where a.group_id=#{groupId}
+        <if test="userId != null and userId != ''">
+        		and a.user_id like '%'||#{userId}||'%'
+            </if>
+            <if test="userName != null and userName != ''">
+                and xm like '%'||#{userName}||'%'
+            </if>
+            <if test="academy !=null and academy != ''">
+                and academy  like '%'||#{academy}||'%'
+            </if>
+            <if test="classgrade !=null and classgrade != ''">
+                and classgrade like '%'||#{classgrade}||'%'
+            </if>
+            <if test="grade !=null and grade != ''">
+                and grade like '%'||#{grade}||'%'
+            </if>
+            <if test="sex !=null and sex != ''">
+                and sex = #{sex}
+            </if>
+            order by b.zgh asc
+    </select>
+    
+    <insert id="insertAllMember">
+        INSERT INTO 
+                mobile_ryqzb(
+                    ID,
+                    sfzs,
+                    group_id,
+                    user_id
+                )
+            
+            	select 
+            	sys_guid(),
+                '1',
+                #{groupId},
+                a.zgh from zftal_xtgl_yhb a
+                	left join zftal_xtgl_yhjsb b on a.zgh = b.zgh
+                <where>
+		            1=1
+		            <if test="userId != null and userId != ''">
+		                and a.zgh like '%'||#{userId}||'%'
+		            </if>
+		            <if test="userName != null and userName != ''">
+		                and a.xm like '%'||#{userName}||'%'
+		            </if>
+		            <if test="academy !=null and academy != ''">
+		                and a.academy  like '%'||#{academy}||'%'
+		            </if>
+		            <if test="classgrade !=null and classgrade != ''">
+		                and a.classgrade like '%'||#{classgrade}||'%'
+		            </if>
+		            <if test="grade !=null and grade != ''">
+		                and a.grade like '%'||#{grade}||'%'
+		            </if>
+		            <if test="sex !=null and sex != ''">
+		                and a.sex = #{sex}
+		            </if>
+		            <if test="jsdm !=null and jsdm != ''">
+		                and b.jsdm = #{jsdm}
+		            </if>
+		            and a.zgh not in (
+		            	select user_id from mobile_ryqzb t where t.group_id = #{groupId}
+		            )
+        		</where>
+    </insert>
+    
+    <insert id="insertUser" >
+		<![CDATA[
+			insert into mobile_ryqzb(
+					ID,
+                    sfzs,
+                    group_id,
+                    user_id
+			) 
+				select SYS_GUID(),'1',#{modelid},t.zgh from zftal_xtgl_yhb t 
+		]]>
+			<where>
+		        <if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and t.zgh in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+		        </if>
+		     </where>
+	</insert>
+	
+	<delete id="deleteUser">
+		<![CDATA[
+			delete from mobile_ryqzb  t
+		]]>
+		<where>
+			<if test="modelid != null and modelid != ''">
+   				and t.group_id = #{modelid} 
+	   		</if>
+    		<if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and t.user_id in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+	        </if>
+		</where>
+		
+	</delete>
+    
+    <insert id="insertMember">
+        INSERT INTO 
+                mobile_ryqzb(
+                    ID,
+                    sfzs,
+                    group_id,
+                    user_id
+                )
+            VALUES(
+                #{id},
+                #{directly},
+                #{groupId},
+                #{userId}
+                )
+         <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            <![CDATA[
+            SELECT SYS_GUID() ID FROM DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    <delete id="deleteMember">
+        delete from  mobile_ryqzb t 
+        where t.user_id in (
+	        select a.zgh from zftal_xtgl_yhb a
+	        	left join zftal_xtgl_yhjsb b on a.zgh = b.zgh
+	                <where>
+			            1=1
+			            <if test="userId != null and userId != ''">
+			                and a.zgh like '%'||#{userId}||'%'
+			            </if>
+			            <if test="userName != null and userName != ''">
+			                and a.xm like '%'||#{userName}||'%'
+			            </if>
+			            <if test="academy !=null and academy != ''">
+			                and a.academy  like '%'||#{academy}||'%'
+			            </if>
+			            <if test="classgrade !=null and classgrade != ''">
+			                and a.classgrade like '%'||#{classgrade}||'%'
+			            </if>
+			            <if test="grade !=null and grade != ''">
+			                and a.grade like '%'||#{grade}||'%'
+			            </if>
+			            <if test="sex !=null and sex != ''">
+			                and a.sex = #{sex}
+			            </if>
+			            <if test="jsdm !=null and jsdm != ''">
+		                and b.jsdm = #{jsdm}
+		            </if>
+			            
+	        		</where>
+       		)
+        and t.group_id=#{groupId}
+    </delete>
+</mapper>

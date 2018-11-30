@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.springframework.org/schema/tx
+				http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+				http://www.springframework.org/schema/aop
+				http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+		<!-- ==================== 查询条件配置 ==================== -->
+		
+		<bean id="searchColumn_staffid" class="com.zfsoft.hrm.config.SearchCondition">
+			<property name="name" value="staffid" />
+			<property name="title" value="工号" />
+			<property name="table" value="OVERALL" />
+			<property name="column" value="GH" />
+			<property name="op" value="##" />
+			<property name="defaultValue" value="" />
+			<property name="show" value="true" />
+		</bean>
+		<bean id="searchColumn_studentid" class="com.zfsoft.hrm.config.SearchCondition">
+			<property name="name" value="studentid" />
+			<property name="title" value="学号" />
+			<property name="table" value="STU_OVERALL" />
+			<property name="column" value="XH" />
+			<property name="op" value="##" />
+			<property name="defaultValue" value="" />
+			<property name="show" value="true" />
+		</bean>
+		<bean id="searchColumn_name" class="com.zfsoft.hrm.config.SearchCondition">
+			<property name="name" value="name" />
+			<property name="title" value="姓名" />
+			<property name="table" value="OVERALL" />
+			<property name="column" value="XM" />
+			<property name="op" value="##" />
+			<property name="defaultValue" value="" />
+			<property name="show" value="true" />
+		</bean>
+		<bean id="searchColumn_sex" class="com.zfsoft.hrm.config.SearchCondition">
+			<property name="name" value="sex" />
+			<property name="title" value="性别" />
+			<property name="table" value="OVERALL" />
+			<property name="column" value="XBM" />
+			<property name="op" value="==" />
+			<property name="defaultValue" value="" />
+			<property name="show" value="true" />
+		</bean>
+		<bean id="searchColumn_org" class="com.zfsoft.hrm.config.SearchCondition">
+			<property name="name" value="org" />
+			<property name="title" value="单位" />
+			<property name="table" value="OVERALL" />
+			<property name="column" value="DWM" />
+			<property name="op" value="==" />
+			<property name="defaultValue" value="" />
+			<property name="show" value="true" />
+		</bean>
+		<bean id="searchColumn_birthday1" class="com.zfsoft.hrm.config.SearchCondition">
+			<property name="name" value="birthday1" />
+			<property name="title" value="出生日期(前)" />
+			<property name="table" value="OVERALL" />
+			<property name="column" value="CSRQ" />
+			<property name="op" value=">=" />
+			<property name="defaultValue" value="" />
+			<property name="show" value="true" />
+		</bean>
+		<bean id="searchColumn_birthday2" class="com.zfsoft.hrm.config.SearchCondition">
+			<property name="name" value="birthday2" />
+			<property name="title" value="出生日期(后)" />
+			<property name="table" value="OVERALL" />
+			<property name="column" value="CSRQ" />
+			<property name="op" value="&lt;=" />
+			<property name="defaultValue" value="" />
+			<property name="show" value="true" />
+		</bean>
+		<bean id="searchColumn_postType" class="com.zfsoft.hrm.config.SearchCondition">
+			<property name="name" value="postType" />
+			<property name="title" value="岗位类别" />
+			<property name="table" value="OVERALL" />
+			<property name="column" value="GWLB" />
+			<property name="op" value="==" />
+			<property name="defaultValue" value="" />
+			<property name="show" value="true" />
+		</bean>
+		<bean id="searchColumn_titleLevel" class="com.zfsoft.hrm.config.SearchCondition">
+			<property name="name" value="titleLevel" />
+			<property name="title" value="职称级别" />
+			<property name="table" value="OVERALL" />
+			<property name="column" value="zyjszj" />
+			<property name="op" value="==" />
+			<property name="defaultValue" value="" />
+			<property name="show" value="true" />
+		</bean>
+		<bean id="searchColumn_dutyLevel" class="com.zfsoft.hrm.config.SearchCondition">
+			<property name="name" value="dutyLevel" />
+			<property name="title" value="职务级别" />
+			<property name="table" value="OVERALL" />
+			<property name="column" value="ZWJBDM" />
+			<property name="op" value="==" />
+			<property name="defaultValue" value="" />
+			<property name="show" value="true" />
+		</bean>
+		<bean id="searchColumn_state" class="com.zfsoft.hrm.config.SearchCondition">
+			<property name="name" value="state" />
+			<property name="title" value="当前状态" />
+			<property name="table" value="OVERALL" />
+			<property name="column" value="DQZTM" />
+			<property name="op" value="==" />
+			<property name="defaultValue" value="11" />
+			<property name="show" value="true" />
+		</bean>
+		<!-- ==================== 选择人员配置 ==================== -->
+		
+		<bean id="selectPerson_singleTeacher" class="com.zfsoft.hrm.config.SelectPersonConfig">
+			<property name="type" ref="infoCatalogType_teacher" />
+			<property name="properties">
+				<list>
+					<value>gh</value>
+					<value>xm</value>
+					<value>dwm</value>
+					<value>xbm</value>
+				</list>
+			</property>
+			<property name="conditions">
+				<list>
+					<ref bean="searchColumn_name" />
+					<ref bean="searchColumn_org" />
+					<ref bean="searchColumn_sex" />
+					<ref bean="searchColumn_birthday1" />
+					<ref bean="searchColumn_birthday2" />
+					<ref bean="searchColumn_postType" />
+<!--					<ref bean="searchColumn_titleLevel" />-->
+					<ref bean="searchColumn_dutyLevel" />
+					<ref bean="searchColumn_state" />
+				</list>
+			</property>
+		</bean>
+		<bean id="selectPerson_multipleTeacher" class="com.zfsoft.hrm.config.SelectPersonConfig">
+			<property name="type" ref="infoCatalogType_teacher" />
+			<property name="properties">
+				<list>
+					<value>gh</value>
+					<value>xm</value>
+					<value>dwm</value>
+					<value>xbm</value>
+				</list>
+			</property>
+			<property name="conditions">
+				<list>
+					<ref bean="searchColumn_staffid" />
+					<ref bean="searchColumn_name" />
+					<ref bean="searchColumn_org" />
+					<ref bean="searchColumn_sex" />
+					<ref bean="searchColumn_birthday1" />
+					<ref bean="searchColumn_birthday2" />
+					<ref bean="searchColumn_postType" />
+<!--					<ref bean="searchColumn_titleLevel" />-->
+					<ref bean="searchColumn_dutyLevel" />
+					<ref bean="searchColumn_state" />
+				</list>
+			</property>
+		</bean>
+		
+		<!-- ==================== 选择人员工厂配置 ==================== -->
+		
+		<bean id="selectPersonConfigFactory" class="com.zfsoft.hrm.config.SelectPersonConfigFactory">
+			<property name="single">
+				<list>
+					<ref bean="selectPerson_singleTeacher" />
+				</list>
+			</property>
+			<property name="multiple">
+				<list>
+					<ref bean="selectPerson_multipleTeacher" />
+				</list>
+			</property>
+		</bean>
+</beans>

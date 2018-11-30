@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="export" namespace="/export" extends="configuration">
+      <action name="config_*" class="exportConfigAction" method="{1}" >
+         <result name="page">/WEB-INF/pages/hrm/export/exportConfig_page.jsp</result>
+         <result name="editType">/WEB-INF/pages/hrm/export/exportConfig_editType.jsp</result>
+         <result name="editConfig">/WEB-INF/pages/hrm/export/exportConfig_editConfig.jsp</result>
+         <result name="res">/WEB-INF/pages/hrm/code/result.jsp</result>
+      </action>
+      <action name="export_*" class="exportAction" method="{1}" >
+         <result name="page">/WEB-INF/pages/hrm/export/export_page.jsp</result>
+         <result name="choose">/WEB-INF/pages/hrm/export/export_choose.jsp</result>
+         <result name="prompt">/WEB-INF/pages/hrm/export/prompt.jsp</result>
+      </action>
+    </package>
+</struts>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="zxgl" namespace="/zxgl" extends="configuration" >
+		<action name="newsCatalog_*" class="newsCatalogAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/news/catalog_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/news/catalog_edit.jsp</result>
+		</action>
+		
+		<action name="news_*" class="newsAction" method="{1}">
+			<result name="list">/WEB-INF/pages/mobile/news/news_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/news/news_edit.jsp</result>
+			<result name="show">/WEB-INF/pages/mobile/news/news_show.jsp</result>
+		</action>
+		
+		<action name="sceneryCatalog_*" class="schoolSceneryCatalogAction" method="{1}">
+			<result name="list">/WEB-INF/pages/mobile/news/sceneryCatalog_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/news/sceneryCatalog_edit.jsp</result>
+		</action>
+		
+		<action name="schoolScenery_*" class="schoolSceneryAction" method="{1}">
+			<result name="list">/WEB-INF/pages/mobile/news/schoolScenery_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/news/schoolScenery_edit.jsp</result>
+		</action>
+		
+	</package>
+	
+</struts>

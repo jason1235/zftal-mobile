@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.springframework.org/schema/tx
+				http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+				http://www.springframework.org/schema/aop
+				http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	<bean id="infoPropertyType_common" class="com.zfsoft.hrm.config.type.InfoPropertyType">
+		<property name="name" value="COMMON" />
+		<property name="text" value="文本--varchar" />
+	</bean>
+	
+	<!--<bean id="infoPropertyType_longStr" class="com.zfsoft.hrm.config.type.InfoPropertyType">
+		<property name="name" value="LONG_STR" />
+		<property name="text" value="多行文本" />
+	</bean>
+	
+	--><!--<bean id="infoPropertyType_code" class="com.zfsoft.hrm.config.type.InfoPropertyType">
+		<property name="name" value="CODE" />
+		<property name="text" value="代码选择" />
+	</bean>
+	
+	<bean id="infoPropertyType_sigleSel" class="com.zfsoft.hrm.config.type.InfoPropertyType">
+		<property name="name" value="SIGLE_SEL" />
+		<property name="text" value="是/否" />
+	</bean>
+	-->
+	<bean id="infoPropertyType_year" class="com.zfsoft.hrm.config.type.InfoPropertyType">
+		<property name="name" value="YEAR" />
+		<property name="text" value="年度--YYYY" />
+		<property name="appendix">
+			<props>
+				<prop key="dataType">DATE</prop>
+				<prop key="format">yyyy</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="infoPropertyType_month" class="com.zfsoft.hrm.config.type.InfoPropertyType">
+		<property name="name" value="MONTH" />
+		<property name="text" value="年月--YYYY-MM" />
+		<property name="appendix">
+			<props>
+				<prop key="dataType">DATE</prop>
+				<prop key="format">yyyy-MM</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="infoPropertyType_date" class="com.zfsoft.hrm.config.type.InfoPropertyType">
+		<property name="name" value="DATE" />
+		<property name="text" value="日期--YYYY-MM-DD" />
+		<property name="appendix">
+			<props>
+				<prop key="dataType">DATE</prop>
+				<prop key="format">yyyy-MM-dd</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<bean id="infoPropertyType_number" class="com.zfsoft.hrm.config.type.InfoPropertyType">
+		<property name="name" value="NUMBER" />
+		<property name="text" value="数字" />
+	</bean>
+	
+	<bean id="infoPropertyType_clob" class="com.zfsoft.hrm.config.type.InfoPropertyType">
+		<property name="name" value="CLOB" />
+		<property name="text" value="内容--clob" />
+		<property name="appendix">
+			<props>
+				<prop key="dataType">CLOB</prop>
+			</props>
+		</property>
+	</bean>
+	
+	<!--<bean id="infoPropertyType_photo" class="com.zfsoft.hrm.config.type.InfoPropertyType">
+		<property name="name" value="PHOTO" />
+		<property name="text" value="照片" />
+	</bean>
+	
+	<bean id="infoPropertyType_image" class="com.zfsoft.hrm.config.type.InfoPropertyType">
+		<property name="name" value="IMAGE" />
+		<property name="text" value="图片" />
+	</bean>
+	
+	<bean id="infoPropertyType_file" class="com.zfsoft.hrm.config.type.InfoPropertyType">
+		<property name="name" value="FILE" />
+		<property name="text" value="文件" />
+	</bean>
+	
+	<bean id="infoPropertyType_creator" class="com.zfsoft.hrm.config.type.InfoPropertyType">
+        <property name="name" value="CREATOR" />
+        <property name="text" value="文本-信息录入者" />
+    </bean>
+    
+	--><bean id="infoPropertyTypes" class="com.zfsoft.hrm.config.Types">
+		<property name="types">
+			<list>
+				<ref bean="infoPropertyType_common"></ref>
+				<!--<ref bean="infoPropertyType_longStr"></ref>
+				<ref bean="infoPropertyType_code"></ref>
+				<ref bean="infoPropertyType_sigleSel"></ref>-->
+				<ref bean="infoPropertyType_year"></ref>
+				<ref bean="infoPropertyType_month"></ref>
+				<ref bean="infoPropertyType_date"></ref>
+				<ref bean="infoPropertyType_number"></ref>
+				<ref bean="infoPropertyType_clob"></ref>
+				<!--
+				<ref bean="infoPropertyType_photo"></ref>
+				<ref bean="infoPropertyType_image"></ref>
+				<ref bean="infoPropertyType_file"></ref>
+				<ref bean="infoPropertyType_creator"></ref>
+				-->
+			</list>
+		</property>
+	</bean>
+</beans>

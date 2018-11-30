@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<!-- WebService 交换配置 -->
+    <package name="webservice" namespace="/webservice" extends="configuration"> 
+	    <action name="wsjhconfig_*" class="wsjhConfigAction" method="{1}"> 
+	      <result name="success">/WEB-INF/pages/mobile/wsjhpz/list.jsp</result>    
+	      <result name="add">/WEB-INF/pages/mobile/wsjhpz/add.jsp</result>   
+	      <result name="tables">/WEB-INF/pages/mobile/wsjhpz/tables.jsp</result>    
+	      <result name="paramsPage">/WEB-INF/pages/mobile/wsjhpz/paramsPage.jsp</result>  
+	      <result name="edit">/WEB-INF/pages/mobile/wsjhpz/edit.jsp</result>   
+	      <result name="logdel">/WEB-INF/pages/mobile/wsjhpz/logdel.jsp</result>  
+	      <result name="viewLog">/WEB-INF/pages/mobile/wsjhpz/logs.jsp</result>
+	      <result name="viewDetail">/WEB-INF/pages/mobile/wsjhpz/detailLog.jsp</result>
+	    </action> 
+    </package>
+	
+</struts>

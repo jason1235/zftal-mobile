@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.summary.roster.dao.daointerface.IRosterConfigRelationDao" >
+	
+	<resultMap type="com.zfsoft.hrm.summary.roster.entity.RosterConfigRelation" id="rosterConfigRelationMap">
+		<result property="rosterId" column="mcbh"/>
+		<result property="configId" column="tjbh"/>
+		<result property="createtime" column="createtime"/>
+		<result property="classId" column="classId"/>
+	</resultMap>
+	
+	<!-- 插入单条信息 -->
+	<insert id="insert">
+		insert into HRM_TJFX_HMCTJGXB (mcbh,tjbh,createtime)
+		values(#{rosterId},#{configId},#{createtime})
+	</insert>
+    
+    <select id="getById" resultMap="rosterConfigRelationMap">
+    	select 
+			*
+		from HRM_TJFX_HMCTJGXB hmctjgx
+		where hmctjgx.mcbh = #{rosterId} and hmctjgx.tjbh = #{configId}
+    </select>
+	
+	<select id="getList" resultMap="rosterConfigRelationMap">
+		select 
+			hmctjgx.mcbh,
+			hmctjgx.tjbh,
+			tjb.classid classId
+		from HRM_TJFX_HMCTJGXB hmctjgx left join HRM_TJFX_HMCTJB tjb
+			on hmctjgx.tjbh = tjb.guid
+		where mcbh = #{rosterId}
+		order by hmctjgx.createtime asc
+	</select>
+	
+	<delete id="delete">
+		delete from HRM_TJFX_HMCTJGXB where mcbh = #{rosterId} and tjbh = #{configId}
+	</delete>
+	
+</mapper>

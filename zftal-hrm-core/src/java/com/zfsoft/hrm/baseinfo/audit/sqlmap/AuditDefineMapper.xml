@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.audit.dao.IAuditDefineDao" >
+	
+	<resultMap type="com.zfsoft.hrm.baseinfo.audit.entity.AuditDefine" id="defineMap">
+		<result property="guid" column="guid"/>
+		<result property="classId" column="classid"/>
+		<result property="roleId" column="roleid"/>
+		<result property="scope" column="fw"/>
+		<result property="order" column="sx"/>
+	</resultMap>
+	
+	<!-- 插入单条信息 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		insert into HRM_XXGL_SHDY (guid,classid,roleid,sx,fw)
+		values(#{guid},#{classId},#{roleId},#{order},#{scope})
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() globalid from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<sql id="where">
+		<where>
+		<if test='classId != null and classId != ""'>
+			and classid = #{classId}
+		</if>
+    	</where>
+    </sql>
+    
+    <select id="getById" resultMap="defineMap">
+    	select 
+			*
+		from HRM_XXGL_SHDY 
+		where guid = #{guid}
+    </select>
+	
+	<delete id="delete">
+		delete from HRM_XXGL_SHDY where guid = #{guid}
+	</delete>
+	
+	<select id="getList" resultMap="defineMap">
+		select * from HRM_XXGL_SHDY 
+		<include refid="where"/>
+		order by sx asc
+	</select>
+	
+	<update id="updateOrder">
+		update HRM_XXGL_SHDY set sx = #{order} where guid = #{guid}
+	</update>
+</mapper>

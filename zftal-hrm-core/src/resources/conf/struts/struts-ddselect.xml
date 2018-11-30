@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="ddselect" namespace="/ddselect" extends="configuration">
+		<action name="ddSelect_*" class="ddSelectAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/ddselect/ddselect_list.jsp</result>
+			<result name="detail">/WEB-INF/pages/hrm/ddselect/ddselect_detail.jsp</result>
+			<result name="export">/WEB-INF/pages/hrm/ddselect/ddselect_export.jsp</result>
+		</action>
+	</package>
+</struts>

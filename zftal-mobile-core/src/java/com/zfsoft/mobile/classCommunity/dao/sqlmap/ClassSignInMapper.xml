@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.classCommunity.dao.IClassSignInDao">
+
+	
+	<!-- 新增签到课程信息 -->
+	<insert id="insertClassSignIn"  parameterType="com.zfsoft.mobile.classCommunity.entity.ClassSignInEntityForInsert">
+			INSERT INTO 
+				M_COMMUNITY_CLASSSIGNINFO(
+					id,	
+					classSignInId,
+					className,
+					startTime,
+					endTime,
+					teacherId,
+					teacherName,
+					loglat,
+					address,
+					bak,
+					qrCodeFileName,
+					qrCodeFilePath,
+					qrCodeFileContent
+				)
+			VALUES(
+				#{id,jdbcType=VARCHAR}, 
+				#{classSignInId,jdbcType=VARCHAR},          
+				#{className,jdbcType=VARCHAR},
+				#{startTime,jdbcType=VARCHAR},
+				#{endTime,jdbcType=VARCHAR},
+				#{teacherId,jdbcType=VARCHAR},
+				#{teacherName,jdbcType=VARCHAR},
+				#{loglat,jdbcType=VARCHAR},
+				#{address,jdbcType=VARCHAR},
+				#{bak,jdbcType=VARCHAR},
+				#{qrCodeFileName,jdbcType=VARCHAR},
+				#{qrCodeFilePath,jdbcType=VARCHAR},
+				#{qrCodeFileContent,jdbcType=BLOB}
+			)
+		  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		  </selectKey>	
+	</insert>
+	
+	
+	<!-- 新增学生签到记录 -->
+	<insert id="insertClassSignInRecord"  parameterType="com.zfsoft.mobile.classCommunity.entity.ClassSignInRecordEntity">
+			INSERT INTO 
+				M_COMMUNITY_SIGNINRECORD(
+					id,	
+					studentNumber,
+					name,
+					signInTime,
+					signInAddr,
+					loglat,
+					distance,
+					classSignInfoId
+				)
+			VALUES(
+				#{id,jdbcType=VARCHAR},           
+				#{studentNumber,jdbcType=VARCHAR},
+				#{name,jdbcType=VARCHAR},
+				#{signInTime,jdbcType=VARCHAR},
+				#{signInAddr,jdbcType=VARCHAR},
+				#{loglat,jdbcType=VARCHAR},
+				#{distance,jdbcType=VARCHAR},
+				#{classSignInfoId,jdbcType=VARCHAR}
+			)
+		  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		  </selectKey>	
+	</insert>
+</mapper>

@@ -1,0 +1,235 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.manoeuvre.configInfo.dao.daointerface.IAuditStatusDao" >
+	
+	<!--  -->
+	<resultMap id="auditStatusRM" type="com.zfsoft.hrm.manoeuvre.configInfo.entities.AuditStatus">
+		<result property="sid" column="SHZTDM" />
+		<result property="taskNodeName" column="HJDM" />
+		<result property="result" column="SHJG" />
+		<result property="opinion" column="SHYJ" />
+		<result property="auditTime" column="SHSJ" />
+		<result property="assessor" column="SHR" />
+		<result property="remark" column="BZ" />
+		<association property="manoeuvreInfo" column="XXDM" select="com.zfsoft.hrm.manoeuvre.manoeuvreInfo.dao.daointerface.IManoeuvreDao.findById" />
+	</resultMap>
+	 
+    <sql id="prefix">
+		  SHZTDM,
+		  XXDM,
+		  HJDM,
+		  SHJG,
+		  SHYJ,
+		  SHSJ,
+		  SHR,
+		  BZ
+	</sql>
+	
+	<sql id="suffix">
+		<where>
+				
+			<if test="sid != null and sid != ''">
+				and SHZTDM=#{sid} 
+			</if>
+			
+			<if test="manoeuvreInfo != null and manoeuvreInfo.guid != null and manoeuvreInfo.guid != ''">
+				and XXDM=#{manoeuvreInfo.guid} 
+			</if>
+			
+			<if test="taskNodeName != null and taskNodeName != ''">
+				and HJDM like '%'||#{taskNodeName}||'%'
+			</if>
+			
+			<if test="result != null and result != ''">
+				and SHJG=#{result} 
+			</if>
+			
+			<if test="result == null or result == ''">
+				<if test="resultList != null and resultList.size > 0">
+					and
+					<foreach collection="resultList" item="result" index="index"  open="(" separator=" or " close=")">
+						SHJG=#{result} 
+					</foreach>
+				</if> 
+			</if>
+
+			<if test="opinion != null and opinion != ''">
+				and SHYJ like '%'||#{opinion}||'%' 
+			</if>
+			 
+			<if test="auditTime != null">
+				and SHSJ=#{auditTime}
+			</if>
+			
+			<if test="auditTime == null and auditTimeMin != null">
+				and <![CDATA[SHSJ>=#{auditTimeMin}]]>
+			</if>
+			
+			<if test="auditTime == null and auditTimeMax != null">
+				and <![CDATA[SHSJ<=#{auditTimeMax}]]>
+			</if>
+			
+			<if test="assessor != null and assessor != ''">
+				and SHR=#{assessor}
+			</if>
+
+			<if test="remark != null and remark != ''">
+				and BZ like '%'||#{remark}||'%'
+			</if>
+		</where>
+		
+		<if test="sortCol != null and sortCol != ''">
+			order by ${sortCol}
+		</if>
+		<if test="sortCol == null or sortCol == ''">
+			order by SHSJ desc 
+		</if>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="sid">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="sid">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+		insert into HRM_RYDP_SHZTXXB (
+		
+				SHZTDM
+			
+			<if test="manoeuvreInfo != null and manoeuvreInfo.guid != null and manoeuvreInfo.guid != ''">
+				,XXDM
+			</if>
+			
+			<if test="taskNodeName != null and taskNodeName != ''">
+				,HJDM
+			</if>
+			
+			<if test="result != null and result != ''">
+				,SHJG
+			</if>
+
+			<if test="opinion != null and opinion != ''">
+				,SHYJ 
+			</if>
+			 
+			<if test="auditTime != null">
+				,SHSJ
+			</if>
+			
+			<if test="assessor != null and assessor != ''">
+				,SHR 
+			</if>
+
+			<if test="remark != null and remark != ''">
+				,BZ
+			</if>
+			
+		) values (
+
+				#{sid} 
+			
+			<if test="manoeuvreInfo != null and manoeuvreInfo.guid != null and manoeuvreInfo.guid != ''">
+				,#{manoeuvreInfo.guid} 
+			</if>
+			
+			<if test="taskNodeName != null and taskNodeName != ''">
+				,#{taskNodeName}
+			</if>
+			
+			<if test="result != null and result != ''">
+				,#{result}
+			</if>
+
+			<if test="opinion != null and opinion != ''">
+				,#{opinion}
+			</if>
+			 
+			<if test="auditTime != null">
+				,#{auditTime}
+			</if>
+			
+			<if test="assessor != null and assessor != ''">
+				,#{assessor}
+			</if>
+
+			<if test="remark != null and remark != ''">
+				,#{remark}
+			</if>
+		)
+	</insert>
+	
+	<update id="update">
+		update HRM_RYDP_SHZTXXB 
+		<set>
+		
+			<if test="manoeuvreInfo != null and manoeuvreInfo.guid != null and manoeuvreInfo.guid != ''">
+				XXDM=#{manoeuvreInfo.guid}, 
+			</if>
+			
+			<if test="taskNodeName != null and taskNodeName != ''">
+				HJDM=#{taskNodeName},
+			</if>
+			
+			<if test="result != null and result != ''">
+				SHJG=#{result}, 
+			</if>
+
+			<if test="opinion != null">
+				SHYJ=#{opinion},
+			</if>
+			 
+			<if test="auditTime != null">
+				SHSJ=#{auditTime},
+			</if>
+			
+			<if test="assessor != null and assessor != ''">
+				SHR=#{assessor}, 
+			</if>
+
+			<if test="remark != null">
+				BZ=#{remark},
+			</if>
+			
+		</set>
+		where SHZTDM=#{sid}
+	</update>
+	
+	<delete id="delete">
+		delete from HRM_RYDP_SHZTXXB where SHZTDM=#{sid}
+	</delete>
+	
+	<select id="findList" resultMap="auditStatusRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_SHZTXXB
+		<include refid="suffix" /> 
+	</select>
+	
+	<select id="findPage" resultMap="auditStatusRM">
+		select <include refid="prefix" /> 
+		from (
+			select <include refid="prefix" />,rownum rn 
+			from (
+				select <include refid="prefix" />
+				from HRM_RYDP_SHZTXXB
+				<include refid="suffix" /> 
+			)
+		) 
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<select id="findPageCount" resultType="int">
+		select count(1)
+		from HRM_RYDP_SHZTXXB
+		<include refid="suffix" /> 
+	</select>
+	
+	<select id="findById" resultMap="auditStatusRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_SHZTXXB 
+		where SHZTDM=#{sid}
+	</select>
+	
+</mapper>

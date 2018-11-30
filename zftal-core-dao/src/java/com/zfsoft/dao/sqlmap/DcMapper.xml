@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IDcDao">
+	
+	<!-- 查询导出字段 -->
+	<select id="cxDczdList" parameterType="DczdpzModel" resultType="DczdpzModel">
+		select dcclbh,dcclmc,zd,zdmc,xssx,zgh,sfmrzd,zt from zftal_gtgl_dczdpzb 
+		where dcclbh=#{dcclbh} and zgh = 'public' order by xssx
+	</select>
+	
+	<!-- 根据职工号查询导出字段 -->
+	<select id="cxDczdListByZgh" parameterType="DczdpzModel" resultType="DczdpzModel">
+		select dcclbh,dcclmc,zd,zdmc,xssx,zgh,sfmrzd,zt from zftal_gtgl_dczdpzb 
+		where dcclbh=#{dcclbh} and zgh = #{zgh} order by xssx
+	</select>
+	
+	<!-- 查询需要导出的字段 -->
+	<select id="cxZdList" parameterType="DczdpzModel" resultType="DczdpzModel">
+		select zd,zdmc,xssx from zftal_gtgl_dczdpzb 
+		where dcclbh=#{dcclbh} and zt='1' and zgh='public' order by xssx  
+	</select>
+	
+	<!-- 根据职工号查询需要导出的字段 -->
+	<select id="cxZdListByZgh" parameterType="DczdpzModel" resultType="DczdpzModel">
+		select zd,zdmc,xssx from zftal_gtgl_dczdpzb 
+		where dcclbh=#{dcclbh} and zgh = #{zgh} and zt='1' order by xssx  
+	</select>
+	
+	<!-- 查询默认导出字段 -->
+	<select id="cxMrzd" parameterType="DczdpzModel" resultType="DczdpzModel">
+		select wmsys.wm_concat(t.zd) zd from zftal_gtgl_dczdpzb t 
+		where t.sfmrzd='1' and t.dcclbh=#{dcclbh} order by xssx
+	</select>
+	
+	<!-- 根据职工号查询默认导出字段 -->
+	<select id="cxMrzdByZgh" parameterType="DczdpzModel" resultType="DczdpzModel">
+		select wmsys.wm_concat(t.zd) zd from zftal_gtgl_dczdpzb t 
+		where t.sfmrzd='1' and t.dcclbh=#{dcclbh} and zgh = #{zgh} order by xssx
+	</select>
+	
+	<!-- 查询选中导出字段 -->
+	<select id="cxXzzd" parameterType="DczdpzModel" resultType="DczdpzModel">
+		select wmsys.wm_concat(t.zd) zd,wmsys.wm_concat(t.zdmc) zdmc from zftal_gtgl_dczdpzb t
+		 where t.zt='1' and t.dcclbh=#{dcclbh} order by xssx
+	</select>
+	
+	<!-- 根据职工号查询选中导出字段 -->
+	<select id="cxXzzdByZgh" parameterType="DczdpzModel" resultType="DczdpzModel">
+		select wmsys.wm_concat(t.zd) zd,wmsys.wm_concat(t.zdmc) zdmc from zftal_gtgl_dczdpzb t
+		 where t.zt='1' and t.dcclbh=#{dcclbh}  and zgh = #{zgh} order by xssx
+	</select>
+    
+	<!-- 保存选中字段 -->
+    <insert id="insert" parameterType="YhglModel">
+		   insert into zftal_gtgl_dczdpzb select t.dcclbh,t.dcclmc,t.zd,t.zdmc,t.xssx,#{zgh},
+		   t.sfmrzd,'1' from zftal_gtgl_dczdpzb t where t.zgh='public' and t.dcclbh = #{dcclbh} and t.zd = #{zd}
+    </insert>
+    
+    <!-- 查询非选中导出字段 -->
+	<select id="cxDczdListByPublic" parameterType="hashMap" resultType="DczdpzModel">
+		select dcclbh,dcclmc,zd,zdmc,xssx,zgh,sfmrzd,zt from zftal_gtgl_dczdpzb 
+    	 where dcclbh = #{dcclbh} and zgh='public' and 
+		<foreach collection="list" item="item" index="index"
+			separator=" and ">
+		     zd != #{item.zd} 
+		</foreach>
+	</select>
+    
+    <!-- 删除导出字段 -->
+    <delete id="scDczd" >
+    	delete from zftal_gtgl_dczdpzb 
+    	 where zgh = #{zgh}
+    </delete>
+    
+    <!-- 查询导出字段 -->
+	<select id="cxDczdpzMode" parameterType="DczdpzModel" resultType="DczdpzModel">
+		select dcclbh,dcclmc,zd,zdmc,xssx,zgh,sfmrzd,zt from zftal_gtgl_dczdpzb 
+		where dcclbh=#{dcclbh} and zd = #{zd}
+	</select>
+    
+</mapper>

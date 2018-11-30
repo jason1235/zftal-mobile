@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.basedata.dao.daointerface.IBaseDataDao">
+    
+    <resultMap id="ProcedureMap" type="com.zfsoft.mobile.basedata.entity.ProcedureEntity">
+        <result property="classId"          column="XXLID" />
+        <result property="className"        column="XXLMC" />
+        <result property="procedureName"    column="CCGCMC" />
+        <result property="procedureId"      column="CCGCID" />
+        <result property="executeCyc"       column="ZXZQ" />
+        <result property="regularSwitch"    column="DSKG" />
+        <result property="isOrNotLike"    	column="MHCX" />
+        <result property="datadz"           column="DATADZ" />
+        <result property="dataid"             column="DATAID" />
+        <result property="xxlall"             column="xxlall" />
+    </resultMap>
+    
+    <resultMap id="ViewPropertyMap" type="com.zfsoft.mobile.basedata.entity.ViewPropertyEntity">
+        <result property="classId"          column="XXLID" />
+        <result property="propertyId"       column="SXID" />
+        <result property="lviewProperty"    column="LBXSXM" />
+        <result property="dviewProperty"    column="XQXSXM" />
+        <result property="conditionStatus"  column="CXTJ" />
+    </resultMap>
+    
+    <resultMap id="ICSMap" type="com.zfsoft.mobile.basedata.entity.InfoClazzServiceEntity">
+        <result property="xxlid"            column="XXLID" />
+        <result property="guid"             column="ID" />
+        <result property="fwbm"             column="FWBM" />
+        <result property="fwtbid"           column="FWTBID" />
+        <result property="fwmc"             column="FWMC" />
+    </resultMap>
+    
+    <resultMap id="ICMMap" type="com.zfsoft.mobile.basedata.entity.InfoClazzMenuEntity">
+        <result property="infoClassId"             column="XXLID" />
+        <result property="firstMenuId"             column="YJCDID" />
+        <result property="menuName"                column="CDMC" />
+        <result property="sequence"                column="PXM" />
+        <result property="classCdid"               column="CDID" />
+        <result property="classCdbm"               column="CDBM" />
+    </resultMap>
+    
+    <sql id="whereNoUniqable">
+        <where>
+            <if test="deleted != null ">
+                and (t.deleted = #{deleted} or t.deleted is null)
+            </if>
+            
+            <if test="express != null and express != ''">
+                and ${express}
+            </if>
+        </where>
+    </sql>
+    
+    <sql id="whereMenu">
+        <where>
+            <if test="classCdid != null and classCdid != ''" >
+                and t.CDID = #{classCdid}
+            </if>
+            <if test="infoClassId != null and infoClassId != ''" >
+                and t.XXLID = #{infoClassId}
+            </if>
+            <if test="classCdbm != null and classCdbm != ''" >
+                and t.CDBM = #{classCdbm}
+            </if>
+            	order by t.yjcdid nulls first,t.cdbm asc
+        </where>
+    </sql>
+    
+    <!-- 教务获取专业名词-->
+    <select id="getZymcFromJw" resultType="java.lang.String">
+        select t.ZYMC from XSJBXXB t where t.gh = #{zgh}
+    </select>
+    
+    <!-- 获取同步数据条数 -->
+    <select id="getSynchronizedBaseDataCount" resultType="int">
+        select count(1) from ${clazz.identityName} t
+        <include refid="whereNoUniqable" />
+    </select>
+    
+    
+    <select id="getMenuList" resultMap="ICMMap">
+        select * from M_JCSZ_XXLCDB t
+        <include refid="whereMenu" />
+    </select>
+    
+    
+    <!-- 获取同步数据条数 -->
+    <select id="getFirstMenuList" resultMap="ICMMap">
+        select * from M_JCSZ_XXLCDB t
+        <![CDATA[
+            where t.XXLID is not null and t.YJCDID is null  and t.xxlid = #{infoClassId} 
+        ]]>     
+            <if test="classCdbm != null and classCdbm != ''" >
+                and t.CDBM in ( ${classCdbm} )
+            </if>
+        <![CDATA[   
+            order by t.CDBM asc
+        ]]>
+    </select>
+    
+    
+    <!-- 获取同步数据条数 -->
+    <select id="getSecondMenuList" resultMap="ICMMap">
+        select * from M_JCSZ_XXLCDB t
+        <![CDATA[
+            where t.XXLID is not null and t.YJCDID is not null  and t.xxlid = #{infoClassId} 
+        ]]>
+        	<if test="classCdbm != null and classCdbm != ''" >
+                and t.CDBM in ( ${classCdbm} )
+            </if>
+        <![CDATA[    
+            order by t.CDBM asc
+        ]]>
+    </select>
+    
+    <!-- 获取同步数据条数 -->
+    <select id="getAllMenuList" resultMap="ICMMap">
+        select *
+		  from (select *
+		          from M_JCSZ_XXLCDB t
+		         where t.XXLID is not null
+		           and t.YJCDID is null
+		           and t.cdid not in (select distinct b.yjcdid
+		                                from M_JCSZ_XXLCDB b
+		                               where b.XXLID is not null
+		                                 and b.YJCDID is not null
+		                              
+		                              )
+		        
+		        union all
+		        
+		        select *
+		          from M_JCSZ_XXLCDB x
+		         where x.XXLID is not null
+		           and x.YJCDID is not null
+		        )
+		      <![CDATA[
+            	where 	XXLID = #{infoClassId}
+        		]]>  
+		 order by cdbm asc
+    </select>
+    
+    
+    <!-- 获取同步数据 -->
+    <select id="getSynchronizedBaseDataList" resultType="hashmap" >
+        select * from (select a.*, rownum rn from (
+            select t.*
+            <foreach collection="clazz.properties" item="property" >
+                <if test="property.virtual">
+                    <if test="property.displayFormula != null">
+                        ,${property.getDisplayFormula('t') } as ${property.fieldName}
+                    </if>
+                </if>
+            </foreach>
+            from ${clazz.identityName} t
+            <include refid="whereNoUniqable" />
+            <if test="orderStr != null and orderStr != ''">
+                order by ${orderStr}
+            </if>
+            ) a )
+        <![CDATA[
+            where rn>=#{startRow} and rn<=#{endRow}
+        ]]>
+    </select>
+    
+    <!-- 执行数据存储 -->
+    <select id="executeProcedure" statementType="CALLABLE">  
+        ${procedure}
+    </select>
+    
+    <!-- 获取存储过程 -->
+    <select id="getProcedures" resultMap="ProcedureMap" >
+        select a.xxlbh as xxlid, a.xxlmc, c.ccgcmc, c.ccgcid, c.zxzq, c.dskg,c.xxlall
+        from xxlysjb a, xxlmlb b, m_jcsz_ccgcsz c
+        where a.xxlssml = b.mlid
+          and b.mlid = #{catalogId}
+          and b.mlfl = #{catalogType}
+          <![CDATA[
+          and a.xxlbh = c.xxlid(+)
+          ]]>
+        order by b.MLXH, a.XXLXH
+    </select>
+    
+    <!-- 获取存储过程 -->
+    <select id="getProceduresById" resultMap="ProcedureMap" >
+        select a.xxlid, a.ccgcmc, a.ccgcid, a.zxzq, a.dskg, a.mhcx,a.datadz,a.dataid,a.xxlall
+        from m_jcsz_ccgcsz a
+        <where>
+        <if test="procedureId != null and procedureId != ''">
+        a.ccgcid = #{procedureId}
+        </if>
+        <if test="classId != null and classId != ''">
+        a.xxlid = #{classId}
+        </if>
+        </where>
+    </select>
+    
+    <!-- 添加 -->
+    <insert id="insertProcedure">
+        insert into m_jcsz_ccgcsz (
+            xxlid,
+            ccgcmc,
+            ccgcid,
+            zxzq,
+            dskg,
+            mhcx
+        ) values (
+            #{classId},
+            #{procedureName,jdbcType=VARCHAR},
+            #{procedureId},
+            #{executeCyc,jdbcType=VARCHAR},
+            #{regularSwitch,jdbcType=VARCHAR},
+            #{isOrNotLike,jdbcType=VARCHAR}
+        )
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="procedureId">
+            <![CDATA[
+            select SYS_GUID() GUID from DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    <!-- 添加 -->
+    <insert id="insertMenu">
+        insert into M_JCSZ_XXLCDB (
+            CDID,
+            XXLID,
+            YJCDID,
+            CDMC,
+            PXM,
+            CDBM
+        ) values (
+            #{classCdid},
+            #{infoClassId},
+            #{firstMenuId,jdbcType=VARCHAR},
+            #{menuName},
+            #{sequence},
+            (select to_char(nvl(max(to_number(CDBM)), 0) + 1) from M_JCSZ_XXLCDB  )
+        )
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="classCdid">
+            <![CDATA[
+            select SYS_GUID() GUID from DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    <!-- 更新 -->
+    <update id="modifyMenuPxm">
+        update M_JCSZ_XXLCDB  set PXM = #{sequence}
+        where CDID = #{classCdid}
+    </update>
+    
+    <!-- 更新 -->
+    <update id="updateMenu">
+        update M_JCSZ_XXLCDB set CDMC = #{menuName}
+        where CDID = #{classCdid}
+    </update>
+
+
+	
+	 <update id="modifyPicture">
+        update m_jcsz_ccgcsz set datadz = #{datadz},dataid= #{dataid}
+        where xxlid = #{classId}
+    </update>
+    <!-- 更新 -->
+    <update id="modifyProcedure">
+        update m_jcsz_ccgcsz
+        <set>
+          <if test="procedureName != null and procedureName != ''">
+          ccgcmc = #{procedureName},
+          </if>
+          <if test="executeCyc != null and executeCyc != ''">
+          zxzq = #{executeCyc},
+          </if>
+          <if test="regularSwitch != null and regularSwitch != ''">
+          dskg = #{regularSwitch},
+          </if>
+          <if test="isOrNotLike != null and isOrNotLike != ''">
+          mhcx = #{isOrNotLike},
+          </if>
+          <if test="xxlall != null and xxlall != ''">
+          xxlall = #{xxlall},
+          </if>
+        </set>
+        <where>
+            <if test="procedureId != null and procedureId != ''" >
+                and ccgcid = #{procedureId}
+            </if>
+            <if test="classId != null and classId != ''" >
+                and xxlid = #{classId}
+            </if>
+        </where>
+    </update>
+    
+    <!-- 取得DB中存储过程 -->
+    <select id="getDBProcedures" resultType="String" >
+        select object_name from user_procedures where object_type = 'PROCEDURE'
+    </select>
+    
+    <!-- 增加显示属性 -->
+    <insert id="addViewPro">
+        insert into m_jcsz_xxlglb (
+            xxlid,
+            sxid,
+            lbxsxm,
+            xqxsxm,
+            cxtj
+        ) values (
+            #{classId},
+            #{propertyId},
+            #{lviewProperty},
+            #{dviewProperty,jdbcType=VARCHAR},
+            #{conditionStatus,jdbcType=VARCHAR}
+        )
+    </insert>
+    
+    <!-- 移除显示属性 -->
+    <delete id="removeViewPro">
+        delete m_jcsz_xxlglb t
+        where t.xxlid = #{classId}
+        <if test="propertyId != null and propertyId != ''">
+          and t.sxid = #{propertyId}
+        </if>
+    </delete>
+    
+    <!-- 删除信息类菜单s -->
+    <delete id="deleteMenuItem">
+        delete M_JCSZ_XXLCDB t
+        where t.CDID = #{classCdid}
+    </delete>
+    
+    <delete id="deleteMenuProperty">
+        delete M_JCSZ_XXLCDB t
+        where t.CDID = #{cdid} 
+    </delete>
+
+    <!-- 修改显示属性 -->
+    <update id="modifyViewPro">
+        update m_jcsz_xxlglb
+        <set>
+          <if test="lviewProperty != null and lviewProperty != ''">
+          lbxsxm = #{lviewProperty},
+          </if>
+          <if test="lviewProperty == null and conditionStatus == null">
+          xqxsxm = #{dviewProperty},
+          </if>
+          <if test="conditionStatus != null and conditionStatus != ''">
+          cxtj = #{conditionStatus},
+          </if>
+        </set>
+        where xxlid = #{classId}
+          and sxid = #{propertyId}
+    </update>
+    
+    
+
+    <!-- 获取显示属性 -->
+    <select id="findViewPro" resultMap="ViewPropertyMap" >
+        select * from m_jcsz_xxlglb t
+         inner join XXSXYSJB b
+	     on t.sxid = b.sxbh
+		 where t.xxlid = #{classId}
+		 order by b.sxxh
+    </select>
+    
+    <select id="findZdmc" resultType="String" >
+        select ZDMC from XXSXYSJB
+		where SXBH = #{propertyId}
+    </select>
+    <select id="findSxmc" resultType="String" >
+        select SXMC from XXSXYSJB
+		where SXBH = #{propertyId}
+    </select>
+    
+    
+    <!-- 获取显示属性 -->
+    <select id="findViewProByPIds" resultMap="ViewPropertyMap" >
+        select * from m_jcsz_xxlglb t
+         where t.xxlid = #{classId}
+         <if test="vpros != null and (!vpros.empty)">
+           <foreach collection="vpros" item="vp" open=" and t.sxid in (" separator="," close=")">
+             #{vp.guid} 
+           </foreach>
+         </if>
+    </select>
+    
+    <!-- 保存服务与信息类的关系 -->
+    <insert id="insertPublish">
+        insert into m_jcsz_xxlfwglb (
+            id,
+            xxlid,
+            fwbm
+        ) values (
+            #{guid},
+            #{xxlid},
+            #{fwbm}
+        )
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+            <![CDATA[
+            select SYS_GUID() GUID from DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    <!-- 插入信息类生成数字档案logo图片 -->
+    <insert id="insertPicture">
+        insert into m_jcsz_ccgcsz (
+            xxlid,
+            datadz,
+            dataid
+        ) values (
+            #{classId},
+            #{datadz},
+            #{dataid}
+        )
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+            <![CDATA[
+            select SYS_GUID() GUID from DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    <!-- 移除信息类服务管理表相关数据 -->
+    <delete id="removePublish">
+        delete m_jcsz_xxlfwglb t
+      		where fwbm = #{fwbm}
+    </delete>
+
+    <!-- 取得信息类服务信息 -->
+    <select id="getPublishService" resultMap="ICSMap" >
+        select t.*, t1.fwmc, t1.fwtbid from m_jcsz_xxlfwglb t left join m_fwgl_fwglb t1 on t.fwbm = t1.fwbm
+         where t.xxlid = #{classId} and t1.deleted = '0'
+    </select>
+    
+</mapper>

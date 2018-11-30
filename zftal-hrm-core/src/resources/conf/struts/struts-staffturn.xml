@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="retire" namespace="/retire" extends="configuration">
+		<!-- 岗位信息维护 -->
+		<action name="retireScan_*" class="retireScanAction" method="{1}">
+			<result name="edit">/WEB-INF/pages/hrm/staffturn/retire/retireScan_edit.jsp</result>
+			<result name="list">/WEB-INF/pages/hrm/staffturn/retire/retireRule_list.jsp</result>
+			<result name="add">/WEB-INF/pages/hrm/staffturn/retire/retireRule_add.jsp</result>
+			<result name="modify">/WEB-INF/pages/hrm/staffturn/retire/retireRule_modify.jsp</result>
+			<result name="period">/WEB-INF/pages/hrm/staffturn/retire/retireScan_period.jsp</result>
+		</action>
+		
+		<!-- 20140423 add start -->
+		<action name="retireSp_*" class="retireSpAction" method="{1}">
+            <result name="multiple">/WEB-INF/pages/hrm/tools/selectPerson_multiple.jsp</result>
+        </action>
+        <!-- 20140423 add end -->
+		
+		<!--预退休-->
+		<action name="preretire_*" class="preRetireAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/staffturn/retire/preretireinfo_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/staffturn/retire/preretireinfo_edit.jsp</result>
+			<result name="modify">/WEB-INF/pages/hrm/staffturn/retire/preretireinfo_modify.jsp</result>
+			<result name="deal_edit">/WEB-INF/pages/hrm/staffturn/retire/preretireinfo_dealedit.jsp</result>
+			<result name="plxgtxwh">/WEB-INF/pages/hrm/staffturn/retire/preretire_plxgtxwh.jsp</result>
+		</action>
+		<!--退休-->
+		<action name="retire_*" class="retireAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/staffturn/retire/retireinfo_list.jsp</result>
+			<result name="add">/WEB-INF/pages/hrm/staffturn/retire/retireinfo_choice_p.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/staffturn/retire/retireinfo_edit.jsp</result>
+		</action>
+	</package>
+	
+	<package name="dead" namespace="/dead" extends="configuration">
+		<!--离世-->
+		<action name="deadinfo_*" class="deadAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/staffturn/dead/deadinfo_list.jsp</result>
+			<result name="add">/WEB-INF/pages/hrm/staffturn/dead/deadinfo_choice_p.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/staffturn/dead/deadinfo_edit.jsp</result>
+		</action>
+	</package>
+	
+	<package name="leaveSchool" namespace="/leaveSchool" extends="configuration">
+		<!-- 离校环节设置 -->
+		<action name="leaveStep_*" class="leaveStepAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/staffturn/leaveschool/leaveStep_list.jsp</result>
+			<result name="input">/WEB-INF/pages/hrm/staffturn/leaveschool/leaveStep_input.jsp</result>
+		</action>
+		<!-- 离校流程管理 -->
+		<action name="leaveFlow_*" class="leaveFlowAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/staffturn/leaveschool/leaveFlow_list.jsp</result>
+			<result name="info">/WEB-INF/pages/hrm/staffturn/leaveschool/leaveFlow_info.jsp</result>
+			<result name="personal">/WEB-INF/pages/hrm/staffturn/leaveschool/leaveFlow_personal_info.jsp</result>
+			<result name="input">/WEB-INF/pages/hrm/staffturn/leaveschool/leaveFlow_input.jsp</result>
+			<result name="confirm">/WEB-INF/pages/hrm/staffturn/leaveschool/leaveFlow_confirm.jsp</result>
+			<result name="export">/WEB-INF/pages/hrm/staffturn/leaveschool/leaveFlow_export.jsp</result>
+			<result name="print">/WEB-INF/pages/hrm/staffturn/leaveschool/leaveFlow_print.jsp</result>
+		</action>
+		<!-- 离校处理 -->
+		<action name="leaveProcess_*" class="leaveProcessAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/staffturn/leaveschool/leaveProcess_list.jsp</result>
+		</action>
+	</package>
+</struts>

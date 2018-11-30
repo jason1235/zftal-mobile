@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.baseinfo.finfo.dao.daointerface.IFormInfoMemberPropertyDao">
+	
+	<resultMap id="fromInfoMemberProperty" type="com.zfsoft.hrm.baseinfo.finfo.entities.FormInfoMemberProperty">
+		<result property="pName" column="SXMC" />
+		<result property="editable" column="SFKBJ" />
+		<result property="viewable" column="SFXS" />
+		<result property="highlight" column="SFGLXS" />
+		<result property="need" column="SFBT" />
+		<result property="minLength" column="ZXDMCD" />
+		<result property="defaultValue" column="MRZ" />
+		<result property="alert" column="JGXX" />
+		<result property="index" column="XH" />
+		
+		<association property="member" javaType="com.zfsoft.hrm.baseinfo.finfo.entities.FormInfoMember" >
+			<result property="classId" column="XXLID" />
+			<result property="name" column="ZMC" />
+		</association>
+	</resultMap>
+	<sql id="columns">
+		ZMC, XXLID, SXMC, SFKBJ, SFXS, SFGLXS, SFBT, ZXDMCD, MRZ, JGXX, XH
+	</sql>
+	
+	<sql id="where">
+		<where>
+			<if test="name != null">
+				and ZMC = #{name}
+			</if>
+			<if test="classId != null">
+				and XXLID = #{classId}
+			</if>
+			<if test="pName != null">
+				and SXMC = #{pName}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="find" resultMap="fromInfoMemberProperty">
+		select <include refid="columns"/> from HRM_XTGL_XXWHCYSXB
+		<include refid="where"/>
+		order by XXLID, XH
+	</select>
+	
+	<select id="count" resultType="long">
+		select count(1) from HRM_XTGL_XXWHCYSXB
+		<include refid="where"/>
+	</select>
+	
+	<insert id="insert">
+		<![CDATA[
+		insert into HRM_XTGL_XXWHCYSXB(
+			ZMC, XXLID, SXMC, SFKBJ, SFXS, SFGLXS, SFBT, ZXDMCD, MRZ, JGXX, XH
+		) values(
+			#{member.name}, #{member.classId}, #{pName}, #{editable}, #{viewable}, #{highlight},
+			#{need}, #{minLength}, #{defaultValue}, #{alert}, #{index}
+		)
+		]]>
+	</insert>
+	
+	<update id="update">
+		update HRM_XTGL_XXWHCYSXB set
+			SFKBJ = #{editable}, SFGLXS = #{highlight}, SFBT = #{need},
+			ZXDMCD = #{minLength}, MRZ = #{defaultValue}, JGXX = #{alert}
+		where
+			ZMC = #{member.name} and XXLID = #{member.classId} and SXMC = #{pName}
+	</update>
+	
+	<update id="updateViewable">
+		update HRM_XTGL_XXWHCYSXB set
+			SFXS = #{viewable}
+		where
+			ZMC = #{member.name} and XXLID = #{member.classId} and SXMC = #{pName}
+	</update>
+	
+	<update id="updateIndex">
+		update HRM_XTGL_XXWHCYSXB set
+			XH = #{index}
+		where
+			ZMC = #{member.name} and XXLID = #{member.classId} and SXMC = #{pName}
+	</update>
+	
+	<update id="upIndex">
+		update HRM_XTGL_XXWHCYSXB set
+			XH = XH - 1
+		where
+			ZMC = #{member.name} and XXLID = #{member.classId} and SXMC = #{pName} and XH > #{index}
+	</update>
+	
+	<delete id="delete">
+		delete HRM_XTGL_XXWHCYSXB
+		<where>
+            <if test="name != null">
+                and ZMC = #{name}
+            </if>
+            <if test="classId != null">
+                and XXLID = #{classId}
+            </if>
+            <if test="pName != null">
+                and sxmc = #{pName}
+            </if>
+        </where>
+	</delete>
+</mapper>
+

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IKlwhDao" >
+
+		<!-- 查询学生列表 -->
+	<select id="getPagedList" parameterType="XsmmModel" resultType="XsmmModel">
+		select xh,xm,bjdm_id 
+			from zftal_xtgl_xsxxb a
+		<where>
+			<if test="xy != null and xy != ''">
+				and xy = #{xy}
+			</if>
+			<if test="xm != null and xm != ''">
+				and xm like '%'||#{xm}||'%'
+			</if>
+		</where>
+	</select>
+	
+	
+		<!-- 查询学生列表 -->
+	<select id="getXsxxList" parameterType="XsmmModel" resultType="XsmmModel">
+		select t.xh, case
+         when length(t.sfzh) > 6 then
+          	substr(t.sfzh,length(t.sfzh)-5,length(t.sfzh))
+		         else
+		          '000000'
+		       end sfzh
+  		from zftal_xtgl_xsxxb t
+	</select>
+	
+	  <!-- 批量密码初始化 -->
+    <update id="update" >
+    	update zftal_xtgl_xsmmb set mm = #{jmmm}
+    	 where xh = #{pkValue}
+    </update>
+    
+      <!-- 手动批量密码初始化 -->
+    <update id="batchUpdate" parameterType="hashMap" flushCache="true"
+		statementType="PREPARED" timeout="20000">
+    	update zftal_xtgl_xsmmb 
+			<if test="mm != null">
+				set mm = #{mm}
+    		</if>
+   		 where
+		<foreach collection="list" item="item" index="index"
+			separator=" OR">
+		   xh = #{item.xh} 
+		</foreach>
+    </update>
+    
+      <!-- 全部密码初始化 -->
+    <update id="qbCsh" >
+    	update zftal_xtgl_xsmmb set mm = #{jmmm}
+    </update>
+	
+</mapper>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!--审批操作日志维护-->
+	<bean id="spAuditingLogService" class="com.zfsoft.workflow.service.impl.SpAuditingLogServiceImpl">
+		<property name="spAuditingLogDao" ref="spAuditingLogDao"/>
+		<property name="spWorkNodeService" ref="spWorkNodeService"/>
+		<property name="spWorkTaskService" ref="spWorkTaskService"/>
+	</bean>
+	
+	<!--业务管理维护-->
+	<bean id="spBusinessService" class="com.zfsoft.workflow.service.impl.SpBusinessServiceImpl">
+		<property name="spBusinessDao" ref="spBusinessDao"/>
+		<property name="spProcedureBillDao" ref="spProcedureBillDao"/>
+	</bean>	
+	
+	<!--节点连线信息维护-->
+	<bean id="spLineService" class="com.zfsoft.workflow.service.impl.SpLineServiceImpl">
+		<property name="spLineDao" ref="spLineDao"/>
+	</bean>	
+	
+	<!--节点动态表单关联维护-->
+	<bean id="spNodeBillService" class="com.zfsoft.workflow.service.impl.SpNodeBillServiceImpl">
+		<property name="spNodeBillDao" ref="spNodeBillDao"/>
+	</bean>	
+	
+	<!--节点信息维护-->
+	<bean id="spNodeService" class="com.zfsoft.workflow.service.impl.SpNodeServiceImpl">
+		<property name="spNodeDao" ref="spNodeDao"/>
+		<property name="spNodeTaskDao" ref="spNodeTaskDao"/>
+		<property name="spNodeBillDao" ref="spNodeBillDao"/>
+		<property name="spProcedureDao" ref="spProcedureDao"/>	
+		<property name="spBillConfigDao" ref="spBillConfigDao"/>
+			
+	</bean>	
+	
+	<!--流程信息维护-->
+	<bean id="spProcedureService" class="com.zfsoft.workflow.service.impl.SpProcedureServiceImpl">
+		<property name="spProcedureDao" ref="spProcedureDao"/>
+		<property name="spProcedureBillDao" ref="spProcedureBillDao"/>
+		<property name="spNodeService" ref="spNodeService"/>
+		<property name="spLineService" ref="spLineService"/>
+	</bean>	
+	
+	<!--任务信息维护-->
+	<bean id="spTaskService" class="com.zfsoft.workflow.service.impl.SpTaskServiceImpl">
+		<property name="spTaskDao" ref="spTaskDao"/>
+		<property name="spNodeTaskDao" ref="spNodeTaskDao"/>
+	</bean>	
+	
+	<!--审核工作节点连线信息维护-->
+	<bean id="spWorkLineService" class="com.zfsoft.workflow.service.impl.SpWorkLineServiceImpl">
+		<property name="spWorkLineDao" ref="spWorkLineDao"/>
+	</bean>	
+	
+	<!--审核工作节点信息维护-->
+	<bean id="spWorkNodeService" class="com.zfsoft.workflow.service.impl.SpWorkNodeServiceImpl" parent="spAuditingLogService">
+		<property name="spWorkNodeDao" ref="spWorkNodeDao"/>
+	</bean>	
+	
+	<!--审核工作流程信息维护-->
+	<bean id="spWorkProcedureService" class="com.zfsoft.workflow.service.impl.SpWorkProcedureServiceImpl">
+		<property name="spWorkProcedureDao" ref="spWorkProcedureDao"/>
+		<property name="spWorkNodeDao" ref="spWorkNodeDao"/>
+		<property name="spWorkLineDao" ref="spWorkLineDao"/>
+		<property name="spWorkTaskDao" ref="spWorkTaskDao"/>
+	</bean>	
+	
+	<!--审核工作任务信息维护-->
+	<bean id="spWorkTaskService" class="com.zfsoft.workflow.service.impl.SpWorkTaskServiceImpl" parent="spAuditingLogService">
+		<property name="spWorkTaskDao" ref="spWorkTaskDao"/>
+	</bean>	
+	
+	<!--审核工作节点动态表单关联维护-->
+	<bean id="spWorkNodeBillService" class="com.zfsoft.workflow.service.impl.SpWorkNodeBillServiceImpl">
+		<property name="spWorkNodeBillDao" ref="spWorkNodeBillDao"/>
+	</bean>	
+	
+	<!--审核工作信息维护-->
+	<bean id="spWorkFlowService" class="com.zfsoft.workflow.service.impl.SpWorkFlowServiceImpl">
+		<property name="spWorkNodeService" ref="spWorkNodeService"/>		
+		<property name="spWorkNodeBillService" ref="spWorkNodeBillService"/>
+		<property name="spWorkProcedureService" ref="spWorkProcedureService"/>
+		<property name="spWorkTaskService" ref="spWorkTaskService"/>
+		<property name="spProcedureService" ref="spProcedureService"/>
+		<property name="spWorkLineService" ref="spWorkLineService"/>
+		<property name="spProcedureBillDao" ref="spProcedureBillDao"/>
+		<property name="spWorkProcedureBillDao" ref="spWorkProcedureBillDao"/>
+		<property name="spAuditingLogService" ref="spAuditingLogService"/>
+		<property name="spBillExportService" ref="spBillExportService"/>
+		<property name="spBillConfigService" ref="spBillConfigService"/>
+		<property name="spBillInstanceService" ref="spBillInstanceService"/>
+		<property name="pendingAffairService" ref="pendingAffairService"/>
+		<property name="spBillDataPushRunService" ref="spBillDataPushRunService"/>		
+	</bean>	
+	
+</beans>

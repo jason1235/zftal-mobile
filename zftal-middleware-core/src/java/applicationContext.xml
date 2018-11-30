@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xmlns:p="http://www.springframework.org/schema/p"
+xmlns:jaxws="http://cxf.apache.org/jaxws"
+xsi:schemaLocation="http://www.springframework.org/schema/beans 
+					http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-3.0.xsd
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+  					http://cxf.apache.org/jaxws 
+					http://cxf.apache.org/schemas/jaxws.xsd"
+	default-autowire="byName" default-lazy-init="false">
+ 
+<!-- 此三个文件在cxf.jar包中，将文件放到src目录下，并去掉此注释 -->
+	<import resource="classpath:META-INF/cxf/cxf.xml"/>
+   	<import resource="classpath:META-INF/cxf/cxf-extension-soap.xml"/>
+  	<import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+
+ 
+  	
+<!-- 服务可通过两种方式公布，一种JAX-WS标准点的API；另一种 jaxws标签 -->
+	
+	<bean id="wsSerService" class="com.zfsoft.mobile.webservices.cxf.service.impl.WSSerServiceImpl" />
+	<jaxws:endpoint id="wsSerServiceSOA" implementor="#wsSerService" address="/WSSerService" /> 
+       
+    <bean id="wsPushService" class="com.zfsoft.mobile.webservices.cxf.service.impl.WSPushServiceImpl" />
+    <jaxws:endpoint id="wsPushServiceSOA" implementor="#wsPushService" address="/WSPushService" /> 
+
+ 	<!-- OA接口 Xml  -->
+   	<bean id="emailInformationXMLService" class="com.oa.service.imp.EmailInformationXMLService" />
+   	<jaxws:endpoint id="emailInformationXMLServiceSOA" implementor="#emailInformationXMLService" address="/oa/EmailInformationXMLService" />
+   	
+   	<!-- keyan接口 Xml  -->
+   	<bean id="repairInfoMobileServiceImpl" class="com.keyan.impl.IRepairInfoMobileServiceImpl" />
+   	<jaxws:endpoint id="repairInfoMobileServiceImplKEYAN" implementor="#repairInfoMobileServiceImpl" address="/keyan/IRepairInfoMobileServiceImpl" />
+
+    <!-- 教务接口 Xml -->
+    <bean id="educationalPortXMLService" class="com.jw.service.imp.EducationalPortXMLService" />
+   	<jaxws:endpoint id="educationalPortXMLServiceSOA" implementor="#educationalPortXMLService" address="/jw/EducationalPortXMLService" />
+ 
+ 	<!-- 门户登录接口 Xml -->
+    <bean id="mobileManageXMLService" class="com.mh.service.imp.MobileManageXMLService" />
+   	<jaxws:endpoint id="mobileManageXMLServiceSOA" implementor="#mobileManageXMLService" address="/mh/MobileManageXMLService" />
+ 	
+ 	
+ 	<!-- 门户后台学校概况接口 Xml -->
+    <bean id="schoolIntroduceXmlService" class="com.backMh.introduce.service.imp.SchoolIntroduceXmlService" />
+   	<jaxws:endpoint id="schoolIntroduceXmlServiceSOA" implementor="#schoolIntroduceXmlService" address="/backmh/SchoolIntroduceXmlService" />
+	<!-- 门户后台新闻资讯接口 Xml -->
+    <bean id="newsInformationXMLService" class="com.backMh.news.service.imp.NewsInformationXMLService" />
+   	<jaxws:endpoint id="newsInformationXMLServiceSOA" implementor="#newsInformationXMLService" address="/backmh/NewsInformationXMLService" />
+	<!-- 门户后台标题类型接口 Xml -->
+    <bean id="noticeTypeXMLService" class="com.backMh.notice.service.imp.NoticeTypeXMLService" />
+   	<jaxws:endpoint id="noticeTypeXMLServiceSOA" implementor="#noticeTypeXMLService" address="/backmh/NoticeTypeXMLService" />
+	<!-- 门户后台标题类型接口 Xml -->
+    <bean id="homeRecommendXMLService" class="com.backMh.recommend.service.imp.HomeRecommendXMLService" />
+   	<jaxws:endpoint id="homeRecommendXMLServiceSOA" implementor="#homeRecommendXMLService" address="/backmh/HomeRecommendXMLService" />
+	<!-- 门户后台校园风景接口 Xml -->
+    <bean id="schoolSightsXMLService" class="com.backMh.schoolsights.service.imp.SchoolSightsXMLService" />
+   	<jaxws:endpoint id="schoolSightsXMLServiceSOA" implementor="#schoolSightsXMLService" address="/backmh/SchoolSightsXMLService" />
+	<!-- 门户后台版本校验接口 Xml -->
+    <bean id="versionXMLService" class="com.backMh.version.service.imp.VersionXMLService" />
+   	<jaxws:endpoint id="versionXMLServiceSOA" implementor="#versionXMLService" address="/backmh/VersionXMLService" />
+	
+	<!-- 新门户后台参数设置接口 Xml -->
+    <bean id="backMhParametersXMLService" class="com.newBackMh.parameters.service.imp.BackMhParametersXMLService" />
+   	<jaxws:endpoint id="backMhParametersXMLServiceSOA" implementor="#backMhParametersXMLService" address="/newBackMh/BackMhParametersXMLService" />
+	
+	
+	<!-- 版本校验系统版本校验接口 Xml,注：目前已不再使用，直接调用挂在外网的版本校验服务器
+    <bean id="versionCheckXmlService" class="com.versionVerify.service.imp.VersionCheckXmlService" />
+   	<jaxws:endpoint id="versionCheckXmlServiceSOA" implementor="#versionCheckXmlService" address="/version/VersionCheckXmlService" />
+	 -->
+	 
+	<!-- 综合学习接口xml -->
+	<bean id="mobileSyntheticalXMLService" class="com.zh.xx.service.impl.MobileSyntheticalXMLService" />
+   	<jaxws:endpoint id="mobileSyntheticalXMLServiceS0A" implementor="#mobileSyntheticalXMLService" address="/zh/MobileSyntheticalXMLService" />
+	 
+	<!-- 数据中心一卡通信息接口Xml -->
+	<bean id="yktXMLService" class="com.sjzx.ykt.service.imp.YktXMLService" />
+   	<jaxws:endpoint id="yktXMLServiceS0A" implementor="#yktXMLService" address="/sjzx/YktXMLService" />
+   
+   	<!-- 数据中心薪资信息接口Xml -->
+   	<bean id="salaryXMLService" class="com.sjzx.xzInformation.service.imp.SalaryXMLService" />
+   	<jaxws:endpoint id="salaryXMLServiceS0A" implementor="#salaryXMLService" address="/sjzx/SalaryXMLService" />
+   
+   	<!-- 数据中心空闲教室信息接口Xml -->
+   	<bean id="freeClassroomXMLService" class="com.sjzx.jsInformation.service.imp.FreeClassroomXMLService" />
+   	<jaxws:endpoint id="freeClassroomXMLServiceS0A" implementor="#freeClassroomXMLService" address="/sjzx/FreeClassroomXMLService" />
+   
+   	<!-- 数据中心当前学年学期接口Xml -->
+   	<bean id="dqxnxqXMLService" class="com.sjzx.dqxnxq.service.imp.DqxnxqXMLService" />
+   	<jaxws:endpoint id="dqxnxqXMLServiceS0A" implementor="#dqxnxqXMLService" address="/sjzx/DqxnxqXMLService" />
+   	
+   	<!-- 数据中心图书馆接口Xml -->
+   	<bean id="bookXMLService" class="com.sjzx.book.service.imp.BookXMLService" />
+   	<jaxws:endpoint id="bookXMLServiceS0A" implementor="#bookXMLService" address="/sjzx/BookXMLService" />
+   	
+   	<!-- 移动学工xml -->
+   	<bean id="mobileURLService" class="com.mobileWebUrl.service.imp.MobileURLService" />
+   	<jaxws:endpoint id="mobileURLServiceS0A" implementor="#mobileURLService" address="/mobileWebUrl/MobileURLService" />
+   	
+   	<!-- 学工xml -->
+   	<bean id="mobileWorkStudyXMLService" class="com.xg.xg.service.impl.MobileWorkStudyXMLService" />
+   	<jaxws:endpoint id="mobileWorkStudyXMLServiceS0A" implementor="#mobileWorkStudyXMLService" address="/xg/MobileWorkStudyXMLService" />
+   	
+   	<!-- 离校xml -->
+   	<bean id="mobileLeaveSchoolXMLService" class="com.xg.lx.service.impl.MobileLeaveSchoolXMLService" />
+   	<jaxws:endpoint id="mobileLeaveSchoolXMLServiceS0A" implementor="#mobileLeaveSchoolXMLService" address="/xg/MobileLeaveSchoolXMLService" />
+   	
+   	<!-- 迎新xml -->
+   	<bean id="mobileYXXMLService" class="com.xg.yx.service.impl.MobileYXXMLService" />
+   	<jaxws:endpoint id="mobileYXXMLServiceS0A" implementor="#mobileYXXMLService" address="/xg/MobileYXXMLService" />
+   	
+   	<!-- 门户通知公告类型xml -->
+   	<bean id="backMhNoticeListTypeXMLService" class="com.newBackMh.noticelisttype.service.impl.BackMhNoticeListTypeXMLService" />
+   	<jaxws:endpoint id="backMhNoticeListTypeXMLServiceS0A" implementor="#backMhNoticeListTypeXMLService" address="/newBackMh/BackMhNoticeListTypeXMLService" />
+   	
+   	<!-- 第三方新闻xmL -->
+   	<bean id="dsfXMLService" class="com.dsf.news.service.imp.DsfXMLService" />
+   	<jaxws:endpoint id="dsfXMLServiceS0A" implementor="#dsfXMLService" address="/dsf/DsfXMLService" />
+   	
+   	<!-- ZFSMPxml -->
+   	<bean id="smpXMLService" class="com.smp.service.imp.SMPXMLService" />
+   	<jaxws:endpoint id="smpXMLServiceS0A" implementor="#smpXMLService" address="/smp/SMPXMLService" />
+   	
+   	<!-- 整个相同类型接口 -->
+   	<bean id="mobileInterfaceXMLService" class="com.zhInterface.oa.service.imp.MobileInterfaceXMLService" />
+   	<jaxws:endpoint id="mobileInterfaceXMLServiceS0A" implementor="#mobileInterfaceXMLService" address="/zhInterface/MobileInterfaceXMLService" />
+   	
+    <!-- 推送接口 -->
+    <bean id="mobilePushXMLService" class="com.ts.service.imp.MobilePushXMLService" />
+   	<jaxws:endpoint id="mobilePushXMLServiceS0A" implementor="#mobilePushXMLService" address="/ts/MobilePushXMLService" />
+   	
+   	<!-- 新移动接口 -->
+    <bean id="mobileLoginXMLService" class="com.newmobile.login.service.imp.MobileLoginXMLService" />
+   	<jaxws:endpoint id="mobileLoginXMLServiceS0A" implementor="#mobileLoginXMLService" address="/newmobile/MobileLoginXMLService" />
+   	
+   	<!-- 西北图书馆接口 -->   
+    <bean id="mobileHWWebService" class="com.newmobile.LibService.service.imp.MobileHWWebService" />
+   	<jaxws:endpoint id="mobileHWWebServiceSOA" implementor="#mobileHWWebService" address="/newmobile/MobileHWWebService" />
+   	
+	 
+</beans>

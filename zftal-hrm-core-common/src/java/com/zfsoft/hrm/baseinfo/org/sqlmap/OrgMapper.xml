@@ -1,0 +1,479 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.org.dao.daointerface.IOrgDao" >	
+	<resultMap id="orgInfoRM" type="com.zfsoft.hrm.baseinfo.org.entities.OrgInfo">
+		<result property="oid" column="BMDM" />
+		<result property="name" column="BMMC" />
+		<result property="level" column="BMJB" />
+		<result property="index" column="KSSYM" />
+		<result property="orderCode" column="PXM" />
+		<result property="type" column="BMLX" />
+		<result property="prin" column="BMFZR" />
+		<result property="manager" column="BMZG" />
+		<result property="disused" column="SFFQ" />
+		<result property="createTime" column="CJSJ" />
+		<result property="disuseTime" column="FQSJ" />
+		<result property="remark" column="BZ" />
+		<result property="dwqc" column="dwqc" />
+		<result property="sszz" column="sszz" />
+		<result property="bzs" column="bzs" />
+		<association property="parent" column="SJBMDM" select="findById"/>
+	</resultMap>
+	
+	<sql id="prefix">
+			BMDM,
+			BMMC,
+			SJBMDM,
+			BMJB,
+			PXM, 
+			KSSYM,
+			BMLX,
+			BMFZR,
+			BMZG,
+			SFFQ,
+			CJSJ,
+			FQSJ,
+			BZ,
+			DWQC,
+			SSZZ,
+			BZS
+	</sql>
+		
+	<sql id="suffix">
+		<where>
+			<if test="oid != null and oid != ''">
+				and BMDM=#{oid}
+			</if>
+			
+			<if test="name != null and name != ''">
+				and BMMC like '%'||#{name}||'%'
+			</if>
+			
+			<if test="level != null and level != ''">
+				and BMJB=#{level}
+			</if>
+			
+			<if test="index != null and index != ''">
+				and KSSYM like #{index}||'%'
+			</if>
+			
+			<if test="orderCode != null and orderCode != ''">
+				and PXM=#{orderCode}
+			</if>
+			
+			<if test="type != null and type != ''">
+				and BMLX=#{type}
+			</if>
+			
+			<if test="type == null or type == ''">
+				<if test="typeList != null and typeList.size > 0">
+					and
+					<foreach collection="typeList" item="type" index="index"  open="(" separator=" or " close=")">
+						BMLX=#{type}
+					</foreach>
+				</if> 
+			</if>
+			
+			<if test="prin != null and prin != ''">
+				and BMFZR=#{prin}
+			</if>
+			
+			<if test="manager != null and manager != ''">
+				and BMZG=#{manager}
+			</if>
+			
+			<if test="useDisused and disused">
+				and SFFQ='1'
+			</if>
+			
+			<if test="useDisused and !disused">
+				and (SFFQ='0' or SFFQ is null)
+			</if>
+			
+			<if test="createTime != null">
+				and CJSJ=#{createTime}
+			</if>
+			
+			<if test="createTime == null and createTimeMin != null">
+				<![CDATA[and CJSJ>=#{createTimeMin}]]>
+			</if>
+			
+			<if test="createTime == null and createTimeMax != null">
+				<![CDATA[and CJSJ<=#{createTimeMax}]]>
+			</if>
+			
+			<if test="disuseTime != null">
+				and FQSJ=#{createTime}
+			</if>
+			
+			<if test="disuseTime == null and disuseTimeMin != null">
+				<![CDATA[and FQSJ>=#{disuseTimeMin}]]>
+			</if>
+			
+			<if test="disuseTime == null and disuseTimeMax != null">
+				<![CDATA[and FQSJ<=#{disuseTimeMax}]]>
+			</if>
+			
+			<if test="parent != null and parent.oid != null and parent.oid != ''">
+				and SJBMDM=#{parent.oid}
+			</if> 
+			
+			<if test="remark != null and remark != ''">
+				and BZ like '%'||#{remark}||'%'
+			</if>
+			
+			<if test="commonProperty != null and commonProperty != ''">
+				and (BMDM like '%'||#{commonProperty}||'%' or BMMC like '%'||#{commonProperty}||'%')
+			</if>
+			
+		</where>
+		
+		<if test="sortCol != null and sortCol != ''">
+			order by ${sortCol}
+		</if>
+		<if test="sortCol == null or sortCol == ''">
+			order by SJBMDM,PXM
+		</if>
+	</sql>
+	
+	<insert id="insert">
+	
+		insert into HRM_BZGL_ZZJGB (
+		
+				BMDM
+			
+			<if test="name != null and name != ''">
+				,BMMC
+			</if>
+			
+			<if test="level != null and level != ''">
+				,BMJB
+			</if>
+			
+			<if test="index != null and index != ''">
+				,KSSYM
+			</if>
+			
+			<if test="orderCode != null and orderCode != ''">
+				,PXM
+			</if>
+			
+			<if test="type != null and type != ''">
+				,BMLX
+			</if>
+			
+			<if test="prin != null and prin != ''">
+				,BMFZR
+			</if>
+			
+			<if test="manager != null and manager != ''">
+				,BMZG
+			</if>
+			
+			,SFFQ
+			
+			
+			,CJSJ
+			
+			
+			<if test="disuseTime != null">
+				,FQSJ
+			</if>
+			
+			<if test="parent != null and parent.oid != null and parent.oid != ''">
+				,SJBMDM
+			</if> 
+			
+			<if test="remark != null and remark != ''">
+				,BZ
+			</if>
+			<if test="dwqc != null and dwqc != ''">
+				,dwqc
+			</if>
+			<if test="sszz != null and sszz != ''">
+				,sszz
+			</if>
+			<if test="bzs != null">
+				,bzs
+			</if>
+		) values (
+		
+			#{oid}
+			
+			<if test="name != null and name != ''">
+				,#{name}
+			</if>
+			
+			<if test="level != null and level != ''">
+				,#{level}
+			</if>
+			
+			<if test="index != null and index != ''">
+				,#{index}
+			</if>
+			
+			<if test="orderCode != null and orderCode != ''">
+				,#{orderCode}
+			</if>
+			
+			<if test="type != null and type != ''">
+				,#{type}
+			</if>
+			
+			<if test="prin != null and prin != ''">
+				,#{prin}
+			</if>
+			
+			<if test="manager != null and manager != ''">
+				,#{manager}
+			</if>
+			
+			<if test="disused">
+				,'1'
+			</if>
+			
+			<if test="!disused">
+				,'0'
+			</if>
+				,sysdate						
+			<if test="disuseTime != null">
+				,#{createTime}
+			</if>
+			
+			<if test="parent != null and parent.oid != null and parent.oid != ''">
+				,#{parent.oid}
+			</if> 
+			
+			<if test="remark != null and remark != ''">
+				,#{remark}
+			</if>	
+			<if test="dwqc != null and dwqc != ''">
+				,#{dwqc}
+			</if>	
+			<if test="sszz != null and sszz != ''">
+				,#{sszz}
+			</if>	
+			<if test="bzs != null">
+				,#{bzs}
+			</if>	
+		)
+		
+	</insert>
+	
+	<update id="update">
+		update HRM_BZGL_ZZJGB 
+		<set>			
+			<if test="name != null and name != ''">
+				BMMC=#{name},
+			</if>
+			
+			<if test="level != null and level != ''">
+				BMJB=#{level},
+			</if>
+			
+			<if test="index != null and index != ''">
+				KSSYM=#{index},
+			</if>
+			
+			<!--<if test="orderCode != null and orderCode != ''">
+				PXM=#{orderCode},
+			</if>-->
+			PXM=#{orderCode},
+			
+			<if test="type != null and type != ''">
+				BMLX=#{type},
+			</if>
+			
+			<!--<if test="prin != null and prin != ''">
+				BMFZR=#{prin},
+			</if>-->
+			BMFZR=#{prin},
+			
+			<!--<if test="manager != null and manager != ''">
+				BMZG=#{manager},
+			</if>-->
+			BMZG=#{manager},
+			
+			<if test="disused">
+				SFFQ='1',
+			</if>
+			
+			<if test="!disused">
+				SFFQ='0',
+			</if>
+			
+			<if test="disuseTime != null">
+				FQSJ=#{createTime},
+			</if>
+			
+			<if test="parent != null and parent.oid != null and parent.oid != ''">
+				SJBMDM=#{parent.oid},
+			</if> 
+			
+			<if test="remark != null and remark != ''">
+				BZ=#{remark},
+			</if>
+			<if test="dwqc != null">
+				dwqc=#{dwqc},
+			</if>
+			<if test="sszz != null">
+				sszz=#{sszz},
+			</if>
+			bzs=#{bzs,jdbcType=NUMERIC},
+			
+		</set>
+		
+		where BMDM=#{oid}
+		
+	</update>
+	
+	<update id="disuse">
+		update HRM_BZGL_ZZJGB set 
+			SFFQ='1', 
+			FQSJ=(case SFFQ when '0' then sysdate when '1' then FQSJ end)
+		where 
+		<foreach collection="list" item="org" index="index"  open="(" separator=" or " close=")">
+				BMDM=#{org.oid}
+		</foreach>
+	</update>
+	
+	<update id="use">
+		update HRM_BZGL_ZZJGB set 
+			SFFQ='0'
+		where 
+		<foreach collection="list" item="org" index="index"  open="(" separator=" or " close=")">
+				BMDM=#{org.oid}
+		</foreach>
+	</update>
+	
+	<update id="updateType">
+		update HRM_BZGL_ZZJGB set 
+			BMLX=#{type}
+		where 
+		<foreach collection="orgList" item="org" index="index"  open="(" separator=" or " close=")">
+				BMDM=#{org.oid}
+		</foreach>
+	</update>
+	
+	<delete id="delete">
+		delete from HRM_BZGL_ZZJGB t where t.BMDM=#{oid}
+	</delete>
+	
+	<select id="findList" resultMap="orgInfoRM">
+		select <include refid="prefix"/> 
+		from HRM_BZGL_ZZJGB
+		<include refid="suffix"/>
+	</select>
+	
+	<select id="findDisusedList" resultMap="orgInfoRM">
+    select * 
+    from HRM_BZGL_ZZJGB where SFFQ = '1' and bmlx = #{type}
+		union select * from HRM_BZGL_ZZJGB where bmdm in (select distinct sjbmdm
+                          from HRM_BZGL_ZZJGB where SFFQ = '1' and bmlx=#{type})
+	</select>
+
+		<sql id="suffixs">
+				<where>
+					<if test="type != null and type != ''">
+						and BMLX=#{type}
+					</if>
+					
+					<if test="type == null or type == ''">
+						<if test="typeList != null and typeList.size > 0">
+							and
+							<foreach collection="typeList" item="type" index="index"  open="(" separator=" or " close=")">
+								BMLX=#{type}
+							</foreach>
+						</if> 
+					</if>
+		
+					<if test="useDisused and disused">
+						and SFFQ='1'
+					</if>
+					
+					<if test="useDisused and !disused">
+						and (SFFQ='0' or SFFQ is null)
+					</if>
+				</where>
+		</sql>
+
+		<sql id="suffixe">
+				<where>
+					<if test="type != null and type != ''">
+						and BMLX=#{type}
+					</if>
+					
+					<if test="type == null or type == ''">
+						<if test="typeList != null and typeList.size > 0">
+							and
+							<foreach collection="typeList" item="type" index="index"  open="(" separator=" or " close=")">
+								BMLX=#{type}
+							</foreach>
+						</if> 
+					</if>
+		
+				</where>
+		</sql>
+	
+	
+	
+	
+	
+	
+
+		
+	<select id="findById" resultMap="orgInfoRM">
+		select <include refid="prefix"/> 
+		from HRM_BZGL_ZZJGB
+		where BMDM = #{oid}	
+	</select>
+	
+	<select id="findPage" resultMap="orgInfoRM">
+		 
+		select <include refid="prefix" /> 
+		from (
+			select <include refid="prefix" />,rownum rn 
+			from (
+				select <include refid="prefix" />
+				from HRM_BZGL_ZZJGB
+				<include refid="suffix" /> 
+			)
+		) 
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<select id="findPageCount" resultType="int">
+		select count(1)
+		from HRM_BZGL_ZZJGB
+		<include refid="suffix" />
+	</select>
+	
+	<select id="deleteJudge" resultType="int">
+		select
+			(select count(1) from HRM_BZGL_ZZJGB t where t.sjbmdm=#{oid})+
+			(select count(1) from overall o where o.dwm=#{oid})
+		from dual
+	</select>
+	
+		<select id="disusedJudge" resultType="int">
+		select
+			(select count(1) from HRM_BZGL_ZZJGB t where t.sjbmdm=#{oid} and SFFQ='0') 
+		from dual
+	</select>
+	
+	<select id="findOrgList" resultMap="orgInfoRM">
+		select <include refid="prefix" />
+		  from HRM_BZGL_ZZJGB t
+		 where t.sffq = '0'
+	    <if test="type != null and type != ''">
+			and t.bmlx = #{type}
+	    </if>
+	    start with t.sjbmdm is null
+		connect by t.sjbmdm = prior t.bmdm
+		 order by t.bmlx, t.pxm, t.bmdm
+	</select>
+	
+</mapper>

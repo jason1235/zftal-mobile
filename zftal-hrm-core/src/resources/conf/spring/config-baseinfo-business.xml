@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.springframework.org/schema/tx
+				http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+				http://www.springframework.org/schema/aop
+				http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	
+	<!-- 信息维护 -->
+	<bean id="baseFormInfoMemberBusiness" class="com.zfsoft.hrm.baseinfo.finfo.business.impl.FormInfoMemberBusinessImpl">
+		<property name="formInfoMemberDao" ref="baseFormInfoMemberDao"></property>
+	</bean>
+	<bean id="baseFormInfoMemberPropertyBusiness" class="com.zfsoft.hrm.baseinfo.finfo.business.impl.FormInfoMemberPropertyBusinessImpl">
+		<property name="formInfoMemberPropertyDao" ref="baseFormInfoMemberPropertyDao"></property>
+	</bean>
+	
+	<!-- 信息审核 -->
+	<bean id="baseAuditDefineBusiness" class="com.zfsoft.hrm.baseinfo.audit.business.impl.AuditDefineBusinessImpl">
+		<property name="defineDao" ref="baseAuditDefineDao"></property>
+	</bean>
+	
+	<bean id="baseAuditProcessBusiness" class="com.zfsoft.hrm.baseinfo.audit.business.impl.AuditProcessBusinessImpl">
+		<property name="processDao" ref="baseAuditProcessDao"></property>
+		<property name="pendingAffairService" ref="pendingAffairService"></property>
+	</bean>
+	
+	<bean id="baseAuditInfoBusiness" class="com.zfsoft.hrm.baseinfo.audit.business.impl.AuditInfoBusinessImpl">
+		<property name="infoDao" ref="baseAuditInfoDao"></property>
+	</bean>
+	
+	<!-- 角色信息 -->
+	<bean id="baseRoleBusiness" class="com.zfsoft.hrm.baseinfo.role.business.impl.RoleBusinessImpl">
+		<property name="roleDao" ref="baseRoleDao"></property>
+	</bean>
+	
+	<!--自定义菜单查询(分类查询)business-->
+	<bean id="customMenuBusiness" name="customMenuBusiness" class="com.zfsoft.hrm.baseinfo.custommenu.business.impl.CustomMenuBusinessImpl">
+		<property name="customMenuDao" ref="customMenuDao"></property>
+	</bean>
+</beans>

@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.code.dao.daointerface.ICatalogDao" >
+	
+	<resultMap type="com.zfsoft.hrm.baseinfo.code.entities.Catalog" id="catalogMap">
+		<result property="guid" column="BMID"/>
+		<result property="name" column="BMMC"/>
+		<result property="includeParentNode" column="sfbkfjd"/>
+		<result property="delimiter" column="fjxsjgf"/>
+		<result property="classCode" column="fjm"/>
+		<result property="chooseExpr" column="kxzbds"/>
+		<result property="remark" column="bz"/>
+		<result property="source" column="dmsjly"/>
+		<result property="type" column="dmlx"/>
+	</resultMap>
+	<!-- 获取单条信息 -->
+	<select id="getEntity" resultMap="catalogMap">
+		select * from HRM_XTGL_DMBMB where bmid = #{guid}
+	</select>
+	
+    <!-- 更新 -->
+    <update id="update">
+    	update HRM_XTGL_DMBMB 
+    	<set>
+    		<if test="name != null">
+    			bmmc = #{name},
+    		</if>
+    		<if test="includeParentNode != null">
+    			sfbkfjd = #{includeParentNode},
+    		</if>
+    		<if test="delimiter != null">
+    			fjxsjgf = #{delimiter},
+    		</if>
+    		<if test="classCode != null">
+    			fjm = #{classCode},
+    		</if>
+    		<if test="chooseExpr != null">
+    			kxzbds = #{chooseExpr},
+    		</if>
+    		<if test="remark != null">
+    			bz = #{remark},
+    		</if>
+    		<if test="source != null">
+    			dmsjly = #{source},
+    		</if>
+    		<if test="type != null">
+    			dmlx = #{type},
+    		</if>
+    	</set>
+    	where bmid = #{guid}
+    </update>
+    
+    <!-- 新增 -->
+    <insert id="insert" >
+    	insert into HRM_XTGL_DMBMB(bmid,bmmc,sfbkfjd,fjxsjgf,fjm,kxzbds,bz,dmsjly,dmlx) 
+    		values (#{guid},#{name},#{includeParentNode},#{delimiter},
+    		#{classCode},#{chooseExpr},#{remark},#{source},#{type})
+    </insert>
+    
+    <!-- 批量删除 -->
+    <delete id="delete" >
+    	delete HRM_XTGL_DMBMB where bmid = #{id}
+    </delete>
+    
+    <sql id="where">
+    	<where>
+			<if test="name != null">
+    			and (bmmc like '%'||#{name}||'%' or bmid like '%'||#{name}||'%')
+    		</if>
+    		<if test="source != null">
+    			and dmsjly = #{source}
+    		</if>
+    		<if test="type != null">
+    			and dmlx = #{type}
+    		</if>
+		</where>
+    </sql>
+    <!-- 查询列表 -->
+	<select id="getList" resultMap="catalogMap">
+		select * from HRM_XTGL_DMBMB
+		<include refid="where"/>
+		order by bmid asc
+	</select>
+	
+	<select id="findPagingInfoList" resultMap="catalogMap">
+		select * from (select a.*, rownum rn from (select * from HRM_XTGL_DMBMB
+		<include refid="where" />
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if> 
+	     ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+	</select>
+	<select id="findPagingCount"  resultType="int">
+        select count(*) from HRM_XTGL_DMBMB
+        <include refid="where" />
+    </select>
+	
+</mapper>

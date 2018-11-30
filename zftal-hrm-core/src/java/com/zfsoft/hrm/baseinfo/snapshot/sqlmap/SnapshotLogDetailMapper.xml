@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.snapshot.dao.daointerface.ISnapshotLogDetailDao" >
+    
+    <resultMap type="com.zfsoft.hrm.baseinfo.snapshot.entities.SnapshotLogDetail" id="snapshotDetail">
+    	<result column="guid" property="guid"/>
+    	<result column="snap_time" property="snapTime"/>
+    	<result column="table_size" property="tableSize"/>
+    	<result column="operate_time" property="operateTime"/>
+    	<collection property="clazz" column="classid"   resultMap="clazzMap"></collection>
+    </resultMap>
+    <resultMap id="clazzMap" type="com.zfsoft.hrm.baseinfo.infoclass.entities.InfoClass">
+		<id property="guid" column="classid" />
+	</resultMap>
+    <!-- 新增 -->
+    <insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+    	insert into HRM_XTGL_SNAP_DETAIL (guid,snap_time,classid,table_size,operate_time)
+    	values 
+    	(#{guid},#{snapTime},#{clazz.guid},#{tableSize},#{operateTime})
+    	<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() globalid from DUAL
+			]]>
+		</selectKey>
+    </insert>
+    
+    <select id="getPagingList" resultMap="snapshotDetail">
+    	select * from (select a.*, rownum rn from (select * from HRM_XTGL_SNAP_DETAIL 
+    		where snap_time = #{snapTime} order by operate_time desc
+	     ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+    </select>
+    
+    <select id="getPagingCount"  resultType="int">
+        select count(*) from  HRM_XTGL_SNAP_DETAIL where snap_time = #{snapTime}
+    </select> 
+    <delete id="delete" >
+    	delete from HRM_XTGL_SNAP_DETAIL where snap_time = #{snapTime}
+    </delete>
+</mapper>

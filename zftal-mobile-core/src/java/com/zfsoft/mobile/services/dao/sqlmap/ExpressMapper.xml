@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.services.dao.daointerface.IExpressDao" >
+
+	<resultMap type="com.zfsoft.mobile.services.entity.ExpressEntity" id="ExpressMap">
+		<result column="expressId" property="expressId"/>
+		<result column="title" property="title"/>
+		<result column="textContent" property="textContent"/>
+		<result column="theType" property="theType"/>
+		<result column="createTime" property="createTime"/>
+		<result column="countComment" property="countComment"/>
+	</resultMap>
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.ExpressEntityForApp" id="ExpressForAppMap">
+		<result column="expressId" property="expressId"/>
+		<result column="title" property="title"/>
+		<result column="textContent" property="textContent"/>
+		<result column="theType" property="theType"/>
+		<result column="createTime" property="createTime"/>
+		<result column="countComment" property="countComment"/>
+	</resultMap>
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.ExpressPicEntity" id="ExpressPicMap">
+		<result column="picContent" property="picContent"/>
+		<result column="picName" property="picName"/>
+		<result column="picPath" property="picPath"/>
+		<result column="orderNumber" property="orderNumber"/>
+		<result column="expressId" property="expressId"/>
+	</resultMap>
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.ExpressCommentEntityForApp" id="ExpressCommentMap">
+		<result column="commentId" property="commentId"/>
+		<result column="commentContent" property="commentContent"/>
+		<result column="expressId" property="expressId"/>
+		<result column="createTime" property="createTime"/>
+		<result column="goodFlag" property="goodFlag"/>
+		<result column="goodCount" property="goodCount"/>
+		<result column="username" property="username"/>
+		<result column="xm" property="xm"/>
+	</resultMap>
+	
+	<sql id="where">
+    	<where>
+    		<if test="expressId != null and expressId != ''">
+    			and m.expressId  = #{expressId}
+    		</if>
+			<if test="title != null and title != ''">
+   				and m.title  like '%'||#{title}||'%' 
+	   		</if>
+			<if test="theType != null and theType != ''">
+    			and m.thetype  = #{theType}
+    		</if>
+		</where>
+    </sql> 
+    
+    <!-- 获取分页列表信息 -->
+	<select id="getPageList" resultMap="ExpressMap">
+	select c.*,rn from (
+	    select a.*,rownum rn from
+	    (
+	           select m.expressid,m.title,m.textcontent,m.theType,m.username,m.createtime,b.xm,count(n.commentcontent) countComment 
+	           		from m_express m
+	           		 left join zftal_xtgl_yhb b on m.username = b.zgh
+	             		left join m_express_comment n on m.expressid = n.expressid
+	             		<include refid="where" /> 
+	             	group  by m.expressid,m.title,m.textcontent,m.thetype,m.username,m.createtime,b.xm
+	     )
+	    a order by a.createtime desc,countComment desc
+         
+      ) c
+			
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} 
+			]]>	
+	</select>
+	
+	<select id="getPageListCount" resultType="int">
+			select count(*) from
+				(select * from m_express m
+				<include refid="where" /> )
+			a 
+	</select>
+	
+		<!-- 获取分页列表信息 -->
+	<select id="getList" resultMap="ExpressForAppMap">
+	select c.*,rn from (
+	    select a.*,rownum rn from
+	    (
+	           select m.expressid,m.title,m.textcontent,m.theType,m.username,m.createtime,m.anonymous,count(n.commentcontent) countComment 
+	           		from m_express m
+	             		left join m_express_comment n on m.expressid = n.expressid
+	             		<include refid="where" /> 
+	             	group  by m.expressid,m.title,m.textcontent,m.thetype,m.username,m.createtime,m.anonymous
+			   order by m.createtime desc,countComment desc		
+	     )a 
+      ) c
+			
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} 
+			]]>	
+	</select>
+	
+	<select id="getListCount" resultType="int">
+			select count(*) from
+				(select * from m_express m
+				<include refid="where" /> )
+			a 
+	</select>
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getExpressPicById" resultMap="ExpressPicMap">
+	           select * 
+	           		from m_express_pic m
+	             		where m.expressId = #{expressId}
+			
+		
+	</select>
+	
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getCommentList" resultMap="ExpressCommentMap">
+	select c.*,rn from (
+	    select a.*,rownum rn from
+	    (
+	           select * 
+	           		from m_express_comment m 
+	             		where m.expressId = #{expressId}
+	            order by m.createtime desc 		
+	     )a 
+      ) c
+			
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} 
+			]]>	
+	</select>
+	
+	<!-- 获取分页列表信息count -->
+	<select id="getCommentListCount" resultType="int">
+           select count(*) 
+           		from m_express_comment m 
+             		where m.expressId = #{expressId}
+	
+	</select>
+	
+	
+	<select id="getMaxOrderNumber" resultType="int">
+			select nvl(max(m.ordernumber),0)  from m_express_pic m where m.expressid = #{expressId}
+	</select>
+	
+	
+	<insert id="insertComment">
+		<![CDATA[
+			insert into m_express_comment(
+				commentContent,expressId,createTime,goodFlag,username,xm,anonymous
+			) values(
+				#{commentContent}, #{expressId}, sysdate, #{goodFlag}, #{username}, #{xm},#{anonymous}
+			)
+		]]>
+	</insert>
+	
+	<insert id="insertExpress" useGeneratedKeys="true" keyProperty="guid">
+		<![CDATA[
+			insert into m_express(
+				expressId,title,textContent,theType,userName,createTime
+			) values(
+				#{expressId}, #{title}, #{textContent}, #{theType}, #{userName}, sysdate
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="expressId">
+			<![CDATA[
+			select SYS_GUID() expressId from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insertExpressPic">
+		<![CDATA[
+			insert into m_express_pic(
+				picContent,picName,picPath,orderNumber,expressId
+			) values(
+				#{picContent}, #{picName}, #{picPath}, #{orderNumber}, #{expressId}
+			)
+		]]>
+	</insert>
+	
+	<update id="updateGoodFlag">
+		<![CDATA[
+			update m_express_comment set
+				goodFlag = #{goodFlag}
+			where commentId = #{commentId} 
+		]]>
+	</update>
+	
+	<!-- 点赞次数加一liucb -->
+	<update id="updateGoodCount">
+		<![CDATA[
+			update m_express_comment set
+				goodCount = goodCount+1
+			where commentid = #{commentid} 
+		]]>
+	</update>
+	
+	<!-- 判断某个用户是否针对某项评论点赞 -->
+	<select id="checkHaveGoodFlag" resultType="int">
+	   select count(*) from m_express_goodflag t where t.username=#{username} and t.commentid=#{commentid} 
+	</select>
+	
+	<!-- 添加某个用户是否针对某项评论点赞liucb -->
+	<insert id="insertExpressGoodFlag">
+		<![CDATA[
+			insert into m_express_goodflag(
+				username,commentid
+			) values(
+				#{username}, #{commentid}
+			)
+		]]>
+	</insert>
+	
+	<!-- 判断某个用户是否针对某项评论点赞liucb -->
+	<select id="checkUserGoodFlag" resultType="int">
+		select count(*) from m_express_goodflag t where t.username=#{username} and t.commentid=#{commentid} 
+	</select>
+	
+	<delete id="deleteExpressPic">
+		<![CDATA[
+			delete from m_express_pic 
+			]]>
+		
+     <where>
+        <if test="ids != null and (!ids.empty)">
+            <foreach collection="ids" item="id" open=" and expressId in (" separator="," close=")">
+                #{id} 
+            </foreach>
+        </if>
+      
+     </where>
+        
+	</delete>
+	
+	<delete id="deleteExpressComment">
+		<![CDATA[
+			delete from m_express_comment 
+			]]>
+		
+     <where>
+        <if test="ids != null and (!ids.empty)">
+            <foreach collection="ids" item="id" open=" and expressId in (" separator="," close=")">
+                #{id} 
+            </foreach>
+        </if>
+      
+     </where>
+        
+	</delete>
+	
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from m_express 
+			]]>
+     <where>
+        <if test="ids != null and (!ids.empty)">
+            <foreach collection="ids" item="id" open=" and expressId in (" separator="," close=")">
+                #{id} 
+            </foreach>
+        </if>
+      
+     </where>
+	</delete>
+	
+	
+</mapper>

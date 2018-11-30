@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!--<constant name="struts.action.excludePattern" value="/file/*"></constant>
+  --><package name="wechat" namespace="/wechat" extends="configuration">
+    <interceptors>
+      <interceptor name="weChatLoginInterceptor" class="com.zfsoft.wechat.login.interceptor.WeChatLoginInterceptor"></interceptor>
+      <interceptor-stack name="WeChatBaseStack">
+        <interceptor-ref name="defaultStack" />
+        <interceptor-ref name="weChatLoginInterceptor" />
+        <!--<interceptor-ref name="ajaxException"/>-->
+        </interceptor-stack>
+      <interceptor-stack name="WeChatWithoutLoginStack">
+        <interceptor-ref name="defaultStack" />
+        <!--<interceptor-ref name="ajaxException"/>-->
+      	</interceptor-stack>
+    </interceptors>
+    <global-results>
+        <result name="login">/WEB-INF/pages/wechat/login/login_page.jsp</result>
+    </global-results>
+    <!-- 登录 -->
+    <action name="login_*" class="wechatLoginAction" method="{1}" >
+      <interceptor-ref name="WeChatWithoutLoginStack" />
+      <result name="login">/WEB-INF/pages/wechat/login/login_page.jsp</result>
+      <result name="gotoReLoad">/WEB-INF/pages/wechat/login/login_gotoReLoad.jsp</result>
+    </action>
+    
+    <action name="menu_*" class="wechatMenuAction" method="{1}" >
+      <result name="list">/WEB-INF/pages/wechat/menu/menu_list.jsp</result>
+    </action>
+  </package>
+  
+  <package name="qq" namespace="/qq" extends="configuration">
+   <interceptors>
+      <interceptor name="weChatLoginInterceptor" class="com.zfsoft.wechat.login.interceptor.WeChatLoginInterceptor"></interceptor>
+      <interceptor-stack name="WeChatBaseStack">
+        <interceptor-ref name="defaultStack" />
+        <interceptor-ref name="weChatLoginInterceptor" />
+        <!--<interceptor-ref name="ajaxException"/>
+      --></interceptor-stack>
+      <interceptor-stack name="WeChatWithoutLoginStack">
+        <interceptor-ref name="defaultStack" />
+        <!--<interceptor-ref name="ajaxException"/>-->
+      </interceptor-stack>
+    </interceptors>
+    <global-results>
+        <result name="login">/WEB-INF/pages/wechat/login/login_page.jsp</result>
+    </global-results>
+   <action name="login_*" class="wechatLoginAction" method="{1}" >
+      <interceptor-ref name="WeChatWithoutLoginStack" />
+      <result name="login">/WEB-INF/pages/wechat/login/login_page.jsp</result>
+      <result name="gotoReLoad">/WEB-INF/pages/wechat/login/login_gotoReLoad.jsp</result>
+    </action>
+  
+  	<action name="menu_*" class="qqMenuAction" method="{1}" >
+      <result name="list">/WEB-INF/pages/qq/menu/menu_list.jsp</result>
+    </action>
+  </package>
+</struts>

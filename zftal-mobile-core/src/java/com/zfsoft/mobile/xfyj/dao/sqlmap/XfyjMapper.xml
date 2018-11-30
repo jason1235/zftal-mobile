@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.mobile.xfyj.dao.XfyjDao">
+	
+
+
+	<select id="getList" resultType="com.zfsoft.mobile.xfyj.entity.XfyjEntity">
+		select t.* from ZFTAL_XTGL_XFYJ t
+	</select>
+
+	<select id="count" resultType="java.lang.Integer">
+		select count(1) from ZFTAL_XTGL_XFYJXQ t where t.xfyjid = #{xfyjId} and t.zgh = #{zgh}
+	</select>
+
+	<select id="getDetails" resultType="com.zfsoft.mobile.xfyj.entity.XfyjxqEntity">
+		select t.* from ZFTAL_XTGL_XFYJXQ t where t.xfyjid = #{xfyjId} and t.zgh = #{zgh}
+		
+	</select>
+
+</mapper>

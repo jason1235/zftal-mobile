@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+    
+    <!-- 打分配置-->
+    <bean id="archivesAction" class="com.zfsoft.hrm.dagl.action.ArchivesAction" scope="prototype">
+        <property name="archivesService" ref="archivesService"></property>
+        <property name="archiveItemService" ref="archiveItemService"></property>
+    </bean>
+    
+    <bean id="materialsAction" class="com.zfsoft.hrm.dagl.action.MaterialsAction" scope="prototype">
+    	<property name="materialsService" ref="materialsService"></property>
+    </bean>
+    
+    <bean id="materialsService" class="com.zfsoft.hrm.dagl.service.impl.MaterialsServiceImpl" scope="prototype">
+        <property name="materialsDao" ref="materialsDao"></property>
+        <property name="archiveItemDao" ref="archiveItemDao"></property>
+    </bean>
+    
+    <bean id="materialsDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+        <property name="mapperInterface" value="com.zfsoft.hrm.dagl.dao.IMaterialsDao"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <bean id="archivesService" class="com.zfsoft.hrm.dagl.service.impl.ArchivesServiceImpl" scope="prototype">
+        <property name="archivesDao" ref="archivesDao"></property>
+        <property name="archivesLogDao" ref="archivesLogDao"></property>
+        <property name="archiveItemDao" ref="archiveItemDao"></property>
+    </bean>
+    
+     <bean id="archiveItemService" class="com.zfsoft.hrm.dagl.service.impl.ArchiveItemServiceImpl" scope="prototype">
+        <property name="archivesLogDao" ref="archivesLogDao"></property>
+        <property name="archiveItemDao" ref="archiveItemDao"></property>
+    </bean>
+    
+    <bean id="archivesDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+        <property name="mapperInterface" value="com.zfsoft.hrm.dagl.dao.IArchivesDao"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <bean id="archiveItemDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+        <property name="mapperInterface" value="com.zfsoft.hrm.dagl.dao.IArchiveItemDao"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <bean id="archivesLogDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+        <property name="mapperInterface" value="com.zfsoft.hrm.dagl.dao.IArchivesLogDao"></property>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+</beans>

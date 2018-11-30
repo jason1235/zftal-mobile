@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="market" namespace="/market" extends="configuration" >
+		<action name="market_*" class="marketAction" method="{1}" >
+			<result name="marketList">/WEB-INF/pages/mobile/market/marketList.jsp</result>
+			<result name="typeList">/WEB-INF/pages/mobile/market/typeList.jsp</result>
+			<result name="htAddType">/WEB-INF/pages/mobile/market/htAddType.jsp</result>
+			<result name="htCampusList">/WEB-INF/pages/mobile/market/htCampusList.jsp</result>
+			<result name="htAddCampus">/WEB-INF/pages/mobile/market/htAddCampus.jsp</result>
+			<result name="commentList">/WEB-INF/pages/mobile/market/commentList.jsp</result>
+		</action>
+	</package>
+</struts>

@@ -1,0 +1,589 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IJsglDao" >
+    <!-- 增加角色信息 -->
+    <insert id="insert" parameterType="JsglModel">
+    	insert into zftal_xtgl_jsxxb(jsmc,jssm,sfejsq,gnmkdm,jscjr
+			  		<if test="sysCode !=null">
+			  			,sysCode
+			  		</if>
+    	) values (#{jsmc},#{jssm},#{sfejsq,jdbcType=VARCHAR},#{gnmkdm,jdbcType=VARCHAR},#{jscjr,jdbcType=VARCHAR}
+		  		<if test="sysCode !=null">
+		  			,#{sysCode}
+		  		</if>
+    	)
+    </insert>
+    
+    <insert id="insertNew" parameterType="JsglModel">
+    	insert into zftal_xtgl_jsxxb(jsmc,jsdm,sfejsq,jscjr
+    	) values (#{jsmc},#{jsdm},#{sfejsq,jdbcType=VARCHAR},#{jscjr,jdbcType=VARCHAR}
+    	)
+    </insert>
+    
+    <insert id="insertMenuByJsdm" >
+	<![CDATA[
+			insert into zftal_xtgl_jsgnmkczb(
+				jsdm,gnmkdm,czdm
+			) 
+				select #{jsid},t.gnmkdm,'#' from zftal_xtgl_jsgnmkdmb t 
+		]]>
+			<where>
+		        <if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and t.gnmkdm in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+		        </if>
+		     </where>
+	</insert>
+	
+	<delete id="deleteMenuByJsdm">
+		<![CDATA[
+			delete from zftal_xtgl_jsgnmkczb  t
+		]]>
+		<where>
+			<if test="jsid != null and jsid != ''">
+   				and t.jsdm = #{jsid} 
+	   		</if>
+			
+    		<if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and t.gnmkdm in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+	        </if>
+		</where>
+		
+	</delete>
+	
+    
+    <!-- 修改角色信息 -->
+    <update id="update" parameterType="JsglModel">
+    	update zftal_xtgl_jsxxb
+    	<set>
+    		<if test="jsmc != null">
+    			jsmc = #{jsmc},
+    		</if>
+    		<if test="gwjbdm != null">
+    			gwjbdm = #{gwjbdm},
+    		</if>
+    		<if test="jssm != null">
+    			jssm = #{jssm},
+    		</if>
+    		<if test="sfejsq != null">
+    			sfejsq = #{sfejsq},
+    		</if>
+    		<if test="gnmkdm != null">
+    			gnmkdm = #{gnmkdm}
+    		</if>
+    	</set> 
+    	where jsdm=#{jsdm} 
+    </update>
+    
+    <!-- 修改角色信息 -->
+    <update id="updateNew" parameterType="JsglModel">
+    	update zftal_xtgl_jsxxb
+    	<set>
+    		<if test="jsmc != null">
+    			jsmc = #{jsmc},
+    		</if>
+    	</set> 
+    	where jsdm=#{jsdm} 
+    </update>
+    
+    <!-- 删除角色信息 -->
+    <delete id="batchDelete" >
+   	 delete zftal_xtgl_jsxxb where 
+    	  <foreach collection="list" item="item" index="index"
+				separator=" OR">
+			   jsdm = #{item.pkValue} 
+		</foreach>
+    </delete>
+    
+    <!-- 删除角色信息 -->
+    <delete id="batchNewDelete" >
+   	 	delete zftal_xtgl_jsxxb where  jsdm = #{jsdm} 
+    </delete>
+    
+    <!-- 查询角色信息列表（分页） -->
+    <select id="getPagedList" parameterType="JsglModel" resultType="JsglModel">
+    	select * from (select jsdm,jsmc,jssm,gnmkdm,a.sfejsq, yhb.xm jscjrxm,
+    	(select count(b.zgh) from zftal_xtgl_yhjsb b ,zftal_xtgl_yhb c where a.jsdm = b.jsdm and c.zgh = b.zgh) yhnum,sfksc,
+    	(case when sfksc='1' then '是' else '' end) sfmrjs from zftal_xtgl_jsxxb a left join zftal_xtgl_yhb yhb
+    		on a.jscjr=yhb.zgh
+    		<where>
+				<if test="sysCode != null and sysCode != ''">
+					and a.sysCode = #{sysCode}
+				</if>
+				<if test="isAdmin !=null and !isAdmin">
+					and a.jscjr = #{jscjr}
+				</if>
+			</where>
+        )
+    	<where>
+    		jsdm != 'admin'
+    		<if test="jsmc != null and jsmc !=''">
+    			and jsmc like '%'||#{jsmc}||'%'
+    		</if>
+    		<if test="sffpyh == 2">
+    			 and yhnum = 0
+    		</if>
+    		<if test="sffpyh == 1">
+    			 and yhnum &gt; 0
+    		</if>
+    		<if test="sfejsq != null  and sfejsq !=''">
+    			and sfejsq = #{sfejsq}
+    		</if>
+		    <if test="ids != null and ids != ''">
+				 and jsdm in (${ids})
+			</if> 
+		 </where>
+    </select>
+    
+    <select id="getJsglModeCount" parameterType="JsglModel" resultType="int">
+    	select count(*) from (
+	    	select * from (
+	    		select 
+	    			jsdm,	
+	    			jsmc, 
+	    			yhb.xm jscjrxm,
+		    		(select count(b.zgh) from zftal_xtgl_yhjsb b ,zftal_xtgl_yhb c where a.jsdm = b.jsdm and c.zgh = b.zgh) yhnum
+		    	from zftal_xtgl_jsxxb a 
+		    		left join zftal_xtgl_yhb yhb 
+		    			on a.jscjr=yhb.zgh
+    			<where>
+					<if test="jsdm !=null and jsdm">
+						and a.jsdm = #{jsdm}
+					</if>
+				</where>
+	        )
+        )
+    </select>
+    
+    <select id="getJsglModeList" parameterType="JsglModel" resultType="NewJsglModel">
+    	select * from (
+    		select 
+    			jsdm,	
+    			jsmc, 
+    			yhb.xm jscjrxm,
+	    		(select count(b.zgh) from zftal_xtgl_yhjsb b ,zftal_xtgl_yhb c where a.jsdm = b.jsdm and c.zgh = b.zgh) yhnum,
+	    		rownum rn
+	    	from zftal_xtgl_jsxxb a 
+	    		left join zftal_xtgl_yhb yhb 
+	    			on a.jscjr=yhb.zgh
+    			<where>
+					<if test="jsdm !=null and jsdm">
+						and a.jsdm = #{jsdm}
+					</if>
+				</where>
+        )
+        <![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>	
+    </select>
+    
+    
+    
+    <select id="getAllJsglist" parameterType="JsglModel" resultType="NewJsglModel">
+    	select * from (
+    		select 
+    			jsdm,	
+    			jsmc, 
+    			yhb.xm jscjrxm,
+	    		(select count(b.zgh) from zftal_xtgl_yhjsb b ,zftal_xtgl_yhb c where a.jsdm = b.jsdm and c.zgh = b.zgh) yhnum,
+	    		rownum rn
+	    	from zftal_xtgl_jsxxb a 
+	    		left join zftal_xtgl_yhb yhb 
+	    			on a.jscjr=yhb.zgh
+    			<where>
+					<if test="jsdm !=null and jsdm">
+						and a.jsdm = #{jsdm}
+					</if>
+				</where>
+        )
+       
+    </select>
+    
+    
+    
+    
+
+     <!-- 查询角色信息列表（不分页） -->
+    <select id="getModelList" parameterType="JsglModel" resultType="JsglModel">
+    	select * from (select jsdm,jsmc,jssm,(select count(zgh) from zftal_xtgl_yhjsb b where a.jsdm=b.jsdm) yhnum,sfksc,
+    	(case when sfksc='1' then '是' else '' end) sfmrjs from zftal_xtgl_jsxxb a
+    		<where>
+				<if test="sysCode != null and sysCode != ''">
+					and a.sysCode = #{sysCode}
+				</if>
+				<if test="isAdmin !=null and !isAdmin">
+					and a.jscjr = #{jscjr}
+				</if>
+			</where>   	
+    	)
+    	<where>
+    		jsdm != 'admin'
+    		<if test="jsmc != null and jsmc !=''">
+    			and jsmc like '%'||#{jsmc}||'%'
+    		</if>
+    		<if test="sffpyh == 2">
+    			 and yhnum = 0
+    		</if>
+    		<if test="sffpyh == 1">
+    			 and yhnum &gt; 0
+    		</if>
+    	 order by jsdm
+    	</where>
+    </select>
+    
+    <!-- 查询单条角色信息 -->
+    <select id="getModel" parameterType="JsglModel" resultType="JsglModel">
+    	select jsdm,jsmc,gwjbdm,jssm,sfksc,sfejsq,gnmkdm,(select count(zgh) 
+    	from zftal_xtgl_yhjsb b where a.jsdm=b.jsdm) yhnum from zftal_xtgl_jsxxb a
+    	where jsdm = #{jsdm}
+    </select>
+    
+    <!--查询岗位级别代码信息  -->
+    <select id="cxGwjbList"  resultType="JsglModel">
+    	select gwjbdm,gwjbmc from zftal_xtgl_gwjbdmb 
+    </select>
+    
+     <!-- 查询所有功能模块列表 -->
+    <select id="cxAllGnmkdmList" parameterType="JsglModel" resultType="JsglModel">
+    	select gnmkdm,gnmkmc,fjgndm,dyym,xssx from zftal_xtgl_jsgnmkdmb 
+    	<where>
+    	    1=1
+    		<if test="len != null and len !=''">
+    			and length(gnmkdm)=#{len}
+    		</if>
+    		<if test="fjgndm != null and fjgndm != ''">
+    			and fjgndm = #{fjgndm}
+    		</if>
+    		<if test="gnmkdm != null and gnmkdm != ''">
+    			and gnmkdm = #{gnmkdm}
+    		</if>
+			<if test="sysCode != null and sysCode != ''">
+				AND sysCode = #{sysCode}
+			</if>
+    	</where>
+    	order by fjgndm,xssx
+    </select>
+    
+    <!-- 查询功能模块列表根据用户所属角色 -->
+    <select id="cxGnmkdmList" parameterType="JsglModel" resultType="JsglModel">
+    	select gnmkdm,gnmkmc,fjgndm,dyym,xssx from zftal_xtgl_jsgnmkdmb 
+			where 1=1
+    		<if test="len != null and len !=''">
+    			<if test="len==3">
+				and gnmkdm in( 
+							select gnxx1.gnmkdm from zftal_xtgl_jsgnmkdmb gnxx1, 
+							        (select gnxx2.gnmkdm,gnxx2.gnmkmc,gnxx2.fjgndm,gnxx2.dyym from zftal_xtgl_jsgnmkdmb gnxx2,(
+							            select gnxx.fjgndm from zftal_xtgl_jsgnmkczb jsgn,zftal_xtgl_jsgnmkdmb gnxx
+							                    WHERE jsgn.gnmkdm=gnxx.gnmkdm 
+							                     	and jsgn.jsdm in (select jsdm from zftal_xtgl_yhjsb where zgh=#{zgh})             
+							                   group by gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym) gnxx3
+							            where gnxx2.gnmkdm=gnxx3.fjgndm
+							            group by gnxx2.gnmkdm,gnxx2.gnmkmc,gnxx2.fjgndm,gnxx2.dyym) gnxx2_1
+							        where gnxx1.gnmkdm= gnxx2_1.fjgndm 
+							        group by gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym,gnxx1.xssx
+							 )
+    			</if>
+    			<if test="len==5">
+				and gnmkdm in( 
+							select gnxx.fjgndm
+							                  from zftal_xtgl_jsgnmkczb jsgn, zftal_xtgl_jsgnmkdmb gnxx
+							                 WHERE jsgn.gnmkdm = gnxx.gnmkdm
+							                   and jsgn.jsdm in (select jsdm from zftal_xtgl_yhjsb where zgh=#{zgh})
+							                 group by gnxx.gnmkdm, gnxx.gnmkmc, gnxx.fjgndm, gnxx.dyym
+							 )
+    			</if>   
+    			<if test="len==7">
+				and gnmkdm in( 
+							 select gnmkdm from zftal_xtgl_jsgnmkczb where 1=1
+							  and jsdm in( select jsdm from zftal_xtgl_yhjsb where zgh = #{zgh})
+							 )
+    			</if>    			 			
+    			and length(gnmkdm)=#{len}
+    		</if>
+    		<if test="fjgndm != null and fjgndm != ''">
+    			and fjgndm = #{fjgndm}
+    		</if>
+    		<if test="gnmkdm != null and gnmkdm != ''">
+    			and gnmkdm = #{gnmkdm}
+    		</if>
+    	order by fjgndm,xssx
+    </select>
+    
+    <!-- 查询所有功能模块按钮操作权限 -->
+    <select id="cxAllGnmkczList" parameterType="JsglModel" resultType="JsglModel">
+    	select a.gnmkdm,a.czdm,b.czmc,b.xssx from zftal_xtgl_gnmkczb a left join zftal_xtgl_czdmb b on a.czdm=b.czdm order by a.gnmkdm,to_number(b.xssx)
+    </select>
+    
+    <!-- 查询功能模块按钮操作权限 -->
+    <select id="cxGnmkczList" parameterType="JsglModel" resultType="JsglModel">
+	select a.gnmkdm,a.czdm,b.czmc,b.xssx from (
+	 select distinct gnmkdm, czdm 
+	   from zftal_xtgl_jsgnmkczb
+	  where jsdm in (select jsdm from zftal_xtgl_yhjsb where zgh = #{zgh})) a inner join zftal_xtgl_czdmb b on a.czdm = b.czdm order by a.gnmkdm,to_number(b.xssx)
+    </select>
+    
+    <!-- 保存角色功能权限 -->
+    <insert id="zjJsgnmkdmxx" parameterType="JsglModel">
+    	insert into zftal_xtgl_jsgnmkczb(jsdm,gnmkdm,czdm) values (#{jsdm},#{gnmkdm},#{czdm})
+    </insert>
+    
+    <!-- 删除角色功能权限 -->
+    <delete id="scJsgnmkdmxx" >
+    	delete zftal_xtgl_jsgnmkczb where 
+    	 <foreach collection="list" item="item" index="index"
+				separator=" OR">
+			   jsdm = #{item.jsdm} 
+		</foreach>
+    </delete>
+    
+    <!-- 查询单个角色功能权限 -->
+    <select id="cxJsGnqxList" parameterType="JsglModel" resultType="JsglModel">
+    	select * from (select gnmkdm,czdm,jsdm,gnmkmc,(select xssx from zftal_xtgl_czdmb b where a.czdm=b.czdm) xssx from zftal_xtgl_jsgnmkczb a 
+    	<where>
+    		<if test="jsdm != null and jsdm != ''">
+    			jsdm = #{jsdm}
+    		</if>
+    		and length(gnmkdm)=7
+    	</where>
+    	) order by gnmkdm,to_number(xssx)
+    </select>
+    
+     <!-- 查询单个角色功能权限6.0.1版本需要 -->
+    <select id="cxJsgnqxListNew" parameterType="JsglModel" resultType="JsglModel">
+    select *
+	  from (select a.gnmkdm,
+	               a.czdm,
+	               a.jsdm,
+	               b.gnmkmc,
+	               (select xssx from zftal_xtgl_czdmb b where a.czdm = b.czdm) xssx
+	          from zftal_xtgl_jsgnmkczb a
+	               left join zftal_xtgl_jsgnmkdmb b on a.gnmkdm = b.gnmkdm
+	         where jsdm = #{jsdm} and a.czdm = '#' 
+	         <if test="gnmkmc != null and gnmkmc != ''">
+	         	and b.gnmkmc like '%'||#{gnmkmc}||'%'  
+	   		</if>
+	           and length(a.gnmkdm) = 7)
+	 order by gnmkdm, to_number(xssx)
+    </select>
+    
+    <!-- 根据职工号查询角色信息 -->
+    <select id="cxJsxxZgh" parameterType="hashMap" resultType="JsglModel">
+     	select b.jsdm jsdm,b.jsmc jsmc from zftal_xtgl_yhjsb a ,zftal_xtgl_jsxxb b where a.jsdm = b.jsdm and a.zgh = #{zgh}
+			<if test="sysCode != null and sysCode != ''">
+				where b.sysCode = #{sysCode}
+			</if>
+    </select>
+    
+    
+    <!-- 删除用户角色信息 -->
+    <delete id="scJsfpyhxx" parameterType="JsglModel">
+    	delete from zftal_xtgl_yhjsb 
+    	<where>
+    		jsdm=#{jsdm}
+    	</where>
+    </delete>
+    
+    <!-- 保存角色分配用户信息 -->
+    <insert id="zjJsfpyhxx" parameterType="JsglModel">
+    	insert into zftal_xtgl_yhjsb(zgh,jsdm) values (#{zgh},#{jsdm})
+    </insert>
+    
+    <!-- 查询用户对应的功能代码（三级功能代码） -->
+    <select id="cxSjGndm" resultType="JsglModel">
+    	select gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym 
+    		from zftal_xtgl_yhjsb yhjs,zftal_xtgl_jsgnmkczb jsgn,zftal_xtgl_jsgnmkdmb gnxx
+       			where yhjs.jsdm = jsgn.jsdm and jsgn.gnmkdm=gnxx.gnmkdm and yhjs.zgh=#{yhm}
+       				group by gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym
+    </select>
+    
+    <!-- 查询用户对应的功能代码（二级功能代码） -->
+    <select id="cxErGndm" resultType="JsglModel">
+    	select gnxx2.gnmkdm,gnxx2.gnmkmc,gnxx2.fjgndm,gnxx2.dyym from zftal_xtgl_jsgnmkdmb gnxx2,(
+		    select gnxx.fjgndm from zftal_xtgl_yhjsb yhjs,zftal_xtgl_jsgnmkczb jsgn,zftal_xtgl_jsgnmkdmb gnxx
+		           where yhjs.jsdm = jsgn.jsdm and jsgn.gnmkdm=gnxx.gnmkdm and yhjs.zgh=#{yhm}
+		           group by gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym) gnxx3
+		    where gnxx2.gnmkdm=gnxx3.fjgndm
+		    group by gnxx2.gnmkdm,gnxx2.gnmkmc,gnxx2.fjgndm,gnxx2.dyym
+    </select>
+    
+     <!-- 查询用户对应的功能代码（一级功能代码） -->
+    <select id="cxYiGndm" resultType="JsglModel">
+    	select gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym from zftal_xtgl_jsgnmkdmb gnxx1, 
+		    (select gnxx2.gnmkdm,gnxx2.gnmkmc,gnxx2.fjgndm,gnxx2.dyym from zftal_xtgl_jsgnmkdmb gnxx2,(
+		        select gnxx.fjgndm from zftal_xtgl_yhjsb yhjs,zftal_xtgl_jsgnmkczb jsgn,zftal_xtgl_jsgnmkdmb gnxx
+		               where yhjs.jsdm = jsgn.jsdm and jsgn.gnmkdm=gnxx.gnmkdm and yhjs.zgh=#{yhm}
+		               group by gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym) gnxx3
+		        where gnxx2.gnmkdm=gnxx3.fjgndm
+		        group by gnxx2.gnmkdm,gnxx2.gnmkmc,gnxx2.fjgndm,gnxx2.dyym) gnxx2_1
+		    where gnxx1.gnmkdm= gnxx2_1.fjgndm 
+		    group by gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym
+    </select>
+    
+     <!-- 查询用户对应的功能操作代码 -->
+    <select id="cxYhCz" resultType="JsglModel">
+    	select gnxx.gnmkdm,gnxx.gnmkmc,gnxx.dyym,czdm.czdm,czdm.czmc
+	        from zftal_xtgl_yhjsb yhjs,zftal_xtgl_jsgnmkczb jsgn,zftal_xtgl_jsgnmkdmb gnxx,zftal_xtgl_czdmb czdm
+	       	    where yhjs.jsdm = jsgn.jsdm and jsgn.gnmkdm=gnxx.gnmkdm and jsgn.czdm=czdm.czdm and yhjs.zgh=#{yhm}
+     
+    </select>
+    
+    <!-- 查询学生对应的功能代码（三级功能代码） -->
+    <select id="cxSjGndmXs" resultType="JsglModel">
+		 select gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym 
+			  from zftal_xtgl_xsgnmkdmb gnxx
+			      where length(gnxx.gnmkdm) = 7
+    </select>
+    
+     <!-- 查询学生对应的功能代码（二级功能代码） -->
+    <select id="cxErGndmXs" resultType="JsglModel">
+		 select gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym 
+			  from zftal_xtgl_xsgnmkdmb gnxx
+			      where length(gnxx.gnmkdm) = 5    
+    </select>
+    
+     <!-- 查询学生对应的功能代码（一级功能代码） -->
+    <select id="cxYiGndmXs" resultType="JsglModel">
+		 select gnxx.gnmkdm,gnxx.gnmkmc,gnxx.fjgndm,gnxx.dyym 
+			  from zftal_xtgl_xsgnmkdmb gnxx
+			      where length(gnxx.gnmkdm) = 3    
+    </select>
+    
+    <!-- 查询学院组织机构列表 -->
+	<select id="queryXyZzjg" parameterType="hashMap" resultType="hashMap">
+	  select 
+	  		a.bmdm_id, a.bmmc, a.bmdm_id_ls, decode(b.total,null,'0',b.total) as total, 'xy' as zjtype
+	  from 
+	  		zftal_xtgl_bmdmb a
+	  join (select count(*) total, bm.bmdm_id
+	          from zftal_xtgl_bmdmb bm
+	          left join zftal_xtgl_zydmb zy
+	            on bm.bmdm_id = zy.bmdm_id_lsbm
+	           and bm.sfyx = '1'
+	           and zy.sfty = '0'
+	    	   <if test="kkxy != null and kkxy != ''">
+	    			and bm.kkxy = #{kkxy}
+	    	   </if>
+	         group by bm.bmdm_id) b
+	   
+	   on a.bmdm_id = b.bmdm_id	  
+	   and  a.bmdm_id_ls is null 
+	   order by b.total desc
+	</select>
+
+    <!-- 查询专业组织机构列表 -->
+	<select id="queryZyZzjg" parameterType="hashMap" resultType="hashMap">
+		select a.zydm_id, a.zymc, a.zjtype, decode(b.total,null,'0',b.total) as total
+		  from (select zy.zydm_id, zy.zymc, 'zy' as zjtype
+		          from zftal_xtgl_bmdmb bm
+		          join zftal_xtgl_zydmb zy
+		            on bm.bmdm_id = zy.bmdm_id_lsbm
+		         where zy.bmdm_id_lsbm = #{bmdm_id}
+		        
+		        union all
+		        
+		        select bm.bmdm_id, bm.bmmc, 'xy' as zjtype
+		          from zftal_xtgl_bmdmb bm
+		         where bm.bmdm_id_ls = #{bmdm_id}) a
+		
+		  left join (select zydm_id, count(zydm_id) as total
+		               from zftal_xtgl_bjdmb bj
+		              group by zydm_id) b
+		  on a.zjtype = 'zy'
+		  
+		  and a.zydm_id = b.zydm_id
+	</select>
+	
+	<!-- 查询年级组织机构列表 -->
+	<select id="queryNjZzjg" parameterType="hashMap" resultType="hashMap">
+		select 
+			distinct (nj.njdm_id), nj.njmc , bj.zydm_id , 'nj' as zjtype
+		from 
+			zftal_xtgl_bjdmb bj
+		join 
+			zftal_xtgl_njdmb nj
+		on bj.zydm_id = #{zydm_id}
+		   and bj.njdm_id = nj.njdm_id
+	</select>
+	
+	<!-- 查询班级组织机构列表 -->
+	<select id="queryBjZzjg" parameterType="hashMap" resultType="hashMap">
+		select 
+			bj.bjdm_id, bj.bjmc, 'bj' as zjtype
+		from 
+			zftal_xtgl_bjdmb bj
+		where 
+			bj.zydm_id = #{zydm_id} and bj.njdm_id = #{njdm_id}
+	</select>
+	
+    <!-- 查询未分配用户信息列表 -->
+	<select id="getPagedListWfpYh" parameterType="JsglModel" resultType="YhglModel">
+		select zgh,xm,lxdh,dzyx from zftal_xtgl_yhb a where a.zgh != 'hrmadmin' and not exists (select 1 from ZFTAL_XTGL_YHJSB b where b.jsdm=#{jsdm} and a.zgh=b.zgh)
+			<if test="zgh != null and zgh != ''">
+				and zgh like '%'||#{zgh}||'%'
+			</if>
+			<if test="xm != null and xm != ''">
+				and xm like '%'||#{xm}||'%'
+			</if>
+	</select>
+    
+	<!-- 查询已分配用户信息列表 -->
+	<select id="getPagedListYfpYh" parameterType="JsglModel" resultType="YhglModel">
+		select zgh,xm,lxdh,dzyx from zftal_xtgl_yhb a where a.zgh  in (select zgh from zftal_xtgl_yhjsb where jsdm=#{jsdm}) and zgh != 'hrmadmin'
+	</select>
+	
+	<!-- 查询所有一级功能模块列表 -->
+	<select id="getGnmkYj" resultType="JsglModel">
+ 		select gnmkdm, gnmkmc  from zftal_xtgl_jsgnmkdmb where length(gnmkdm) = '3'
+		  <if test="list != null and list != ''">
+			 <foreach collection="list" item="item" index="index" open=" and (" separator="or" close=")">
+					gnmkdm = #{item} 
+			</foreach>
+		</if>
+		<if test="sysCode != null and sysCode != ''">
+			AND sysCode = #{sysCode}
+		</if>
+ 		 order by xssx
+	</select>
+	
+	<!-- 查询该用户是否具有二级授权功能 -->
+	<select id="getYhEjsq" resultType="JsglModel">
+		select B.jsdm from zftal_xtgl_yhjsb A,zftal_xtgl_jsxxb B 
+		where A.jsdm = B.jsdm and zgh=#{zgh}
+			<if test="list != null and (!list.empty)">
+				<foreach collection="list" item="item" open=" and B.jsdm in (" separator="," close=")">
+					#{item} 
+				</foreach>
+			</if>
+		  and B.sfejsq='1'
+			<if test="sysCode != null and sysCode != ''">
+				AND sysCode = #{sysCode}
+			</if>
+		group by B.jsdm
+	</select>
+	
+	<!-- 根据模块IDs,查询角色信息列表 ,排除可二级授权的角色-->
+	<select id="getJsxxGnmkId" resultType="JsglModel" parameterType="JsglModel">
+		select jsdm from zftal_xtgl_jsxxb
+		  <if test="list != null">
+		    <where>
+		  	  sfejsq='0' 
+			 <foreach collection="list" item="item" index="index" open=" and (" separator="or" close=")">
+					gnmkdm = #{item} 
+			</foreach>
+		   </where>
+		</if>
+		
+		order by jsdm
+	</select>
+	
+	<!-- 删除用户角色信息(单条) -->
+    <delete id="scJsfpyhxxSingle" parameterType="JsglModel">
+    	delete from zftal_xtgl_yhjsb 
+    	where jsdm=#{jsdm} and zgh=#{zgh}
+    </delete>
+	
+</mapper>

@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.version.dao.daointerface.IVersionManagerDao" >
+	
+	<resultMap type="com.zfsoft.mobile.version.entity.VersionManager" id="VersionManagerMap">
+		<result column="id" 			property="id"/>
+		<result column="schoolcode" 	property="schoolcode"/>
+		<result column="typecode" 		property="typecode"/>
+		<!--<result column="schoolname" 	property="schoolname"/>
+		--><result column="typename" 		property="typename"/>
+		<result column="terrace" 		property="terrace"/>
+		<result column="serveraddress"  property="serveraddress"/>
+		<result column="versionnum" 	property="versionnum"/>
+		<result column="checkStatus" 	property="checkStatus"/>
+		<result column="fileid" 		property="fileid"/>
+		<result column="fileaddress" 	property="fileaddress"/>
+		<result column="upgradeprompt" 	property="upgradeprompt"/>
+		<result column="remark" 		property="remark"/>
+		<result column="editManager" 	property="editManager"/>
+		<result column="timeModify" 	property="timeModify"/>
+		<result column="timecreate" 	property="timecreate"/>
+	</resultMap>
+	
+		<sql id="where">
+    	<where>
+    		<if test="id != null and id != ''">
+    			and m.id = #{id}
+    		</if>
+    		<!--<if test="schoolname != null and schoolname != ''">
+   				and m.schoolname = #{schoolname}
+	   		</if>
+			--><if test="schoolcode != null and schoolcode != ''">
+   				and m.schoolcode = #{schoolcode}
+	   		</if>
+			<if test="typecode != null and typecode != ''">
+    			and m.typecode  = #{typecode}
+    		</if>
+    		<if test="terrace != null and terrace != ''">
+    			and m.terrace = #{terrace}
+    		</if>
+		</where>
+    		order by timeCreate desc
+    </sql> 
+    
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getList" resultMap="VersionManagerMap">
+	select * from (
+		select a.*,rownum rn from
+		(select m.* from VERSION_MANAGER m
+		<include refid="where" /> )
+		a
+          
+			) c
+			
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>	
+	</select>
+	
+	<select id="getListCount" resultType="int">
+			select count(*) from
+				(select * from VERSION_MANAGER m
+				<include refid="where" /> )
+			a 
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<![CDATA[
+			insert into VERSION_MANAGER(
+				id,schoolcode,typecode,typename,terrace,serveraddress,versionnum,checkStatus,fileid,fileaddress,upgradeprompt,
+				remark,timecreate
+			) values(
+				#{id},'ZF','YDXY', '移动校园', #{terrace}, #{serveraddress},
+				 #{versionnum},'1',#{fileid}, #{fileaddress}, #{upgradeprompt,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}
+				 , sysdate
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			update VERSION_MANAGER set
+			    terrace = #{terrace}
+			   ,versionnum = #{versionnum},fileid = #{fileid},
+			   fileaddress = #{fileaddress}, upgradeprompt = #{upgradeprompt,jdbcType=VARCHAR}, remark = #{remark,jdbcType=VARCHAR},
+			   timeModify = sysdate
+			where id = #{id}
+		]]>
+	</update>
+	
+	<update id="updateStatusById">
+		<![CDATA[
+			update VERSION_MANAGER set
+				checkStatus = #{checkStatus}
+			where id = #{id}
+		]]>
+	</update>
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from  VERSION_MANAGER 
+				where id = #{id}
+		]]>
+	</delete>
+	
+	
+</mapper>

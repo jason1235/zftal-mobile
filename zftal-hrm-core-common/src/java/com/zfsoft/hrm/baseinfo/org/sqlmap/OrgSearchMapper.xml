@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.org.dao.daointerface.IOrgSearchDao" >
+	
+	<resultMap id="orgInfoRM" type="com.zfsoft.hrm.baseinfo.org.entities.OrgInfo">
+		<result property="oid" column="BMDM" />
+		<result property="name" column="BMMC" />
+		<result property="level" column="BMJB" />
+		<result property="index" column="KSSYM" />
+		<result property="orderCode" column="PXM" />
+		<result property="type" column="BMLX" />
+		<result property="prin" column="BMFZR" />
+		<result property="disused" column="SFFQ" />
+		<result property="createTime" column="CJSJ" />
+		<result property="disuseTime" column="FQSJ" /> 
+		<result property="remark" column="BZ" />
+		<association property="parent" column="SJBMDM" select="com.zfsoft.hrm.baseinfo.org.dao.daointerface.IOrgDao.findById"/>
+	</resultMap>
+	
+	<sql id="prefix">
+			BMDM,
+			BMMC,
+			SJBMDM,
+			BMJB,
+			PXM, 
+			KSSYM,
+			BMLX,
+			BMFZR,
+			SFFQ,
+			CJSJ,
+			FQSJ,
+			BZ    
+	</sql>
+	
+	<sql id="suffix">
+		<where>
+			<if test="oid != null and oid != ''">
+				and BMDM=#{oid}
+			</if>
+			
+			<if test="name != null and name != ''">
+				and BMMC like '%'||#{name}||'%'
+			</if>
+			
+			<if test="level != null and level != ''">
+				and BMJB=#{level}
+			</if>
+			
+			<if test="index != null and index != ''">
+				and KSSYM like #{index}||'%'
+			</if>
+			
+			<if test="orderCode != null and orderCode != ''">
+				and PXM=#{orderCode}
+			</if>
+			
+			<if test="type != null and type != ''">
+				and BMLX=#{type}
+			</if>
+			
+			<if test="type == null or type == ''">
+				<if test="typeList != null and typeList.size > 0">
+					and
+					<foreach collection="typeList" item="type" index="index"  open="(" separator=" or " close=")">
+						BMLX=#{type}
+					</foreach>
+				</if> 
+			</if>
+			
+			<if test="prin != null and prin != ''">
+				and BMFZR=#{prin}
+			</if>
+			
+			<if test="useDisused and disused">
+				and SFFQ='1'
+			</if>
+			
+			<if test="useDisused and !disused">
+				and (SFFQ='0' or SFFQ is null)
+			</if>
+			
+			<if test="createTime != null">
+				and CJSJ=#{createTime}
+			</if>
+			
+			<if test="createTime == null and createTimeMin != null">
+				<![CDATA[and CJSJ>=#{createTimeMin}]]>
+			</if>
+			
+			<if test="createTime == null and createTimeMax != null">
+				<![CDATA[and CJSJ<=#{createTimeMax}]]>
+			</if>
+			
+			<if test="disuseTime != null">
+				and FQSJ=#{createTime}
+			</if>
+			
+			<if test="disuseTime == null and disuseTimeMin != null">
+				<![CDATA[and FQSJ>=#{disuseTimeMin}]]>
+			</if>
+			
+			<if test="disuseTime == null and disuseTimeMax != null">
+				<![CDATA[and FQSJ<=#{disuseTimeMax}]]>
+			</if>
+			
+			<if test="parent != null and parent.oid != null and parent.oid != ''">
+				and SJBMDM=#{parent.oid}
+			</if> 
+			
+			<if test="remark != null and remark != ''">
+				and BZ like '%'||#{remark}||'%'
+			</if>
+			
+			<if test="commonProperty != null and commonProperty != ''">
+				and (BMDM like '%'||#{commonProperty}||'%' or BMMC like '%'||#{commonProperty}||'%')
+			</if>
+			
+		</where>
+		
+		<if test="sortCol != null and sortCol != ''">
+			order by ${sortCol}
+		</if>
+		<if test="sortCol == null or sortCol == ''">
+			order by SJBMDM,PXM
+		</if>
+	</sql>
+	
+	<select id="findOrgList" resultMap="orgInfoRM">
+		select <include refid="prefix"/> 
+		from HRM_BZGL_ZZJGB
+		<include refid="suffix"/>
+	</select>
+	
+	<select id="findExactCountByOrg" resultType="int">
+		select count(1) from OVERALL WHERE deleted = '0' and dwm = #{oid} and DQZTM like '1%'
+	</select>
+	
+	<select id="findCountMapByOrg" resultType="java.util.Map">
+		select dwm oid,count(dwm) ct from OVERALL WHERE deleted = '0' and DQZTM like '1%' group by dwm
+	</select>
+	
+	<select id="findStepCountByOrg" resultType="int">
+	<!--
+		select count(1) from OVERALL WHERE deleted = '0' and dwm like #{oid}||'%' and DQZTM like '1%'
+	-->
+		select count(1)
+		from OVERALL t
+		WHERE t.deleted = '0'
+		  and t.DQZTM like '1%'
+		  and exists (select 1 from HRM_BZGL_ZZJGB z where z.bmdm=t.dwm and (z.sjbmdm = #{oid} or z.bmdm = #{oid}) )
+	</select>
+	
+	<select id="findPeopleCount" resultType="int">
+		select count(1) from OVERALL WHERE deleted = '0' and DQZTM like '1%'
+	</select>
+	
+	<select id="findByType" resultType="int">
+		select count(1) from overall o where
+		 exists (select 1 from HRM_BZGL_ZZJGB z where o.dwm=z.bmdm and z.sffq='0' and z.bmlx=#{type})
+		  and deleted = '0' and DQZTM like '1%' 
+	</select>
+	
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+    <!--专家推荐上报 -->
+    <bean id="expertDeclareAction_expertvote" class="com.zfsoft.hrm.expertvote.expertmanage.action.ExpertDeclareAction" scope="prototype">
+        <property name="expertDeclareService" ref="expertDeclareService_expertvote"></property> 
+        <property name="spBusinessService" ref="spBusinessService"></property>  
+        <property name="expertAuditService" ref="expertAuditService_expertvote"></property>
+    </bean>
+    <!--专家推荐审核 -->
+    <bean id="expertAuditAction_expertvote" class="com.zfsoft.hrm.expertvote.expertmanage.action.ExpertAuditAction" scope="prototype">
+        <property name="expertAuditService" ref="expertAuditService_expertvote"></property>  
+        <property name="expertDeclareService" ref="expertDeclareService_expertvote"></property> 
+    </bean>
+    <!-- 专家库管理 -->
+    <bean id="expertInfoAction_expertvote" class="com.zfsoft.hrm.expertvote.expertmanage.action.ExpertInfoAction" scope="prototype">
+        <property name="expertInfoService" ref="expertInfoService_expertvote"></property>
+    </bean>
+    <!-- 专家组 -->
+    <bean id="expertGroupAction_expertvote" class="com.zfsoft.hrm.expertvote.vote.action.ExpertGroupAction" scope="prototype">
+        <property name="expertGroupService" ref="expertGroupService_expertvote"></property>
+        <property name="expertInfoService" ref="expertInfoService_expertvote"></property>
+        <property name="groupMemberService" ref="groupMemberService_expertvote"></property>
+    </bean>
+    
+    <!-- 专家任务-->
+    <bean id="expertTaskAction_expertvote" class="com.zfsoft.hrm.expertvote.vote.action.ExpertTaskAction" scope="prototype">
+        <property name="expertTaskService" ref="expertTaskService_expertvote"></property>
+        <property name="expertGroupService" ref="expertGroupService_expertvote"></property>
+        <property name="expertAssessService" ref="expertAssessService_expertvote"></property>
+        <property name="declareInstanceService" ref="declareInstanceService_expertvote"></property>
+    </bean>
+    
+    <!-- 专家评审-->
+    <bean id="expertTaskAssessAction_expertvote" class="com.zfsoft.hrm.expertvote.vote.action.ExpertTaskAssessAction" scope="prototype">
+        <property name="expertGroupService" ref="expertGroupService_expertvote"></property>
+        <property name="expertAssessService" ref="expertAssessService_expertvote"></property>
+        <property name="expertTaskService" ref="expertTaskService_expertvote"></property>
+    </bean>
+</beans>

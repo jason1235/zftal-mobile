@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.mobile.index.dao.IndexInfoDao">
+
+	<!-- 一卡通余额 -->
+    <select id="getYktInfo" resultType="com.zfsoft.mobile.index.entity.YktJbxx" parameterType="java.lang.String">
+		select * from ZFTAL_XTGL_YKTJBXXB where RYH =#{ryh}
+    </select>
+    
+    <!--教师最后消费地点 -->
+    <select id="getTeaSh" resultType="map" parameterType="java.lang.String">
+    	select sh as place,to_char(jysj,'yyyy-mm-dd HH24:mi:ss') as jysj from ZFTAL_XTGL_YKTJSXFB t where t.jysj = (select  max(jysj) from ZFTAL_XTGL_YKTJSXFB) and kh =#{kh}
+    </select>
+    
+     <!--学生最后消费地点 -->
+    <select id="getStuSh" resultType="map" parameterType="java.lang.String">
+    	select sh as place,to_char(jysj,'yyyy-mm-dd HH24:mi:ss') as jysj from ZFTAL_XTGL_YKTXSXFB t where t.jysj = (select  max(jysj) from ZFTAL_XTGL_YKTJSXFB) and kh =#{kh}
+    </select>
+
+<!--差三天到期的图书信息 -->
+	<select id="selectLibInfo" resultType="com.zfsoft.mobile.index.entity.TsgJyxx" parameterType="java.lang.String">
+		select * from zftal_xtgl_tsgjyxxb a where a.dzzh = (select dzzh from zftal_xtgl_tsgdzxxb where yrh = #{ryh}) 
+		<![CDATA[
+		and a.xhsj >= to_char((select sysdate from dual),'yyyy-mm-dd')
+		and a.xhsj <= to_char((select sysdate+3 from dual),'yyyy-mm-dd')
+		 ]]>	
+	</select>
+
+</mapper>

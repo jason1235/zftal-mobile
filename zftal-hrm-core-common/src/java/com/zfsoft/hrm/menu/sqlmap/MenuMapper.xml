@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.menu.dao.IMenuDao">
+
+	<select id="findByName" resultType="com.zfsoft.dao.entities.IndexModel">
+		select
+		gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym,gnxx1.xssx from
+		zftal_xtgl_jsgnmkdmb gnxx1
+		<where>
+			<if test="gnmkmc != null">
+				and gnxx1.gnmkmc = #{gnmkmc}
+			</if>
+			<if test="fjgndm != null">
+				and gnxx1.fjgndm = #{fjgndm}
+			</if>
+		</where>
+	</select>
+	
+	<select id="findById" resultType="com.zfsoft.dao.entities.IndexModel">
+		select
+		gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym,gnxx1.xssx from
+		zftal_xtgl_jsgnmkdmb gnxx1
+		where gnmkdm = #{0}
+	</select>
+	
+	<select id="findByFatherId" resultType="com.zfsoft.dao.entities.IndexModel">
+		select
+		gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym,gnxx1.xssx from
+		zftal_xtgl_jsgnmkdmb gnxx1
+		where fjgndm like #{0}
+		order by to_number(xssx)
+	</select>
+	
+	<select id="findByFatherIdForAuto" resultType="com.zfsoft.dao.entities.IndexModel">
+		select
+		gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym,gnxx1.xssx from
+		zftal_xtgl_jsgnmkdmb gnxx1
+		where fjgndm like #{fjgndm}
+		and is_auto=#{isAuto}
+		order by to_number(xssx)
+	</select>
+	
+	<insert id="insert">
+		insert into zftal_xtgl_jsgnmkdmb(
+		gnmkdm,
+		gnmkmc,
+		<if test="fjgndm != null">fjgndm,</if>
+        <if test="dyym != null">dyym,</if>
+        xssx,
+        is_auto
+		)
+		values(
+			#{gnmkdm},
+			#{gnmkmc},
+			<if test="fjgndm != null">#{fjgndm},</if>
+			<if test="dyym != null">#{dyym},</if>
+			#{xssx},
+			#{isAuto}
+		)
+	</insert>
+	
+	<delete id="delete">
+		delete from zftal_xtgl_jsgnmkdmb where gnmkdm=#{gnmkdm}
+	</delete>
+	
+	<update id="update">
+		update zftal_xtgl_jsgnmkdmb set gnmkmc=#{gnmkmc},dyym=#{dyym,jdbcType=VARCHAR},xssx=#{xssx} where gnmkdm=#{gnmkdm}
+	</update>
+	
+	<select id="findByUrl" resultType="com.zfsoft.dao.entities.IndexModel">
+		select
+		gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym,gnxx1.xssx from
+		zftal_xtgl_jsgnmkdmb gnxx1
+		where gnxx1.dyym = #{0} 
+	</select>
+	
+	<select id="findByLevel" resultType="com.zfsoft.dao.entities.IndexModel">
+		select
+		gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym,gnxx1.xssx from
+		zftal_xtgl_jsgnmkdmb gnxx1
+		where gnxx1.gnmkdm like #{0}
+	</select>
+	
+	<select id="getThirdMenuList" resultType="com.zfsoft.dao.entities.IndexModel">
+		select
+			gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym,gnxx1.xssx from
+				zftal_xtgl_jsgnmkdmb gnxx1
+					where length(gnxx1.gnmkdm)=7 
+					and gnxx1.gnmkdm not in 
+					(
+			        	select b.gnmkdm from zftal_xtgl_jsgnmkczb b where b.jsdm = #{jsid}
+					)
+		order by gnxx1.xssx asc
+	</select>
+	
+	<select id="getListCount" resultType="int">
+	select count(*) from
+				(
+				select
+					gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym,gnxx1.xssx from
+						zftal_xtgl_jsgnmkdmb gnxx1
+							where length(gnxx1.gnmkdm)=7 
+							and gnxx1.gnmkdm not in 
+							(
+					        	select b.gnmkdm from zftal_xtgl_jsgnmkczb b where b.jsdm = #{jsid}
+							) 
+							<if test="gnmkmc != null and gnmkmc != ''">
+									and gnxx1.gnmkmc like '%'||#{gnmkmc}||'%' 
+			   				</if>
+				order by gnxx1.xssx asc
+				)
+			a 
+	</select>
+	<select id="getList" resultType="com.zfsoft.dao.entities.IndexModel">
+	select * from (
+		select a.*,rownum rn from
+		(
+			select
+					gnxx1.gnmkdm,gnxx1.gnmkmc,gnxx1.fjgndm,gnxx1.dyym,gnxx1.xssx from
+						zftal_xtgl_jsgnmkdmb gnxx1
+							where length(gnxx1.gnmkdm)=7 
+							and gnxx1.gnmkdm not in 
+							(
+					        	select b.gnmkdm from zftal_xtgl_jsgnmkczb b 
+					        		where b.jsdm = #{jsid} 
+							) 
+							<if test="gnmkmc != null and gnmkmc != ''">
+									and gnxx1.gnmkmc like '%'||#{gnmkmc}||'%' 
+			   				</if>
+				order by gnxx1.xssx asc
+		 )
+		a
+          
+			) c
+			
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} 
+			]]>	
+	</select>
+	
+	<insert id="insertCzForAdmin">
+		insert into ZFTAL_XTGL_JSGNMKCZB(jsdm,gnmkdm,czdm) values(
+			'admin',
+			#{0},
+			'#'
+		)
+	</insert>
+	<delete id="deleteCzForAdmin">
+		delete from ZFTAL_XTGL_JSGNMKCZB where gnmkdm=#{0}
+	</delete>
+</mapper>

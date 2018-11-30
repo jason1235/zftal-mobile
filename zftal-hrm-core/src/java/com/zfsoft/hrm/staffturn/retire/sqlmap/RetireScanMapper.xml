@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.staffturn.retire.dao.daointerface.IRetireScanDao" >
+	
+	<resultMap type="com.zfsoft.hrm.staffturn.retire.entities.RetireInfo" id="retireScanMap">
+		<result property="userId" column="gh"/>
+	</resultMap>
+	<!-- 根据规则查询即将退休的人员，且退休人员在退休表中不存在且不属于更高优先级规则 -->
+	<sql id="where">
+		<where>
+			<if test="retireRules != null and !retireRules.empty">
+				and not exists(select * from overall t
+				<where> 
+					<foreach collection="retireRules" item="item" open="(" close=")" index="idx">
+						<if test="idx > 0"> or </if>
+						(
+						<if test="item.cond_col != null and item.cond_col !='' and item.cond_val != null and item.cond_val !='' ">
+							t.${item.cond_col}=#{item.cond_val} 
+						</if>
+						<if test="item.sex != null and item.sex != '' ">
+							<if test="item.cond_col != null and item.cond_col !='' and item.cond_val != null and item.cond_val !='' ">
+								and
+							</if>
+							t.xbm=#{item.sex}
+						</if>
+						<!-- 20140423 add start -->
+						<if test="item.identity != null and item.identity != ''">
+						    <if test="(item.sex != null and item.sex != '') or (item.cond_col != null and item.cond_col !='' and item.cond_val != null and item.cond_val !='') ">
+						        and
+						    </if>
+						    t.rysf=#{item.identity}
+						</if>
+						<if test="item.duty_level != null and item.duty_level != ''">
+						    <if test="(item.identity != null and item.identity != '') or (item.sex != null and item.sex != '') or (item.cond_col != null and item.cond_col !='' and item.cond_val != null and item.cond_val !='') ">
+						        and
+						    </if>
+						    t.zwjbdm=#{item.duty_level}
+						</if>
+						<!-- 20140423 add end -->
+						)
+					</foreach>
+					and t.dqztm like '1%'
+					and t.gh=over.gh
+				</where>
+				)
+			</if>
+    		and not exists(select * from RYYD_TXRYB t where t.gh=over.gh)
+    		and ${algorithm.condition}
+    	</where>
+    </sql>
+	<!-- 获取列表信息 
+		select over.gh as gh
+		from BZGL_GWZT_ST gwztb 
+				left join OVERALL over on gwztb.zgh = over.gh
+				left join HRM_BZGL_BMGWGLB bmgwglb on gwztb.gwbh = bmgwglb.guid
+				left join HRM_BZGL_GWXXB gwxxb on gwxxb.gwbh = bmgwglb.gwid
+		<include refid="where"/>
+		order by over.gh asc
+	-->
+	<select id="getRetireList" resultMap="retireScanMap" >
+		select over.gh as gh
+		from OVERALL over
+		<include refid="where"/>
+		order by over.gh asc
+	</select>
+</mapper>

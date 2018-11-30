@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.services.dao.daointerface.IServiceManagerDao" >
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.ServiceManager" id="ServiceManagerMap">
+		<result column="fwid" property="classId"/>
+		<result column="fwbm" property="classFwbm"/>
+		<result column="fwmc" property="classFwmc"/>
+		<result column="fwms" property="classFwms"/>
+		<result column="ssywxt" property="classSsywxt"/>
+		<result column="sscp" property="classSscp"/>
+		<result column="fwlx" property="classFwlx"/>
+		<result column="fwlj" property="classFwlj"/>
+		<result column="fwtbdz" property="classFwtbdz"/>
+		<result column="fwtbid" property="classFwtbid"/>
+		<result column="fwly" property="classFwly"/>
+		<result column="fbzt" property="classFbzt"/>
+		<result column="rdpx" property="classRdpx"/>
+		<result column="appyydz" property="classAppyydz"/>
+		<result column="cjsj" property="classCjsj"/>
+		<result column="cjzid" property="classCjzid"/>
+		<result column="gxsj" property="classGxsj"/>
+		<result column="gxzid" property="classGxzid"/>
+		<result column="deleted" property="classDeleted"/>
+		<result column="showway" property="classShowway"/>
+		<result column="choice" property="choice"/>
+		<result column="PROCODE" property="procode"/>
+		<result column="xtbm" property="xtbm"/>
+		<result column="iosURLScheme" property="iosURLScheme"/>
+		<result column="iosURLiTunes" property="iosURLiTunes"/>
+		<result column="fileId" property="fileId"/>
+		<result column="filedz" property="filedz"/>
+		<result column="newsid" property="newsid"/>
+		<result column="iscommon" property="iscommon"/>
+		<result column="isSignal" property="isSignal"/>
+		<result column="recommendFlag" property="recommendFlag"/>
+	</resultMap>
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.VisitsServiceEntity" id="VisitsServiceMap">
+		<result column="fwbm" 		property="fwbm"/>
+		<result column="fwmc" 		property="fwmc"/>
+		<result column="visits" 	property="visits"/>
+		<result column="avenge" 	property="avenge"/>
+	</resultMap>
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.fwbmVisitEntity" id="fwbmVisitMap">
+		<result column="visits" property="visits"/>
+		<result column="datetime" property="datetime"/>
+		<result column="fwbm" property="fwbm"/>
+	</resultMap>
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.AppServiceEntity" id="AppServiceMap">
+		<result column="fwbm" 	property="fwbm"/>
+		<result column="fwmc" 	property="fwmc"/>
+		<result column="ssywxt" property="ssywxt"/>
+	</resultMap>
+	
+	<select id="getFwdyxt" resultMap="AppServiceMap">
+		select * from m_fwdyxt
+	</select>
+	
+	<select id="getAllFwbm" resultMap="AppServiceMap">
+		select fwbm,fwmc,ssywxt from m_fwgl_fwglb  t where t.deleted='0' and t.fbzt='1'
+	</select>
+	
+	
+	<sql id="where">
+    	<where>
+			<if test="classId != null and classId != ''">
+   				and m.fwid = #{classId}
+	   		</if>
+			<if test="classFwbm != null and classFwbm != ''">
+    			and m.fwbm like '%'||#{classFwbm}||'%' 
+    		</if>
+    		<if test="classFwmc != null and classFwmc != ''">
+    			and m.fwmc like '%'||#{classFwmc}||'%' 
+    		</if>
+    		<if test="classSsywxt != null and classSsywxt != ''">
+    			and m.ssywxt = #{classSsywxt}
+    		</if>
+    		<if test="classSscp != null and classSscp != ''">
+    			and m.sscp = #{classSscp}
+    		</if>
+    		<if test="classFwlx != null and classFwlx != ''">
+    			and m.fwlx = #{classFwlx}
+    		</if>
+    		<if test="classFbzt != null and classFbzt != ''">
+    			and m.fbzt = #{classFbzt}
+    		</if>
+    		<if test="classFwly != null and classFwly != ''">
+    			and m.fwly = #{classFwly}
+    		</if>
+    		<if test="classRdpx != null and classRdpx != ''">
+    			and m.rdpx = #{classRdpx}
+    		</if>
+    		<if test="classDeleted != null and classDeleted != ''">
+    		    and m.deleted = #{classDeleted}
+    		</if>
+    		<if test="iscommon != null and iscommon != ''">
+    		    and m.iscommon = #{iscommon}
+    		</if>
+		</where>
+    </sql> 
+    
+    <!-- 获取服务访问分页信息 -->
+	<select id="getAllVSStatis" resultMap="VisitsServiceMap">
+	
+		select * from (
+		     select e.*,rownum rn from 
+				(
+				
+					select  a.fwbm,a.fwmc,sum(a.visits) visits ,round(sum(a.visits)/to_number( ROUND(TO_NUMBER(to_date(#{endDate}, 'yyyy-mm-dd') - to_date(#{startDate}, 'yyyy-mm-dd'))) ), 3) avenge from ( 
+					 select * from (
+										select t.fwbm,t.fwmc,sum(t.visits)  visits    from (
+					            select m.visits,b.fwmc,b.fwbm from m_tjgl_yytj m 
+					                   left join m_fwgl_fwglb b on m.fwbm = b.fwbm 
+					                   <![CDATA[
+					                   where to_date(m.datetime, 'yyyy-mm-dd') >= to_date(#{startDate}, 'yyyy-mm-dd')
+				           				and to_date(m.datetime, 'yyyy-mm-dd') <= to_date(#{endDate}, 'yyyy-mm-dd')
+				           				]]>	
+				           				<if test="schoolCode  != null and schoolCode  != ''">
+							    		    and m.schoolCode  = #{schoolCode }
+							    		</if>
+							    		<if test="fwmc  != null and fwmc  != ''">
+							    		    and b.fwmc  like '%'||#{fwmc}||'%' 
+							    		</if>
+				           				
+					                   and b.deleted = '0' 
+					                   ) t
+					            group by t.fwmc,t.fwbm order by visits desc
+					            )
+					       union all 
+					 select * from (
+					       select t.fwbm,t.fwmc,sum(t.visits)  visits    from (
+					            select m.visits,b.mc fwmc,b.fwbm from m_tjgl_yytj m 
+					                   left join m_wdmh b on m.fwbm = b.fwbm 
+					                   <![CDATA[
+					                   where to_date(m.datetime, 'yyyy-mm-dd') >= to_date(#{startDate}, 'yyyy-mm-dd')
+				           				and to_date(m.datetime, 'yyyy-mm-dd') <= to_date(#{endDate}, 'yyyy-mm-dd')
+				           				]]>	
+				           				<if test="schoolCode  != null and schoolCode  != ''">
+							    		    and m.schoolCode  = #{schoolCode }
+							    		</if> 
+							    		<if test="fwmc  != null and fwmc  != ''">
+							    		    and b.mc  like '%'||#{fwmc}||'%' 
+							    		</if>
+					                   and b.deleted = '0' 
+					                   ) t
+					            group by t.fwmc,t.fwbm order by visits desc
+					            
+					       ) 
+					      union all 
+                       select  b.fwbm ,b.mc fwmc,0
+                                          from m_wdmh b where b.fwbm not in (
+                                               select tj.fwbm from m_tjgl_yytj tj
+                                          )
+                                          <if test="fwmc  != null and fwmc  != ''">
+							    		    and b.mc  like '%'||#{fwmc}||'%' 
+							    		  </if>
+                       
+                          union all 
+                       select  b.fwbm ,b.fwmc,0
+                                          from m_fwgl_fwglb b where b.fwbm not in (
+                                               select tj.fwbm from m_tjgl_yytj tj
+                                          ) 
+                                          <if test="fwmc  != null and fwmc  != ''">
+							    		    and b.fwmc  like '%'||#{fwmc}||'%' 
+							    		  </if>    
+					       
+					       ) a group by a.fwbm,a.fwmc order by visits desc
+				
+				) e
+		)
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+				]]>	
+	
+	</select>
+	
+	<select id="getAllVSStatisCount" resultType="int">
+			select count(*) from 
+				(
+					select  a.fwbm,a.fwmc,sum(a.visits) visits ,round(sum(a.visits)/to_number( ROUND(TO_NUMBER(to_date(#{endDate}, 'yyyy-mm-dd') - to_date(#{startDate}, 'yyyy-mm-dd'))) ), 3) avenge from ( 
+					 select * from (
+										select t.fwbm,t.fwmc,sum(t.visits)  visits    from (
+					            select m.visits,b.fwmc,b.fwbm from m_tjgl_yytj m 
+					                   left join m_fwgl_fwglb b on m.fwbm = b.fwbm 
+					                   <![CDATA[
+					                   where to_date(m.datetime, 'yyyy-mm-dd') >= to_date(#{startDate}, 'yyyy-mm-dd')
+				           				and to_date(m.datetime, 'yyyy-mm-dd') <= to_date(#{endDate}, 'yyyy-mm-dd')
+				           				]]>	
+				           				<if test="schoolCode  != null and schoolCode  != ''">
+							    		    and m.schoolCode  = #{schoolCode }
+							    		</if> 
+					                   and b.deleted = '0' 
+					                   ) t
+					            group by t.fwmc,t.fwbm order by visits desc
+					            )
+					       union all 
+					 select * from (
+					       select t.fwbm,t.fwmc,sum(t.visits)  visits    from (
+					            select m.visits,b.mc fwmc,b.fwbm from m_tjgl_yytj m 
+					                   left join m_wdmh b on m.fwbm = b.fwbm 
+					                   <![CDATA[
+					                   where to_date(m.datetime, 'yyyy-mm-dd') >= to_date(#{startDate}, 'yyyy-mm-dd')
+				           				and to_date(m.datetime, 'yyyy-mm-dd') <= to_date(#{endDate}, 'yyyy-mm-dd')
+				           				]]>	
+				           				<if test="schoolCode  != null and schoolCode  != ''">
+							    		    and m.schoolCode  = #{schoolCode }
+							    		</if> 
+					                   and b.deleted = '0' 
+					                   ) t
+					            group by t.fwmc,t.fwbm order by visits desc
+					            
+					       ) 
+					      union all 
+                       select b.mc fwmc, b.fwbm ,0
+                                          from m_wdmh b where b.fwbm not in (
+                                               select tj.fwbm from m_tjgl_yytj tj
+                                          )
+                       
+                          union all 
+                       select b.fwmc, b.fwbm ,0
+                                          from m_fwgl_fwglb b where b.fwbm not in (
+                                               select tj.fwbm from m_tjgl_yytj tj
+                                          )     
+					       
+					       ) a group by a.fwbm,a.fwmc order by visits desc
+				) a
+	</select>
+    
+    
+    
+    <!-- 获取分页列表信息 -->
+	<select id="getVisitsByFwbm" resultMap="fwbmVisitMap">
+		select * from m_tjgl_yytj a
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[
+					and to_date(a.datetime, 'yyyy-mm-dd') >= to_date(#{startdate}, 'yyyy-mm-dd')
+				]]>	
+	        	
+        	</if>
+        	<if test='enddate != null and enddate != ""'>
+        		<![CDATA[
+					and to_date(a.datetime, 'yyyy-mm-dd') <= to_date(#{enddate}, 'yyyy-mm-dd')
+				]]>	
+			</if>
+			<if test='fwbm != null and fwbm != ""'>
+					and a.fwbm = #{fwbm}
+			</if>	
+       	</where>
+       	order by a.datetime asc
+	</select>
+    
+    
+	<!-- 获取分页列表信息 -->
+	<select id="getList" resultMap="ServiceManagerMap">
+		select * from (
+		     select a.*,rownum rn from 
+				(select * from M_FWGL_FWGLB m
+				<include refid="where" />
+				order by m.rdpx) a
+		)
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>	
+	</select>
+	
+	<select id="getListCount" resultType="int">
+			select count(*) from
+				(select * from M_FWGL_FWGLB m
+				<include refid="where" /> )
+			 
+	</select>
+	
+	<select id="getUpList" resultMap="ServiceManagerMap">
+				select * from M_FWGL_FWGLB m
+				<![CDATA[
+					where m.rdpx < #{classRdpx} and m.deleted = '0'
+				 ]]>	
+				 order by m.rdpx asc
+	</select>
+	
+	<select id="getDownList" resultMap="ServiceManagerMap">
+				select * from M_FWGL_FWGLB m
+				<![CDATA[
+					where m.rdpx > #{classRdpx} and m.deleted = '0'
+				 ]]>	
+				 order by m.rdpx asc
+	</select>
+	
+	<select id="getMaxPxm" resultType="int">
+			select nvl(max(rdpx),0) as rdpx  from (
+				select * from M_FWGL_FWGLB m
+			) 
+			 
+	</select>
+	
+	<!-- 获取科研信息类发布的服务 -->
+	<select id="getKyInfoClassService" resultMap="ServiceManagerMap">
+			select f.*,g.xtdz as xtdz,g.procode as procode,g.xtbm as xtbm from m_fwgl_fwglb f
+       left join m_fwgl_ywxtglb g on f.ssywxt = g.xtid
+      inner join xxlysjb y on f.choice = y.xxlbh
+      left join xxlmlb m on y.xxlssml = m.mlid
+      where m.mlmc = '科研' and f.deleted = 0 
+	</select>
+	
+	<select id="getMaxWebFwbm" resultType="int">
+	<![CDATA[
+		  select 
+			 case 
+				 when max(to_number(fwbm))<8000 then 8001 
+				 else  max(to_number(fwbm))+1
+			 end
+		  from M_FWGL_FWGLB where deleted = '0'
+			 ]]>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<![CDATA[
+			insert into M_FWGL_FWGLB(
+				fwid,fwbm,fwmc,fwms,ssywxt,sscp,fwlx,fwlj,fwtbdz,fwtbid,fwly,fbzt,rdpx,
+				appyydz,cjsj,cjzid,gxsj,gxzid,deleted,showway,choice,IOSURLSCHEME,IOSURLITUNES,
+				FILEID,FILEDZ,newsid,iscommon,isSignal,recommendFlag,signalXtbm
+			) values(
+				#{classId}, #{classFwbm}, #{classFwmc}, #{classFwms,jdbcType=VARCHAR}, #{classSsywxt,jdbcType=VARCHAR}, #{classSscp,jdbcType=VARCHAR},#{classFwlx},#{classFwlj,jdbcType=VARCHAR}
+				,#{classFwtbdz,jdbcType=VARCHAR}, #{classFwtbid,jdbcType=VARCHAR}, #{classFwly}, #{classFbzt}, #{classRdpx}, #{classAppyydz,jdbcType=VARCHAR}
+				 , #{classCjsj}, #{classCjzid}, #{classGxsj,jdbcType=DATE}, #{classGxzid,jdbcType=VARCHAR}, #{classDeleted},#{classShowway},#{choice,jdbcType=VARCHAR}
+				 ,#{iosURLScheme,jdbcType=VARCHAR},#{iosURLiTunes,jdbcType=VARCHAR},#{fileId,jdbcType=VARCHAR},#{filedz,jdbcType=VARCHAR},#{newsid,jdbcType=VARCHAR},
+				 #{iscommon,jdbcType=VARCHAR},#{isSignal,jdbcType=VARCHAR},#{recommendFlag,jdbcType=VARCHAR},#{signalXtbm,jdbcType=VARCHAR}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="classId">
+			<![CDATA[
+			select SYS_GUID() CLASSID from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			update M_FWGL_FWGLB set
+				fwbm = #{classFwbm}, fwmc = #{classFwmc}, fwms = #{classFwms,jdbcType=VARCHAR}, ssywxt = #{classSsywxt,jdbcType=VARCHAR}, sscp = #{classSscp,jdbcType=VARCHAR}
+				, fwlx = #{classFwlx}, fwlj = #{classFwlj,jdbcType=VARCHAR}, appyydz = #{classAppyydz,jdbcType=VARCHAR}, fwtbdz = #{classFwtbdz,jdbcType=VARCHAR}
+				, fwtbid = #{classFwtbid,jdbcType=VARCHAR}, choice = #{choice,jdbcType=VARCHAR},showway = #{classShowway,jdbcType=VARCHAR},iscommon = #{iscommon,jdbcType=VARCHAR}
+				,IOSURLSCHEME = #{iosURLScheme,jdbcType=VARCHAR},IOSURLITUNES = #{iosURLiTunes,jdbcType=VARCHAR},FILEID = #{fileId,jdbcType=VARCHAR},
+				FILEDZ = #{filedz,jdbcType=VARCHAR},isSignal=#{isSignal},recommendFlag=#{recommendFlag},signalXtbm = #{signalXtbm,jdbcType=VARCHAR}
+			where fwid = #{classId}
+		]]>
+	</update>
+	
+	<update id="upOrDown">
+		<![CDATA[
+			update M_FWGL_FWGLB set
+				rdpx = #{classRdpx}
+			where fwid = #{classId}
+		]]>
+	</update>
+	
+	<update id="changeShow">
+		<![CDATA[
+			update M_FWGL_FWGLB set
+				showway = #{classShowway}
+			where fwid = #{classId}
+		]]>
+	</update>
+	
+	<update id="updateById">
+		<![CDATA[
+			update M_FWGL_FWGLB set
+			gxsj = sysdate ,
+			]]>
+		<if test="yhid != null and yhid != ''">
+					gxzid = #{yhid},
+        </if>
+        <if test="fbzt != null and fbzt != ''">
+					fbzt = #{fbzt}
+        </if>
+        <where>
+        <if test="ids != null and (!ids.empty)">
+            <foreach collection="ids" item="id" open=" and fwid in (" separator="," close=")">
+                #{id} 
+            </foreach>
+        </if>
+      
+     </where>
+	</update>
+	
+	
+	<update id="updateRecommend">
+		<![CDATA[
+			update M_FWGL_FWGLB set
+			recommendFlag = #{recommendFlag}
+			]]>
+		
+        <where>
+        <if test="ids != null and (!ids.empty)">
+            <foreach collection="ids" item="id" open=" and fwid in (" separator="," close=")">
+                #{id} 
+            </foreach>
+        </if>
+      
+     </where>
+	</update>
+	
+	
+	<update id="updateIndex">
+		update M_FWGL_FWGLB 
+		set rdpx = #{index}
+		 where fwid = #{id} 
+		
+	</update>
+	
+	<delete id="delete">
+		<![CDATA[
+			update M_FWGL_FWGLB set
+			deleted = '1',gxsj = sysdate ,
+			]]>
+		<if test="yhid != null and yhid != ''">
+					gxzid = #{yhid}
+        </if>
+     <where>
+        <if test="ids != null and (!ids.empty)">
+            <foreach collection="ids" item="id" open=" and fwid in (" separator="," close=")">
+                #{id} 
+            </foreach>
+        </if>
+      
+     </where>
+        
+	</delete>
+	
+	
+</mapper>

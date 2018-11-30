@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="com.zfsoft.sjzx.jhpz.swhpz.dao.GzzpzDao">  
+    <!--<resultMap type="RoleInfo" id="RoleMap">
+    -->
+    <resultMap type="com.zfsoft.sjzx.jhpz.swhpz.model.Gzzpz" id="GzzpzMap">
+        <result column="gzzbh" property="gzzbh"/>
+        <result column="gzzmc" property="gzzmc"/>
+        <result column="cjsj" property="cjsj"/>
+        <result column="xgsj" property="xgsj"/>
+        <result column="ms" property="ms"/>
+        <result column="yyfwqlsh" property="yyfwqlsh"/>
+        <result column="cjr" property="cjr"/>       
+        <result column="xgr" property="xgr"/>
+        <result column="cjrXm" property="cjrXm"/>
+        <result column="xgrXm" property="xgrXm"/>
+    </resultMap>
+    
+    <resultMap type="com.zfsoft.sjzx.jhpz.yyfwq.model.Yyfwq" id="YyfwqMap">
+        <result column="yyfwqlsh" property="yyfwqlsh"/>
+        <result column="jkdk" property="jkdk"/>
+        <result column="jtdk" property="jtdk"/>
+        <result column="yyfwqmc" property="yyfwqmc"/>
+        <result column="ipdz" property="ipdz"/>
+        <result column="dkh" property="dkh"/>
+        <result column="wsm" property="wsm"/>       
+        <result column="cjsj" property="cjsj"/>
+        <result column="xgsj" property="xgsj"/>
+        <result column="cjr" property="cjr"/>
+        <result column="xgr" property="xgr"/>
+        <result column="dlm" property="dlm"/>
+        <result column="zt" property="zt"/>
+        <result column="isjk" property="isjk"/>
+    </resultMap>
+    
+    <resultMap type="com.zfsoft.sjzx.jhpz.sjjhpzb.model.Sjjhpzb" id="SjjhpzbMap">
+        <result column="jhpzxh" property="jhpzxh"/>
+        <result column="jhpzmc" property="jhpzmc"/>
+        <result column="cjsj" property="cjsj"/>
+        <result column="ysql" property="ysql"/>
+        <result column="mdb" property="mdb"/>
+        <result column="tjjls" property="tjjls"/>
+        <result column="yxztbzw" property="yxztbzw"/>       
+        <result column="xgsj" property="xgsj"/>
+        <result column="dyccqbz" property="dyccqbz"/>
+        <result column="scmrnr" property="scmrnr"/>
+        <result column="ysjk" property="ysjk"/>
+        <result column="mbsjk" property="mbsjk"/>
+        <result column="cjr" property="cjr"/>
+        <result column="scmsbh" property="scmsbh"/>
+        <result column="yyfwqlsh" property="yyfwqlsh"/>
+        <result column="xgr" property="xgr"/>
+        <result column="sfwqcr" property="sfwqcr"/>
+        <result column="sfqkmdb" property="sfqkmdb"/>
+        <result column="sfplcr" property="sfplcr"/>
+        <result column="rzblsj" property="rzblsj"/>
+        <result column="sfqy" property="sfqy"/>
+        <result column="sfssjh" property="sfssjh"/>
+        <result column="ssjhlx" property="ssjhlx"/>
+        <result column="bzwzd" property="bzwzd"/>
+        <result column="sjczd" property="sjczd"/>
+        <result column="yb" property="yb"/>
+        <result column="dsqzt" property="dsqzt"/>
+    </resultMap>
+    
+    <resultMap type="com.zfsoft.sjzx.jhpz.sjjhpzb.model.Dsqlx" id="DsqlxMap">
+        <result column="dsqlx" property="dsqlx"/>
+        <result column="dsqlxmc" property="dsqlxmc"/>
+    </resultMap>
+    
+    <resultMap type="com.zfsoft.sjzx.jhpz.sjjhpzb.model.Sjdwb" id="SjdwbMap">
+        <result column="sjdwbh" property="sjdwbh"/>
+        <result column="sjdwmc" property="sjdwmc"/>
+    </resultMap>
+    
+    <resultMap type="com.zfsoft.sjzx.jhpz.swhpz.model.Gzzys" id="GzzysMap">
+        <result column="gzzyspzxh" property="gzzyspzxh"/>
+        <result column="dxlsh" property="dxlsh"/>
+        <result column="jhpzxh" property="jhpzxh"/>
+        <result column="jhpzmc" property="jhpzmc"/>
+        <result column="gzzbh" property="gzzbh"/>
+        <result column="czdxmc" property="czdxmc"/>
+        <result column="px" property="px"/>
+    </resultMap>
+    
+    <resultMap type="com.zfsoft.sjzx.jhpz.swhpz.model.GzzDsq" id="GzzDsqMap">
+        <result column="dsqmc" property="dsqmc"/>
+        <result column="dsqlxmc" property="dsqlxmc"/>
+        <result column="jdqssj" property="jdqssj"/>
+        <result column="jdjssj" property="jdjssj"/>
+        <result column="ddsjd" property="ddsjd"/>
+        <result column="jgsj" property="jgsj"/>
+        <result column="dsqzt" property="dsqzt"/>
+        <result column="dxlsh" property="dxlsh"/>
+        <result column="dsqxh" property="dsqxh"/>
+        <result column="dsqlx" property="dsqlx"/>
+        <result column="sjdwbh" property="sjdwbh"/>
+        <result column="sjdwmc" property="sjdwmc"/>
+    </resultMap>
+    
+    <resultMap type="com.zfsoft.sjzx.jhpz.swhpz.model.GzzLog" id="GzzLogMap">
+        <result column="logId" property="logId"/>
+        <result column="pzmc" property="pzmc"/>
+        <result column="startDate" property="startDate"/>
+        <result column="endDate" property="endDate"/>
+        <result column="xhsj" property="xhsj"/>
+        <result column="readLines" property="readLines"/>
+        <result column="writtenLines" property="writtenLines"/>
+        <result column="updateLines" property="updateLines"/>
+        <result column="outputLines" property="outputLines"/>
+        <result column="gzzbh" property="gzzbh"/>
+        <result column="pzxh" property="pzxh"/>
+        <result column="errors" property="errors"/>
+    </resultMap>
+    
+    <resultMap type="com.zfsoft.sjzx.jhpz.swhpz.model.GzzLogXq" id="GzzLogXqMap">
+        <result column="startDate" property="startDate"/>
+        <result column="endDate" property="endDate"/>
+        <result column="logId" property="logId"/>
+        <result column="content" property="content"/>
+    </resultMap>
+    
+    <select id="ZFSOFT-ZFSJZX-GZZLOGXQ-SELECT-ONE" resultMap="GzzLogXqMap">
+        select *
+          from (select id_batch logId,
+                       to_char(startdate, 'YYYY-MM-DD hh24:mi:ss') startDate,
+                       to_char(enddate, 'YYYY-MM-DD hh24:mi:ss') endDate,
+                       log_field content
+                  from ref_xt_sjjhrzb)
+         where logid=#{logid}
+    </select>
+    
+    <select id="getGzzTotalCount" resultType="int">
+        select count(*) from xt_gzzpzb
+    </select>
+    
+    <select id="getDsqztByDsqxh" resultType="java.lang.String">
+        select dsqzt from xt_dsqpzb where dsqxh=#{dsqxh}
+    </select>
+    
+    <select id="getGzzbhNextval" resultType="int">
+        select seq_xt_gzzpzb_gzzbh.nextval as gzzbh from dual
+    </select>
+    
+    <select id="getDsqpz" resultMap="GzzDsqMap">
+        select a.dsqxh,b.dsqlx, a.dsqmc,b.dsqlxmc,a.jdqssj,a.jdjssj,a.ddsjd,a.jgsj,a.dsqzt,a.dxlsh,c.sjdwbh,c.sjdwmc from xt_dsqpzb a, xt_dsqlx b,xt_sjdwb c
+            where a.dsqlx = b.dsqlx(+) and a.sjdwbh = c.sjdwbh(+) and a.dxlsh=#{dxlsh}
+    </select>
+    
+    <select id="getGzzys" resultMap="GzzysMap">
+        select a.gzzyspzxh,a.dxlsh,b.jhpzxh,b.jhpzmc,a.gzzbh,c.czdxmc,a.px from xt_gzzyspz a, xt_sjjhpzb b,xt_czdxb c
+                where a.dxlsh = b.jhpzxh and a.czdxbh = c.czdxbh and a.gzzbh=#{gzzbh}   order by a.px asc
+    </select>
+    
+    <select id="getAllSjdw" resultMap="SjdwbMap">
+        select * from xt_sjdwb order by sjdwbh
+    </select>
+    
+    <select id="getGzzbh" resultType="int">
+        select gzzbh from xt_gzzpzb where gzzmc=#{gzzmc}
+    </select>
+    
+    <select id="getAllDsqlx" resultMap="DsqlxMap">
+        select * from xt_dsqlx order by dsqlx
+    </select>
+    
+    <select id="getAllYyfwq" resultMap="YyfwqMap">
+        select * from xt_yyfwq
+    </select>
+    
+    <select id="getAllSjjhpz" resultMap="SjjhpzbMap">
+	    select * from xt_sjjhpzb t
+	       <where>
+                    <if test='searchKey != null and searchKey != ""'> and t.jhpzmc like '%'||#{searchKey}||'%'</if>
+           </where>
+	       order by t.jhpzxh desc
+    </select>
+    
+    <select id="getAllSjjhpzList" resultMap="SjjhpzbMap">
+        select * from xt_sjjhpzb order by jhpzxh desc
+    </select>
+    
+    <select id="getAllGzz" resultMap="GzzpzMap">
+        select * from xt_gzzpzb
+    </select>
+    
+    <!--配置类型对应的数据表为操作对象表-->
+    <select id="getAllPzlx" resultType="java.util.HashMap">
+        select * from xt_czdxb where czdxbh != 5
+    </select>
+    
+    <select id="getPagingInfo" resultMap="GzzpzMap">
+        <![CDATA[
+            select * from (select t.*,rownum rn from xt_gzzpzb t) where rn>=#{startRow} and rn<=#{endRow}
+        ]]>
+    </select>
+    
+    <select id="getGzzpz" resultMap="GzzpzMap">
+        select gzzbh from xt_gzzpzb where gzzmc=#{gzzmc}
+    </select>
+    
+    <select id="getAllDsqzt" resultType="String">
+        select dsqzt from xt_dsqpzb where dxlsh=#{dxlsh}
+    </select>
+    
+    <insert id="insertDsq">
+    insert into xt_dsqpzb(
+        dsqxh, dsqmc, cjsj, xgsj, dxlsh, ddsjd, jgsj, jdqssj, jdjssj, czdxbh,
+        dsqlx, sjdwbh, cjr, xgr,dsqzt,jobclassname,isjk,wjbh)
+                values(
+        #{dsqxh}, #{dsqmc}, #{cjsj}, #{xgsj}, #{dxlsh}, #{ddsjd}, #{jgsj}, #{jdqssj}, #{jdjssj}, 
+        #{czdxbh}, #{dsqlx}, #{sjdwbh}, #{cjr}, #{xgr}, #{dsqzt},#{jobclassname},#{isjk},#{wjbh}
+        )
+    </insert>
+    
+    <insert id="insertGzzpz">
+        insert into xt_gzzpzb(gzzbh, gzzmc, cjsj, xgsj, ms, yyfwqlsh, cjr, xgr)
+                 values(#{gzzbh}, #{gzzmc}, #{cjsj}, #{xgsj}, #{ms}, #{yyfwqlsh}, #{cjr}, #{xgr})
+    </insert>
+    
+    <update id="updateDsqzt">
+         update xt_dsqpzb set dsqzt=#{dsqzt} where dsqxh=#{dsqxh}
+    </update>
+    
+    <update id="updateGzz">
+         update xt_gzzpzb 
+         <set>
+                <if test='gzzmc != "" and gzzmc != null'>
+                    gzzmc = #{gzzmc},
+                </if>
+                <if test='ms != "" and ms != null'>
+                    ms = #{ms},
+                </if>
+                <if test='yyfwqlsh != "" and yyfwqlsh != null'>
+                    yyfwqlsh = #{yyfwqlsh},
+                </if>
+                <if test='cjsj != "" and cjsj != null'>
+                    cjsj = #{cjsj},
+                </if>
+                <if test='xgsj != "" and xgsj != null'>
+                    xgsj = #{xgsj},
+                </if>
+                <if test='xgr != "" and xgr != null'>
+                    xgr = #{xgr},
+                </if>
+                <if test='cjr != "" and cjr != null'>
+                    cjr = #{cjr},
+                </if>
+         </set> 
+         where gzzbh=#{gzzbh}
+    </update>
+    
+    <update id="updateGzzpz">
+         update xt_gzzpzb 
+	         <set>
+		        <if test='gzzmc != "" and gzzmc != null'>
+		            gzzmc = #{gzzmc},
+		        </if>
+		        <if test='ms != "" and ms != null'>
+                    ms = #{ms},
+                </if>
+                <if test='yyfwqlsh != "" and yyfwqlsh != null'>
+                    yyfwqlsh = #{yyfwqlsh},
+                </if>
+                <if test='cjsj != "" and cjsj != null'>
+                    cjsj = #{cjsj},
+                </if>
+                <if test='xgsj != "" and xgsj != null'>
+                    xgsj = #{xgsj},
+                </if>
+                <if test='xgr != "" and xgr != null'>
+                    xgr = #{xgr},
+                </if>
+                <if test='cjr != "" and cjr != null'>
+                    cjr = #{cjr},
+                </if>
+	         </set> 
+         where gzzbh=#{gzzbh}
+    </update>
+    
+    <delete id="deleteGzzpz">
+        delete from xt_gzzpzb where gzzbh=#{gzzbh}
+    </delete>
+    
+</mapper>  

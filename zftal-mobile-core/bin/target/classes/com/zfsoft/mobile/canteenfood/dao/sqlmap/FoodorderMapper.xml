@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.zfsoft.mobile.canteenfood.dao.IFoodorderDao">
+
+	<resultMap type="com.zfsoft.mobile.canteenfood.entity.Foodorder" id="foodorderMap">
+	   <result property="foodId" 	column="FOODID" />
+	   <result property="orderId" 	column="ORDERID"/>
+	   <result property="amount" 	column="AMOUNT"/>
+	</resultMap>
+	
+	<sql id="where">
+	   <where>
+		   <if test="foodId!=null and foodId!=''">
+		    	and  m.foodid =#{foodId}
+		   </if>
+		   <if test="orderId!=null and orderId!=''">
+		   		and m.orderid = #{orderId}
+		   </if> 
+	   </where>
+	</sql>
+	
+	<select id="getFoodIds" resultType="String">
+		select t1.* from M_ORDER_FOOD t1
+		<include refid="where"></include>
+	</select>
+	<!--
+	<select id="getFoodIds" resultType="String">
+		select t1.* from M_ORDER_FOOD t1
+		<include refid="where"></include>
+	</select>
+	-->
+	
+	<insert id="insertOrders">
+		<![CDATA[
+			 insert into M_ORDER_FOOD(
+				foodid,
+				orderid,
+				amount
+			 )
+			 VALUES(
+				#{foodId},
+				#{orderId},
+				#{amount}
+			)
+		]]>
+	</insert>
+	
+	<delete id="deleteOrders">
+		delete from M_ORDER_FOOD 
+		<where> orderid=#{orderId}</where>
+	</delete>
+
+</mapper>

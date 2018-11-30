@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.workflow.dao.ISpTaskDao">
+
+	<resultMap id="spTaskMap" type="com.zfsoft.workflow.model.SpTask">
+		<result property="taskId" column="TASK_ID" />
+		<result property="taskCode" column="TASK_CODE" />
+		<result property="taskName" column="TASK_NAME" />
+		<result property="taskStatus" column="TASK_STATUS" />
+		<result property="taskType" column="TASK_TYPE" />
+		<result property="taskDesc" column="TASK_DESC" />
+		<result property="belongToSys" column="BELONG_TO_SYS" />
+		
+		<result property="isMust" column="IS_MUST" />
+		<result property="isAuto" column="IS_AUTO" />
+		<result property="billId" column="BILL_ID" />
+		<result property="classId" column="CLASS_ID" />
+		<result property="classModeType" column="CLASS_MODE_TYPE" />
+		<result property="exeCondition" column="EXE_CONDITION" />
+		<result property="decCondition" column="DEC_CONDITION" />
+		<result property="classPrivilege" column="CLASSES_PRIVILEGE" />
+	</resultMap>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="taskId">
+		<![CDATA[
+			INSERT INTO SP_TASK
+			  (TASK_ID, TASK_CODE, TASK_NAME, TASK_STATUS, TASK_TYPE, TASK_DESC, BELONG_TO_SYS)
+			VALUES
+			  (#{taskId}, #{taskCode}, #{taskName}, #{taskStatus}, #{taskType}, #{taskDesc}, #{belongToSys})
+		]]>
+		
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="taskId">
+			<![CDATA[
+			SELECT SYS_GUID() KHLC_ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<!-- 根据TASKID删除任务 -->
+	<delete id="delete">
+		<![CDATA[
+			DELETE FROM SP_TASK WHERE TASK_ID = #{taskId}
+		]]>
+	</delete>
+	
+	<!-- 删除节点和任务的关联关系 -->
+	<delete id="deleteByTaskId">
+		<![CDATA[
+			DELETE FROM SP_NODE_TASK WHERE TASK_ID = #{taskId}
+		]]>
+	</delete>
+
+	<!-- 修改任务 -->
+	<update id="update">
+		<![CDATA[
+			UPDATE SP_TASK
+			   SET TASK_CODE   = #{taskCode},
+			   	   TASK_NAME   = #{taskName},
+			       TASK_STATUS = #{taskStatus},
+			       TASK_TYPE   = #{taskType},
+			       TASK_DESC   = #{taskDesc}
+			 WHERE TASK_ID = #{taskId}
+		]]>
+	</update>
+	
+	<!-- 是否存在相同名称和相同类型的任务记录(排除掉原记录) -->
+	<select id="getCountByTaskNameAndTaskType"  resultType="int">
+        <![CDATA[ SELECT count(TASK_ID) from  SP_TASK where TASK_TYPE = #{taskType} and TASK_NAME=#{taskName} ]]>
+        <if test=" taskId != null and taskId != ''">
+            and TASK_ID != #{taskId}
+        </if>
+    </select> 
+    
+    <!-- 根据对象中的条件查询记录（结果一个或多个） -->
+	<select id="findTaskListByNodeId" resultMap="spTaskMap">
+		<![CDATA[ 
+			SELECT a.TASK_ID,
+			       a.TASK_NAME,
+			       a.TASK_STATUS,
+			       a.TASK_TYPE,
+			       a.TASK_DESC,
+			       a.BELONG_TO_SYS,
+			       a.TASK_CODE,
+			       b.IS_MUST,
+			       b.IS_AUTO,
+			       b.BILL_ID,
+				   b.CLASS_ID,
+				   b.CLASS_MODE_TYPE,
+				   b.EXE_CONDITION,
+				   b.DEC_CONDITION,
+				   b.CLASSES_PRIVILEGE
+			  FROM SP_TASK a, SP_NODE_TASK b
+			 WHERE a.TASK_ID = b.TASK_ID
+			   AND b.NODE_ID = #{nodeId}
+		 ]]>
+	</select>
+	
+	  <!-- 根据对象中的条件查询记录（结果一个或多个） -->
+	<select id="findTaskById" resultMap="spTaskMap">
+		<![CDATA[ 
+			SELECT a.TASK_ID,
+			       a.TASK_NAME,
+			       a.TASK_STATUS,
+			       a.TASK_TYPE,
+			       a.TASK_DESC,
+			       a.BELONG_TO_SYS,
+			       a.TASK_CODE
+			  FROM SP_TASK a
+			 WHERE a.TASK_ID = #{taskId}
+		 ]]>
+	</select>
+	
+	<!-- 根据对象中的条件查询记录（结果一个或多个） -->
+	<select id="findTaskList" parameterType="com.zfsoft.workflow.model.SpTask" resultMap="spTaskMap">
+		SELECT TASK_ID, TASK_NAME, TASK_STATUS, TASK_TYPE, TASK_DESC, BELONG_TO_SYS
+		  FROM SP_TASK
+		 WHERE 1 = 1
+		<if test="taskId != null and taskId != ''">
+			<![CDATA[ AND TASK_ID = #{taskId} ]]>
+        </if>
+		<if test="taskName != null and taskName != ''">
+			<![CDATA[ AND TASK_NAME = #{taskName} ]]>
+        </if>
+        <if test="taskStatus != null and taskStatus != ''">
+			<![CDATA[ AND TASK_STATUS = #{taskStatus} ]]>
+        </if>
+        <if test="taskType != null and taskType != ''">
+			<![CDATA[ AND TASK_TYPE = #{taskType} ]]>
+        </if>
+        <if test="belongToSys != null and belongToSys != ''">
+			<![CDATA[ AND BELONG_TO_SYS = #{belongToSys} ]]>
+        </if>
+	</select>
+
+</mapper>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.authpost.post.dao.daointerface.IDeptPostDao" >
+	
+	<resultMap type="com.zfsoft.hrm.authpost.post.entities.DeptPost" id="deptPostMap">
+		<result property="guid" column="guid"/>
+		<result property="postId" column="gwid"/>
+		<result property="duty" column="gwzz"/>
+		<result property="level" column="gwdj"/>
+		<result property="superiorId" column="sjgwbh"/>
+		<result property="planNumber" column="jhbzs"/>
+		<result property="deptId" column="bmid"/>
+		<result property="postType" column="gwlb"/>
+	</resultMap>
+	<!-- 获取单条信息 -->
+	<select id="getById" resultMap="deptPostMap">
+		select * from HRM_BZGL_BMGWGLB where guid = #{guid}
+	</select>
+	
+	<!-- 更新单条信息 -->
+	<update id="update" >
+		update HRM_BZGL_BMGWGLB set 
+		gwzz = #{duty},jhbzs=#{planNumber},gwdj=#{level}
+		where guid = #{guid}
+	</update>
+	
+	<!-- 插入单条信息 -->
+	<insert id="insert">
+		insert into HRM_BZGL_BMGWGLB(guid,gwid,gwzz,gwdj,sjgwbh,jhbzs,bmid)
+		values(#{guid},#{postId},#{duty},#{level},#{superiorId},#{planNumber},#{deptId})
+	</insert>
+	
+	<!-- 删除岗位信息 -->
+	<delete id="remove" >
+		delete from HRM_BZGL_BMGWGLB where guid = #{guid}
+	</delete>
+	
+	<sql id="where">
+    	<where>
+    		<if test="deptId != null and deptId != ''">
+    			and bmid like #{deptId}||'%'
+    		</if>
+    		<if test="level != null">
+    			and gwdj = #{level}
+    		</if>
+    		<if test="superiorId != null">
+    			and sjgwbh = #{superiorId}
+    		</if>
+		</where>
+    </sql>
+	<!-- 获取分页列表信息 -->
+	<select id="getPagingList" resultMap="deptPostMap">
+		select * from (select a.*, rownum rn from (select 
+			gwgl.gwid as gwid,
+			gwgl.guid as guid,
+			gwgl.gwzz as gwzz,
+			gwgl.gwdj as gwdj,
+			gwgl.sjgwbh as sjgwbh,
+			gwgl.jhbzs as jhbzs,
+			gwgl.bmid as bmid,
+			gwxx.gwlbdm as gwlb
+		 from HRM_BZGL_BMGWGLB  gwgl
+		left join HRM_BZGL_GWXXB gwxx on gwgl.gwid = gwxx.gwbh
+		<include refid="where" />
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if> 
+	     ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+	</select>
+	<!-- 获取分页列表计数 -->
+	<select id="getPagingCount" resultType="int">
+		select count(*) from HRM_BZGL_BMGWGLB
+		<include refid="where" />
+	</select>
+	
+	<!-- 获取列表信息 -->
+	<select id="getList" resultMap="deptPostMap">
+		select * from HRM_BZGL_BMGWGLB
+		<include refid="where" />
+		order by guid asc
+	</select>
+</mapper>

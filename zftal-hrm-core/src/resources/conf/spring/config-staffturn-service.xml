@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!--预退休扫描-->
+	<bean id="retireScanService" class="com.zfsoft.hrm.staffturn.retire.service.impl.RetireScanServiceImpl">
+		<property name="retireScanDao" ref="retireScanDao"/>
+		<property name="messageBusiness" ref="messageBusiness"/>
+		<property name="retireService" ref="retireService"/>
+		<property name="retireRuleService" ref="retireRuleService"/>
+	</bean>
+	
+	<bean id="retireRuleService" class="com.zfsoft.hrm.staffturn.retire.service.impl.RetireRuleServiceImpl">
+		<property name="dao" ref="retireRuleDao"/>
+	</bean>
+	
+	<bean id="retireService" class="com.zfsoft.hrm.staffturn.retire.service.impl.RetireServiceImpl">
+		<property name="dao" ref="retireDao"/>
+        <!-- 20140425 add start -->
+        <property name="messageBusiness" ref="messageBusiness"/>
+        <!-- 20140425 add end -->
+		<property name="retireBusiness" ref="retireBusiness"/>
+		<property name="iDynaBeanBusiness" ref="baseDynaBeanBusiness"/>
+	</bean>
+	
+	<bean id="leaveStepService" class="com.zfsoft.hrm.staffturn.leaveschool.service.impl.LeaveStepServiceImpl">
+		<property name="leaveStepBusiness" ref="leaveStepBusiness"/>
+		<property name="leaveProcessBusiness" ref="leaveProcessBusiness"/>
+	</bean>
+	<!-- 离校流程管理 -->
+	<bean id="leaveFlowService" class="com.zfsoft.hrm.staffturn.leaveschool.service.impl.LeaveFlowServiceImpl">
+		<property name="leaveFlowBusiness" ref="leaveFlowBusiness"/>
+		<property name="dynaBeanBusiness" ref="baseDynaBeanBusiness"/>
+		<property name="leaveProcessBusiness" ref="leaveProcessBusiness"/>
+		<property name="leaveStepBusiness" ref="leaveStepBusiness"/>
+		<property name="messageService" ref="messageService"/>
+		<property name="pendingAffairService" ref="pendingAffairService"/>
+	</bean>
+	<!-- 离校处理 -->
+	<bean id="leaveProcessService" class="com.zfsoft.hrm.staffturn.leaveschool.service.impl.LeaveProcessServiceImpl">
+		<property name="leaveProcessBusiness" ref="leaveProcessBusiness"/>
+		<property name="dynaBeanBusiness" ref="baseDynaBeanBusiness"/>
+		<property name="pendingAffairService" ref="pendingAffairService"/>
+	</bean>
+	<!-- 离世 -->
+	<bean id="deadService" class="com.zfsoft.hrm.staffturn.dead.service.impl.DeadServiceImpl">
+		<property name="deadDao" ref="deadDao"/>
+		<property name="retireBusiness" ref="retireBusiness"/>
+		<property name="iDynaBeanBusiness" ref="baseDynaBeanBusiness"/>
+	</bean>
+</beans>

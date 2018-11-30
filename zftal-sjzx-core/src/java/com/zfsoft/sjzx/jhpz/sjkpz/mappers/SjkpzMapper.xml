@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="com.zfsoft.sjzx.jhpz.sjkpz.dao.SjkpzDao">  
+    <resultMap type="com.zfsoft.sjzx.jhpz.sjkpz.model.Sjkpz" id="SjkpzMap">
+        <result column="pzxh" property="pzxh"/>
+        <result column="pzljmc" property="pzljmc"/>
+        <result column="ipdz" property="ipdz"/>
+        <result column="dkh" property="dkh"/>
+        <result column="sjkmc" property="sjkmc"/>
+        <result column="yhm" property="yhm"/>
+        <result column="mm" property="mm"/>       
+        <result column="yyzt" property="yyzt"/>
+        <result column="ljlx" property="ljlx"/>
+        <result column="sjklx" property="sjklx"/>
+        <result column="racx"   property="racx"/>
+        <result column="racdz" property="racdz"/>
+        <result column="isjk" property="isjk"/>
+        <result column="zt" property="zt"/>
+        <result column="zydz" property="zydz"/>
+        <result column="sjklxmc" property="sjklxmc"/>
+        <result column="ljlxmc" property="ljlxmc"/>
+        <result column="cjsj" property="cjsj"/>
+        <result column="cjr" property="cjr"/>
+        <result column="xgsj" property="xgsj"/>
+        <result column="xgr" property="xgr"/>
+    </resultMap>
+    
+    <resultMap type="com.zfsoft.sjzx.jhpz.sjkpz.model.SjkpzWrapper" id="SjkpzWrapperMap">
+        <result column="ljlxmc" property="ljlxmc"/>
+        <result column="sjklxmc" property="sjklxmc"/>
+        <result column="type" property="type"/>
+        <result column="pzxh" property="pzxh"/>
+        <result column="pzljmc" property="pzljmc"/>
+        <result column="ipdz" property="ipdz"/>
+        <result column="dkh" property="dkh"/>
+        <result column="sjkmc" property="sjkmc"/>
+        <result column="yhm" property="yhm"/>
+        <result column="mm" property="mm"/>       
+        <result column="yyzt" property="yyzt"/>
+        <result column="ljlx" property="ljlx"/>
+        <result column="sjklx" property="sjklx"/>
+        <result column="racx"   property="racx"/>
+        <result column="racdz" property="racdz"/>
+        <result column="isjk" property="isjk"/>
+        <result column="zt" property="zt"/>
+        <result column="zydz" property="zydz"/>
+        <result column="sjklxmc" property="sjklxmc"/>
+        <result column="ljlxmc" property="ljlxmc"/>
+        <result column="cjsj" property="cjsj"/>
+        <result column="cjr" property="cjr"/>
+        <result column="xgsj" property="xgsj"/>
+        <result column="xgr" property="xgr"/>
+    </resultMap>
+    
+    <select id="sjkfwqIfUsed" resultType="int">
+        select count(*) from 
+        (
+            select ysjk sjk from xt_sjjhpzb
+            union 
+            select mbsjk sjk from xt_sjjhpzb
+            union 
+            select sjkpzxh sjk from xt_ysjfl 
+        ) 
+        where sjk is not null and sjk=#{pzxh}
+    </select>
+    
+    <select id="getSjklxAndLjlx" resultType="hashMap">
+        select a.sjklx lxxh,a.bz sjklx,b.bz sjkljlx from xt_sjklx a,xt_sjkljlx b where a.sjklx=#{sjklx} and b.ljlx=#{ljlx}
+    </select>
+    
+    <!--查询所有的数据库连接类型信息-->
+    <select id="getSjkpzDetail" resultMap="SjkpzWrapperMap">
+        select 
+            t.pzxh,t.pzljmc,t.ipdz,t.dkh,t.yhm,t.mm, t.sjkmc, t1.ljlxmc,t2.sjklxmc 
+        from xt_sjkpz t ,XT_SJKLJLX t1,XT_SJKLX t2 
+            where t.sjklx=t2.sjklx and t.ljlx=t1.ljlx and t.pzxh=#{pzxh}
+    </select>
+    
+    <select id="getAllJKSjkpz" resultMap="SjkpzWrapperMap">
+         select t.*,to_number(t.pzxh) xh, t1.ljlxmc,t2.sjklxmc
+                      from xt_sjkpz t ,XT_SJKLJLX t1,XT_SJKLX t2
+                      where t.sjklx=t2.sjklx and t.ljlx=t1.ljlx  and t.isjk=1 order by xh
+    </select>
+    
+    <select id="getSjkpz" resultMap="SjkpzMap">
+        select * from xt_sjkpz
+    </select>
+    
+    <select id="getPagingInfo" resultMap="SjkpzWrapperMap">
+        <![CDATA[
+            select * from (
+                select a.*,rownum rn
+                  from (
+                      select t.*,to_number(t.pzxh) xh, t1.ljlxmc,t2.sjklxmc
+                      from xt_sjkpz t ,XT_SJKLJLX t1,XT_SJKLX t2
+                      where t.sjklx=t2.sjklx and t.ljlx=t1.ljlx order by xh
+                  ) a
+            )
+            where rn>=#startRow# and rn<=#endRow#
+        ]]>
+    </select>
+    
+    <select id="getSjklxList" resultType="hashMap">
+        select * from xt_sjklx
+    </select>
+    
+    <!--数据库连接类型信息操作SQL-->
+    <select id="getSjkljlxList" resultType="hashMap">
+        select * from xt_sjkljlx
+    </select>
+    
+    <select id="getPagingInfoCount" resultType="int">
+        select count(*) from xt_sjkpz
+    </select>
+ 
+    <select id="getSjkpzOne" resultMap="SjkpzMap">
+        select * from xt_sjkpz where pzxh=#{pzxh}
+    </select>
+    
+    <insert id="insertWsjhrzb" >
+        
+           insert into xt_sjkpz(
+	           pzxh, pzljmc, zt, zydz, ipdz, dkh, sjkmc, yhm, mm, cjsj, 
+	           px, xgsj, sjklx, ljlx, xgr, cjr,isjk)
+           values(
+	           seq_xt_sjkpz_pzxh.nextval, #{pzljmc}, #{zt}, #{zydz}, #{ipdz}, #{dkh}, #{sjkmc}, #{yhm}, 
+	           #{mm}, #{cjsj}, #{px}, #{xgsj}, #{sjklx}, #{ljlx}, #{xgr}, #{cjr},#{isjk})
+    
+    </insert>
+    
+    <update id="updateSjkpz">
+        update  xt_sjkpz 
+        <set>
+        <if test='pzljmc != "" and pzljmc != null'>
+            pzljmc = #{pzljmc},
+        </if> 
+        <if test='zt != "" and zt != null'>
+            zt = #{zt},
+        </if>
+        <if test='zydz != "" and zydz != null'>
+            zydz = #{zydz},
+        </if>
+        <if test='ipdz != "" and ipdz != null'>
+            ipdz = #{ipdz},
+        </if>
+        <if test='dkh != "" and dkh != null'>
+            dkh = #{dkh},
+        </if>
+        <if test='sjkmc != "" and sjkmc != null'>
+            sjkmc = #{sjkmc},
+        </if>
+        <if test='yhm != "" and yhm != null'>
+            yhm = #{yhm},
+        </if>
+        <if test='mm != "" and mm != null'>
+            mm = #{mm},
+        </if>
+        <if test='px != "" and px != null'>
+            px = #{px},
+        </if>
+        <if test='sjklx != "" and sjklx != null'>
+            sjklx = #{sjklx},
+        </if>
+        <if test='ljlx != "" and ljlx != null'>
+            ljlx = #{ljlx},
+        </if>
+        <if test='cjr != "" and cjr != null'>
+            cjr = #{cjr},
+        </if>
+        <if test='xgr != "" and xgr != null'>
+            xgr = #{xgr},
+        </if>
+        <if test='cjsj != "" and cjsj != null'>
+            cjsj = #{cjsj},
+        </if>
+        <if test='xgsj != "" and xgsj != null'>
+            xgsj = #{xgsj},
+        </if>
+        ,isjk=#{isjk}
+        </set>
+        where pzxh=#{pzxh}
+    </update>
+    
+    <delete id="deleteSjkpz">
+        delete from xt_sjkpz where pzxh=#{pzxh}
+    </delete>
+    
+</mapper>  

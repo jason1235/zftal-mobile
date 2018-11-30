@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.contract.dao.IContractDao" >
+	<resultMap type="com.zfsoft.hrm.contract.entity.Contract" id="contractMap">
+		<result property="id"                    column="ID"/>       
+		<result property="workNum"               column="GH"/>  
+		<result property="fullName"              column="xm"/> 
+		<result property="sex"                   column="xbm"/> 
+		<result property="deptId"                column="dwm"/> 
+		<result property="birthDay"              column="csrq"/> 
+		<result property="recruitDate"           column="jxsj"/> 
+		<result property="number"                column="HTBH"/>     
+		<result property="type"                  column="HTZLBM"/>   
+		<result property="term"                  column="HTQX"/>     
+		<result property="startDate"             column="HTQSRQ"/>   
+		<result property="endDate"               column="HTZZRQ"/>   
+		<result property="actualEndDate"         column="SJJSSJ"/> 
+		<result property="overResult"         column="ZZYY"/>   
+		<result property="probationDate"         column="SYQJZRQ"/>  
+		<result property="actualProbationDate"   column="SYQSJJSRQ"/>
+		<result property="regularResult"   column="SYQZZSM"/>
+		<result property="deferDate"             column="YQJSSJ"/>  
+		<result property="deferResult"             column="yqyy"/>
+		<result property="ravelDate"             column="jcrq"/>
+		<result property="ravelResult"             column="jcyy"/>   
+		<result property="status"                column="ZT"/>       
+		<result property="disuse"                column="SFZF"/>     
+		<result property="remark"                column="BZ"/>       
+		<result property="creator"               column="CJR"/>      
+		<result property="mender"                column="XGR"/>      
+		<result property="createDate"            column="CJSJ"/>     
+		<result property="updateDate"            column="XGSJ"/>		     
+	</resultMap>
+	
+	<resultMap type="com.zfsoft.hrm.contract.entity.Fields" id="fieldsMap">
+		<result property="table_name"                    column="TABLE_NAME"/>       
+		<result property="column_name"               column="COLUMN_NAME"/>  
+		<result property="comments"              column="COMMENTS"/> 
+		<result property="data_type"               column="DATA_TYPE"/>  
+		<result property="data_length"              column="DATA_LENGTH"/> 
+	</resultMap>
+	
+	<select id="findMaxBh" resultType="java.lang.String">
+        <![CDATA[SELECT htbh FROM (SELECT htbh FROM ht_htxxb WHERE regexp_like (gh,#{regex}) ORDER BY htbh DESC) WHERE ROWNUM <2]]>
+    </select>
+	
+	<select id="getPagedStaffList" parameterType="com.zfsoft.hrm.contract.entity.Contract" resultMap="contractMap">
+		select o.gh,o.xm,o.xbm,o.dwm,o.csrq,o.jxsj from overall o 
+		where 
+		<if test="!sign">
+		not 
+		</if>
+		exists (select 1 from HT_HTXXB h where o.gh = h.gh
+		
+			<if test="sign and type !=null and type != ''">
+	        	and 
+	        		HTZLBM = #{type}
+	        </if>
+		)
+        <if test="fullName !=null and fullName != ''">
+        	and 
+        		xm LIKE '%'||#{fullName}||'%'
+        </if>
+        <if test="workNum !=null and workNum != ''">
+        	and 
+        		gh LIKE #{workNum}||'%'
+        </if>
+	</select>
+
+	<select id="getStaff" resultMap="contractMap">
+		select 
+			h.ID,        
+			o.GH,        
+			o.xm,        
+			o.xbm,       
+			o.dwm,       
+			o.csrq,      
+			o.jxsj,      
+			h.HTBH,      
+			h.HTZLBM,    
+			h.HTQX,      
+			h.HTQSRQ,    
+			h.HTZZRQ,    
+			h.SJJSSJ,
+			h.zzyy,
+			h.syqzzsm,
+			h.yqyy,
+			h.jcrq,
+			h.jcyy,
+			h.SYQJZRQ,   
+			h.SYQSJJSRQ, 
+			h.YQJSSJ,    
+			h.ZT,        
+			h.SFZF,      
+			h.BZ,        
+			h.CJR,       
+			h.XGR,       
+			h.CJSJ,      
+			h.XGSJ      
+		from overall o left join HT_HTXXB h on h.gh = o.gh
+		where 1=1
+        <if test="fullName !=null and fullName != ''">
+        	and 
+        		o.xm = #{fullName}
+        </if>
+        <if test="number !=null and number != ''">
+        	and 
+        		h.HTBH = #{number}
+        </if>
+        <if test="workNum !=null and workNum != ''">
+        	and 
+        		o.gh = #{workNum}
+        </if>
+        <if test="status !=null and status != ''">
+        	and 
+        		h.zt in ('${status}') 
+        </if>
+	</select>
+	
+	<sql id="select">
+		select 
+			h.ID,        
+			h.GH,        
+			o.xm,        
+			o.xbm,       
+			o.dwm,       
+			o.csrq,      
+			o.jxsj,      
+			h.HTBH,      
+			h.HTZLBM,    
+			h.HTQX,      
+			h.HTQSRQ,    
+			h.HTZZRQ,    
+			h.SJJSSJ,
+			h.zzyy,
+			h.syqzzsm,
+			h.yqyy,
+			h.jcrq,
+			h.jcyy,    
+			h.SYQJZRQ,   
+			h.SYQSJJSRQ, 
+			h.YQJSSJ,    
+			h.ZT,        
+			h.SFZF,      
+			h.BZ,        
+			h.CJR,       
+			h.XGR,       
+			h.CJSJ,      
+			h.XGSJ      
+		from HT_HTXXB h left join overall o on h.gh = o.gh
+		where 1=1
+		<if test="condition !=null and condition != ''">
+        	and 
+        		(${condition}) 
+        </if>
+        <if test="status !=null and status != ''">
+        	and 
+        		h.zt in ('${status}') 
+        </if>
+        <if test="type !=null and type != ''">
+        	and 
+        		h.HTZLBM = #{type}
+        </if>
+        <if test="fullName !=null and fullName != ''">
+        	and 
+        		o.xm LIKE '%'||#{fullName}||'%'
+        </if>
+        <if test="workNum !=null and workNum != ''">
+        	and 
+        		h.gh LIKE #{workNum}||'%'
+        </if>
+        <if test="number !=null and number != ''">
+        	and 
+        		h.HTBH LIKE '%'||#{number}||'%'
+        </if>
+        <if test="startDate !=null and startDate != ''">
+        	and 
+        		h.HTQSRQ >= #{startDate}
+        </if>
+        <if test="endDate !=null and endDate != ''">
+        	and 
+        		 #{endDate} >= h.HTZZRQ 
+        </if>
+        <if test="disuse !=null and disuse != ''">
+        	and 
+        		h.SFZF = #{disuse}
+        </if>
+	</sql>
+	
+	<select id="getPagedList" parameterType="com.zfsoft.hrm.contract.entity.Contract" resultMap="contractMap">
+		<include refid="select" />
+	</select>
+	
+	<select id="getColumns" resultMap="fieldsMap">
+	  SELECT 
+      	   t1.TABLE_NAME,
+           t1.COLUMN_NAME,
+           t2.COMMENTS,
+           t1.DATA_TYPE,
+           t1.DATA_LENGTH
+      FROM 
+        user_tab_columns t1, user_col_comments t2
+      WHERE 
+       t1.TABLE_NAME = t2.TABLE_NAME
+       AND 
+         t1.COLUMN_NAME = t2.COLUMN_NAME
+       AND 
+         t1.TABLE_NAME = 'HT_HTXXB'
+	</select>
+	<insert id="insert">
+			INSERT INTO 
+				HT_HTXXB(
+					ID,      
+					GH,      
+					HTBH,    
+					HTZLBM,  
+					HTQX,    
+					HTQSRQ,  
+					HTZZRQ,  
+					<if test="probationDate !=null">
+						SYQJZRQ,
+					</if> 
+					ZT,      
+					SFZF,    
+					BZ,      
+					CJR,     
+					CJSJ
+				)
+			VALUES(
+				#{id},  
+				#{workNum},             
+				#{number}, 
+				#{type},  
+				#{term},      
+				#{startDate},  
+				#{endDate},
+				<if test="probationDate !=null">
+					#{probationDate},
+				</if>
+				#{status},
+				#{disuse},
+				#{remark},
+				#{creator},
+				sysdate
+			)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			SELECT SYS_GUID() ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="importinsert">
+			INSERT INTO 
+				HT_HTXXB(
+					ID,
+				<if test="workNum != null">        
+					GH,
+				</if> 
+				<if test="number != null">        
+					HTBH,
+				</if> 
+				<if test="type != null">    
+					HTZLBM,
+				</if>
+				<if test="term != null">    
+					HTQX,  
+				</if> 
+				<if test="startDate != null">     
+					HTQSRQ,  
+				</if>
+				<if test="probationDate !=null">
+					SYQJZRQ,
+				</if> 
+				<if test="actualProbationDate !=null">
+					SYQSJJSRQ,
+				</if>
+				<if test="endDate != null">    
+					HTZZRQ,  
+				</if>
+				<if test="deferDate != null">   
+					YQJSSJ,
+				</if> 
+				<if test="actualEndDate != null">   
+					SJJSSJ, 
+				</if> 
+				<if test="status != null">   
+					ZT,      
+				</if> 
+				<if test="disuse != null">   
+					SFZF,    
+				</if> 
+				<if test="remark != null">  
+					BZ,      
+				</if> 
+				<if test="creator != null"> 
+					CJR,     
+				</if> 
+				<if test="createDate != null">    
+					CJSJ,
+				</if> 
+				<if test="mender != null">    
+					XGR,
+				</if> 
+				<if test="updateDate != null">   
+					XGSJ,
+				</if> 
+				<if test="overResult != null">  
+					ZZYY,
+				</if> 
+				<if test="regularResult != null">   
+					SYQZZSM,
+				</if> 
+				<if test="deferResult != null"> 
+					YQYY,
+				</if> 
+				<if test="ravelDate != null">   
+					JCRQ,
+				</if> 
+				<if test="ravelResult != null">    
+					JCYY
+				</if>
+				)
+			VALUES(
+				#{id},
+				<if test="workNum != null">  
+					#{workNum jdbcType=VARCHAR}, 
+				</if> 
+				<if test="number != null">           
+					#{number jdbcType=VARCHAR},
+				</if> 
+				<if test="type != null">
+					#{type jdbcType=VARCHAR},
+				</if>
+				<if test="term != null">  
+					#{term jdbcType=VARCHAR},
+				</if> 
+				<if test="startDate != null">      
+					#{startDate jdbcType=VARCHAR}, 
+				</if> 
+				<if test="endDate != null">     
+					#{endDate jdbcType=VARCHAR},
+				</if>
+				<if test="probationDate !=null">
+					#{probationDate jdbcType=VARCHAR},
+				</if>
+				<if test="deferDate != null">    
+					#{deferDate jdbcType=VARCHAR},
+				</if> 
+				<if test="actualEndDate != null">    
+					#{actualEndDate jdbcType=VARCHAR},
+				</if>
+				<if test="actualProbationDate != null">    
+					#{actualProbationDate jdbcType=VARCHAR},
+				</if>  
+				<if test="status != null">    
+					#{status jdbcType=VARCHAR},
+				</if> 
+				<if test="disuse != null">    
+					#{disuse jdbcType=VARCHAR},
+				</if> 
+				<if test="remark != null">    
+					#{remark jdbcType=VARCHAR},
+				</if> 
+				<if test="creator != null">    
+					#{creator jdbcType=VARCHAR},
+				</if> 
+				<if test="createDate != null">    
+					nvl(#{createDate},sysdate),
+				</if> 
+				<if test="mender != null">    
+					#{mender jdbcType=VARCHAR},
+				</if> 
+				<if test="updateDate != null">     
+					#{updateDate jdbcType=VARCHAR},
+				</if> 
+				<if test="overResult != null">    
+					#{overResult jdbcType=VARCHAR},
+				</if> 
+				<if test="regularResult != null">    
+					#{regularResult jdbcType=VARCHAR},
+				</if> 
+				<if test="deferResult != null">    
+					#{deferResult jdbcType=VARCHAR},	
+				</if> 
+				<if test="ravelDate != null">    		
+					#{ravelDate jdbcType=VARCHAR},
+				</if> 
+				<if test="ravelResult != null">    
+					#{ravelResult jdbcType=VARCHAR}	
+				</if>
+			)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			SELECT SYS_GUID() ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+			UPDATE
+				HT_HTXXB 
+			SET
+				HTBH = #{number},     
+				HTZLBM = #{type},  
+				HTQX = #{term},    
+				HTQSRQ = #{startDate},  
+				HTZZRQ = #{endDate},  
+			<if test="probationDate !=null">
+				SYQJZRQ = #{probationDate},     
+			</if>
+				BZ = #{remark},      
+				XGR = #{mender},     
+				XGSJ = sysdate
+			WHERE
+				gh = #{workNum}
+	</update>
+	
+	<update id="operate">
+		UPDATE
+			HT_HTXXB 
+		SET
+		<if test="disuse !=null">
+			SFZF = #{disuse},     
+		</if>
+		<if test="overResult !=null and overResult != ''">
+			ZZYY = #{overResult},     
+		</if>
+		<if test="regularResult !=null and regularResult != ''">
+			SYQZZSM = #{regularResult},     
+		</if>
+		<if test="deferResult !=null and deferResult != ''">
+			YQYY = #{deferResult},     
+		</if>
+		<if test="ravelDate !=null">
+			JCRQ = #{ravelDate},     
+		</if>
+		<if test="ravelResult !=null and ravelResult != ''">
+			JCYY = #{ravelResult},     
+		</if>
+		<if test="actualEndDate !=null">
+			SJJSSJ = #{actualEndDate},     
+		</if>
+		<if test="deferDate !=null">
+			YQJSSJ = #{deferDate},     
+		</if>
+		<if test="actualProbationDate !=null">
+			SYQSJJSRQ = #{actualProbationDate},     
+		</if>
+		<if test="status !=null and status != ''">
+			ZT = #{status},     
+		</if>
+			XGR = #{mender},     
+			XGSJ = sysdate
+		WHERE
+			gh = #{workNum}
+	</update>
+	
+	<select id="getContract" resultType="java.lang.Integer">
+		select count(1) from ht_htxxb where htzlbm = #{htzlbm}
+	</select>
+	
+	<select id="getContractList" resultType="com.zfsoft.hrm.contract.entity.RemindContract">
+	  select
+       zl.htzlmc htzlmc,
+       zl.dqtxts dqtxts,
+       zl.xqtxts xqtxts,
+       zl.syqtxts syqtxts,
+       zl.glry glry,
+       xx.htzlbm HTZLBM,
+       xx.gh GH,
+       xx.htbh HTBH,
+       xx.htzzrq HTZZRQ,
+       xx.syqjzrq SYQJZRQ
+	  from ht_htzlglb zl, ht_htxxb xx
+	 where xx.htzlbm = zl.htzldm(+)
+	   and sfzf = '0'
+	   and (zl.sfqy = '1' and zl.sfzdtx = '1')
+	</select>
+</mapper>

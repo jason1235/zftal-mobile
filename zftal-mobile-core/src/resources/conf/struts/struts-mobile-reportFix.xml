@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="reportFix" namespace="/reportFix" extends="configuration" >
+		<action name="reportFix_*" class="reportFixAction" method="{1}" >
+		    <result name="htlist">/WEB-INF/pages/mobile/reportFix/list.jsp</result>
+		    <result name="toUpdate">/WEB-INF/pages/mobile/reportFix/edit.jsp</result>
+		    <result name="toDetail">/WEB-INF/pages/mobile/reportFix/detail.jsp</result>
+		    <result name="personList">/WEB-INF/pages/mobile/reportFix/personList.jsp</result>
+		     <result name="typelist">/WEB-INF/pages/mobile/reportFix/typelist.jsp</result>
+		       <result name="typeedit">/WEB-INF/pages/mobile/reportFix/typeedit.jsp</result>
+		</action>
+	</package>
+</struts>

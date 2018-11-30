@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="userManage" namespace="/xtgl" extends="configuration">
+        <!-- 代码库管理 -->
+        <action name="userManage_*" class="userManageAction" method="{1}">
+        </action>
+    </package>
+</struts>

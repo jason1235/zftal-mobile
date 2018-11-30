@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<bean id="businessAction" class="com.zfsoft.mobile.services.action.BusinessAction" scope="prototype" >
+	    <property name="businessService" ref="businessService"></property>
+	    <property name="serviceManagerService" ref="serviceManagerService"></property>
+	</bean>
+	<bean id="serviceManagerAction" class="com.zfsoft.mobile.services.action.ServiceManagerAction" scope="prototype" >
+		<property name="businessService" ref="businessService"></property>
+	    <property name="serviceManagerService" ref="serviceManagerService"></property>
+	    <property name="mobileCommonService" ref="mobileCommonService"></property>
+	    <property name="newsService" ref="newsService"></property>
+	</bean>
+	<bean id="fwdyjsAction" class="com.zfsoft.mobile.services.action.FwdyjsAction" scope="prototype" >
+		<property name="jsglService" ref="jsglService"></property>
+		<property name="fwdyjsService" ref="fwdyjsService"></property>
+		<property name="serviceManagerService" ref="serviceManagerService"></property>
+	</bean>
+	<bean id="questionAction" class="com.zfsoft.mobile.services.action.QuestionAction" scope="prototype" >
+		<property name="questionService" ref="questionService"></property>
+	</bean>
+	<bean id="twoQuestionAction" class="com.zfsoft.mobile.services.action.TwoQuestionAction" scope="prototype" >
+		<property name="twoQuestionService" ref="twoQuestionService"></property>
+	</bean>
+	<bean id="gaoDeMapAction" class="com.zfsoft.mobile.services.action.GaoDeMapAction" scope="prototype" >
+		<property name="gaoDeMapService" ref="gaoDeMapService"></property>
+	</bean>
+	<bean id="lossObjectAction" class="com.zfsoft.mobile.services.action.LossObjectAction" scope="prototype" >
+		<property name="lossObjectService" ref="lossObjectService"></property>
+		<property name="loginService" ref="loginService"/>
+	</bean>
+</beans>

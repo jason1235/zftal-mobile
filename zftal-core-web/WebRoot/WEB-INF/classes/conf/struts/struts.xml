@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<!--<constant name="struts.custom.i18n.resources" value="message" />
+	<constant name="struts.devMode" value="true" />
+	&lt;!&ndash; 整个项目所上传文件的最大的Size &ndash;&gt;
+	<constant name="struts.multipart.maxSize" value="50000000000"/>
+    &lt;!&ndash; 更改struts.xml后自动重新加载,不用重启TOMCAT &ndash;&gt;
+    <constant name="struts.configuration.xml.reload" value="true" />
+    &lt;!&ndash; 允许静态方法调用 &ndash;&gt;
+    <constant name="struts.ognl.allowStaticMethodAccess" value="true" />
+    &lt;!&ndash; spring配置 &ndash;&gt;
+	<constant name="struts.objectFactory" value="spring" />
+	<constant name="struts.action.extension" value="html" />	-->
+
+
+	 <package name="configuration" extends="json-default">
+		<!-- 自定义拦截器 -->
+		<interceptors>
+			<!-- 自定义登录拦截器 -->
+			<interceptor name="loginInterceptor" class="com.zfsoft.globalweb.interceptor.LoginInterceptor"></interceptor>
+			<interceptor name="PageForward" class="com.zfsoft.hrm.interceptor.PageForwardInterceptor"></interceptor>
+			<!--<interceptor name="gnmkCzQxInterceptor" class="com.zfsoft.globalweb.interceptor.GnmkCzQxInterceptor"></interceptor>-->
+			<!-- 将自定义拦截器加载到拦截器栈 -->
+			<interceptor-stack name="BaseStack">
+				<interceptor-ref name="loginInterceptor" />
+				<!--<interceptor-ref name="gnmkCzQxInterceptor" />-->
+				<interceptor-ref name="defaultStack" />
+				<interceptor-ref name="PageForward"/>
+			</interceptor-stack>
+		</interceptors>
+		<!-- 将自定义拦截器栈设置为默认拦截器 -->
+		<default-interceptor-ref name="BaseStack" />
+		<global-results>
+            <result name="login">/WEB-INF/pages/globalweb/login.jsp</result>
+            <result name="sessionOut">/WEB-INF/pages/globalweb/sessionOut.jsp?tzurl=${tzurl}</result>
+            <result name="error">/WEB-INF/pages/globalweb/comm/log/requestError.jsp</result>
+            <result name="input">/WEB-INF/pages/globalweb/comm/log/requestError.jsp</result>
+			<result name="data" type="json">  
+                <param name="root">data</param>  
+         	</result> 
+         	<!-- 异常处理页面 -->
+         	<result name="error">/WEB-INF/pages/globalweb/comm/exception/error.jsp</result>
+			<result name="unknowException">/WEB-INF/pages/globalweb/comm/exception/error.jsp</result>
+			<result name="businessException">/WEB-INF/pages/globalweb/comm/exception/businessexception.jsp</result>
+			<result name="serviceException">/WEB-INF/pages/globalweb/comm/exception/businessexception.jsp</result>
+			<result name="dataIntegrityViolationException">/WEB-INF/pages/globalweb/comm/exception/voilationException.jsp</result>         	
+		</global-results>
+		<!-- 利用strus2的异常框架 -->       
+		<global-exception-mappings>   
+			<exception-mapping result="error" exception="java.lang.Exception"/>
+			<exception-mapping result="unknowException" exception="java.lang.Exception"></exception-mapping>
+			<exception-mapping result="businessException" exception="com.zfsoft.common.exception.BusinessException"></exception-mapping>
+			<exception-mapping result="serviceException" exception="com.zfsoft.common.exception.ServiceException"></exception-mapping>
+			<exception-mapping result="dataIntegrityViolationException" exception="org.springframework.dao.DataIntegrityViolationException"></exception-mapping>			 
+		</global-exception-mappings>   
+	 </package>
+
+	<!-- 引入子工程的公共配置文件  -->
+	<include file="conf/struts/struts-*.xml"/>
+
+</struts>

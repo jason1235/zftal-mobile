@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="portal" namespace="/portal" extends="configuration" >
+		<action name="portal_*" class="portalAction" method="{1}" > 
+			<result name="list">/WEB-INF/pages/mobile/web/portal/book_list.jsp</result>
+			<result name="detail">/WEB-INF/pages/mobile/web/portal/book_detail.jsp</result>
+			<result name="cardlist">/WEB-INF/pages/mobile/web/portal/card_list.jsp</result>
+			<result name="cardCharge">/WEB-INF/pages/mobile/web/portal/cardCharge.jsp</result>
+			<result name="businessFrom">/WEB-INF/pages/mobile/web/portal/businessFrom.jsp</result>
+			<result name="getLoss">/WEB-INF/pages/mobile/web/portal/getLoss.jsp</result>
+			<result name="paymyself">/WEB-INF/pages/mobile/web/portal/paymyself.jsp</result>
+			<result name="pay">/WEB-INF/pages/mobile/web/portal/pay.jsp</result>
+			<result name="portal">/WEB-INF/pages/mobile/web/portal/portal.jsp</result>
+			<result name="srlist">/WEB-INF/pages/mobile/web/portal/srlist.jsp</result>
+		</action>
+	</package>
+	
+</struts>

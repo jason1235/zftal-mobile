@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="common" namespace="/common" extends="configuration">
+		<action name="common_*" class="commonAction" method="{1}">
+			<result name="list">/WEB-INF/pages/globalweb/common_list.jsp</result>
+			<result name="listAll">/WEB-INF/pages/globalweb/common_listAll.jsp</result>
+			<result name="forward">/WEB-INF/pages/globalweb/common_forward.jsp</result>
+		</action>
+	</package>
+</struts>

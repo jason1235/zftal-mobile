@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+  
+<!DOCTYPE mapper PUBLIC   
+    "-//mybatis.org//DTD Mapper 3.0//EN"  
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">  
+  
+<mapper namespace="com.firstLink.dao.IUserDao">  
+	
+	<resultMap type="com.zfsoft.dao.entities.User" id="UserMap">
+		<result property="name" 		column="name" />
+		<result property="userId" 		column="userId" />
+		<result property="sfqy" 		column="sfqy" />
+		<result property="password" 	column="password" />
+		<result property="tellphone" 	column="tellphone" />
+	</resultMap>
+	
+	<sql id="where">
+    	<where>
+			<if test="userId != null and userId != ''">
+   				and m.userId = #{userId}
+	   		</if>
+			<if test="name != null and name != ''">
+    			and m.name  like '%'||#{name}||'%' 
+    		</if>
+    		<if test="password != null and password != ''">
+   				and m.password = #{password}
+	   		</if>
+		</where>
+    </sql> 
+    
+    <select id="getListCount"  resultType="int">  
+        select count(*) from
+				(select * from m_user m
+				<include refid="where" /> )
+			a 
+    </select>  
+    
+    <select id="getList"  resultMap="UserMap">  
+        select c.*from (
+		select a.*,rownum rn from
+		(select * from m_user m
+		<include refid="where" /> )
+		a
+          
+			) c
+			
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>	
+    </select>  
+    
+    <insert id="save" useGeneratedKeys="true" keyProperty="guid">
+			insert into m_user(
+				name,userId,sfqy,password
+				<if test="tellphone != null and tellphone != ''">
+   				,tellphone
+	   			</if>
+			) values(
+				#{name}, #{userId}, #{sfqy}, #{password}
+				<if test="tellphone != null and tellphone != ''">
+   				, #{tellphone}
+	   			</if>
+				
+				
+			)
+		
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			update m_user set
+				name = #{name},tellphone = #{tellphone,jdbcType=VARCHAR}
+			where userId = #{userId}
+		]]>
+	</update>
+	
+	<update id="updatePassword">
+		<![CDATA[
+			update m_user set
+				password = #{password}
+			where userId = #{userId}
+		]]>
+	</update>
+	
+	<update id="updateBySfqy">
+		<![CDATA[
+			update m_user set
+				sfqy = #{sfqy}
+			where userId = #{userId}
+		]]>
+	</update>
+    
+    <delete id="delete">
+		<![CDATA[
+			delete from m_user where userId = #{userId}
+		]]>
+	</delete>
+	
+	
+    
+</mapper>  

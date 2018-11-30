@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="org" namespace="/org" extends="configuration">
+		
+		<!-- 组织机构管理 -->
+		<action name="org_*" class="baseOrgAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/hrm/org/org_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/org/org_edit.jsp</result>
+			<result name="showWinError">/WEB-INF/pages/hrm/org/errorPage/showWinError.jsp</result>
+			<result name="org_ztree">/WEB-INF/pages/hrm/org/org_ztree.jsp</result>
+		</action>
+		
+		<!-- 组织机构查询管理 -->
+		<action name="orgSearch_*" class="baseOrgSearchAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/hrm/org/orgSearch_list.jsp</result>
+			<result name="dtl_list">/WEB-INF/pages/hrm/org/dtl_list.jsp</result>
+			<result name="dtl_list_style2">/WEB-INF/pages/hrm/org/dtl_list_style2.jsp</result>
+		</action>
+		
+		<!-- 组织机构人员管理 -->
+		<action name="orgPeople_*" class="baseOrgPeopleAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/hrm/org/org_people.jsp</result>
+		</action>
+	  
+	</package>
+</struts>

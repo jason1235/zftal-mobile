@@ -1,0 +1,96 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+                             http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.zfsoft</groupId>
+		<artifactId>zftal-parent</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+	
+	
+	<properties>
+            <failOnMissingWebXml>false</failOnMissingWebXml>
+    </properties>
+	
+	<artifactId>zftal-mobile-zpack</artifactId>
+	<packaging>war</packaging>
+	<name>zftal-sum-zpack</name>
+    <dependencies>
+        <!-- 工作流模块工程-->
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>zftal-workflow</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <!-- 人事系统模块工程 -->
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>zftal-hrm-core</artifactId>
+            <version>${project.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.zfsoft</groupId>
+                    <artifactId>zftal-hrm-core-common</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>zftal-mobile-core</artifactId>
+            <version>${project.version}</version>
+        </dependency> 
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>zftal-portal-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+         
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>zftal-sjzx-core</artifactId>
+            <version>${project.version}</version>
+        </dependency> 
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>zftal-weibo-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>zftal-guest-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>zftal-wechat-core</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
+	<build>
+		<sourceDirectory>src/java</sourceDirectory>
+		<outputDirectory>WebRoot/WEB-INF/classes</outputDirectory>
+		<resources>
+			<resource>
+				<filtering>true</filtering>
+				<directory>src/java</directory>
+				<includes>
+					<include>**/*.xml</include>
+				</includes>
+			</resource>
+			<resource>
+                <filtering>false</filtering>
+                <directory>src/resources</directory>
+            </resource>
+		</resources>
+	</build>
+
+</project>

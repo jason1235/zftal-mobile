@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.hrm.expertvote.vote.dao.IExpertGroupDao">
+
+    <resultMap id="expertGroup" type="com.zfsoft.hrm.expertvote.vote.entity.ExpertGroup">
+        <result property="id"           column="id" />
+        <result property="name"         column="zm" />
+        <result property="type"         column="type" />
+        <result property="level"    column="audit_level" />
+    </resultMap>
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO 
+                hrm_expert_group_info(
+                    id,
+                    name,
+                    type,
+                    audit_level 
+                )
+                VALUES(
+                    #{id},
+                    #{name},
+                    #{type,jdbcType=VARCHAR},
+                    #{level}
+                )
+        ]]>
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            <![CDATA[
+            select SYS_GUID() globalid from DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    <update id="update">
+        update hrm_expert_group_info 
+        <set>
+            <if test="name !=null">
+	            name = #{name},
+	        </if>
+	        <if test="type !=null">
+	            type = #{type},
+	        </if>
+	        <if test="level !=null">
+	            audit_level = #{level},
+	        </if>
+        </set>
+        where id = #{id}
+    </update>
+    
+    <delete id="delete">
+       delete from hrm_expert_group_info where id = #{id}
+    </delete>
+    
+    <select id="getById" resultMap="expertGroup">
+        select 
+            id,
+            name,
+            type,
+            audit_level
+        from hrm_expert_group_info 
+        where id = #{id}
+    </select>
+    
+        <!-- 获取信息 -->
+    <select id="getList" resultMap="expertGroup" >
+        select 
+            id,
+            name,
+            type,
+            audit_level
+        from hrm_expert_group_info k
+        <include refid="where"/>
+        <if test="orderStr != null and orderStr != ''">
+            order by ${orderStr}
+        </if> 
+    </select>
+    
+    
+        <!-- 获取分页信息 -->
+    <select id="getPagingList" resultMap="expertGroup" >
+    select * from (select a.*, rownum rn from(
+        select 
+            id,
+            name,
+            type,
+            audit_level
+        from hrm_expert_group_info k
+        <include refid="where"/>
+        <if test="orderStr != null and orderStr != ''">
+            order by ${orderStr}
+        </if> 
+     ) a )
+        <![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+    </select>
+    
+    <!-- 获取分页计数 -->
+    <select id="getPagingCount" resultType="int">
+        select 
+            count(distinct k.id) cnt
+        from hrm_expert_group_info k
+        <include refid="where"/>
+    </select>
+    
+    <sql id="where">
+    <where>
+        <if test="id != null and id != ''">
+            and k.id = #{id}
+        </if>
+        <if test="name != null and name != ''">
+            and k.name = #{name}
+        </if>
+        <if test="type != null and type != ''">
+            and k.type = #{type}
+        </if>
+         <if test="level !=null and level != '' ">
+            and k.audit_level = #{level}
+         </if>
+         <if test="memberId !=null and memberId != '' ">
+            and k.id in ( select cy.group_id from hrm_expert_group_member cy,hrm_expert_info zj 
+                where zj.gh=#{memberId} and zj.id=cy.expert_id )
+         </if>
+    </where>
+    </sql>
+    
+</mapper>

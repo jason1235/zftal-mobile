@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="normal" namespace="/normal" extends="configuration">
+	  
+	  <!-- 个人综合信息 -->
+	  <action name="overallInfo_*" class="overallAction" method="{1}" >
+	     <result name="list">/WEB-INF/pages/hrm/normal/overallinfo/list.jsp</result>
+	     <result name="list_style2">/WEB-INF/pages/hrm/normal/overallinfo/list_style2.jsp</result>
+	  </action>
+	  
+	  <!-- 个人详细信息(简历) -->
+	  <action name="staffResume_*" class="staffResumeAction" method="{1}" >
+	     <result name="list">/WEB-INF/pages/hrm/normal/resume/list.jsp</result>
+	     <result name="listAll">/WEB-INF/pages/hrm/normal/resume/listAll.jsp</result>
+	  </action>
+	  
+	  <action name="notImplement_*" class="com.zfsoft.hrm.normal.info.action.NotImplementAction" method="{1}" >
+	     <result name="list">/WEB-INF/pages/hrm/normal/resume/notImpllist.jsp</result>
+	  </action>
+	  
+	  <action name="staffInfo_*" class="staffInfoAction" method="{1}" >
+	     <result name="list">/WEB-INF/pages/hrm/normal/staffinfo/list.jsp</result>
+	     <result name="listStyle">/WEB-INF/pages/hrm/normal/staffinfo/staffinfo_listStyle.jsp</result>
+	  </action>
+	  
+	  <action name="staffBatch_*" class="staffInfoBatchAction" method="{1}" >
+	     <result name="list">/WEB-INF/pages/hrm/normal/staffinfoBatch/list.jsp</result>
+	     <result name="edit">/WEB-INF/pages/hrm/normal/staffinfoBatch/edit.jsp</result>
+	     <result name="batchedit">/WEB-INF/pages/hrm/normal/staffinfoBatch/batchedit.jsp</result>
+	     <result name="showlog">/WEB-INF/pages/hrm/normal/staffinfoBatch/showlog.jsp</result>
+	  </action>
+	  
+	  <action name="contract_*" class="contractAction" method="{1}" >
+	     <result name="list">/WEB-INF/pages/hrm/normal/resume/contract_list.jsp</result>
+	     <result name="edit">/WEB-INF/pages/hrm/normal/resume/contract_edit.jsp</result>
+	  </action>
+	  
+	  <!-- 分类查询 -->
+	  <action name="catalogQuery_*" class="catalogQueryAction" method="{1}" >
+	     <result name="list_style1">/WEB-INF/pages/hrm/normal/custom/list_style1.jsp</result>
+	     <result name="list_style2">/WEB-INF/pages/hrm/normal/custom/list_style2.jsp</result>
+	  </action>
+	  
+	  <!-- 临时人员 -->
+  	  <action name="casualStaffBatch_*" class="casualStaffBatchAction" method="{1}" >
+	     <result name="casualStaffBatch_list">/WEB-INF/pages/hrm/normal/casualStaffBatch/casualStaffBatch_list.jsp</result>
+	     <result name="casualStaffBatch_listwghyg">/WEB-INF/pages/hrm/normal/casualStaffBatch/casualStaffBatch_listwghyg.jsp</result>
+	     <result name="casualStaffBatch_edit">/WEB-INF/pages/hrm/normal/casualStaffBatch/casualStaffBatch_edit.jsp</result>
+	     <result name="casualStaffBatch_batchedit">/WEB-INF/pages/hrm/normal/casualStaffBatch/casualStaffBatch_batchedit.jsp</result>
+	     <result name="fpghInit">/WEB-INF/pages/hrm/normal/casualStaffBatch/fpghInit.jsp</result>
+	  </action>
+	</package>
+</struts>

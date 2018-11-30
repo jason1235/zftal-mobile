@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.reportFix.dao.IReportFixDao">
+
+	<select id="getList" resultType="com.zfsoft.mobile.reportFix.entity.ReportFixEntity">
+		select *
+		  from (select a.*, rownum rn
+		          from (select t.* from M_REPORTFIX t where 1=1
+	                <if test="status != null and status != ''">
+		   		 		 and t.status = #{status}
+			   		</if>
+			   		<!-- 未评价 -->
+                    <if test="haveEvaluate != null and haveEvaluate != ''">
+		   		 		 and t.evaluate is null and t.score is null
+			   		</if>	   
+			   		order by t.createtime desc       
+		          ) a)
+		 where rn &gt;=#{startRow} and rn &lt;=#{endRow}
+	</select>
+	
+	<select id="getListCount" resultType="int">
+		select count(*) from m_reportfix t where 1=1 
+            <if test="status != null and status != ''">
+   		 		 and t.status = #{status}
+	   		</if>
+	   		<if test="haveEvaluate != null and haveEvaluate != ''">
+   		 		 and t.evaluate is null and t.score is null
+	   		</if>
+	</select>
+	
+	<select id="getFixPictures" resultType="com.zfsoft.mobile.reportFix.entity.ReportFixPicsEntity">
+		select t.fixId,t.name,t.content,t.path,t.createTime from M_REPORTFIX_PICTURE t where t.fixid=#{id}
+	</select>
+	
+	<select id="getCountAmount" resultType="com.zfsoft.mobile.reportFix.entity.ReportFixCountEntity">
+		select 'weibaoxiu' name, count(*) countAmount
+		  from m_reportfix t0
+		 where t0.status = '0'
+		union all
+		select 'baoxiuzhong' name, count(*) countAmount
+		  from m_reportfix t0
+		 where t0.status = '1'
+		union all
+		select 'yibaoxiu' name, count(*) countAmount
+		  from m_reportfix t0
+		 where t0.status = '2'
+		union all
+		select 'weipingjia' name, count(*) countAmount
+		  from m_reportfix t0
+		 where t0.status = '2'
+		   and t0.evaluate is null
+	</select>
+	
+	<insert id="insertReportFix" >
+			insert into m_reportfix(
+				id,problem,telephone,status,createtime,userid
+			) values(
+				#{id},#{problem},#{telephone},#{status},sysdate,#{userId}
+			)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insertReportFixPicture" >
+		<![CDATA[
+			INSERT INTO 
+				m_reportfix_picture(
+					fixId,	
+					name,
+					content,
+					path,
+					createTime
+				)
+			VALUES(
+				#{fixId},           
+				#{name},
+				#{content},
+				#{path},
+				sysdate
+				)
+		]]>
+	</insert>
+	
+	<update id="updateEvaluateById" parameterType="com.zfsoft.mobile.reportFix.entity.ReportFixEntity">
+	    update m_reportfix t set t.evaluate=#{evaluate},t.score=#{score} where t.id=#{id}
+	</update>
+	
+	<update id="updateStatusById" parameterType="com.zfsoft.mobile.reportFix.entity.ReportFixEntity">
+	    update m_reportfix t set t.status=#{status} where t.id=#{id}
+	</update>
+	
+	<!-- 移动后台查询语句开始 -->
+	
+	<select id="getYdhtList" resultType="com.zfsoft.mobile.reportFix.entity.ReportFixEntity">
+	     select c.*,rn from (
+		    select a.*,rownum rn from(
+				select t.* from M_REPORTFIX t where 1=1
+				            <if test="problem != null and problem != ''">
+				   		 		 and t.problem like '%'||#{problem}||'%'
+					   		</if>
+			                <if test="status != null and status != ''">
+				   		 		 and t.status = #{status}
+					   		</if>
+					   		<!-- 未评价 -->
+		                    <if test="haveEvaluate != null and haveEvaluate != ''">
+				   		 		 and t.evaluate is null
+					   		</if>
+		   )a order by a.createtime desc
+	     ) c
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>			 			   		
+	</select>
+	
+	<select id="getReportFixById" resultType="com.zfsoft.mobile.reportFix.entity.ReportFixEntity"> 
+		select t.* from M_REPORTFIX t where 1=1 and t.id=#{fixId}
+	</select>
+	
+	<select id="getYdhtListCount" resultType="int">
+		select count(*) from m_reportfix t where 1=1
+		    <if test="problem != null and problem != ''">
+		   		and t.problem like '%'||#{problem}||'%'
+			</if> 
+            <if test="status != null and status != ''">
+   		 		 and t.status = #{status}
+	   		</if>
+	   		<if test="haveEvaluate != null and haveEvaluate != ''">
+   		 		 and t.evaluate is null
+	   		</if>
+	</select>
+	
+	<delete id="deleteReportFixByReportFixId" parameterType="map">
+	     delete from m_reportfix t where t.id=#{fixId} 
+	</delete>
+	<!-- 移动后台查询语句 结束 -->
+</mapper>

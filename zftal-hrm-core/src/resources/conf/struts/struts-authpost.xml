@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="post" namespace="/post" extends="configuration">
+		<!-- 岗位信息维护 -->
+		<action name="postinfo_*" class="postInfoAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/authpost/post/postinfo_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/authpost/post/postinfo_edit.jsp</result>
+		</action>
+		
+		<!-- 岗位信息维护 -->
+		<action name="deptPost_*" class="deptPostAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/authpost/post/deptPost/list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/authpost/post/deptPost/edit.jsp</result>
+		</action>
+		<!-- 历史岗位 -->
+		<action name="postHistory_*" class="postHistoryAction" method="{1}">
+			<result name="manual">/WEB-INF/pages/hrm/authpost/post/history/postHistory_manual.jsp</result>
+			<result name="auto">/WEB-INF/pages/hrm/authpost/post/history/postHistory_auto.jsp</result>
+			<result name="list">/WEB-INF/pages/hrm/authpost/post/history/postHistory_list.jsp</result>
+		</action>
+		<action name="postHistoryLog_*" class="postHistoryLogAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/authpost/post/history/postHistoryLog_list.jsp</result>
+		</action>
+	</package>
+	<package name="auth" namespace="/auth" extends="configuration">
+		<!-- 编制统计 -->
+		<action name="authstatistics_*" class="authStatisticsAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/authpost/auth/authstatistics_list.jsp</result>
+			<result name="current_user_page">/WEB-INF/pages/hrm/authpost/auth/authstatistics_current.jsp</result>
+			<result name="short_post_page">/WEB-INF/pages/hrm/authpost/auth/authstatistics_short.jsp</result>
+		</action>
+		<!-- 编制详细 -->
+		<action name="authDetail_*" class="authDetailAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/authpost/auth/authDetail_list.jsp</result>
+		</action>
+	</package>
+</struts>

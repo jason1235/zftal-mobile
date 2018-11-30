@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 基础数据XML,修改后请重新启动服务器 -->
+<root>
+	<!-- 新闻发布中的发布对象 -->
+	<data id="fbdx">
+		<option key="all">全校</option>
+		<option key="tea">全体教师</option>
+		<option key="stu">全体学生</option>
+	</data>
+
+	<!-- 是否 -->
+	<data id="isNot">
+		<option key="1">是</option>
+		<option key="2">否</option>
+	</data>
+	
+	<!-- 就业服务类型 -->
+	<data id="jyfwlx">
+		<option key="1">宣讲会</option>
+		<option key="2">招聘会</option>
+		<option key="3">笔试</option>
+		<option key="4">面试</option>
+	</data>
+</root>

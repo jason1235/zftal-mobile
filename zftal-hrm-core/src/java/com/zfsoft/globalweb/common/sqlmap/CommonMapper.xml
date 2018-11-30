@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.globalweb.common.daointerface.ICommonDao">
+
+	<resultMap id="commonMap" type="com.zfsoft.globalweb.common.entities.Common">
+		<result property="userId" 		 column="USER_ID" />
+		<result property="resourceId"   column="RESOURCE_ID" />
+		<result property="resourceName"   column="RESOURCE_NAME" />
+		<result property="sort"   column="SORT" />
+	</resultMap>
+	
+	<select id="getCommon" resultMap="commonMap">
+		SELECT 
+			USER_ID,
+       		RESOURCE_ID,
+       		(select gnmkmc from zftal_xtgl_jsgnmkdmb where gnmkdm = RESOURCE_ID) RESOURCE_NAME,
+	     	SORT
+  		FROM 
+  			HRM_XTGL_USERCOMMON 
+  		where 
+  			user_id = #{userId}
+  		and 
+  			ROSE_ID = #{roseId}
+  		order by sort
+	</select>
+	
+	<insert id="insert">
+		<![CDATA[
+			INSERT INTO 
+				HRM_XTGL_USERCOMMON(
+					USER_ID,	
+					RESOURCE_ID,
+					rose_id,	
+					SORT	
+				)
+			VALUES(
+				#{userId},  
+				#{resourceId},  
+				#{roseId},           
+				#{sort}
+				)
+		]]>
+	</insert>
+	
+	<delete id="delete">
+		<![CDATA[
+			DELETE FROM
+				HRM_XTGL_USERCOMMON
+        	where
+        	 1=1
+		]]>
+		<if test="resourceId !=null">
+        	and
+        		RESOURCE_ID = #{resourceId}
+        </if>
+        <if test="userId !=null">
+        	and 
+        		USER_ID = #{userId}
+        </if>
+        <if test="roseId !=null">
+        	and 
+        		rose_ID = #{roseId}
+        </if>
+	</delete>	
+	
+	<select id="getMaxSort" resultType="int">
+		SELECT 
+	     	max(SORT)
+  		FROM 
+  			HRM_XTGL_USERCOMMON 
+	</select>
+</mapper>

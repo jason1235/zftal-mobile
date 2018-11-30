@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.seniorreport.dao.ISeniorReportHistroyDao">
+    <sql id="where">
+        <where>
+            <if test="id != null">
+                and bbcdb.cdbh = #{id}
+            </if>
+            <if test="reportId != null">
+                and bbcdb.bbbh = #{reportId}
+            </if>
+        </where>
+    </sql>
+    <select id="findList" resultType="com.zfsoft.hrm.seniorreport.entity.SeniorReportHistroy">
+        select
+        <foreach collection="sqlNamesAll" item="item" separator=",">
+            <![CDATA[bbcdb.${item} as ${sqlLocalNameMap[item]}]]>
+        </foreach>
+        from HRM_BJGL_GJBBCDB bbcdb
+        <include refid="where" />
+        order by bbcdb.cdsj desc
+    </select>
+
+    <insert id="insert" keyProperty="id">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            <![CDATA[
+            select SYS_GUID() GUID from DUAL
+            ]]>
+        </selectKey>
+        insert into HRM_BJGL_GJBBCDB(cdbh,
+        <foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+            ${item}
+        </foreach>
+        values (#{id},
+        <foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+            #{${sqlLocalNameMap[item]}}
+        </foreach>
+    </insert>
+
+    <delete id="delete">
+        delete from HRM_BJGL_GJBBCDB where cdbh = #{reportId}
+    </delete>
+    
+
+</mapper>

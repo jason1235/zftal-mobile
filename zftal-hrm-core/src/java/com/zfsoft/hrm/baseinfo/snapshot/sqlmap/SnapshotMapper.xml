@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.snapshot.dao.daointerface.ISnapshotDao" >
+    
+    <!-- 新增 -->
+    <insert id="insert" >
+    	insert into ${clazz.identityName}_snap (
+    	<foreach collection="clazz.properties" item="prop" separator=",">
+    	<if test="!prop.virtual">
+    	${prop.fieldName}
+    	</if>
+    	</foreach>
+    	,snap_time)
+    	select
+    	<foreach collection="clazz.properties" item="prop" separator=",">
+    	<if test="!prop.virtual">
+    	${prop.fieldName}
+    	</if>
+    	</foreach>
+    	,#{snapTime}
+    	from ${clazz.identityName} where deleted='0'
+    </insert>
+    
+    <!-- 批量删除 -->
+    <delete id="delete" >
+    	delete ${clazz.identityName}_snap where snap_time = #{snapTime}
+    </delete>
+    
+    <sql id="pageCondition">
+    <where>
+    <if test="params.snapTime != null">
+    	and snap_time = #{params.snapTime}
+    </if>
+    <if test="params.gh != null">
+    	and gh = #{params.gh}
+    </if>
+    </where>
+    </sql>
+    
+    <select id="getPagingList" resultType="hashmap">
+    	select * from (select a.*, rownum rn from (select * from ${clazz.identityName}_snap 
+    	<include refid="pageCondition"/>
+    		order by snap_time desc,globalid desc
+	     ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+    </select>
+    
+    <select id="getPagingCount"  resultType="int">
+        select count(*) from  ${clazz.identityName}_snap 
+        <include refid="pageCondition"/>
+    </select>
+    
+    <select id="getById" resultType="hashmap">
+    	select * from ${clazz.identityName}_snap where where globalid = #{values.globalid} and snap_time = #{snapTime}
+    </select>
+</mapper>

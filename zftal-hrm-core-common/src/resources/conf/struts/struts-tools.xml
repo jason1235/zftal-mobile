@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="tools" namespace="/tools" extends="configuration">
+	
+		<!-- 人员选择 -->
+		<action name="selectPerson_*" class="toolsSelectPersonAction" method="{1}">
+			<result name="single">/WEB-INF/pages/hrm/tools/selectPerson_single.jsp</result>
+			<result name="multiple">/WEB-INF/pages/hrm/tools/selectPerson_multiple.jsp</result>
+		</action>
+		
+	</package>
+</struts>

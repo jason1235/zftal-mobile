@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!--花名册service -->
+	<bean id="rosterService" class="com.zfsoft.hrm.summary.roster.service.impl.RosterServiceImpl">
+		<property name="rosterBusiness" ref="rosterBusiness"/>
+		<property name="rosterConfigRelationBusiness" ref="rosterConfigRelationBusiness"/>
+		<property name="rosterColumnBusiness" ref="rosterColumnBusiness"/>
+		<property name="rosterParamBusiness" ref="rosterParamBusiness"/>
+	</bean>
+    
+    <!--花名册配置service -->
+	<bean id="rosterConfigService" class="com.zfsoft.hrm.summary.roster.service.impl.RosterConfigServiceImpl">
+		<property name="rosterConfigBusiness" ref="rosterConfigBusiness"/>
+	</bean>
+	
+	<!--花名册条件关系配置service -->
+	<bean id="rosterConfigRelationService" class="com.zfsoft.hrm.summary.roster.service.impl.RosterConfigRelationServiceImpl">
+		<property name="configRelationBusiness" ref="rosterConfigRelationBusiness"/>
+		<property name="rosterConfigBusiness" ref="rosterConfigBusiness"/>
+	</bean>
+	
+	<!--花名册数据service -->
+	<bean id="rosterDataService" class="com.zfsoft.hrm.summary.roster.service.impl.RosterDataServiceImpl">
+		<property name="rosterDataBusiness" ref="rosterDataBusiness"/>
+	</bean>
+	
+	<!--花名册字段service -->
+	<bean id="rosterColumnService" class="com.zfsoft.hrm.summary.roster.service.impl.RosterColumnServiceImpl">
+		<property name="rosterColumnBusiness" ref="rosterColumnBusiness"/>
+	</bean>
+	
+	<!--花名册参数service -->
+	<bean id="rosterParamService" class="com.zfsoft.hrm.summary.roster.service.impl.RosterParamServiceImpl">
+		<property name="paramBusiness" ref="rosterParamBusiness"/>
+	</bean>
+	
+</beans>

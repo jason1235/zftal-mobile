@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="guest" extends="configuration" namespace="/guest">
+		<action name="menu_*" class="menuAction"  method="{1}" > 
+			<result name="page">/WEB-INF/pages/guest/xtgl/menu_page.jsp</result>
+            <result name="edit">/WEB-INF/pages/guest/xtgl/menu_edit.jsp</result>
+		</action>
+	</package>
+</struts>

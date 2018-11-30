@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.interfaceManager.dao.daointerface.IServiceInterfaceDao" >
+	
+	<resultMap type="com.zfsoft.mobile.interfaceManager.entity.ServiceInterface" id="ServiceInterfaceMap">
+		<result column="fwjkid" property="classFwjkid"/>
+		<result column="ssfw" property="classSsfw"/>
+		<result column="ssjk" property="classSsjk"/>
+		<result column="jkffms" property="classJkffms"/>
+		<result column="jkffm" property="classJkffm"/>
+		<result column="fwmc" property="classFwmc"/>
+		<result column="jklm" property="classJklm"/>
+		<result column="jkdz" property="classJkdz"/>
+		<result column="fwbm" property="classFwbm"/>
+		<result column="cjsj" property="classCjsj"/>
+		<result column="gxsj" property="classGxsj"/>
+		<result column="cjzid" property="classCjzid"/>
+		<result column="gxzid" property="classGxzid"/>
+		<result column="deleted" property="classDeleted"/>
+	</resultMap>
+	
+	
+	<sql id="where">
+    	<where>
+			<if test="classFwjkid != null and classFwjkid != ''">
+   				and a.fwjkid = #{classFwjkid}
+	   		</if>
+			<if test="classJklm != null and classJklm != ''">
+    			and a.jklm like '%'||#{classJklm}||'%' 
+    		</if>
+    		<if test="classFwmc != null and classFwmc != ''">
+    			and a.fwmc like '%'||#{classFwmc}||'%' 
+    		</if>
+    		    and a.deleted ='0'
+		</where>
+    </sql> 
+    
+    
+	<!-- 获取分页列表信息 -->
+	<select id="getList" resultMap="ServiceInterfaceMap">
+	
+	select fwjkid,ssfw,ssjk,jkffms,jkffm,fwmc,jklm,jkdz,fwbm,cjsj,gxsj,cjzid,gxzid,deleted,rn from (
+	       select a.*,rownum rn from
+	    	(         select m.*,b.fwmc,b.fwbm,c.jklm,c.jkdz from M_JKGL_FWJKGLB m
+			    
+				          left join (select *
+				                      from M_FWGL_FWGLB where deleted='0'
+			                     ) b
+			            on m.ssfw = b.fwid 
+			              left join (select *
+				                      from M_JKGL_JKGLB where deleted='0'
+			                     ) c
+			            on m.ssjk = c.jkid 
+		    )a
+		<include refid="where" /> 
+	  )
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>	
+	</select>
+	
+	<select id="getListCount" resultType="int">
+	select count(*) from (
+	       select a.*,rownum rn from
+	    	(         select m.*,b.fwmc,b.fwbm,c.jklm,c.jkdz from M_JKGL_FWJKGLB m
+			    
+				          left join (select *
+				                      from M_FWGL_FWGLB where deleted='0'
+			                     ) b
+			            on m.ssfw = b.fwid 
+			              left join (select *
+				                      from M_JKGL_JKGLB where deleted='0'
+			                     ) c
+			            on m.ssjk = c.jkid 
+		    )a
+	  <include refid="where" /> 
+	  )
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<![CDATA[
+			insert into M_JKGL_FWJKGLB(
+				fwjkid,ssfw,ssjk,jkffms,jkffm,cjsj,gxsj,cjzid,gxzid,deleted
+			) values(
+				#{classFwjkid}, #{classSsfw}, #{classSsjk}, #{classJkffms,jdbcType=VARCHAR}, #{classJkffm},
+				 #{classCjsj},#{classGxsj,jdbcType=DATE},#{classCjzid}, #{classGxzid,jdbcType=VARCHAR}, #{classDeleted}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="classFwjkid">
+			<![CDATA[
+			select SYS_GUID() CLASSID from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			update M_JKGL_FWJKGLB set
+				ssfw = #{classSsfw}, ssjk = #{classSsjk}, jkffms = #{classJkffms,jdbcType=VARCHAR}
+			   ,jkffm = #{classJkffm}
+			where fwjkid = #{classFwjkid}
+		]]>
+	</update>
+	
+	
+	<delete id="delete">
+		<![CDATA[
+			update M_JKGL_FWJKGLB set
+			deleted = '1',gxsj = #{classGxsj},gxzid = #{classGxzid}
+			where fwjkid = #{classFwjkid}
+		]]>
+	</delete>
+	
+	
+</mapper>

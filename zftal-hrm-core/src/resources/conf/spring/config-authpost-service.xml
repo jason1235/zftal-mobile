@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!--岗位信息维护-->
+	<bean id="postInfoService" class="com.zfsoft.hrm.authpost.post.service.impl.PostInfoServiceImpl">
+		<property name="dao" ref="postInfoDao"/>
+	</bean>
+	
+	<!--部门岗位管理-->
+	<bean id="deptPostService" class="com.zfsoft.hrm.authpost.post.service.impl.DeptPostServiceImpl">
+		<property name="deptPostDao" ref="deptPostDao"/>
+		<!--<property name="organizeService" ref="baseOrganizeService"/>-->
+		<property name="orgService" ref="baseOrgService"/>
+		<property name="postInfoService" ref="postInfoService"/>
+	</bean>
+	<!--编制统计-->
+	<bean id="authStatisticsService" class="com.zfsoft.hrm.authpost.auth.service.impl.AuthStatisticsServiceImpl">
+		<property name="authDao" ref="authStatisticsDao"/>
+		<!--<property name="orgDao" ref="baseOrganizeDao"/>-->
+		<property name="orgDao" ref="baseOrgDao"/>
+		<property name="postInfoDao" ref="postInfoDao"/>
+		<property name="dynaBeanBusiness" ref="baseDynaBeanBusiness"/>
+	</bean>
+	<!--历史岗位-->
+	<bean id="postHistoryService" class="com.zfsoft.hrm.authpost.post.service.impl.PostHistoryServiceImpl">
+		<property name="postHistoryBusiness" ref="postHistoryBusiness"/>
+		<property name="postHistoryLogBusiness" ref="postHistoryLogBusiness"/>
+	</bean>
+	<!--历史岗位日志-->
+	<bean id="postHistoryLogService" class="com.zfsoft.hrm.authpost.post.service.impl.PostHistoryLogServiceImpl">
+		<property name="postHistoryLogBusiness" ref="postHistoryLogBusiness"/>
+	</bean>
+	
+	<!--编制详细-->
+	<bean id="authDetailService" class="com.zfsoft.hrm.authpost.auth.service.impl.AuthDetailServiceImpl">
+		<property name="authDetailDao" ref="authDetailDao"/>
+	</bean>
+	
+	<bean id="postInitializor" class="com.zfsoft.hrm.authpost.post.PostInitializor" depends-on="codeInitializor">
+		<property name="deptPostService" ref="deptPostService"></property>
+		<property name="postInfoService" ref="postInfoService"></property>
+	</bean>
+</beans>

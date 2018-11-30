@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.classCommunity.dao.IFirstAnswerDao">
+
+	<select id="getListCount" parameterType="com.zfsoft.mobile.classCommunity.query.DynamicEntityQuery" resultType="int">
+		
+		select count(1)
+		  from M_COMMUNITY_FIRSTANSWER t
+		 where t.publisherid in (select t2.username
+		                           from m_community_class_user t2
+		                          where t2.classid = '111101')
+		
+	</select>
+	
+	<select id="getList" parameterType="com.zfsoft.mobile.classCommunity.entity.FirstAnswerQuery"  resultType="com.zfsoft.mobile.classCommunity.entity.FirstAnswerEntity">
+	select *
+      from (select a.*, rownum rn
+              from (select t.*
+                  from M_COMMUNITY_FIRSTANSWER t
+                 where t.publisherid in
+                       (select t2.username
+                          from m_community_class_user t2
+                         where t2.classid = #{className})) a)
+ 	<![CDATA[                 
+		 where rn >= #{startRow}
+		   and rn <= #{endRow}
+		]]>	
+		
+	</select>
+	
+	<select id="getItemList" resultType="com.zfsoft.mobile.classCommunity.entity.FirstAnswerItemEntity">
+		select * from M_COMMUNITY_FIRSTANSWER_ITEM t where t.problemid = #{id}
+	</select>
+	
+	<insert id="insertAnswer" parameterType="com.zfsoft.mobile.classCommunity.entity.FirstAnswerEntity">
+			insert into M_COMMUNITY_FIRSTANSWER(
+				id,content,publisherid,createTime,type,single
+			) values(
+				#{id},#{content,jdbcType=VARCHAR},#{publisherId,jdbcType=VARCHAR},#{createTime,jdbcType=VARCHAR},#{type,jdbcType=VARCHAR},#{single,jdbcType=VARCHAR}
+			)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insertAnswerItem" parameterType="com.zfsoft.mobile.classCommunity.entity.FirstAnswerItemEntity">
+			insert into m_community_firstanswer_item(
+				id,itemname,itemvalue,problemid
+			) values(
+				#{id},#{itemName,jdbcType=VARCHAR},#{itemValue,jdbcType=VARCHAR},#{problemId,jdbcType=VARCHAR}
+			)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insertSubAnswer" parameterType="com.zfsoft.mobile.classCommunity.entity.AnswerEntity">
+			insert into m_community_firstanswer_answer(
+				id,problemid,answer,publisherid
+			) values(
+				#{id},#{problemId,jdbcType=VARCHAR},#{answer,jdbcType=VARCHAR},#{publisherId,jdbcType=VARCHAR}
+			)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<select id="checkAnswer" parameterType="com.zfsoft.mobile.classCommunity.entity.AnswerEntity" resultType="int">
+		select count(1) from M_COMMUNITY_FIRSTANSWER_ANSWER t where t.problemid = #{problemId} and t.publisherid = #{publisherId}
+	</select>
+	
+
+</mapper>

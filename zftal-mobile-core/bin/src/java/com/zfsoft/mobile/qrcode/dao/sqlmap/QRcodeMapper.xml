@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.qrcode.dao.daointerface.IQRcodeDao" >
+	
+	<resultMap type="com.zfsoft.mobile.qrcode.entity.QRcode" id="QRcodeMap">
+		<result column="codeid" 				property="codeid"/>
+		<result column="codename" 				property="codename"/>
+		<result column="codeimageid" 			property="codeimageid"/>
+		<result column="codeintroduction" 		property="codeintroduction"/>
+		<result column="codelogoid" 			property="codelogoid"/>
+		<result column="codelogourl" 		property="codelogourl"/>
+	</resultMap>
+	
+	
+	<sql id="where">
+    	<where>
+			<if test="codeid != null and codeid != ''">
+   				and m.codeid = #{codeid}
+	   		</if>
+			<if test="codename != null and codename != ''">
+    			and m.codename  like '%'||#{codename}||'%' 
+    		</if>
+		</where>
+    </sql> 
+    
+    
+	<!-- 获取分页列表信息 -->
+	<select id="getList" resultMap="QRcodeMap">
+	select * from 
+			(
+				select a.*,rownum rn from
+					(
+						select * from M_QRCODE m
+						<include refid="where" /> 
+					)a
+			) c
+			
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>	
+	</select>
+	
+	<select id="getListCount" resultType="int">
+			select count(*) from
+				(select * from M_QRCODE m
+				<include refid="where" /> )
+			a 
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<![CDATA[
+			insert into M_QRCODE(
+				CODEID,CODENAME,CODEIMAGEID,CODEINTRODUCTION,codelogoid,codelogourl
+			) values(
+				#{codeid}, #{codename}, #{codeimageid}, #{codeintroduction,jdbcType=VARCHAR},#{codelogoid},#{codelogourl}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="codeid">
+			<![CDATA[
+			select SYS_GUID() CLASSID from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			update M_QRCODE set
+				CODENAME = #{codename}, CODEIMAGEID = #{codeimageid}, CODEINTRODUCTION = #{codeintroduction,jdbcType=VARCHAR},
+				codelogoid = #{codelogoid},codelogourl = #{codelogourl}
+			where CODEID = #{codeid}
+		]]>
+	</update>
+	
+	
+	<delete id="remove">
+		<![CDATA[
+		delete from M_QRCODE where CODEID = #{codeid}
+		]]>
+	</delete>
+	
+	
+	
+</mapper>

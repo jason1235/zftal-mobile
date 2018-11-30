@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.module.dao.IModuleDao">
+
+	<resultMap id="moduleMap" type="com.zfsoft.mobile.module.entity.Module">
+		<result property="id" 		 column="id" />
+		<result property="moduleId"   column="mkid" />
+		<result property="name"   column="mkmc" />
+		<result property="icon"   column="mktb" />
+		<result property="iconUrl"   column="mktburl" />
+		<result property="url"   column="mkurl" />
+		<result property="classPath"   column="mkldz" />
+		<result property="status"   column="syzt" />
+		<result property="creator"   column="cjzid" />
+		<result property="createTime"   column="cjsj" />
+		<result property="updater"   column="gxsj" />
+		<result property="deleted"   column="deleted" />
+		
+	</resultMap>
+	
+	<sql id="where">
+		<where>
+			<if test='name != null and name != ""'> and mkmc like '%'||#{name}||'%'</if>
+			
+			<if test='status != null and status != ""'> and syzt = #{status} </if>
+			
+			and t.deleted = '0'
+		</where>
+	</sql>
+	
+	<select id="getPageCount" resultType="int">
+		select count(*) from m_mkgl_mkb t
+		<include refid="where" />
+	</select>
+	
+	<select id="getAllModules" resultMap="moduleMap">
+		select * from m_mkgl_mkb where syzt = 1 and deleted = 0
+	</select>
+	
+	<select id="getPageList" resultMap="moduleMap">
+	select * from(
+select t.*,rownum as rn from m_mkgl_mkb t <include refid="where" /> )
+                
+  <![CDATA[
+ where rn>=#{startRow}  and rn<=#{endRow}
+ ]]>
+	</select>
+	
+	<insert id="insert" >
+		
+			INSERT INTO 
+				m_mkgl_mkb(
+						
+					mkid,
+					mkmc,	
+					
+					<if test='icon != "" and icon != null'>
+					mktb,
+					</if>
+					<if test='iconUrl != "" and iconUrl != null'>
+					mktburl,
+					</if>
+					
+					<if test='url != "" and url != null'>
+					mkurl,
+					</if>
+					<if test='classPath != "" and classPath != null'>
+					mkldz,
+					</if>
+					<if test='status != "" and status != null'>
+					syzt,
+					</if>
+					cjsj,
+					cjzid
+					
+					
+				)
+			VALUES(
+				  
+				#{moduleId},  
+				#{name},           
+				
+					<if test='icon != "" and icon != null'>
+					#{icon},
+					</if>
+					<if test='iconUrl != "" and iconUrl != null'>
+					#{iconUrl},
+					</if>
+					<if test='url != "" and url != null'>
+					#{url},
+					</if>
+					<if test='classPath != "" and classPath != null'>
+					#{classPath},
+					</if>
+					<if test='status != "" and status != null'>
+					#{status},
+					</if>
+				sysdate,
+				#{creator}
+				
+				)
+		
+	</insert>
+		
+	
+	<select id="findById" resultMap="moduleMap">
+		select * from  m_mkgl_mkb
+		<where>
+			id = #{id} and deleted=0
+		</where>
+	</select>
+	
+	
+	<update id="update">
+		update m_mkgl_mkb
+		 <set>
+		 	<if test='name != "" and name != null'>
+		 		mkmc=#{name},
+		 	</if>
+		 	<if test='moduleId != "" and moduleId != null'>
+		 		mkid=#{moduleId},
+		 	</if>
+		 	<if test='icon != "" and icon != null'>
+		 		mktb=#{icon},
+		 	</if>
+		 	<if test='iconUrl != "" and iconUrl != null'>
+					mktburl=#{iconUrl},
+					</if>
+		 	<if test='url != "" and url != null'>
+		 		mkurl=#{url},
+		 	</if>
+		 	<if test='classPath != "" and classPath != null'>
+		 		mkldz=#{classPath},
+		 	</if>
+		 	
+		 		gxsj=sysdate,
+		 	
+		 	<if test='updater != "" and updater != null'>
+		 		gxzid=#{updater},
+		 	</if>
+		 	
+		 	
+		 </set>
+		   where id = #{id}
+	</update>
+	
+	<!-- 模块控制 -->
+	<update id="moduleControl">
+		update m_mkgl_mkb 
+		<set>
+		<if test='status == "1"'>
+			syzt = '1'
+		</if>
+		<if test='status == "0"'>
+			syzt = '0',
+			
+		</if>
+		
+		<if test='deleted == "1"'>
+			syzt = '0',
+			DELETED = '1'
+		</if>
+		</set> 
+		 where id = #{id} 
+		
+	</update>
+	
+	
+	
+</mapper>

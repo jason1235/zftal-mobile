@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:mvc="http://www.springframework.org/schema/mvc"
+    xmlns:dwr="http://www.directwebremoting.org/schema/spring-dwr"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+        http://www.directwebremoting.org/schema/spring-dwr    
+        http://www.directwebremoting.org/schema/spring-dwr-2.0.xsd">
+
+    <!-- 引入XFire预配置信息 -->
+    <import resource="classpath:org/codehaus/xfire/spring/xfire.xml" />
+    
+    <!-- 定义访问的url -->
+    <bean class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+       <property name="urlMap">
+           <map>
+              <entry key="/push.ws">
+                  <ref bean="pushMsg" />
+              </entry>
+              <entry key="/service.ws">
+                  <ref bean="serService" />
+              </entry>
+           </map>
+       </property>
+    </bean>
+    
+        <!-- 定义访问的url -->
+    <bean id="WSPushService" class="com.zfsoft.mobile.webservices.service.impl.WSPushServiceImpl">
+        <property name="pushGroupService" ref="pushGroupService"/>
+        <property name="pushMsgService" ref="pushMsgService"/>
+        <property name="pushRegistrationService" ref="pushRegistrationService"/>
+    </bean>
+    
+    <bean id="WSSerService" class="com.zfsoft.mobile.webservices.cxf.service.impl.WSSerServiceImpl">
+        <property name="mobileCommonService" ref="mobileCommonService"/>
+        <property name="newsCatalogService" ref="newsCatalogService"/>
+        <property name="newsService" ref="newsService"/>
+        <property name="newsConfigService" ref="newsConfigService"/>
+        <property name="moduleService" ref="moduleService"/>
+        <property name="interfaceManagerService" ref="interfaceManagerService"/>
+        <property name="loginService" ref="loginService"/>
+        <property name="businessService" ref="businessService"></property>
+        <property name="myPortalService" ref="myPortalService"></property>
+        <property name="baseDataService" ref="baseDataService"></property>
+        <property name="infoPropertyService" ref="baseInfoClassPropertyService"></property>
+        <property name="fileAttachementService" ref="fileAttachementService"></property>
+        <property name="QRcodeService" ref="QRcodeService"></property>
+        <property name="questionService" ref="questionService"></property>
+        <property name="gaoDeMapService" ref="gaoDeMapService"></property>
+        <property name="lossObjectService" ref="lossObjectService"></property>
+        <property name="suggestService" ref="suggestService"></property>
+        <property name="xfyjService" ref="xfyjService"></property>
+        
+        <property name="canteenService" ref="canteenService"></property>
+        <property name="foodcataService" ref="foodcataService"></property>
+        <property name="foodService" ref="foodService"></property>
+        <property name="orderService" ref="orderService"></property>
+        <property name="addressService" ref="addressService"></property>
+        <property name="reportFixService" ref="reportFixService"></property>
+    </bean>
+
+    <!-- 使用XFire导出器 -->
+    <bean id="baseWebService_ws" class="org.codehaus.xfire.spring.remoting.XFireExporter" lazy-init="false" abstract="true">
+       <!-- 引用xfire.xml中定义的工厂 -->
+       <property name="serviceFactory" ref="xfire.serviceFactory" />
+       <!-- 引用xfire.xml中的xfire实例 -->
+       <property name="xfire" ref="xfire" />
+    </bean>
+    <bean id="pushMsg" parent="baseWebService_ws">
+       <!-- 业务服务bean -->
+       <property name="serviceBean" ref="WSPushService" />
+       <!-- 业务服务bean的窄接口类 -->
+       <property name="serviceClass" value="com.zfsoft.mobile.webservices.service.IWSPushService" />
+    </bean>
+    
+     <bean id="serService" parent="baseWebService_ws">
+       <!-- 业务服务bean -->
+       <property name="serviceBean" ref="WSSerService" />
+       <!-- 业务服务bean的窄接口类 -->
+       <property name="serviceClass" value="com.zfsoft.mobile.webservices.service.IWSSerService" />
+    </bean>
+    
+</beans>

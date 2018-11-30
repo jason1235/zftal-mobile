@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Class-Path: 
+
+Name: ZFOA WEB APPLICATION
+Specification-Title: 移动信息服务管理平台
+Specification-Version: ZFSOFT-YDMHFW-TY-6.0.0
+Specification-Vendor: 正方软件股份有限公司
+Implementation-Title: 移动信息服务管理平台
+Implementation-Version: ZFSOFT-YDMHFW-TY-6.0.0/20170424
+Implementation-Vendor: 

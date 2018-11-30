@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.workflow.dao.ISpWorkNodeDao">
+
+	<resultMap id="spWorkNodeMap" type="com.zfsoft.workflow.model.SpWorkNode">
+		<result property="id" column="ID" />
+		<result property="wid" column="W_ID" />
+		<result property="pid" column="P_ID" />
+		<result property="pid" column="P_ID" />
+		<result property="userId" column="USER_ID" />
+		<result property="departmentId" column="DEP_ID" />
+		<result property="nodeId" column="NODE_ID" />
+		<result property="nodeName" column="NODE_NAME" />
+		<result property="nodeType" column="NODE_TYPE" />
+		<result property="nodeDesc" column="NODE_DESC" />
+		<result property="roleId" column="ROLE_ID" />
+		<result property="status" column="STATUS" />
+		<result property="auditorId" column="AUDITOR_ID" />
+		<result property="auditTime" column="AUDIT_TIME" />
+		<result property="auditResult" column="AUDIT_RESULT" />
+		<result property="suggestion" column="SUGGESTION" />
+		<result property="estatus" column="E_STATUS"/>
+		<collection property="spWorkTaskList" column="{nodeId=NODE_ID, wid=W_ID}" select="com.zfsoft.workflow.dao.ISpWorkTaskDao.findWorkTaskListByNodeIdAndBid"/>	
+		<collection property="spCommitWorkNodeBillList" column="{nodeId=NODE_ID, wid=W_ID}" select="com.zfsoft.workflow.dao.ISpWorkNodeBillDao.findCommitWorkNodeBillListByNodeIdAndWid"/>	
+		<collection property="spApproveWorkNodeBillList" column="{nodeId=NODE_ID, wid=W_ID}" select="com.zfsoft.workflow.dao.ISpWorkNodeBillDao.findApproveWorkNodeBillListByNodeIdAndWid"/>
+	</resultMap>
+	
+	<insert id="addSpWorkNode" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO SP_WORK_NODE
+			  (ID,
+			   W_ID,
+			   P_ID,
+			   NODE_ID,
+			   NODE_NAME,
+			   NODE_TYPE,
+			   NODE_DESC,
+			   ROLE_ID,
+			   E_STATUS,
+			   STATUS)
+			VALUES
+			  (#{id},
+			   #{wid},
+			   #{pid},
+			   #{nodeId},
+			   #{nodeName,jdbcType=VARCHAR},
+			   #{nodeType,jdbcType=VARCHAR},
+			   #{nodeDesc,jdbcType=VARCHAR},
+			   #{roleId,jdbcType=VARCHAR},
+			   #{estatus,jdbcType=VARCHAR},
+			   #{status,jdbcType=VARCHAR})
+		]]>
+		
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			SELECT SYS_GUID() KHLC_ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<!-- 执行审核操作，修改工作审核节点信息 -->
+	<update id="editSpWorkNode">
+		<![CDATA[
+			UPDATE SP_WORK_NODE
+			   SET 
+	    ]]>
+			  <if test="status != null and status != ''">
+			   	   STATUS       = #{status},
+			  </if>
+			  <if test="auditorId != null and auditorId != ''">
+			       AUDITOR_ID   = #{auditorId},
+			  </if>
+			  <if test="auditResult != null and auditResult != ''">
+			       AUDIT_RESULT = #{auditResult},
+			  </if>
+			  <if test="suggestion != null">
+			       SUGGESTION   = #{suggestion},
+			  </if>
+			  <if test="estatus != null and estatus != ''">
+			       E_STATUS     = #{estatus},
+			  </if>
+		<![CDATA[
+			       AUDIT_TIME   = sysdate
+			 WHERE NODE_ID = #{nodeId} AND W_ID = #{wid}
+		]]>
+	</update>
+	
+	<!-- 根据条件更新节点执行状态 -->
+	<update id="editEStatus">
+		<![CDATA[
+			UPDATE SP_WORK_NODE
+			   SET E_STATUS = #{estatus}
+			 WHERE NODE_ID IN
+			       (SELECT d_node_id FROM SP_WORK_Line WHERE u_node_id = #{nodeId})
+		]]>
+	</update>
+	
+	<!-- 根据ID删除工作审核节点 -->
+	<delete id="removeSpWorkNodeById">
+		<![CDATA[
+			DELETE FROM SP_WORK_NODE WHERE ID = #{id}
+		]]>
+	</delete>
+	
+	<!-- 根据条件删除工作审核节点 -->
+	<delete id="removeSpWorkNodeByWidAndNodeId">
+		<![CDATA[
+			DELETE FROM SP_WORK_NODE WHERE W_ID = #{wid} AND NODE_ID = #{nodeId}
+		]]>
+	</delete>
+	
+	<!-- 根据条件删除工作审核节点 -->
+	<delete id="removeSpWorkNodeByWid">
+		<![CDATA[
+			DELETE FROM SP_WORK_NODE WHERE W_ID = #{wid}
+		]]>
+	</delete>
+	
+	<!-- 根据工作ID和节点ID条件查询记录 -->
+	<select id="findWorkNodeByWidAndNodeId" resultMap="spWorkNodeMap">
+		<![CDATA[
+			SELECT N.W_ID,
+			       N.P_ID,
+			       N.NODE_ID,
+			       N.NODE_NAME,
+			       N.NODE_TYPE,
+			       N.NODE_DESC,
+			       N.ROLE_ID,
+			       N.STATUS,
+			       N.AUDITOR_ID,
+			       N.AUDIT_TIME,
+			       N.AUDIT_RESULT,
+			       N.SUGGESTION,
+			       N.E_STATUS,
+			       P.USER_ID,
+			       P.DEP_ID
+			  FROM SP_WORK_NODE N
+			  LEFT JOIN SP_WORK_PROCEDURE P
+			    ON (N.W_ID = P.W_ID)
+			 WHERE N.W_ID = #{wid}
+			   AND N.NODE_ID = #{nodeId}
+			   AND ROWNUM = 1
+			 ORDER BY N.ID ASC
+		 ]]>
+	</select>
+	
+	<!-- 根据工作ID条件查询记录（结果一个或多个） -->
+	<select id="findWorkNodeListByWid" resultMap="spWorkNodeMap">
+		<![CDATA[
+			SELECT N.W_ID,
+			       N.P_ID,
+			       N.NODE_ID,
+			       N.NODE_NAME,
+			       N.NODE_TYPE,
+			       N.NODE_DESC,
+			       N.ROLE_ID,
+			       N.STATUS,
+			       N.AUDITOR_ID,
+			       N.AUDIT_TIME,
+			       N.AUDIT_RESULT,
+			       N.SUGGESTION,
+			       N.E_STATUS,
+			       P.USER_ID,
+			       P.DEP_ID
+			  FROM SP_WORK_NODE N
+			  LEFT JOIN SP_WORK_PROCEDURE P
+			    ON (N.W_ID = P.W_ID)
+			 WHERE N.W_ID = #{wid}
+			  ORDER BY N.ID ASC
+		 ]]>
+	</select>
+	
+	<!-- 根据条件查询记录（结果一个或多个） -->
+	<select id="findWorkNodeListByCondition" resultMap="spWorkNodeMap">
+		<![CDATA[
+			SELECT N.W_ID,
+			       N.P_ID,
+			       N.NODE_ID,
+			       N.NODE_NAME,
+			       N.NODE_TYPE,
+			       N.NODE_DESC,
+			       N.ROLE_ID,
+			       N.STATUS,
+			       N.AUDITOR_ID,
+			       N.AUDIT_TIME,
+			       N.AUDIT_RESULT,
+			       N.SUGGESTION,
+			       N.E_STATUS,
+			       P.USER_ID,
+			       P.DEP_ID
+			  FROM SP_WORK_NODE N
+			  LEFT JOIN SP_WORK_PROCEDURE P
+			    ON (N.W_ID = P.W_ID)
+			 WHERE N.p_id IN (SELECT c.p_id
+			                  FROM sp_business b, sp_procedure c
+			                 WHERE b.p_id = c.p_id
+		 ]]>
+		 <if test="bcode == null or bcode == ''">
+			<![CDATA[ AND b.b_type = #{btype}) ]]>
+        </if>
+        <if test="bcode != null and bcode != ''">
+			<![CDATA[ AND b.b_type = #{btype} AND b.b_code = #{bcode}) ]]>
+        </if>
+		 <if test="estatus != null and estatus != ''">
+			<![CDATA[ AND N.E_STATUS = #{estatus} ]]>
+        </if>
+		 <if test="status != null and status != ''">
+			<![CDATA[ AND N.STATUS = #{status} ]]>
+        </if>  
+		 	   AND N.ROLE_ID IN 
+         <foreach item="item" index="index" collection="roleIdArray" open="(" separator="," close=")">
+		        #{item}
+		 </foreach>    
+		 <if test="auditorId != null and auditorId != ''">
+			<![CDATA[ AND N.AUDITOR_ID = #{auditorId} ]]>
+        </if>
+        <![CDATA[ ORDER BY N.ID ASC ]]>     
+	</select>
+
+	<!-- 根据对象中的条件查询记录（结果一个或多个） -->
+	<select id="findWorkNodeList" parameterType="com.zfsoft.workflow.model.SpWorkNode" resultMap="spWorkNodeMap">
+		<![CDATA[
+			SELECT N.W_ID,
+			       N.P_ID,
+			       N.NODE_ID,
+			       N.NODE_NAME,
+			       N.NODE_TYPE,
+			       N.NODE_DESC,
+			       N.ROLE_ID,
+			       N.STATUS,
+			       N.AUDITOR_ID,
+			       N.AUDIT_TIME,
+			       N.AUDIT_RESULT,
+			       N.SUGGESTION,
+			       N.E_STATUS,
+			       P.USER_ID,
+			       P.DEP_ID
+			  FROM SP_WORK_NODE N
+			  LEFT JOIN SP_WORK_PROCEDURE P
+			    ON (N.W_ID = P.W_ID)
+			 WHERE 1 = 1
+		 ]]>
+		<if test="id != null and id != ''">
+			<![CDATA[ AND N.ID = #{id} ]]>
+        </if>
+        <if test="wid != null and wid != ''">
+			<![CDATA[ AND N.W_ID = #{wid} ]]>
+        </if>
+        <if test="pid != null and pid != ''">
+			<![CDATA[ AND N.P_ID = #{pid} ]]>
+        </if>
+        <if test="nodeId != null and nodeId != ''">
+			<![CDATA[ AND N.NODE_ID = #{nodeId} ]]>
+        </if>
+        <if test="nodeType != null and nodeType != ''">
+			<![CDATA[ AND N.NODE_TYPE = #{nodeType} ]]>
+        </if>
+		<if test="estatus != null and estatus != ''">
+			<![CDATA[ AND N.E_STATUS = #{estatus} ]]>
+        </if>
+        <if test="roleId != null and roleId != ''">
+			<![CDATA[ AND N.ROLE_ID = #{roleId} ]]>
+        </if>
+        <if test="status != null and status != ''">
+			<![CDATA[ AND N.STATUS = #{status} ]]>
+        </if>
+        <![CDATA[ ORDER BY N.ID ASC ]]>
+	</select>
+
+</mapper>

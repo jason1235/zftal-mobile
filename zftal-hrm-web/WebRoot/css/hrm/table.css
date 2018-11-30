@@ -1,0 +1,22 @@
+.dateline tr.current {
+	cursor: default;
+	background:#F8E2C2!important;
+}
+
+.text_sel {
+	background:url("ico_date02.gif") no-repeat scroll right center rgb(255, 255, 255)
+}
+.text_sel:HOVER {
+	background:url("ico_date02.gif") no-repeat scroll right center rgb(255, 255, 255)
+}
+
+.pagination .pageright .paging span.text {
+	border: 1px solid #9AC9EA;
+    color: #373737;
+    display: inline-block;
+    padding: 2px 8px 2px 8px;
+}
+
+.pagination .pageright .paging a {
+    padding: 2px 8px 2px 8px;
+}

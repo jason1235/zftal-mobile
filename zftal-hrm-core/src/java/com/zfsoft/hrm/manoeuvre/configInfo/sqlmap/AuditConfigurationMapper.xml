@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.manoeuvre.configInfo.dao.daointerface.IAuditConfigurationDao" >
+	
+	<!-- 带有sonList的返回结果-->
+	<resultMap id="auditConfigurationRM" type="com.zfsoft.hrm.manoeuvre.configInfo.entities.AuditConfiguration">
+		<result property="aid" column="SHSZDM" />
+		<result property="assessor" column="SHR" />
+		<result property="extension" column="SJFW" />
+		<result property="extensionType" column="SJFWLX" />
+		<result property="remark" column="BZ" />
+		<result property="userName" column="XM" />
+		<association property="taskNode" column="HJSZDM" select="com.zfsoft.hrm.manoeuvre.configInfo.dao.daointerface.ITaskNodeDao.findById"/>
+		<collection property="auditConfigOrgList" column="SHSZDM" select="com.zfsoft.hrm.manoeuvre.configInfo.dao.daointerface.IAuditConfigOrgDao.findByAid"/>
+	</resultMap>
+	
+    <sql id="prefix">
+		SHSZDM,
+	    HJSZDM,
+	    SHR,
+	    SJFW,
+	    SJFWLX,
+	    BZ,
+	    XM
+	</sql>
+	
+	<sql id="suffix">
+		<where>
+				ZGH=SHR 
+			<if test="aid != null and aid != ''">
+				and SHSZDM=#{aid} 
+			</if>
+			
+			<if test="assessor != null and assessor != ''">
+				and SHR=#{assessor}
+			</if>
+			
+			<if test="assessorName != null and assessorName != ''">
+				and XM like '%'||#{assessorName}||'%' 
+			</if>
+			 
+			<if test="extension != null and extension != ''">
+				and SJFW=#{extension}
+			</if>
+			
+			<if test="extensionType != null and extensionType != ''">
+				and SJFWLX=#{extensionType}
+			</if>
+			
+			<if test="taskNode != null and taskNode.nid != null and taskNode.nid != ''">
+				and HJSZDM=#{taskNode.nid}
+			</if> 
+			
+			<if test="remark != null and remark != ''">
+				and BZ like '%'||#{remark}||'%'
+			</if>
+			
+		</where>
+		
+		<if test="sortCol != null and sortCol != ''">
+			order by ${sortCol}
+		</if>
+		<if test="sortCol == null or sortCol == ''">
+			order by SHSZDM 
+		</if>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="aid">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="aid">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+		insert into HRM_RYDP_HJSHSZB (
+		
+				SHSZDM
+			
+			<if test="assessor != null and assessor != ''">
+				,SHR
+			</if>
+			
+			<if test="extension != null and extension != ''">
+				,SJFW
+			</if>
+			
+			<if test="extensionType != null and extensionType != ''">
+				,SJFWLX
+			</if>
+			
+			<if test="taskNode != null and taskNode.nid != null and taskNode.nid != ''">
+				,HJSZDM
+			</if>
+			
+			<if test="remark != null and remark != ''">
+				,BZ
+			</if>
+			
+		) values (
+
+				#{aid}
+			
+			<if test="assessor != null and assessor != ''">
+				,#{assessor}
+			</if>
+			
+			<if test="extension != null and extension != ''">
+				,#{extension}
+			</if>
+			
+			<if test="extensionType != null and extensionType != ''">
+				,#{extensionType}
+			</if>
+			
+			<if test="taskNode != null and taskNode.nid != null and taskNode.nid != ''">
+				,#{taskNode.nid}
+			</if>
+			
+			<if test="remark != null and remark != ''">
+				,#{remark}
+			</if>
+		)
+	</insert>
+	
+	<update id="update">
+		update HRM_RYDP_HJSHSZB 
+		<set>
+			
+			<if test="assessor != null and assessor != ''">
+				SHR=#{assessor},
+			</if>
+			
+			<if test="extension != null and extension != ''">
+				SJFW=#{extension},
+			</if>
+			
+			<if test="extensionType != null and extensionType != ''">
+				SJFWLX=#{extensionType},
+			</if>
+			
+			<if test="taskNode != null and taskNode.nid != null and taskNode.nid != ''">
+				HJSZDM=#{taskNode.nid},
+			</if>
+			
+			<if test="remark != null">
+				BZ=#{remark},
+			</if>
+			
+		</set>
+		where SHSZDM=#{aid}
+	</update>
+	
+	<!--<update id="delete">
+		update HRM_RYDP_HJSHSZB 
+		set SFSC='1',XGSJ=sysdate 
+		where SHSZDM=#{aid}
+	</update>
+	
+	-->
+	<delete id="delete">
+		delete from HRM_RYDP_HJSHSZB where SHSZDM=#{aid}
+	</delete>
+	
+	<!--<update id="deleteWithTaskNode">
+		update HRM_RYDP_HJSHSZB 
+		set SFSC='1',XGSJ=sysdate 
+		where HJSZDM=#{nid} and (SFSC='0' or SFSC is null) 
+	</update>
+	
+	-->
+	
+	<delete id="deleteWithTaskNode">
+		delete from HRM_RYDP_HJSHSZB where HJSZDM=#{nid}
+	</delete>
+	
+	<select id="findAuditConfigurationList" resultMap="auditConfigurationRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_HJSHSZB,ZFTAL_XTGL_YHB U
+		<include refid="suffix" /> 
+	</select>
+	
+	<select id="findAuditConfigurationListById" resultMap="auditConfigurationRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_HJSHSZB,ZFTAL_XTGL_YHB where ZGH=SHR and HJSZDM=#{nid}
+	</select>
+	
+	<select id="findAuditConfigurationPage" resultMap="auditConfigurationRM">
+		
+		select <include refid="prefix" /> 
+		from (
+			select <include refid="prefix" />,rownum rn 
+			from (
+				select <include refid="prefix" />
+				from HRM_RYDP_HJSHSZB,ZFTAL_XTGL_YHB
+				<include refid="suffix" /> 
+			)
+		) 
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<select id="findAuditConfigurationPageCount" resultType="int">
+		select count(1)
+		from HRM_RYDP_HJSHSZB,ZFTAL_XTGL_YHB
+		<include refid="suffix" /> 
+	</select>
+	
+	<select id="findAuditConfigurationById" resultMap="auditConfigurationRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_HJSHSZB,ZFTAL_XTGL_YHB
+		where SHSZDM=#{aid} and ZGH=SHR
+	</select>
+	
+	<!-- 取得角色包含的人员 -->
+	<select id="findPersonByRole" parameterType="hashmap" resultType="string">
+	    select zgh, xm, lxdh, dzyx
+        from zftal_xtgl_yhb a
+       where a.zgh in
+             (select zgh from zftal_xtgl_yhjsb where jsdm = #{role})
+         and zgh != 'hrmadmin'
+       order by zgh desc
+	</select>
+	
+	<!-- 是否存在 -->
+	<select id="isExist" resultType="int">
+	    select count(*)
+	    from hrm_rydp_hjshszb
+	    where shr = #{assessor}
+	    and hjszdm = #{taskNode.nid}
+	</select>
+	
+	<!-- 取得角色信息 -->
+    <select id="getRoles" resultType="hashmap">
+    select a.jsdm,
+           a.jsmc
+    from zftal_xtgl_jsxxb a
+    left join zftal_xtgl_yhb yhb on a.jscjr = yhb.zgh
+    where a.jsdm != 'admin'
+    order by a.jsdm desc
+    </select>
+    
+    <select id="getBmdmByUser" resultType="string">
+    select o.dwm
+    from overall o
+    where o.gh = #{assessor}
+    </select>
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.yhfpgl.dao.IMessageAllotDao" >
+    
+    <resultMap type="com.zfsoft.hrm.yhfpgl.entity.MessageAllot" id="MessageAllot">
+        <result property="mainId" column="MAIN_ID"/>
+        <result property="type" column="TYPE"/>
+        <result property="allotValue" column="FP_VALUE"/>
+        <result property="messageAllotType" column="FP_TYPE"/>
+        <result property="allotValueText" column="FP_TEXT"/>
+    </resultMap>
+    <!-- 插入单条信息 -->
+    <insert id="insert">
+        insert into HRM_XXGL_FP (MAIN_ID,TYPE,FP_VALUE,FP_TYPE)
+        values(#{mainId},#{type},#{allotValue},#{messageAllotType})
+    </insert>
+    
+    <select id="findList" resultMap="MessageAllot">
+	    select MAIN_ID,TYPE,FP_VALUE,FP_TYPE,
+	       (CASE WHEN FP_TYPE='USER' THEN yh.xm
+	         WHEN FP_TYPE='ROLE' THEN js.jsmc
+	         ELSE NULL END) FP_TEXT
+        from HRM_XXGL_FP fp
+        left join zftal_xtgl_jsxxb js on (fp.FP_VALUE = js.jsdm)
+        left join zftal_xtgl_yhb yh on (fp.FP_VALUE = yh.zgh)
+         where MAIN_ID = #{mainId} and TYPE = #{type}
+        order by FP_TYPE DESC
+    </select>
+    
+     <delete id="delete" >
+        delete from HRM_XXGL_FP where MAIN_ID = #{mainId} and TYPE = #{type}
+    </delete>
+</mapper>

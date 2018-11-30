@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="infochange" namespace="/infochange" extends="configuration">
+		
+		<!--基础设置信息-->
+		<action name="infochange_*" class="infoChangeAction" method="{1}">
+			<result name="page">/WEB-INF/pages/hrm/infochange/infoChange_page.jsp</result>
+			<result name="detail">/WEB-INF/pages/hrm/infochange/infoChange_detail.jsp</result>
+			<result name="view">/WEB-INF/pages/hrm/infochange/infoChange_view.jsp</result>
+		</action>
+		<action name="audit_*" class="infoChangeAuditAction" method="{1}">
+			<result name="page">/WEB-INF/pages/hrm/infochange/audit/infoChangeAudit_page.jsp</result>
+			<result name="detail">/WEB-INF/pages/hrm/infochange/audit/infoChangeAudit_detail.jsp</result>
+			<result name="view">/WEB-INF/pages/hrm/infochange/audit/infoChangeAudit_view.jsp</result>
+		</action>
+		<action name="infoinput_*" class="infoInputAction" method="{1}">
+            <result name="page">/WEB-INF/pages/hrm/infochange/infoinput/infoinput_page.jsp</result>
+            <result name="kypage">/WEB-INF/pages/hrm/infochange/infoinput/infoinput_kypage.jsp</result>
+            <result name="beanlist">/WEB-INF/pages/hrm/infochange/infoinput/infoinput_beanlist.jsp</result>
+            <result name="detail">/WEB-INF/pages/hrm/infochange/infoinput/infoinput_detail.jsp</result>
+            <result name="view">/WEB-INF/pages/hrm/infochange/infoinput/infoinput_view.jsp</result>
+        </action>
+        <action name="inputaudit_*" class="infoInputAuditAction" method="{1}">
+            <result name="page">/WEB-INF/pages/hrm/infochange/infoinput/infoinputaudit_page.jsp</result>
+            <result name="detail">/WEB-INF/pages/hrm/infochange/infoinput/infoinputaudit_detail.jsp</result>
+            <result name="view">/WEB-INF/pages/hrm/infochange/infoinput/infoinputaudit_view.jsp</result>
+            <result name="editPage">/WEB-INF/pages/hrm/infochange/infoinput/infoinputaudit_edit.jsp</result>
+            <result name="vwlist">/WEB-INF/pages/hrm/infochange/infoinput/infoinput_vwlist.jsp</result>
+            <result name="vwdetail">/WEB-INF/pages/hrm/infochange/infoinput/infoinput_vwdetail.jsp</result>
+        </action>
+	</package>
+	
+</struts>

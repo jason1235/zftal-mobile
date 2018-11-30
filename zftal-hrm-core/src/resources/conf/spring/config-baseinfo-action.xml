@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	
+	
+	
+	<!--信息类组合条件-->
+	<bean id="baseInfoGroupConditionAction" name="baseInfoGroupConditionAction"
+			class="com.zfsoft.hrm.baseinfo.infoclass.action.InfoGroupConditionAction" scope="prototype">
+		<property name="infoGroupConditionService" ref="infoGroupConditionService"></property>
+	</bean>
+		<!--信息类组合查询-->
+	<bean id="baseInfoGroupFindAction" name="baseInfoGroupFindAction"
+			class="com.zfsoft.hrm.baseinfo.infoclass.action.InfoGroupFindAction" scope="prototype">
+		<property name="infoGroupConditionService" ref="infoGroupConditionService"></property>
+		<property name="dynaBeanService" ref="baseDynaBeanService"></property>
+	</bean>
+	<!--信息类组合查询2-->
+	<bean id="baseInfoGroupSearchAction" name="baseInfoGroupSearchAction"
+            class="com.zfsoft.hrm.baseinfo.infoclass.action.InfoGroupSearchAction" scope="prototype">
+        <property name="dynaBeanService" ref="baseDynaBeanService"></property>
+    </bean>
+	
+	
+	
+		<!-- 登记类别action -->
+	<bean id="formInfoTypeAction" name="formInfoTypeAction"
+		class="com.zfsoft.hrm.baseinfo.forminfo.action.FormInfoTypeAction" scope="prototype">
+		<property name="formInfoTypeService" ref="formInfoTypeService"></property>
+	</bean>
+		<!-- 登记类别元数据表action -->
+	<bean id="formInfoMetadataAction" name="formInfoMetadataAction"
+		class="com.zfsoft.hrm.baseinfo.forminfo.action.FormInfoMetadataAction" scope="prototype">
+		<property name="formInfoMetadataService" ref="formInfoMetadataService"></property>
+	</bean>
+	<bean id="formInfoUtilAction" name="formInfoUtilAction"
+		class="com.zfsoft.hrm.baseinfo.forminfo.action.FormInfoUtilAction" scope="prototype">
+		<property name="formInfoUtilService" ref="formInfoUtilService"></property>
+	</bean>
+	
+	<!-- 常用查询action -->
+	<bean id="commonSearchAction" name="commonSearchAction"
+		class="com.zfsoft.hrm.baseinfo.search.action.CommonSearchAction" scope="prototype">
+		<property name="commonSearchService" ref="baseCommonSearchService"></property>
+		<property name="conditionService" ref="baseSearchConditionService"></property>
+	</bean>
+	
+	<!-- 条件定义action -->
+	<bean id="conditionDefinedAction" name="conditionDefinedAction"
+		class="com.zfsoft.hrm.baseinfo.search.action.ConditionDefinedAction" scope="prototype">
+		<property name="conditionService" ref="baseSearchConditionService"></property>
+	</bean>
+	<!-- 条件批量处理action -->
+	<bean id="conditionBatchAction" name="conditionBatchAction"
+		class="com.zfsoft.hrm.baseinfo.search.action.ConditionBatchAction" scope="prototype">
+		<property name="conditionService" ref="baseSearchConditionService"></property>
+	</bean>
+	
+	<!-- 自定义菜单查询(分类查询)action -->
+	<bean id="customMenuAction" name="customMenuAction"
+		class="com.zfsoft.hrm.baseinfo.custommenu.action.CustomMenuAction" scope="prototype">
+		<property name="customMenuService" ref="customMenuService"></property>
+	</bean>
+	
+	<!-- 快照action -->
+	<bean id="snapshotAction" name="snapshotAction"
+		class="com.zfsoft.hrm.baseinfo.snapshot.action.SnapshotAction" scope="prototype">
+		<property name="snapshotService" ref="snapshotService"></property>
+		<property name="scheduleService" ref="scheduleControlService"></property>
+		<property name="snapshotLogDetailService" ref="snapshotLogDetailService"></property>
+	</bean>
+	<bean id="snapshotLogAction" name="snapshotLogAction"
+		class="com.zfsoft.hrm.baseinfo.snapshot.action.SnapshotLogAction" scope="prototype">
+		<property name="snapshotLogService" ref="snapshotLogService"></property>
+	</bean>
+	<bean id="snapshotQueryAction" name="snapshotQueryAction"
+		class="com.zfsoft.hrm.baseinfo.snapshot.action.SnapQueryAction" scope="prototype">
+		<property name="dynaBeanService" ref="baseDynaBeanService"></property>
+		<property name="snapshotLogService" ref="snapshotLogService"></property>
+	</bean>
+	<bean id="snapshotDataAction" name="snapshotDataAction"
+		class="com.zfsoft.hrm.baseinfo.snapshot.action.SnapDataAction" scope="prototype">
+		<property name="snapshotService" ref="snapshotService"></property>
+	</bean>
+	<!-- 20140416 add start -->
+	<bean id="snapshotInfoAction" name="snapshotInfoAction"
+	    class="com.zfsoft.hrm.baseinfo.snapshot.action.SnapshotInfoAction" scope="prototype">
+	    <property name="snapshotInfoService" ref="snapshotInfoService"></property>
+	    <property name="catalogService" ref="baseInfoCatalogService"></property>
+	    <property name="viewService" ref="infoPropertyViewService" ></property>
+	</bean>
+	<!-- 20140416 add end -->
+	
+	<!-- 信息维护 -->
+	<bean id="baseFormInfoMemberAction" class="com.zfsoft.hrm.baseinfo.finfo.action.FormInfoMemberAction" scope="prototype">
+		<property name="formInfoMemberService" ref="baseFormInfoMemberService" ></property>
+	</bean>
+	<bean id="baseFormInfoMemberPropertyAction" class="com.zfsoft.hrm.baseinfo.finfo.action.FormInfoMemberPropertyAction" scope="prototype">
+		<property name="formInfoMemberPropertyService" ref="baseFormInfoMemberPropertyService"></property>
+	</bean>
+	
+	<!-- 信息审核 -->
+	<bean id="baseAuditDefineAction" class="com.zfsoft.hrm.baseinfo.audit.action.AuditDefineAction" scope="prototype">
+		<property name="defineService" ref="baseAuditDefineService" ></property>
+	</bean>
+	
+	<bean id="baseAuditProcessAction" class="com.zfsoft.hrm.baseinfo.audit.action.AuditProcessAction" scope="prototype">
+		<property name="processService" ref="baseAuditProcessService" ></property>
+	</bean>
+	
+	<bean id="baseRoleAction" class="com.zfsoft.hrm.baseinfo.role.action.RoleAction" scope="prototype">
+		<property name="roleService" ref="baseRoleService" ></property>
+	</bean>
+	
+	<!-- 信息导入 -->
+	<bean id="baseInfoClassDataAction" class="com.zfsoft.hrm.baseinfo.data.action.InfoClassDataAction" scope="prototype">
+		<property name="infoClassDataService" ref="infoClassDataService" ></property>
+	</bean>
+	
+	<!-- 信息检查 -->
+    <bean id="infoClassCheckAction" class="com.zfsoft.hrm.baseinfo.data.action.InfoClassCheckAction" scope="prototype">
+        <property name="dynaBeanBusiness" ref="baseDynaBeanBusiness"/>
+    </bean>
+	
+	<!-- 信息属性展示配置 -->
+	<bean id="infoPropertyViewAction" class="com.zfsoft.hrm.baseinfo.infoclass.action.InfoPropertyViewAction" scope="prototype">
+		<property name="viewService" ref="infoPropertyViewService" ></property>
+	</bean>
+	
+	<!-- 日志查询 -->
+	<bean id="dynaLogAction" class="com.zfsoft.hrm.baseinfo.dyna.action.DynaBeanLogAction" scope="prototype">
+		<property name="dynaBeanLogService" ref="baseDynaBeanLogService" ></property>
+	</bean>
+	
+	   <!-- 信息导入 -->
+    <bean id="PushDyBill2InfoClassAction" class="com.zfsoft.hrm.baseinfo.data.action.PushDyBill2InfoClassAction" scope="prototype">
+        <property name="spBillDataPushRunService" ref="spBillDataPushRunService" ></property>
+        <property name="spBillDataPushEventConfigService" ref="spBillDataPushEventConfigService" ></property>
+        <property name="spBillDefineCatchService" ref="spBillDefineCatchService" ></property>
+    </bean>
+    
+    <!-- 组织机构action -->
+    <bean id="DepartmentAction" name="DepartmentAction" class="com.zfsoft.hrm.baseinfo.dept.action.DeptAction" scope="prototype">
+        <property name="orgService" ref="baseOrgService"></property>
+        <property name="dynaBeanBusiness" ref="baseDynaBeanBusiness"></property>
+    </bean>
+</beans>

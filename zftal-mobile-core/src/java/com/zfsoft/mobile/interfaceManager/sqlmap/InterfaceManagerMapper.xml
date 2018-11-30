@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.interfaceManager.dao.daointerface.IInterfaceManagerDao" >
+	
+	<resultMap type="com.zfsoft.mobile.interfaceManager.entity.InterfaceManager" id="InterfaceManagerMap">
+		<result column="jkid" property="classJkid"/>
+		<result column="jkms" property="classJkms"/>
+		<result column="jklm" property="classJklm"/>
+		<result column="syzt" property="classSyzt"/>
+		<result column="jkdz" property="classJkdz"/>
+		<result column="cjsj" property="classCjsj"/>
+		<result column="gxsj" property="classGxsj"/>
+		<result column="cjzid" property="classCjzid"/>
+		<result column="gxzid" property="classGxzid"/>
+		<result column="deleted" property="classDeleted"/>
+		<result column="jkbm" property="classJkbm"/>
+	</resultMap>
+	
+	
+	<sql id="where">
+    	<where>
+			<if test="classJkid != null and classJkid != ''">
+   				and m.jkid = #{classJkid}
+	   		</if>
+			<if test="classJklm != null and classJklm != ''">
+    			and m.jklm like '%'||#{classJklm}||'%' 
+    		</if>
+    		<if test="classSyzt != null and classSyzt != ''">
+    			and m.syzt = #{classSyzt}
+    		</if>
+    		<if test="classJkbm != null and classJkbm != ''">
+    			and m.jkbm like '%'||#{classJkbm}||'%' 
+    		</if>
+    		    and m.deleted ='0'
+		</where>
+    </sql> 
+    
+    
+	<!-- 获取分页列表信息 -->
+	<select id="getList" resultMap="InterfaceManagerMap">
+	
+	select jkid,jkms,jklm,syzt,jkdz,cjsj,gxsj,cjzid,gxzid,deleted,jkbm,rn from (
+	       select a.*,rownum rn from
+	    	(         select m.* from M_JKGL_JKGLB m
+			    
+			         <include refid="where" /> 
+		    )a
+	  )
+		
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>	
+	</select>
+	
+	<select id="getListCount" resultType="int">
+			select count(*) from M_JKGL_JKGLB m
+			  <include refid="where" />
+	</select>
+	
+	<select id="getUpdateList" resultType="int">
+			select count(*) from M_JKGL_JKGLB m
+			  <where>
+			<if test="classJkid != null and classJkid != ''">
+   				and m.jkid != #{classJkid}
+	   		</if>
+    		<if test="classJkbm != null and classJkbm != ''">
+    			and m.jkbm = #{classJkbm}
+    		</if>
+    		<if test="classJkdz != null and classJkdz != ''">
+    			and m.jkdz = #{classJkdz}
+    		</if>
+    		    and m.deleted ='0'
+		</where>
+	</select>
+	
+	<select id="getInsertList" resultType="int">
+			select count(*) from M_JKGL_JKGLB m
+			  <where>
+			<if test="classJkid != null and classJkid != ''">
+   				and m.jkid = #{classJkid}
+	   		</if>
+    		<if test="classJkbm != null and classJkbm != ''">
+    			and m.jkbm = #{classJkbm}
+    		</if>
+    		<if test="classJkdz != null and classJkdz != ''">
+    			and m.jkdz = #{classJkdz}
+    		</if>
+    		    and m.deleted ='0'
+		</where>
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<![CDATA[
+			insert into M_JKGL_JKGLB(
+				jkid,jkms,jklm,syzt,jkdz,cjsj,gxsj,cjzid,gxzid,deleted,jkbm
+			) values(
+				#{classJkid}, #{classJkms,jdbcType=VARCHAR}, #{classJklm}, #{classSyzt}, #{classJkdz},
+				 #{classCjsj},#{classGxsj,jdbcType=DATE},#{classCjzid}, #{classGxzid,jdbcType=VARCHAR}, #{classDeleted}, #{classJkbm}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="classJkid">
+			<![CDATA[
+			select SYS_GUID() CLASSID from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			update M_JKGL_JKGLB set
+				jklm = #{classJklm}, jkms = #{classJkms,jdbcType=VARCHAR}, jkdz = #{classJkdz},jkbm = #{classJkbm},syzt = #{classSyzt}
+			where jkid = #{classJkid}
+		]]>
+	</update>
+	
+	<update id="updateById">
+		<![CDATA[
+			update M_JKGL_JKGLB set
+				syzt = #{classSyzt}
+			where jkid = #{classJkid}
+		]]>
+	</update>
+	
+	<delete id="delete">
+		<![CDATA[
+			update M_JKGL_JKGLB set
+			deleted = '1',gxsj = #{classGxsj},gxzid = #{classGxzid}
+			where jkid = #{classJkid}
+		]]>
+	</delete>
+	
+	<select id="getInterfaceByBM" resultMap="InterfaceManagerMap">
+		select * from m_jkgl_jkglb where jkbm = #{classJkbm} and deleted = 0
+	</select>
+	
+</mapper>

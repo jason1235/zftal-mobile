@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="summary" namespace="/summary" extends="configuration">
+	  
+	  <!-- 花名册管理 -->
+	  <action name="roster_*" class="rosterAction" method="{1}" >
+	     <result name="page">/WEB-INF/pages/hrm/summary/roster/roster_page.jsp</result>
+	     <result name="input">/WEB-INF/pages/hrm/summary/roster/roster_input.jsp</result>
+	     <result name="other">/WEB-INF/pages/hrm/summary/roster/roster_saveOther.jsp</result>
+	  </action>
+	  
+	  <!-- 花名册数据 -->
+	  <action name="rosterData_*" class="rosterDataAction" method="{1}" >
+	     <result name="page">/WEB-INF/pages/hrm/summary/roster/rosterData_page.jsp</result>
+	     <result name="query">/WEB-INF/pages/hrm/summary/roster/rosterData_query.jsp</result>
+	  </action>
+	  
+	  <!-- 花名册条件配置 -->
+	  <action name="rosterConfig_*" class="rosterConfigAction" method="{1}" >
+	     <result name="page">/WEB-INF/pages/hrm/summary/roster/rosterConfig_page.jsp</result>
+	     <result name="input">/WEB-INF/pages/hrm/summary/roster/rosterConfig_input.jsp</result>
+	  </action>
+	  
+	  <!-- 单信息类字段选择 -->
+	  <action name="property_*" class="propertySelectAction" method="{1}" >
+	  </action>
+	  
+	  <!-- 花名册条件配置 -->
+	  <action name="rosterColumn_*" class="rosterColumnAction" method="{1}" >
+	     <result name="list">/WEB-INF/pages/hrm/summary/roster/rosterColumn_multiSel.jsp</result>
+	  </action>
+	  
+	   <!-- 报表 -->
+	  <action name="report_*" class="reportAction" method="{1}" >
+	  	<result name="list">/WEB-INF/pages/hrm/summary/report/report_list.jsp</result>
+	  	<result name="list_rev">/WEB-INF/pages/hrm/summary/report/report_list_rev.jsp</result>
+	  </action>
+	  
+	  <action name="reportview_*" class="reportViewAction" method="{1}" >
+        <result name="list">/WEB-INF/pages/hrm/summary/report/report_list_view.jsp</result>
+      </action>
+	  
+	  <!-- 报表配置 -->
+	  <action name="reportconfig_*" class="reportConfigAction" method="{1}" >
+	  	<result name="list">/WEB-INF/pages/hrm/summary/report/report_config.jsp</result>
+	  	<result name="edit_report">/WEB-INF/pages/hrm/summary/report/report_config_re_edit.jsp</result>
+	  	<result name="edit_item">/WEB-INF/pages/hrm/summary/report/report_config_item_edit.jsp</result>
+	  	<result name="add_item">/WEB-INF/pages/hrm/summary/report/report_config_item_add.jsp</result>
+	  	<result name="revConfig">/WEB-INF/pages/hrm/summary/report/report_rev_config.jsp</result>
+	  </action>
+	  
+      <action name="seniorreport_*" class="seniorReportAction" method="{1}" >
+        <result name="list">/WEB-INF/pages/hrm/summary/seniorreport/report_list.jsp</result>
+        <result name="page">/WEB-INF/pages/hrm/summary/seniorreport/report_page.jsp</result>
+        <result name="list_rev">/WEB-INF/pages/hrm/summary/seniorreport/report_list_rev.jsp</result>
+      </action>
+      <action name="seniorreportconfig_*" class="seniorReportConfigAction" method="{1}" >
+        <result name="list">/WEB-INF/pages/hrm/summary/seniorreport/report_config.jsp</result>
+        <result name="edit_report">/WEB-INF/pages/hrm/summary/seniorreport/report_config_re_edit.jsp</result>
+        <result name="edit_item">/WEB-INF/pages/hrm/summary/seniorreport/report_config_item_edit.jsp</result>
+        <result name="file">/WEB-INF/pages/hrm/summary/seniorreport/report_config_uploadTemp.jsp</result>
+        <result name="res">/WEB-INF/pages/hrm/code/result.jsp</result>
+      </action>
+	</package>
+</struts>

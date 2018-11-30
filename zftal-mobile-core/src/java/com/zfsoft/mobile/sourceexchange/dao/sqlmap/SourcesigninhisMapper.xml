@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.sourceexchange.dao.ISourcesigninDao">
+		<resultMap id="sourcesigninMap" type="com.zfsoft.mobile.sourceexchange.entity.Sourcesigninhis">
+			<result property="source" 		 	column="SOURCE" />
+			<result property="userid"   		column="USERID" />
+			<result property="appsource"   		column="APPSOURCE" />
+			<result property="createtime"   	column="CREATETIME" />
+		</resultMap>
+		
+		<sql id="where">
+	    	<where>
+				<if test="userid != null and userid != ''">
+	   				and m.userid = #{userid}
+		   		</if>
+	    		<if test="createtime != null and createtime != ''">
+		    		<![CDATA[ 
+						and m.createtime like to_date(to_char(sysdate,'yyyy-MM-dd'),'yyyy-MM-dd')
+					]]>
+	    		</if>
+	    	</where>
+	    </sql>
+	    
+	     <select id="getPageCount" resultType="int">
+			select count(*) from
+				(select * from M_SOURCE_SIGNINHIS m
+				<include refid="where" /> )
+			a 
+	    </select> 
+	    
+	<!-- 获取分页列表信息-->
+	<select id="getPageList" resultMap="sourcesigninMap">
+	select * from(
+		select a.*,rownum rn from (
+	       select m.*,u.xm as username,
+	       (case when appsource='1' then '移动端'
+	       when appsource='2' then 'web端' 
+	       else '其他终端'
+	       end) as ast
+	       from M_SOURCE_SIGNINHIS m  left join zftal_xtgl_yhb u on u.zgh=m.userid 
+			<include refid="where" /> 
+	       order by m.createtime desc 
+	    )a ) 
+		
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+	</select>
+	
+	<insert id="signIn" >
+		<![CDATA[
+			INSERT INTO 
+				M_SOURCE_SIGNINHIS(
+					userid,
+					source,
+					appsource,
+					createtime
+				)
+			VALUES(
+				#{userid},
+				#{source},
+				#{appsource},
+				sysdate
+			)
+		]]>
+	</insert>
+	
+	<select id="isSignedToday" resultType="int">
+		select count(*) from M_SOURCE_SIGNINHIS m
+		<include refid="where" /> 
+	</select>
+
+</mapper>

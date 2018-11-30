@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.menu.dao.IApiMenuDao">
+
+<resultMap type="com.zfsoft.dao.entities.ApiIndexModel" id="ApiIndexMap">
+		<result column="gnmkdm" property="gnmkdm"/>
+		<result column="gnmkmc" property="gnmkmc"/>
+		<result column="fjgndm" property="fjgndm"/>
+		<result column="content" property="content"/>
+		<result column="xssx" property="xssx"/>
+		<result column="sfqy" property="sfqy"/>
+</resultMap>
+	<sql id="where">
+    	<where>
+			<if test="gnmkdm != null and gnmkdm != ''">
+   				and m.gnmkdm = #{gnmkdm}
+	   		</if>
+			<if test="gnmkmc != null and gnmkmc != ''">
+    			and m.gnmkmc  like '%'||#{gnmkmc}||'%' 
+    		</if>
+    		<if test="fjgndm != null and fjgndm != ''">
+    			and m.fjgndm = #{fjgndm}
+    		</if>
+    		<if test="sfqy != null and sfqy != ''">
+    			and m.sfqy = #{sfqy}
+    		</if>
+		</where>
+    </sql> 
+    <!-- 获取分页列表信息 -->
+	<select id="getAllList" resultMap="ApiIndexMap">
+			
+				select * from M_API_MENU where sfqy='1' order by xssx asc
+	</select>
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getList" resultMap="ApiIndexMap">
+			select c.*,c.rn from (
+				select a.*,rownum rn from
+				(select * from M_API_MENU m
+				<include refid="where" /> )
+				a
+			) c
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} order by xssx asc
+			]]>	
+	</select>
+	
+	<select id="getListCount" resultType="int">
+			select count(*) from
+				(select * from M_API_MENU m
+				<include refid="where" /> )
+			a  
+	</select>
+	
+	<insert id="insertMenu">
+		insert into M_API_MENU(
+		gnmkdm,
+		gnmkmc,
+		fjgndm,
+        <if test="content != null and content != ''">content,</if>
+        xssx,
+        sfqy
+		)
+		values(
+			#{gnmkdm},
+			#{gnmkmc},
+			#{fjgndm},
+			<if test="content != null and content != ''">#{content},</if>
+			#{xssx},
+			#{sfqy}
+		)
+	</insert>
+	
+	<update id="updateSfqy">
+		update M_API_MENU set sfqy=#{sfqy} where gnmkdm=#{gnmkdm} or fjgndm  like '%'||#{gnmkdm}||'%'
+	</update>
+	
+	<update id="update">
+		update M_API_MENU set gnmkmc=#{gnmkmc},content=#{content,jdbcType=VARCHAR} where gnmkdm=#{gnmkdm}
+	</update>
+	
+	<delete id="delete">
+		delete from M_API_MENU where gnmkdm=#{gnmkdm} 
+	</delete>
+	
+</mapper>

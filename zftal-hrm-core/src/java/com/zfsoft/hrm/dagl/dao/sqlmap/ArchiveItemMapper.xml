@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.hrm.dagl.dao.IArchiveItemDao">
+
+    <resultMap id="archivesItemMap" type="com.zfsoft.hrm.dagl.entity.ArchiveItem">
+        <result property="itemId"               column="ITEMID" />
+        <result property="archiveId"    column="archiveId" />
+        <result property="bh"               column="bh" />
+        <result property="name"               column="name" />
+        <result property="desc"               column="DESCRIBE" />
+        <result property="createTime"               column="createTime" />
+        <result property="lastModify"               column="lastModify" />
+        <result property="lh"               column="lh" />
+        <result property="xh"               column="xh" />
+        <result property="fs"               column="fs" />
+        <result property="ym"               column="ym" />
+        <result property="gh"               column="gh" />
+        <result property="xm"               column="xm" />
+    </resultMap>
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO 
+                HRM_DAGL_CLXX(
+                      DESCRIBE,
+					  BH,
+					  ITEMID,
+					  ARCHIVEID,
+					  NAME,
+					  CREATETIME,
+					  LASTMODIFY,
+					  LH,
+					  XH,
+					  FS,
+					  YM
+                )
+            VALUES(
+                #{desc,jdbcType=VARCHAR},
+                #{bh,jdbcType=VARCHAR},
+                #{itemId},
+                #{archiveId},
+                #{name},
+                #{createTime},
+                sysdate,
+                #{lh,jdbcType=VARCHAR},
+                #{xh,jdbcType=VARCHAR},
+                #{fs,jdbcType=NUMERIC},
+                #{ym,jdbcType=NUMERIC}
+            )
+        ]]>
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="itemId">
+            <![CDATA[
+            select SYS_GUID() globalid from DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    
+    <update id="update">
+        update HRM_DAGL_CLXX
+        <set>
+        LASTMODIFY = sysdate
+        <if test="gh!=null">
+        ,GH = #{gh}
+        </if>
+        <if test="savePoint!=null">
+        ,SAVEPOINT = #{savePoint}
+        </if>
+        <if test="detail!=null">
+        ,DETAIL = #{detail}
+        </if>
+        <if test="type!=null">
+        ,TYPE = #{type}
+        </if>
+        <if test="bh!=null ">
+        ,DABH=#{bh}
+        </if>
+        <if test="lh!=null ">
+        ,LH=#{lh}
+        </if>
+        <if test="xh!=null ">
+        ,XH=#{xh}
+        </if>
+        <if test="fs!=null ">
+        ,FS=#{fs}
+        </if>
+        <if test="ym!=null ">
+        ,YM=#{ym}
+        </if>
+        </set>
+        where ITEMID = #{itemId}
+    </update>
+    
+    <!-- 获取分页信息 -->
+    <select id="getList" resultMap="archivesItemMap" >
+     select * from (select a.* ,rownum rn from(
+        select t.*,x.gh,r.xm
+        from HRM_DAGL_CLXX T
+        LEFT JOIN HRM_DAGL_DAXX X  ON T.ARCHIVEID = X.ID LEFT JOIN OVERALL  R ON X.GH=r.gh
+        <where>
+        <if test="bh != null and bh != ''">
+            and t.bh like '%'||#{bh}||'%'
+        </if>
+        <if test="archiveId != null and archiveId != ''">
+            and t.archiveId = #{archiveId}
+        </if>
+        <if test="itemId != null and itemId != ''">
+            and t.itemId = #{itemId}
+        </if>
+        <if test="name != null and name != ''">
+            and t.name like '%'||#{name}||'%'
+        </if>
+        <if test="desc != null and desc != ''">
+            and describe like '%'||#{desc}||'%'
+        </if>
+        <if test="lh != null and lh != ''">
+            and t.lh like '%'||#{lh}||'%'
+        </if>
+        <if test="xh != null and xh != ''">
+            and t.xh like '%'||#{xh}||'%'
+        </if>
+        <if test="gh != null and gh != ''">
+            and x.gh like '%'||#{gh}||'%'
+        </if>
+        <if test="xm != null and xm != ''">
+            and r.xm like '%'||#{xm}||'%'
+        </if>
+    </where>
+        ) a )
+        <![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+    </select>
+    
+    <select id="getArchiveItemCount" resultType="int" >
+        select count(*) from (select a.* ,rownum rn from(
+        select t.*,x.gh,r.xm
+        from HRM_DAGL_CLXX T
+        LEFT JOIN HRM_DAGL_DAXX X  ON T.ARCHIVEID = X.ID LEFT JOIN OVERALL  R ON X.GH=r.gh
+        <where>
+        <if test="bh != null and bh != ''">
+            and t.bh like '%'||#{bh}||'%'
+        </if>
+        <if test="archiveId != null and archiveId != ''">
+            and t.archiveId = #{archiveId}
+        </if>
+        <if test="itemId != null and itemId != ''">
+            and t.itemId = #{itemId}
+        </if>
+        <if test="name != null and name != ''">
+            and t.name like '%'||#{name}||'%'
+        </if>
+        <if test="desc != null and desc != ''">
+            and describe like '%'||#{desc}||'%'
+        </if>
+        <if test="lh != null and lh != ''">
+            and t.lh like '%'||#{lh}||'%'
+        </if>
+        <if test="xh != null and xh != ''">
+            and t.xh like '%'||#{xh}||'%'
+        </if>
+        <if test="gh != null and gh != ''">
+            and x.gh like '%'||#{gh}||'%'
+        </if>
+        <if test="xm != null and xm != ''">
+            and r.xm like '%'||#{xm}||'%'
+        </if>
+    </where>
+        ) a )
+    </select>
+    
+    <!-- 获取分页信息 -->
+    <select id="findById" resultMap="archivesItemMap" >
+        select t.*
+        from HRM_DAGL_CLXX t
+        where ITEMID = #{itemId}
+    </select>
+    
+    <!-- 获取分页信息 -->
+    <select id="getPagingList" resultMap="archivesItemMap" >
+    select * from (select a.*, rownum rn from(
+        select t.*
+        from HRM_DAGL_CLXX t
+        <include refid="where"/>
+        <if test="orderStr == null">
+            order by t.LASTMODIFY
+        </if>
+        <if test="orderStr != null and orderStr != ''">
+            order by ${orderStr}
+        </if>
+     ) a )
+        <![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+    </select>
+    
+    <delete id="remove">
+        delete from HRM_DAGL_CLXX where ITEMID = '${itemId}'
+    </delete>
+    
+        <!-- 获取分页计数 -->
+    <select id="getPagingCount" resultType="int">
+        select 
+            count (t.itemId) cnt
+        from HRM_DAGL_CLXX t
+        <include refid="where"/>
+    </select>
+    
+    <sql id="where">
+    <where>
+        <if test="bh != null and bh != ''">
+            and t.bh like '%'||#{bh}||'%'
+        </if>
+        <if test="archiveId != null and archiveId != ''">
+            and t.archiveId = #{archiveId}
+        </if>
+        <if test="itemId != null and itemId != ''">
+            and t.itemId = #{itemId}
+        </if>
+        <if test="name != null and name != ''">
+            and t.name like '%'||#{name}||'%'
+        </if>
+        <if test="desc != null and desc != ''">
+            and describe like '%'||#{desc}||'%'
+        </if>
+        <if test="lh != null and lh != ''">
+            and t.lh like '%'||#{lh}||'%'
+        </if>
+        <if test="xh != null and xh != ''">
+            and t.xh like '%'||#{xh}||'%'
+        </if>
+    </where>
+    </sql>
+    
+    
+</mapper>

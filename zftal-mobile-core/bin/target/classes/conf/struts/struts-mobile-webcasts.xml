@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="ydzbj" namespace="/webcast" extends="configuration" >
+		<action name="webcast_*" class="webcastAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/webcast/webcast_list.jsp</result>
+		</action>
+
+		<action name="audit_*" class="webcastAuditAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/webcast/audit_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/webcast/audit_edit.jsp</result>
+		</action>
+
+	</package>
+	
+</struts>

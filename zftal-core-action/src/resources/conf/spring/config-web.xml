@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+    <!-- 角色管理action -->
+	<bean id="jsglAction" name="jsglAction"
+		class="com.zfsoft.globalweb.action.JsglAction" scope="prototype">
+		<property name="jsglService" ref="jsglService"></property>
+		<property name="yhglService" ref="yhglService"></property>
+		<property name="xsglfwService" ref="xsglfwService"></property>
+	</bean>
+	
+  	<!-- 用户管理action -->
+	<bean id="yhglAction" name="yhglAction"
+		class="com.zfsoft.globalweb.action.YhglAction" scope="prototype">
+		<property name="yhglService" ref="yhglService"></property>
+		<property name="jsglService" ref="jsglService"></property>
+		<property name="yhjsfwService" ref="yhjsfwService"></property>
+		<property name="bmdmService"   ref="bmdmService"></property>		
+	</bean>
+	
+	<!-- 日志管理 -->
+	<bean id="rzglAction" name="rzglAction"
+		class="com.zfsoft.globalweb.action.RzglAction" scope="prototype">
+		<property name="service" ref="rzglService" />
+	</bean>
+	
+	<!-- 基础数据action -->
+	<bean id="jcsjAction" name="jcsjAction"
+		class="com.zfsoft.globalweb.action.JcsjAction" scope="prototype">
+		<property name="jcsjService" ref="jcsjService"></property>
+		<property name="dcService" ref="dcService"></property>
+	</bean>
+	
+	<!-- 数据导出action -->
+	<bean id="dcAction" name="dcAction"
+		class="com.zfsoft.globalweb.action.DcAction" scope="prototype">
+	</bean>
+	
+	<!-- 首页加载action -->
+	<bean id="indexAction" name="indexAction"
+		class="com.zfsoft.globalweb.action.IndexAction" scope="prototype">
+		<property name="service" ref="indexService"></property>
+		<property name="wdyyService" ref="wdyyService"></property>
+		<property name="yhglService" ref="yhglService"></property>
+	</bean>	
+	
+	<!-- 用户登录action -->
+   <bean id="loginAction" name="loginAction"
+		class="com.zfsoft.globalweb.action.LoginAction" scope="prototype">
+		<property name="loginService" ref="loginService"></property>
+		<property name="indexService" ref="indexService"></property>
+		<property name="yhglService" ref="yhglService"></property>
+		<property name="jsglService" ref="jsglService"></property>
+		<!--<property name="mem" ref="_cache_"></property>-->
+	</bean>
+	
+	<!-- 系统设置action -->
+	<bean id="xtszAction" name="xtszAction"
+		class="com.zfsoft.globalweb.action.XtszAction" scope="prototype">
+		<property name="jcsjService" ref="jcsjService"/>
+		<property name="xtszService" ref="xtszService"/>
+	</bean>
+	
+	<!-- 我的应用action -->
+	<bean id="wdyyAction" name="wdyyAction"
+		class="com.zfsoft.globalweb.action.WdyyAction" scope="prototype">
+		<property name="service" ref="wdyyService"/>
+	</bean>
+	
+	<!-- 新闻管理action -->
+	<bean id="xwglAction" name="xwglAction"
+		class="com.zfsoft.globalweb.action.XwglAction" scope="prototype">
+		<property name="service" ref="xwglService"/>
+	</bean>
+
+	<!-- 文本编辑器action -->
+	<bean id="kindEditorAction" name="kindEditorAction"
+		class="com.zfsoft.globalweb.action.KindEditorAction" scope="prototype">
+	</bean>
+	
+	<!-- Testaction -->
+	<bean id="testAction" name="testAction"
+		class="com.zfsoft.globalweb.action.TestAction" scope="prototype">
+		<property name="testService" ref="testService"></property>
+	</bean>
+	
+	<!-- 用户管理action -->
+	<bean id="commonSqlAction" name="commonSqlAction"
+		class="com.zfsoft.globalweb.action.CommonSqlAction" scope="prototype">
+		<property name="commonSqlService" ref="commonSqlService"></property>
+	</bean>	
+	
+	<!-- 用户角色范围action -->
+	<bean id="yhjsfwAction" name="yhjsfwAction"
+		class="com.zfsoft.globalweb.action.YhjsfwAction" scope="prototype">
+		<property name="yhjsfwService" ref="yhjsfwService"></property>
+		<property name="sjfwdxService" ref="sjfwdxService"></property>
+		<property name="jsglService" ref="jsglService"></property>
+	</bean>
+
+	<!-- 数据范围组action -->
+	<bean id="sjfwzAction" name="sjfwzAction"
+		class="com.zfsoft.globalweb.action.SjfwzAction" scope="prototype">
+		<property name="sjfwzService" ref="sjfwzService"></property>
+	</bean>	
+	
+	<!-- 数据范围组action -->
+	<bean id="sjfwdxAction" name="sjfwdxAction"
+		class="com.zfsoft.globalweb.action.SjfwdxAction" scope="prototype">
+		<property name="sjfwdxService" ref="sjfwdxService"></property>
+	</bean>	
+	
+	<!-- 口令维护action -->
+	<bean id="klwhAction" name="klwhAction"
+		class="com.zfsoft.globalweb.action.KlwhAction" scope="prototype">
+		<property name="klwhService" ref="klwhService"></property>
+	</bean>	
+</beans>

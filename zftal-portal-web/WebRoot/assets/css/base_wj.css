@@ -1,0 +1,100 @@
+@charset "utf-8";
+@import url('../fonts/font-awesome/css/font-awesome.min.css');		/* 字体图标 */
+@import url('../css/animate.css');		/* CSS动画 */
+@import url('../js/plugins/laydate/need/laydate.css');		/* 日期 */
+
+/* CSS Document */
+body { font: normal 100 14px microsoft YaHei,SimSun,Arial; background: #f0f0f0; }
+dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, p, blockquote, tr, td, th, thead, caption { margin: 0; font-weight: normal }
+ol, ul, li { list-style: none; }
+.float_l { float: left; }
+.float_r { float: right; }
+.hidden { display: none; }
+.clearfloat:after { display: block; clear: both; content: ""; visibility: hidden; height: 0px; overflow: hidden; }
+.clearfloat { zoom: 1 }
+.bg-default{ background:none !important}.bg-white{ background:#fff !important}
+.color-white{ color:#fff !important}.color-red{ color:#f00 !important}
+.show-grid-15 { margin-bottom: 15px; }
+.show-padtop-15 { padding-top: 15px; }
+.padding-150{padding:15px 0 0 0;}.padding-0{ padding:0px !important}.padding-r70{ padding-right:70px !important}.padding-t10{ padding-top:10px !important}.padding-l10{ padding-left:10px !important}.padding-10{ padding:10px !important}
+.margin-t0{ margin-top: 0px !important;}.margin-b0{ margin-bottom: 0px !important;}.margin-t10{ margin-top: 10px !important;}.margin-tb10{ margin-top: 10px !important; margin-bottom:10px !important}.margin-b20{ margin-bottom:20px !important}.margin-r10{ margin:0px 10px 0px 0px !important}.margin-10{ margin:10px !important}
+.fs-25{ font-size:25px;}
+.border-b{ border-bottom:1px solid #e6e6e6; padding:15px 0px;}
+.w_1000{ width:1000px; margin:0 auto;}
+.position_r{ position:relative; z-index:1}.position_a{ position:absolute; z-index:2}.top_10{ bottom:auto !important; top: 10px !important;}.right_10{ left:auto !important; right: 10px !important;}
+.cur_poi{ cursor:pointer;}
+.max_w_240{display: inline-block!important;vertical-align: text-top;max-width: 240px;}
+.nav_many>li>a{padding: 2px 11px; margin-right:0px;}
+.cursor_poi{cursor:pointer;}
+
+/*=====================设备控制========================*/
+@media (min-width:1400px){.container{width:1360px}.container_1170{width:1170px}}
+@media (min-width:1900px){.container{width:1850px}.container_1170{width:1170px}.container_max1400{width:1360px}}
+
+@media (max-width: 1200px) {
+    .treeview li{ padding-left:30px !important}
+    .treeview .hitarea{ left:65px !important}
+}
+@media (max-width: 767px) {
+ 	.top1 .navbar-form,.top1 .navbar-nav,.navbar_index{ display:none;}
+	.navbar-default .navbar-toggle .icon-bar{ background:#fff}
+	.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus{ background:none;} 
+	.navbar-nav .dropdown-menu .dropdown-menu>li>a{ padding-left:35px;}
+	.index_grxx,.index_rctx,.index_kbcx,.index_kscj,.index_xl{ margin:0px -15px 15px 0px !important}
+	.treeview li{ padding-left:20px !important}
+    .treeview .hitarea{ left:35px !important}
+    .treeview li .title{ width:230px !important}
+    .formlist td, .formlist th{ padding:5px !important; line-height:15px !important;}
+	.div768-responsive{width:750px; overflow-x:auto; overflow-y:hidden;}/*自定义当宽度小于767时横向出现滚动条，用以禁止栅格系统继续缩小影响排版效果*/
+}
+ 
+/*=====================bootstrap面板关闭和展开========================*/
+.panel-heading {position:relative;}
+.panel-heading .hed_remove{ position:absolute; z-index:2; right:50px; text-indent:-9999px;top:50%; margin-top:-10px; display:block; width:18px; height:18px; background:url(../images/ico_remove.png) 0px 0px no-repeat;opacity:1;-webkit-transition: -webkit-transform 0.6s linear;-moz-transition: -moz-transform 0.6s linear;-o-transition: -o-transform 0.6s linear;-ms-transition: -ms-transform 0.6s linear; overflow:hidden;}
+.panel-heading .hed_remove:hover{transform:rotate(360deg);-ms-transform:rotate(360deg);-moz-transform:rotate(360deg);-webkit-transform:rotate(360deg);-o-transform:rotate(360deg);}
+.panel-heading .expand_close{ position:absolute; z-index:2; right:20px; text-indent:-9999px;top:50%; margin-top:-10px; display:block; width:20px; height:20px; background:url(../images/ico_tjxk.png) 0px 0px no-repeat;opacity:1;}
+.panel-heading .expand1{ background-position:0px 0px;}
+.panel-heading .close1{ background-position:-20px 0px;}
+.panel-info .panel-heading .expand1{ background-position:0px -20px;}
+.panel-info .panel-heading .close1{ background-position:-20px -20px;}
+
+
+
+/*============== 浙江省高校教师专业发展平台首页 ==============*/
+.index3_con{ padding-top:15px;}
+.index3_con .index31{ background:#fff;overflow:hidden; margin:0px -7px 15px;}
+
+
+@media (min-width:1400px){
+	.index3_con .col-md-3,.index3_con .col-md-4,.index3_con .col-md-5{ width:auto;}
+	.index3_con .index3_dbsy,.index3_con .index3_lct{ width:250px;}
+	.index3_con .index3_imgnews,.index3_con .index3_tzgg{ width:681px;}
+	.index3_con .index3_xmtz,.index3_con .index3_bm,.index3_con .index3_bm .list-group{ width:381px !important}
+	.index4_con .index3_bm,.index4_con .index3_bm .list-group{ width:681px !important}
+}
+@media (max-width: 767px) {
+	.index3_con .index31,.index3_con .index32,.index3_con .list-group-item{ height:auto !important;}
+}
+.xzkc-popup{border: 1px solid #bce8f1;}
+.xzkc-popup>.panel-heading table{margin-bottom:0px;}
+.xzkc-popup>.panel-heading td{border:0;font:bold 14px/20px microsoft yahei; color:#31708f;}
+.xzkc-popup-con{border:1px solid #bce8f1;}
+.xzkc-popup-con .panel-heading h3{font:bold 18px/30px microsoft yahei; color:#31708f;}
+.xzkc-popup-con li{background:#f2f2f2; margin-bottom: 5px; padding: 5px; border: 1px solid #fff;}
+.xzkc-popup-con li:hover,.xzkc-popup-con .xzkc-popup-sel{border:1px solid #666;}
+.xzkc-popup-con li h5{font:bold 16px/20px microsoft yahei; color:#333;}
+.xzkc-popup-slecon{border:1px solid #666;}
+@media (min-width: 767px) {
+    .xzkc-popup .zhiyuan-ul{padding:0px; margin: 0px 10px; width:31%;}
+}
+.placeHolder{border:1px dashed #ddd; float: left; margin: 0px 10px; }
+
+
+/*============== 问卷新增样式 ==============*/
+.title_bg{background: #e7f3ff;}
+.margin-t20{margin-top: 20px!important;}
+.padding-l25{padding-left: 25px!important;}
+.padding-l50{padding-left: 50px!important;}
+.padding-30{padding: 30px!important;}
+.padding-t0{padding-top: 0px!important;}
+

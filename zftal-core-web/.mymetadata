@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="zftal-core-web"
+  id="myeclipse.1332236964484"
+  context-root="/zftal-core-web"
+  j2ee-spec="6.0"
+  archive="zftal-core-web.war">
+  <attributes>
+    <attribute name="webrootdir" value="/WebRoot" />
+  </attributes>
+</project-module>
+

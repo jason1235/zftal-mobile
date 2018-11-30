@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!-- 编目action -->
+	<bean id="baseCodeCatalogAction" class="com.zfsoft.hrm.baseinfo.code.action.CatalogAction" scope="prototype">
+		<property name="catalogService" ref="baseCodeCatalogService"></property>
+	</bean>
+	<!-- 条目action -->
+	<bean id="baseCodeItemAction" class="com.zfsoft.hrm.baseinfo.code.action.ItemAction" scope="prototype">
+		<property name="itemService" ref="baseCodeItemService"></property>
+	</bean>
+	
+	<!-- 信息类目录Action -->
+	<bean id="baseInfoCatalogAction" name="baseInfoCatalogAction"
+			class="com.zfsoft.hrm.baseinfo.infoclass.action.CatalogAction" scope="prototype">
+		<property name="catalogService" ref="baseInfoCatalogService"></property>
+	</bean>
+	
+	<!-- 信息类管理 -->
+	<bean id="baseInfoClassAction" name="baseInfoClassAction"
+			class="com.zfsoft.hrm.baseinfo.infoclass.action.InfoClassAction" scope="prototype">
+		<property name="catalogService" ref="baseInfoCatalogService"></property>
+		<property name="infoClassService" ref="baseInfoClassService"></property>
+	</bean>
+	
+	<!-- 信息类属性管理 -->
+	<bean id="baseInfoClassPropertyAction" name="baseInfoClassPropertyAction"
+			class="com.zfsoft.hrm.baseinfo.infoclass.action.InfoPropertyAction" scope="prototype">
+		<property name="infoPropertyService" ref="baseInfoClassPropertyService"></property>
+		<property name="infoClassService" ref="baseInfoClassService"></property>
+	</bean>
+	
+	<!-- 组织机构action -->
+	<bean id="baseOrgAction" name="baseOrgAction"
+		class="com.zfsoft.hrm.baseinfo.org.action.OrgAction" scope="prototype">
+		<property name="orgService" ref="baseOrgService"></property>
+	</bean>
+	
+	<!-- 组织机构查询action -->
+	<bean id="baseOrgSearchAction" name="baseOrgSearchAction"
+		class="com.zfsoft.hrm.baseinfo.org.action.OrgSearchAction" scope="prototype">
+		<property name="orgSearchService" ref="baseOrgSearchService"></property>
+		<property name="dynaBeanService" ref="baseDynaBeanService"></property>
+	</bean>
+	
+	<!-- 组织机构人员action -->
+	<bean id="baseOrgPeopleAction" name="baseOrgPeopleAction"
+		class="com.zfsoft.hrm.baseinfo.org.action.OrgPeopleAction" scope="prototype">
+		<property name="orgPeopleService" ref="baseOrgPeopleService"></property>
+		<property name="dynaBeanService" ref="baseDynaBeanService"></property>
+	</bean>
+</beans>

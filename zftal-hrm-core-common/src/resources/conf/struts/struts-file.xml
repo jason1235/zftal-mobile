@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<bean type="org.apache.struts2.dispatcher.multipart.MultiPartRequest" name="myRequestParser"  
+		class="com.zfsoft.hrm.file.action.MyRequestParseWrapper" scope="default" optional="true" /> 
+	<constant name="struts.multipart.handler" value="myRequestParser" />  <!-- 重写文件上传解析方法  -->  
+	<package name="file" namespace="/file" extends="configuration">
+		<!-- 文件上传-->
+		<action name="file_*" class="com.zfsoft.hrm.file.action.FileAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/file/file_upload.jsp</result>
+			<result name="imgcrop">/WEB-INF/pages/hrm/file/imgcrop.jsp</result>
+		</action>
+		
+		<!-- 附件操作 -->
+		<action name="attachement_*" class="fileAttachementAction" method="{1}" >
+		</action>
+	</package>
+</struts>

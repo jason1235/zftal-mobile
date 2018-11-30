@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.report.dao.IReportXmlFileDao">
+	<sql id="where">
+		<where>
+			<if test="reportId != null">
+				and bbpzb.bbbh = #{reportId}
+    		</if>
+    		<if test="reportName != null">
+				and bbpzb.bbmc = #{reportName}
+    		</if>
+		</where>
+	</sql>
+	<select id="findByQuery" resultType="com.zfsoft.hrm.report.entity.ReportXmlFile">
+		select
+		<foreach collection="sqlNamesAll" item="item" separator=",">
+			<![CDATA[bbpzb.${item} as ${sqlLocalNameMap[item]}]]>
+		</foreach>
+		from HRM_BJGL_BBPZB bbpzb
+		<include refid="where" />
+		order by bbpzb.bbbh asc
+	</select>
+
+	<insert id="insert" keyProperty="reportId">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="reportId">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+		insert into HRM_BJGL_BBPZB(bbbh,
+		<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+			${item}
+		</foreach>
+		values (#{reportId},
+		<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+			#{${sqlLocalNameMap[item]}}
+		</foreach>
+	</insert>
+
+	<update id="update">
+		update HRM_BJGL_BBPZB
+		<set>
+			<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," >
+				 ${item}=#{${sqlLocalNameMap[item]}}
+			</foreach>
+		</set>
+		where bbbh=#{reportId}
+	</update>
+
+	<!-- 删除岗位信息 -->
+	<delete id="delete">
+		delete from HRM_BJGL_BBPZB where bbbh = #{reportId}
+	</delete>
+	
+	<select id="count" resultType="int">
+		select count(*) from (${sql}) report <where> ${columnCondition} and ${rowCondition}
+		<if test="snapTime != '' and snapTime != null">
+			and to_char(snap_time,'yyyy-mm-dd')= #{snapTime}
+		</if>
+		</where>
+	</select>
+	
+	<select id="getPagingList" resultType="hashmap" >
+		select * from (select a.*, rownum rn from(
+	        select * from (${sql}) report <where> ${columnCondition} and ${rowCondition}
+	        <if test="snapTime != '' and snapTime != null">
+	            and to_char(snap_time,'yyyy-mm-dd')= #{snapTime}
+	        </if>
+	        </where>
+	    ) a )
+	    <![CDATA[
+	        where rn>=#{startRow}  and rn<=#{endRow}
+	    ]]>
+    </select>
+	
+	<select id="snapTimeList" resultType="String">
+		select to_char(snap_time,'yyyy-mm-dd') from (${sql}) report group by snap_time order by snap_time desc
+	</select>
+
+</mapper>

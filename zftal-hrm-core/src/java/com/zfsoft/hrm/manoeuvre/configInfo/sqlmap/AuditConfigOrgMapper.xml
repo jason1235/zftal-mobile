@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.manoeuvre.configInfo.dao.daointerface.IAuditConfigOrgDao" >
+	
+	<!-- 带有sonList的返回结果-->
+	<resultMap id="auditConfigOrgInfoRM" type="com.zfsoft.hrm.manoeuvre.configInfo.entities.AuditConfigOrgInfo">
+		<result property="aoid" column="BMSZDM" />
+		<result property="aid" column="SHSZDM" />
+		<result property="oid" column="BMDM" />
+	</resultMap>
+	
+    <sql id="prefix">
+		BMSZDM,
+	    SHSZDM,
+	    BMDM
+	</sql>
+	
+	<sql id="suffix">
+		<where>
+				
+			<if test="aoid != null and aoid != ''">
+				and BMSZDM=#{aoid} 
+			</if>
+			
+			<if test="aid != null and aid != ''">
+				and SHSZDM=#{aid} 
+			</if>
+			
+			<if test="oid != null and oid != ''">
+				and BMDM=#{oid} 
+			</if>
+			
+		</where>
+		
+		<if test="sortCol != null and sortCol != ''">
+			order by ${sortCol}
+		</if>
+		<if test="sortCol == null or sortCol == ''">
+			order by BMSZDM 
+		</if>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="aoid">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="aoid">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+		insert into HRM_RYDP_HJSHSZBMB (
+		
+				BMSZDM
+			
+			<if test="aid != null and aid != ''">
+				,SHSZDM
+			</if>
+			
+			<if test="oid != null and oid != ''">
+				,BMDM 
+			</if>
+			
+		) values (
+
+				#{aoid}
+			
+			<if test="aid != null and aid != ''">
+				,#{aid} 
+			</if>
+			
+			<if test="oid != null and oid != ''">
+				,#{oid} 
+			</if>
+		)
+	</insert>
+	
+	<update id="update">
+		update HRM_RYDP_HJSHSZBMB 
+		<set>
+			
+			<if test="aid != null and aid != ''">
+				SHSZDM=#{aid}, 
+			</if>
+			
+			<if test="oid != null and oid != ''">
+				BMDM=#{oid}, 
+			</if>
+			
+		</set>
+		where BMSZDM=#{aoid}
+	</update>
+	
+	<delete id="delete">
+		delete from HRM_RYDP_HJSHSZBMB where BMSZDM=#{aoid}
+	</delete>
+	
+	<select id="findList" resultMap="auditConfigOrgInfoRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_HJSHSZBMB
+		<include refid="suffix" /> 
+	</select>
+	
+	<select id="findPage" resultMap="auditConfigOrgInfoRM">
+		
+		select <include refid="prefix" /> 
+		from (
+			select <include refid="prefix" />,rownum rn 
+			from (
+				select <include refid="prefix" />
+				from HRM_RYDP_HJSHSZBMB
+				<include refid="suffix" /> 
+			)
+		) 
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<select id="findPageCount" resultType="int">
+		select count(1)
+		from HRM_RYDP_HJSHSZBMB
+		<include refid="suffix" /> 
+	</select>
+	
+	<select id="findById" resultMap="auditConfigOrgInfoRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_HJSHSZBMB
+		where BMSZDM=#{aoid}
+	</select>
+	
+	<select id="findByAid" resultMap="auditConfigOrgInfoRM">
+		select <include refid="prefix" />
+		from HRM_RYDP_HJSHSZBMB
+		where SHSZDM=#{aid}
+	</select>
+	
+	<delete id="deleteByAid">
+		delete from HRM_RYDP_HJSHSZBMB where SHSZDM=#{aid}
+	</delete>
+	
+</mapper>

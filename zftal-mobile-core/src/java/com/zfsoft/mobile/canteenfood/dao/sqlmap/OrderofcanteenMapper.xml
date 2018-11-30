@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.zfsoft.mobile.canteenfood.dao.IOrderofcanteenDao">
+
+	<resultMap type="com.zfsoft.mobile.canteenfood.entity.Orderofcanteen" id="orderMap">
+	   <result property="orderId" 		column="ORDERID" />
+	   <result property="userId" 		column="USERID"/>
+	   <result property="addressid" 	column="ADDRESSID"/>
+	   <result property="personnum"     column="PERSONNUM"/>
+	   <result property="description" 	column="DESCRIPTION"/>
+	   <result property="flag" 			column="FLAG"/>
+	   <result property="createtime" 	column="CREATETIME"/>
+	   <result property="deliverytime" 	column="DELIVERYTIME"/>
+	   <result property="canteenId" 	column="CANTEENID"/> 
+	   <result property="summation" 	column="SUMMATION"/> 
+	</resultMap>
+	
+	<sql id="where">
+		 <where>
+		 	<if test="orderId!=null and orderId!=''">
+		 	  and m.orderid=#{orderId}
+		 	</if>
+		 	<if test="userId!=null and userId!=''">
+		 	  and m.userid=#{userId}
+		 	</if>
+		 	<if test="addressid!=null and addressid!=''">
+		 	  and m.addressid=#{addressid}
+		 	</if>
+		 	<if test="flag!=null and flag!=''">
+		 	  and m.flag=#{flag}
+		 	</if>
+		 	<if test="createtime != null and createtime != ''">
+	    		<![CDATA[ 
+					and m.createtime like to_date(to_char(sysdate,'yyyy-MM-dd'),'yyyy-MM-dd')
+				]]>
+	    	</if>
+	    	<if test="deliverytime != null and deliverytime != ''">
+	    		<![CDATA[ 
+					and m.deliverytime like to_date(to_char(deliverytime,'yyyy-MM-dd'),'yyyy-MM-dd')
+				]]>
+	    	</if>
+		 </where>
+	</sql>
+	
+	<select id="getPageCount" resultType="int">
+		select count(*) from 
+		(select * from M_CANTEEN_ORDER m
+			<include refid="where" /> )a
+	</select>
+	
+	<!-- 获取分页列表信息 -->
+	<select id="findById" resultMap="orderMap">
+	  select t1.* from M_CANTEEN_ORDER t1
+		<where>
+			orderid=#{orderId}
+		</where>
+	</select>
+	
+	<select id="getPageList" resultMap="orderMap">
+		select a.* from(
+			select b.*,rownum rn from (
+         select m.*,u.xm as username
+            from M_CANTEEN_ORDER m
+            left join zftal_xtgl_yhb u on u.zgh=m.userid
+          <include refid="where" /> 
+            order by m.createtime desc,m.flag asc
+      		)b)a
+     	<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+		
+	</select>
+	
+	<select id="getPageList1" resultMap="orderMap">
+	<!--	select * from (
+	       select m.*,u.xm as username,s.specificaddress as addressname,rownum rn
+	           f.foodname as foodname,d.amount as famount,
+	           from M_CANTEEN_ORDER m  
+	           left join zftal_xtgl_yhb u on u.zgh=m.userid
+	           left join M_CANTEEN_ADDRESS s on s.addressid=m.addressid
+	          left join (select t.* from M_ORDER_FOOD t) d on d.orderid=m.orderid
+	           left join M_CANTEEN_FOOD f on f.foodid in ( d.foodid )
+	           <include refid="where" /> 
+	         order by m.deliverytime desc,m.flag asc,m.createtime desc
+	    )
+	     -->
+	     select * from (
+	       select m.*,u.xm as username,s.specificaddress as addressname,rownum rn
+            from M_CANTEEN_ORDER m
+            left join zftal_xtgl_yhb u on u.zgh=m.userid
+            left join M_CANTEEN_ADDRESS s on s.addressid=m.addressid
+            <include refid="where" /> 
+            order by m.createtime desc,m.flag asc
+	    )
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+	</select>
+	
+	<insert id="placeOrder">
+		<![CDATA[
+			 insert into M_CANTEEN_ORDER(
+				orderid,
+				userid,
+				
+				personnum,
+				description,
+				flag,
+				canteenid,
+				summation,
+				createtime
+			 )
+			 VALUES(
+				#{orderId},
+				#{userId,jdbcType=VARCHAR},
+				
+				#{personnum},
+				#{description,jdbcType=VARCHAR},
+				'0',
+				#{canteenId},
+				#{summation},
+				sysdate
+			)
+		]]>
+	</insert>
+		
+	<update id="control">
+		update M_CANTEEN_ORDER
+		<set>
+			<if test='flag == "1"'>
+				flag = '1'
+			</if>
+			<if test='flag == "2"'>
+				flag = '2'
+			</if>
+		</set>
+		where orderid=#{orderId}
+	</update>
+
+</mapper>

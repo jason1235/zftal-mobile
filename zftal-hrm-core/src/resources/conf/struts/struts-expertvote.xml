@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="expertmanage" namespace="/expertmanage" extends="configuration">
+      <!-- 专家库推荐上报 -->
+      <action name="declare_*" class="expertDeclareAction_expertvote" method="{1}" >
+         <result name="page">/WEB-INF/pages/hrm/expertvote/expertmanage/declare/expertDeclare_page.jsp</result>
+         <result name="input">/WEB-INF/pages/hrm/expertvote/expertmanage/declare/expertDeclare_input.jsp</result>
+         <result name="forward">/WEB-INF/pages/hrm/expertvote/expertmanage/declare/expertDeclare_forward.jsp</result>
+         <result name="prompt2">/WEB-INF/pages/hrm/expertvote/expertmanage/declare/prompt.jsp</result>
+         <result name="declareEdit">/WEB-INF/pages/hrm/expertvote/expertmanage/declare/expertDeclare_edit.jsp</result>
+         <result name="view">/WEB-INF/pages/hrm/expertvote/expertmanage/declare/expertDeclare_view.jsp</result>
+      </action>
+      <!-- 专家库推荐审核 -->
+      <action name="audit_*" class="expertAuditAction_expertvote" method="{1}" >
+         <result name="page">/WEB-INF/pages/hrm/expertvote/expertmanage/audit/expertAudit_page.jsp</result>
+         <result name="detail">/WEB-INF/pages/hrm/expertvote/expertmanage/audit/expertAudit_detail.jsp</result>
+         <result name="view">/WEB-INF/pages/hrm/expertvote/expertmanage/audit/expertAudit_view.jsp</result>
+      </action>
+      <!-- 专家库管理 -->
+      <action name="expert_*" class="expertInfoAction_expertvote" method="{1}" >
+         <result name="list">/WEB-INF/pages/hrm/expertvote/expertmanage/expert/expertInfo_page.jsp</result>
+      </action>
+    </package>
+    <package name="expertvote" namespace="/expertvote" extends="configuration">
+        <action name="expertgroup_*" class="expertGroupAction_expertvote" method="{1}">
+            <result name="page">/WEB-INF/pages/hrm/expertvote/vote/expertgroup_page.jsp</result>
+            <result name="detail">/WEB-INF/pages/hrm/expertvote/vote/expertgroup_edit.jsp</result>
+            <result name="add">/WEB-INF/pages/hrm/expertvote/vote/expertgroup_add.jsp</result>
+            <result name="select">/WEB-INF/pages/hrm/expertvote/vote/expertgroup_select.jsp</result>
+            <result name="rule">/WEB-INF/pages/hrm/expertvote/vote/expertgroup_rule.jsp</result>
+        </action>
+        
+        <action name="experttask_*" class="expertTaskAction_expertvote" method="{1}">
+            <result name="page">/WEB-INF/pages/hrm/expertvote/vote/experttask_page.jsp</result>
+            <result name="detail">/WEB-INF/pages/hrm/expertvote/vote/experttask_detail.jsp</result>
+            <result name="add">/WEB-INF/pages/hrm/expertvote/vote/experttask_add.jsp</result>
+            <result name="choose">/WEB-INF/pages/hrm/expertvote/vote/experttask_choosegroup.jsp</result>
+            <result name="declarelist">/WEB-INF/pages/hrm/expertvote/vote/experttask_declarelist.jsp</result>
+        </action>
+        
+        <action name="expertassess_*" class="expertTaskAssessAction_expertvote" method="{1}">
+            <result name="page">/WEB-INF/pages/hrm/expertvote/vote/expertassess_page.jsp</result>
+            <result name="detail">/WEB-INF/pages/hrm/expertvote/vote/expertassess_detail.jsp</result>
+        </action>
+    </package>
+</struts>

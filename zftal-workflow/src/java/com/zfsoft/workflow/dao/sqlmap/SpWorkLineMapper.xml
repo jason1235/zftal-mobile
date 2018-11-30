@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.workflow.dao.ISpWorkLineDao">
+
+	<resultMap id="spWorkLineMap" type="com.zfsoft.workflow.model.SpWorkLine">
+		<result property="id" column="ID" />
+		<result property="wid" column="W_ID" />
+		<result property="pid" column="P_ID" />
+		<result property="unodeId" column="U_NODE_ID" />
+		<result property="dnodeId" column="D_NODE_ID" />
+		<result property="expression" column="EXPRESSION" />
+		<result property="lineDesc" column="LINE_DESC" />
+		<result property="isMustPass" column="IS_MUST_PASS" />	
+	</resultMap>
+	
+	<insert id="addSpWorkLine" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO SP_WORK_LINE
+			  (ID,
+			   W_ID,
+			   P_ID,
+			   U_NODE_ID,
+			   D_NODE_ID,
+			   EXPRESSION,
+			   LINE_DESC,
+			   IS_MUST_PASS)
+			VALUES
+			  (#{id},
+			   #{wid,jdbcType=VARCHAR},
+			   #{pid,jdbcType=VARCHAR},
+			   #{unodeId,jdbcType=VARCHAR},
+			   #{dnodeId,jdbcType=VARCHAR},
+			   #{expression,jdbcType=VARCHAR},
+			   #{lineDesc,jdbcType=VARCHAR},
+			   #{isMustPass,jdbcType=VARCHAR})
+		]]>
+		
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			SELECT SYS_GUID() KHLC_ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<!-- 根据ID删除节点连线 -->
+	<delete id="removeSpWorkLineById">
+		<![CDATA[
+			DELETE FROM SP_WORK_LINE WHERE ID = #{id}
+		]]>
+	</delete>
+	
+	<!-- 根据条件删除节点连线 -->
+	<delete id="removeSpWorkLine" parameterType="com.zfsoft.workflow.model.SpWorkLine">
+		<![CDATA[
+			DELETE FROM SP_WORK_LINE
+			 WHERE W_ID = #{wid}
+			   AND P_ID = #{pid}
+			   AND U_NODE_ID = #{unodeId}
+			   AND D_NODE_ID = #{dnodeId}
+		]]>
+	</delete>
+	
+	<!-- 根据条件删除节点连线 -->
+	<delete id="removeSpWorkLineByWId">
+		<![CDATA[
+			DELETE FROM SP_WORK_LINE WHERE W_ID = #{wid}
+		]]>
+	</delete>
+		
+	<!-- 根据根据工作ID条件查询记录（多个） -->
+	<select id="findWorkLineListByWid" resultMap="spWorkLineMap">
+		<![CDATA[	
+			SELECT ID,
+			       W_ID,
+			       P_ID,
+			       U_NODE_ID,
+			       D_NODE_ID,
+			       EXPRESSION,
+			       LINE_DESC,
+			       IS_MUST_PASS
+			  FROM SP_WORK_LINE
+			 WHERE W_ID = #{wid}
+		]]>
+	</select>
+
+	<!-- 根据对象中的条件查询记录（结果一个或多个） -->
+	<select id="findWorkLineList" parameterType="com.zfsoft.workflow.model.SpWorkLine" resultMap="spWorkLineMap">
+		<![CDATA[	
+			SELECT ID,
+			       W_ID,
+			       P_ID,
+			       U_NODE_ID,
+			       D_NODE_ID,
+			       EXPRESSION,
+			       LINE_DESC,
+			       IS_MUST_PASS
+			  FROM SP_WORK_LINE
+			 WHERE 1 = 1
+		]]>
+		<if test="id != null and id != ''">
+			<![CDATA[ AND ID = #{id} ]]>
+        </if>
+        <if test="wid != null and wid != ''">
+			<![CDATA[ AND W_ID = #{wid} ]]>
+        </if>
+        <if test="pid != null and pid != ''">
+			<![CDATA[ AND P_ID = #{pid} ]]>
+        </if>
+        <if test="unodeId != null and unodeId != ''">
+			<![CDATA[ AND U_NODE_ID = #{unodeId} ]]>
+        </if>
+		<if test="dnodeId != null and dnodeId != ''">
+			<![CDATA[ AND D_NODE_ID = #{dnodeId} ]]>
+        </if>
+        <if test="isMustPass != null and isMustPass != ''">
+			<![CDATA[ AND IS_MUST_PASS = #{isMustPass} ]]>
+        </if>
+	</select>
+
+</mapper>

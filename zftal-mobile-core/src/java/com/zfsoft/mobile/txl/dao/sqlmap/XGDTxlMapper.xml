@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.txl.dao.IXGDTxlDao">
+
+	<resultMap id="txlMap" type="com.zfsoft.mobile.txl.entity.XGDTxl">
+		<result property="id" 		 column="id" />
+		<result property="bm"   column="bm" />
+		<result property="ks"   column="ks" />
+		<result property="zyyw"   column="zyyw" />
+		<result property="dh"   column="dh" />
+		<result property="bgdd1"   column="bgdd1" />
+		<result property="bgdd2"   column="bgdd2" />
+		<result property="bmbc"   column="bmbc" />
+		<result property="chuanzhen"   column="chuanzhen" />
+	</resultMap>
+	
+	<resultMap id="CommentsMap" type="com.zfsoft.mobile.txl.entity.XgdCommentsEntity">
+		<result property="theKey" 		 column="theKey" />
+		<result property="theVal"   	 column="theVal" />
+	</resultMap>
+	
+	<sql id="where">
+		<where>
+			<if test='id != null and id != ""'> and t.id = #{id}</if>
+			<if test='bm != null and bm != ""'> and t.bm like '%'||#{bm}||'%'</if>
+			<if test='bm1 != null and bm1 != ""'> 
+				and (t.bm like '%'||#{bm1}||'%' or t.ks like '%'||#{bm1}||'%' or t.dh like '%'||#{bm1}||'%')
+			</if>
+			<if test='ks != null and ks != ""'> and t.ks like '%'||#{ks}||'%'</if>
+			<if test='zyyw != null and zyyw != ""'> and t.zyyw like '%'||#{zyyw}||'%' </if>
+			<if test='dh != null and dh != ""'> and t.dh like '%'||#{dh}||'%' </if>
+			<if test='bgdd1 != null and bgdd1 != ""'> and t.bgdd1 like '%'||#{bgdd1}||'%' </if>
+			<if test='bgdd2 != null and bgdd2 != ""'> and t.bgdd2 like '%'||#{bgdd2}||'%' </if>
+			<if test='bmbc != null and bmbc != ""'> and t.bmbc like '%'||#{business}||'%' </if>
+		</where>
+	</sql>
+	
+	<select id="getPageCount" resultType="int">
+		select count(*) from m_xgd_txl t
+		<include refid="where" />
+		order by bm desc
+	</select>
+	
+	<select id="getPageList" resultMap="txlMap">
+	select * from(
+		select a.*,rownum as rn from(
+		select * from m_xgd_txl t
+		<include refid="where" /> 
+		order by bm
+		) a)
+                
+  <![CDATA[
+ where rn>=#{startRow}  and rn<=#{endRow}
+ ]]>
+	</select>
+	
+	<select id="getCommentList" resultMap="CommentsMap">
+			select thekey,theval from	m_xgd_txlcomments order by thekey asc
+	</select>
+	
+	<insert id="insert" >
+		
+			INSERT INTO 
+				m_xgd_txl(
+						
+					bm,
+					ks,	
+					dh,
+					bgdd1,
+					bgdd2,
+					zyyw,
+					bmbc,
+					chuanzhen
+					
+					
+				)
+			VALUES(
+				  
+				#{bm,jdbcType=VARCHAR},  
+				#{ks,jdbcType=VARCHAR},           
+				#{dh,jdbcType=VARCHAR},
+				#{bgdd1,jdbcType=VARCHAR},
+				#{bgdd2,jdbcType=VARCHAR},
+				#{zyyw,jdbcType=VARCHAR},
+				#{bmbc,jdbcType=VARCHAR},
+				#{chuanzhen,jdbcType=VARCHAR}
+				)
+		
+	</insert>
+	
+	<insert id="insertComment" >
+		
+			INSERT INTO 
+				m_xgd_txlcomments(
+						
+					theKey,
+					theVal
+				)
+			VALUES(
+				  
+				#{theKey},  
+				#{theVal}
+				)
+		
+	</insert>
+		
+	
+	<select id="findById" resultMap="txlMap">
+		select * from m_xgd_txl
+		<where>
+			id = #{id,jdbcType=VARCHAR}
+		</where>
+	</select>
+	
+	
+	<update id="update">
+		update m_xgd_txl
+		 <set>
+		 	bm=#{bm,jdbcType=VARCHAR},  
+			ks=#{ks,jdbcType=VARCHAR},           
+			dh=#{dh,jdbcType=VARCHAR},
+			bgdd1=#{bgdd1,jdbcType=VARCHAR},
+			bgdd2=#{bgdd2,jdbcType=VARCHAR},
+			zyyw=#{zyyw,jdbcType=VARCHAR},
+			bmbc=#{bmbc,jdbcType=VARCHAR}
+		 </set>
+		   where id = #{id}
+	</update>
+	
+	<delete id="deleteAll">
+		delete from m_xgd_txl
+	</delete>
+	
+	<delete id="deleteAllComment">
+		delete from m_xgd_txlcomments
+	</delete>
+	
+	
+	
+	
+	
+</mapper>

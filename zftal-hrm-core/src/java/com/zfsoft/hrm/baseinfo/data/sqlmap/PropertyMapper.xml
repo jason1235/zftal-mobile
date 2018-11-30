@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.data.dao.IPropertyDao" >
+	<resultMap id="propertyMap" type="com.zfsoft.hrm.baseinfo.data.entity.Property">
+		<result property="id" column="id" />
+		<result property="mbid" column="mbid" />
+		<result property="xxlid" column="xxlid" />
+		<result property="sxmc" column="sxmc" />
+		<result property="zdmc" column="zdmc" />
+		<result property="zdlx" column="zdlx" />
+		<result property="zdcd" column="zdcd" />
+	</resultMap>
+	
+	<select id="getPagedProperty" resultMap="propertyMap">
+		select id,mbid,xxlid,sxmc,zdmc,zdlx,zdcd from HRM_INFO_MBSX where mbid = #{mbid} order by xxlid
+	</select>
+	
+	<delete id="delete">
+		delete from HRM_INFO_MBSX where id=#{id}
+	</delete>
+	
+	<insert id="insert">
+		<![CDATA[
+			INSERT INTO 
+				HRM_INFO_MBSX(id,mbid,xxlid,sxmc,zdmc,zdlx,zdcd)
+			VALUES(
+				#{id},#{mbid,jdbcType=VARCHAR},#{xxlid,jdbcType=VARCHAR},#{sxmc,jdbcType=VARCHAR},#{zdmc,jdbcType=VARCHAR},#{zdlx,jdbcType=VARCHAR},#{zdcd,jdbcType=VARCHAR}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			SELECT SYS_GUID() ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<select id="getProperties" resultMap="propertyMap">
+		select id,mbid,xxlid,sxmc,zdmc,zdlx,zdcd from HRM_INFO_MBSX where mbid = #{mbid}
+	</select>
+	
+	<select id="getZdmc" resultType="java.lang.String">
+		select zdmc from HRM_INFO_MBSX where mbid = #{mbid}
+	</select>
+</mapper>

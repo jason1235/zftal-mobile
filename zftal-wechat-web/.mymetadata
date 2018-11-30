@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="zftal-wechat-web"
+  id="myeclipse.1430726219328"
+  context-root="/WeChat-web"
+  j2ee-spec="6.0"
+  archive="zftal-wechat-web.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

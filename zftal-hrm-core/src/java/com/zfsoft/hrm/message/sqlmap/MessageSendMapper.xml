@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.message.dao.daointerface.IMessageSendDao" >
+	
+	<resultMap type="com.zfsoft.hrm.message.entity.Message" id="messageMap">
+		<result property="guid" column="guid"/>
+		<result property="title" column="xxbt"/>
+		<result property="sender" column="fsr"/>
+		<result property="receiver" column="jsr"/>
+		<result property="content" column="nr"/>
+		<result property="sendTime" column="fssj"/>
+		<result property="receiverType" column="jslx"/>
+		<result property="roleMc" column="jsmc"/>
+	</resultMap>
+	
+	<delete id="delete">
+		delete from HRM_XXGL_XXNR where guid = #{guid}
+	</delete>
+	
+    <sql id="where">
+		<where>
+		<if test="name != null and name != ''">
+			and xxnr.xxbt like '%' || #{name} || '%'
+		</if>
+		<if test="sender != null and sender != ''">
+			and xxnr.fsr = #{sender}
+		</if>
+    	</where>
+    </sql>
+    
+    <select id="getById" resultMap="messageMap">
+    	select 
+    		xxnr.guid guid,
+			xxnr.xxbt xxbt,
+			xxnr.fsr fsr,
+			xxnr.jsr jsr,
+			xxnr.nr nr,
+			xxnr.fssj fssj,
+			xxnr.jslx jslx,
+            case when xxnr.jslx = '1' then (select jsmc from zftal_xtgl_jsxxb where jsdm = xxnr.jsr)
+            else '' end jsmc
+		from HRM_XXGL_XXNR xxnr
+		where xxnr.guid = #{guid}
+    </select>
+	
+	<!-- 获取分页信息 -->
+	<select id="getPagingList" resultMap="messageMap" >
+	select * from (select a.*, rownum rn from(
+		select 
+			xxnr.guid guid,
+			xxnr.xxbt xxbt,
+			xxnr.fsr fsr,
+			xxnr.jsr jsr,
+			xxnr.nr nr,
+			xxnr.fssj fssj,
+			xxnr.jslx jslx,
+			case when xxnr.jslx = '1' then (select jsmc from zftal_xtgl_jsxxb where jsdm = xxnr.jsr)
+			else '' end jsmc
+		from HRM_XXGL_XXNR xxnr
+		<include refid="where"/>
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if> 
+	 ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<!-- 获取分页计数 -->
+	<select id="getPagingCount" resultType="int">
+		select 
+			count(*) cnt
+		from HRM_XXGL_XXNR xxnr
+		<include refid="where"/>
+		order by xxnr.fssj desc
+	</select>
+	
+   <!-- 取得角色信息 -->
+    <select id="getRoles" resultType="hashmap">
+    select a.jsdm,
+           a.jsmc
+    from zftal_xtgl_jsxxb a
+    left join zftal_xtgl_yhb yhb on a.jscjr = yhb.zgh
+    where a.jsdm != 'admin'
+    order by a.jsdm desc
+    </select>
+    
+    <!-- 取得角色包含的人员 -->
+    <select id="findPersonByRole" parameterType="hashmap" resultType="string">
+        select zgh, xm, lxdh, dzyx
+        from zftal_xtgl_yhb a
+       where a.zgh in
+             (select zgh from zftal_xtgl_yhjsb where jsdm = #{role})
+         and zgh != 'hrmadmin'
+       order by zgh desc
+    </select>
+</mapper>

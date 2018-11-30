@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="gggl" namespace="/gggl" extends="configuration" >
+		<action name="kind_*" class="noticeKindAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/notice/kind_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/notice/kind_edit.jsp</result>
+		</action>
+		
+		<action name="catalog_*" class="noticeCatalogAction" method="{1}">
+			<result name="list">/WEB-INF/pages/mobile/notice/catalog_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/notice/catalog_edit.jsp</result>
+		</action>
+	</package>
+	
+</struts>

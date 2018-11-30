@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="dagl" namespace="/dagl" extends="configuration">
+        <!-- 档案管理 -->
+        <action name="archives_*" class="archivesAction" method="{1}">
+            <result name="page">/WEB-INF/pages/hrm/dagl/archives_page.jsp</result>
+            <result name="toAdd">/WEB-INF/pages/hrm/dagl/archives_add.jsp</result>
+            <result name="toUpdate">/WEB-INF/pages/hrm/dagl/archives_update.jsp</result>
+            <result name="detail">/WEB-INF/pages/hrm/dagl/archives_detail.jsp</result>
+            <result name="addLog">/WEB-INF/pages/hrm/dagl/archives_addLog.jsp</result>
+            <result name="addItem">/WEB-INF/pages/hrm/dagl/archives_addItem.jsp</result>
+        </action>
+        <!-- 档案材料借阅登记 -->
+        <action name="materials_*" class="materialsAction" method="{1}">
+            <result name="page">/WEB-INF/pages/hrm/dagl/materials_page.jsp</result>
+            <result name="toAdd">/WEB-INF/pages/hrm/dagl/materials_add.jsp</result>
+            <result name="toModify">/WEB-INF/pages/hrm/dagl/materials_toModify.jsp</result>
+        </action>
+    </package>
+</struts>

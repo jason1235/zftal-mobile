@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.normal.info.dao.daointerface.IOverallInfoDao" >
+
+	<select id="count" resultType="int">
+		select count(*) from overall 
+		<where>
+			<if test="condition !=null and condition !='' ">
+				${condition}
+			</if>
+		</where>
+	</select>
+	<select id="userListThink" resultType="com.zfsoft.hrm.normal.info.entity.OverallInfo">
+		select gh as userId,xm as userName,dwm as departmentId,
+		bmmc as departmentName,dqztm as status,tmxx as statusName,XBM AS sex, CSRQ as birthday, SFZH as idCardNum
+		from overall orl 
+		left join HRM_BZGL_ZZJGB zz on orl.dwm = zz.bmdm
+		left join HRM_XTGL_DMTMB tm on tm.ssbm='DM_JG_JZGDQZTDMB' and orl.dqztm =tm.tmid
+		<where>
+			(
+			gh like '%${term}%' or xm like '%${term}%'
+			or dwm like '%${term}%' or bmmc like '%${term}%'
+			or dqztm like '%${term}%' or tmxx like '%${term}%'
+			)
+			<if test="expression != null and expression != ''">
+			AND 
+				(${expression})
+			</if>
+		</where>
+	</select>
+</mapper>

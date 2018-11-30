@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.authpost.post.dao.daointerface.IPostInfoDao">
+
+	<resultMap id="PostInfo" type="com.zfsoft.hrm.authpost.post.entities.PostInfo">
+		<id property="id" column="GWBH" />
+		<result property="name" column="GWMC" />
+		<result property="typeCode" column="GWLBDM" />
+		<result property="sort" column="PX" />
+	</resultMap>
+	
+	<insert id="insert">
+		<![CDATA[
+			insert into HRM_BZGL_GWXXB(
+				GWBH, GWMC, GWLBDM,PX) values(
+				#{id}, #{name}, #{typeCode},#{sort})
+		]]>
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			update HRM_BZGL_GWXXB set
+				GWMC = #{name},
+				GWLBDM = #{typeCode},
+				px=#{sort}
+			where GWBH = #{id}
+		]]>
+	</update>
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from HRM_BZGL_GWXXB where GWBH = #{id}
+		]]>
+	</delete>
+	<select id="findListByType" resultMap="PostInfo">
+		select GWBH, GWMC,GWLBDM,PX from HRM_BZGL_GWXXB 
+		where GWLBDM=#{typeCode} order by px
+	</select>
+	
+	<select id="findById" resultMap="PostInfo">
+		select GWBH, GWMC,GWLBDM,PX from HRM_BZGL_GWXXB
+		where GWBH=#{id} order by px
+	</select>
+</mapper>

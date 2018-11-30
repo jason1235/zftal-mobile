@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.mail.dao.daointerface.IMailConfigDao">
+
+     <resultMap id="mailConfig" type="com.zfsoft.hrm.mail.entities.MailConfig">
+        <result property="type"           column="MAIL_TYPE" />
+        <result property="host"         column="MAIL_HOST" />
+        <result property="port"         column="MAIL_PORT" />
+        <result property="send"        column="MAIL_SEND" />
+        <result property="user"        column="MAIL_USER" />
+        <result property="pwd"        column="MAIL_PWD" />
+    </resultMap>
+    
+    <select id="findByType" resultMap="mailConfig">
+        select
+              MAIL_PORT,
+			  MAIL_HOST,
+			  MAIL_SEND,
+			  MAIL_USER,
+			  MAIL_PWD
+        from HRM_XTGL_MAIL_CONFIG 
+        <where>
+             MAIL_TYPE = #{type}
+        </where>
+    </select>
+    
+    
+    
+    <insert id="insert">
+    <![CDATA[
+            INSERT INTO 
+               HRM_XTGL_MAIL_CONFIG(
+                  MAIL_PORT,
+                  MAIL_TYPE,
+                  MAIL_HOST,
+	              MAIL_SEND,
+	              MAIL_USER,
+	              MAIL_PWD
+                )
+	            VALUES(
+	               #{port,jdbcType=VARCHAR},
+	                #{type},            
+	                #{host,jdbcType=VARCHAR},         
+	                #{send,jdbcType=VARCHAR},
+	                #{user,jdbcType=VARCHAR},
+	                #{pwd,jdbcType=VARCHAR}
+	            )
+        ]]>
+    </insert>
+    
+    <delete id="remove">
+        delete from HRM_XTGL_MAIL_CONFIG where MAIL_TYPE = #{type}
+    </delete>
+
+    
+</mapper>

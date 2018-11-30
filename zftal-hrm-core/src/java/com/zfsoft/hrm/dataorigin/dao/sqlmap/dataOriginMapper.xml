@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.hrm.dataorigin.dao.IDataOriginDao">
+
+    <!-- 表单配置列表 -->
+    <select id="getBillConfigs" resultType="com.zfsoft.hrm.dybill.entity.SpBillConfig">
+        select * from sp_bill_config
+    </select>
+    
+    <!-- 表单配置 -->
+    <select id="getBillConfigById" resultType="com.zfsoft.hrm.dybill.entity.SpBillConfig">
+        select * from sp_bill_config where id = #{billId}
+    </select>
+    
+    <!-- 取得业务xml -->
+    <select id="getConfigsByParam" resultType="com.zfsoft.hrm.dataorigin.entity.DataOriginConfig">
+        select * from hrm_sjyszb 
+        <where>
+        <if test="ywId != null and ywId != ''">
+        ywid = #{ywId}
+        </if>
+        <if test="xmlId != null and xmlId != ''">
+        id = #{xmlId}
+        </if>
+        </where>
+    </select>
+    
+    <!-- 插入新的数据源 -->
+    <insert id="insertConfig" keyProperty="id">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            <![CDATA[
+            select SYS_GUID() GUID from DUAL
+            ]]>
+        </selectKey>
+        insert into ${tableName}(${keyOf},
+        <foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+            ${item}
+        </foreach>
+        values (#{${keyOf}},
+        <foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+            #{${sqlLocalNameMap[item]}}
+        </foreach>
+    </insert>
+
+    <!-- 更新数据源 -->
+    <update id="updateConfig">
+        update ${tableName}
+        <set>
+            <foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," >
+                 ${item}=#{${sqlLocalNameMap[item]}}
+            </foreach>
+        </set>
+        where ${keyOf}=#{${keyOf}}
+    </update>
+    
+    <!-- 取得数据 -->
+    <select id="getOutPutData" resultType="hashmap">
+      ${dataSql}
+    </select>
+    
+    <!-- 取得版本 -->
+    <select id="getBillConfigsVersion" resultType="string">
+      select version from sp_bill_config_version where bill_config_id = #{id} order by version desc
+    </select>
+    
+</mapper>

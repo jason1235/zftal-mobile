@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="mail" namespace="/mail" extends="configuration">
+		<action name="mailTemplate_*" class="mailTemplateAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/mail/mailTemplate_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/mail/mailTemplate_edit.jsp</result>
+			<result name="config">/WEB-INF/pages/hrm/mail/mailConfig_edit.jsp</result>
+		</action>
+	</package>
+	
+	<package name="sms" namespace="/sms" extends="configuration">
+        <action name="smsTemplate_*" class="smsTemplateAction" method="{1}">
+            <result name="page">/WEB-INF/pages/hrm/sms/smsTemplate_page.jsp</result>
+            <result name="config">/WEB-INF/pages/hrm/sms/smsConfig_edit.jsp</result>
+        </action>
+    </package>
+</struts>

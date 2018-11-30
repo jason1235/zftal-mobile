@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	        
+	<bean id="appCenterHttpAction" class="com.zfsoft.mobile.servlet.appCenterHttp.action.AppCenterHttpAction" scope="prototype" >
+	    <property name="appCenterHttpService" ref="appCenterHttpService"></property>
+	    <property name="lossObjectService" ref="lossObjectService"></property>
+	    <property name="loginService" ref="loginService"></property>
+	    <property name="questionService" ref="questionService"></property>
+	    <property name="visitService" ref="visitService"></property>
+	    <property name="yhglService" ref="yhglService"></property>
+	    <!--start  created by yangbilin -->
+	     <property name="favouritesService" ref="favouritesService"></property>
+	     <property name="expressService" ref="expressService"></property>
+	    <!--end  created by yangbilin -->
+	</bean>                                  
+	<bean id="appCenterHttpService" class="com.zfsoft.mobile.servlet.appCenterHttp.service.impl.AppCenterHttpServiceImpl">
+		<property name="appCenterHttpDao" ref="appCenterHttpDao"/>
+	</bean>
+	<bean id="appCenterHttpDao" name="appCenterHttpDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.mobile.servlet.appCenterHttp.dao.daointerface.IAppCenterHttpDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <bean id="commonHttpAction" class="com.zfsoft.mobile.servlet.commonHttp.action.CommonHttpAction" scope="prototype" >
+	    <property name="schoolSceneryCatalogService" ref="schoolSceneryCatalogService"></property>
+        <property name="schoolSceneryService" ref="schoolSceneryService"></property>
+	    <property name="commonHttpService" ref="commonHttpService"></property>
+	    <property name="loginService" ref="loginService"></property>
+	    <property name="baseDataService" ref="baseDataService"></property>
+        <property name="infoPropertyService" ref="baseInfoClassPropertyService"></property>
+        <property name="suggestService" ref="suggestService"></property>
+        <!--start  created by yangbilin 2017/07/20 11:17-->
+        <property name="canteenService" ref="canteenService"></property>
+	    <property name="foodcataService" ref="foodcataService"></property>
+	    <property name="foodService" ref="foodService"></property>
+	    <property name="orderService" ref="orderService"></property>
+        <property name="foodorderService" ref="foodorderService"></property>
+        <property name="addressService" ref="addressService"></property>
+        <!--end  created by yangbilin 2017/07/20 11:17-->
+        <!--start  created by yangbilin 2017/08/29 17:07-->
+        <property name="webcastService" ref="webcastService"></property>
+        <property name="auditService" ref="auditService"></property>
+        <!--end  created by yangbilin 2017/08/29 17:07-->
+	</bean>  
+    <bean id="commonHttpService" class="com.zfsoft.mobile.servlet.commonHttp.service.impl.CommonHttpServiceImpl">
+		<property name="commonHttpDao" ref="commonHttpDao"/>
+	</bean>
+	<bean id="commonHttpDao" name="commonHttpDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.mobile.servlet.commonHttp.dao.daointerface.ICommonHttpDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <bean id="homePageHttpAction" class="com.zfsoft.mobile.servlet.homePageHttp.action.HomePageHttpAction" scope="prototype" >
+	    <property name="homePageHttpService" ref="homePageHttpService"></property>
+	    <property name="loginService" ref="loginService"/>
+	    <property name="newsService" ref="newsService"/>
+	    <property name="newsConfigService" ref="newsConfigService"/>
+	    <property name="newsCatalogService" ref="newsCatalogService"/>
+	</bean>  
+    <bean id="homePageHttpService" class="com.zfsoft.mobile.servlet.homePageHttp.service.impl.HomePageHttpServiceImpl">
+		<property name="homePageHttpDao" ref="homePageHttpDao"/>
+	</bean>
+	<bean id="homePageHttpDao" name="homePageHttpDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.mobile.servlet.homePageHttp.dao.daointerface.IHomePageHttpDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <bean id="myPortalHttpAction" class="com.zfsoft.mobile.servlet.myPortalHttp.action.MyPortalHttpAction" scope="prototype" >
+	    <property name="myPortalHttpService" ref="myPortalHttpService"></property>
+	     <!--start  created by yangbilin -->
+	    <property name="sourceSignService" ref="sourceSignService"></property>
+	    <property name="yhglService" ref="yhglService"></property>
+	    <property name="goodsService" ref="goodsService"></property>
+	    <property name="consumingHisService" ref="consumingHisService"></property>
+	    <property name="pushMsgService" ref="pushMsgService"/>
+	     <!--end  created by yangbilin -->
+	     <!--end  created by yangbilin -->
+	</bean>  
+    <bean id="myPortalHttpService" class="com.zfsoft.mobile.servlet.myPortalHttp.service.impl.MyPortalHttpServiceImpl">
+		<property name="myPortalHttpDao" ref="myPortalHttpDao"/>
+	</bean>
+	<bean id="myPortalHttpDao" name="myPortalHttpDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.mobile.servlet.myPortalHttp.dao.daointerface.IMyPortalHttpDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <bean id="secureCenterHttpAction" class="com.zfsoft.mobile.servlet.secureCenterHttp.action.SecureCenterHttpAction" scope="prototype" >
+	    <property name="loginService" ref="loginService"></property>
+	</bean>
+	
+	<bean id="oaHttpAction" class="com.zfsoft.mobile.servlet.oaHttp.action.OaHttpAction" scope="prototype" >
+	    
+	</bean>
+	
+</beans>

@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.services.dao.daointerface.IFwdyjsDao" >
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.FwdyjsModel" id="FwdyjsMap">
+		<result column="fwbm" property="classFwbm"/>
+		<result column="jsid" property="classJsid"/>
+		<result column="fwmc" property="classFwmc"/>
+	</resultMap>
+	
+	<sql id="where">
+    	<where>
+			<if test="classJsid != null">
+   				and a.jsid like '%'||#{classJsid}||'%' 
+	   		</if>
+			<if test="classFwbm != null">
+    			and a.fwbm like '%'||#{classFwbm}||'%' 
+    		</if>
+		</where>
+    </sql> 
+    
+    <!-- 为分配门户选项计数 -->
+	<select id="getPagedListWeiCountNew" resultType="int">
+			select count(*) from M_FWGL_FWGLB b where fwbm not in(
+				select fwbm from M_FWGL_JSFPFWGLB a 
+				  <include refid="where" />
+			) and b.deleted = '0'
+	
+	</select>
+	
+	<select id="getPagedListWeifpNew" resultMap="FwdyjsMap">
+	  select * from (
+	 	select a.*,rownum rn from (
+			select c.fwbm,b.jsid,c.fwmc from M_FWGL_FWGLB c left join M_FWGL_JSFPFWGLB b on c.fwbm = b.fwbm where c.fwbm not in(
+					select fwbm from M_FWGL_JSFPFWGLB a
+					<if test="classJsid != null and classJsid != ''">
+					  where a.jsid like '%'||#{classJsid}||'%'   
+		    		</if>
+				)
+				<if test="classFwbm != null and classFwbm != ''">
+	    			and c.fwbm like '%'||#{classFwbm}||'%' 
+	    		</if>
+	    		<if test="classFwmc != null and classFwmc != ''">
+	    		and c.fwmc like '%'||#{classFwmc}||'%' 
+	    		</if>
+	    		and c.deleted = '0'
+   		) a order by a.fwbm
+    			  )
+    		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>	
+	
+	</select>
+	
+	
+    
+	<!-- 获取分页列表信息 -->
+	<select id="getPagedList" resultMap="FwdyjsMap">
+	select * from (
+		select a.*,b.fwmc from M_FWGL_JSFPFWGLB a left join M_FWGL_FWGLB b on a.fwbm = b.fwbm
+		<include refid="where" />
+		and b.deleted='0'
+		)
+	</select>
+	
+	<select id="getCount" resultType="int">
+		select count(*) from M_FWGL_JSFPFWGLB a
+		<include refid="where" />
+	</select>
+	
+	<select id="getWfpCount" resultType="int">
+			select count(*) from M_FWGL_FWGLB b where fwbm not in(
+				select fwbm from M_FWGL_JSFPFWGLB a 
+				  <include refid="where" />
+			) and b.deleted = '0'
+	</select>
+	
+	<select id="getPagedListWfp" resultMap="FwdyjsMap">
+			select c.fwbm,b.jsid,c.fwmc from M_FWGL_FWGLB c left join M_FWGL_JSFPFWGLB b on c.fwbm = b.fwbm where c.fwbm not in(
+				select fwbm from M_FWGL_JSFPFWGLB a
+				<if test="classJsid != null and classJsid != ''">
+				  where a.jsid like '%'||#{classJsid}||'%'   
+	    		</if>
+			)
+			<if test="classFwbm != null and classFwbm != ''">
+    			and c.fwbm like '%'||#{classFwbm}||'%' 
+    		</if>
+    		<if test="classFwmc != null and classFwmc != ''">
+    		and c.fwmc like '%'||#{classFwmc}||'%' 
+    		</if>
+    		and c.deleted = '0'
+	</select>
+	
+	<select id="getWeiModel" resultMap="FwdyjsMap">
+			select a.fwbm,a.fwmc from M_FWGL_FWGLB a  
+				  
+				  <where>
+						<if test="classFwbm != null">
+			    			and a.fwbm like '%'||#{classFwbm}||'%' 
+			    		</if>
+					</where>
+				  and a.deleted ='0'
+			
+	</select>
+	
+	<!--<insert id="insert" >
+		<![CDATA[
+			insert into M_FWGL_JSFPFWGLB(
+				jsid,fwbm
+			) values(
+				#{classJsid}, #{classFwbm}
+			)
+		]]>
+	</insert>
+	-->
+	
+	<insert id="insert" >
+	<![CDATA[
+			insert into M_FWGL_JSFPFWGLB(
+				jsid,fwbm
+			) 
+				select #{jsid},t.fwbm from M_FWGL_FWGLB t 
+		]]>
+			<where>
+		        <if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and t.fwbm in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+		        </if>
+		      and t.deleted='0'
+		     </where>
+	</insert>
+	
+	<insert id="insertYhqx" >
+		<![CDATA[
+			insert into M_FWGL_yhqx(
+				yhid,fwbm
+			) 
+			select yh.zgh,fwgl.fwbm
+			from zftal_xtgl_yhb yh,M_FWGL_FWGLB fwgl
+		]]>
+		<where>
+			<if test="jsid != null and jsid != ''">
+   				and yh.rylx = #{jsid}  
+	   		</if>
+    		<if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and fwgl.fwbm in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+	        </if>
+	        and fwgl.deleted='0'
+		</where>
+	</insert>
+	
+	
+	<!--<insert id="insertYhqx" >
+		<![CDATA[
+			insert into M_FWGL_yhqx(
+				yhid,fwbm
+			) 
+			select yh.zgh,#{classFwbm}
+			from zftal_xtgl_yhb yh
+		]]>
+			<where>
+			<if test="classJsid != null and classJsid == 'student'">
+   				and yh.rylx = 'student' 
+	   		</if>
+			<if test="classJsid != 'student'">
+    			and yh.rylx != 'student' or yh.rylx is null
+    		</if>
+		</where>
+	</insert>
+	-->
+	
+	<!--<delete id="delete">
+			<![CDATA[
+			delete from M_FWGL_JSFPFWGLB 
+			where jsid = #{classJsid} and fwbm = #{classFwbm}
+		]]>
+	</delete>
+	-->
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from M_FWGL_JSFPFWGLB  t
+		]]>
+		<where>
+			<if test="jsid != null and jsid != ''">
+   				and t.jsid = #{jsid} 
+	   		</if>
+			
+    		<if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and t.fwbm in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+	        </if>
+		</where>
+		
+	</delete>
+	
+	<!--<delete id="deleteYhqx">
+			<![CDATA[
+			delete from M_FWGL_yhqx t
+			where t.fwbm = #{classFwbm}
+			and t.yhid in (
+		        	select yh.zgh from zftal_xtgl_yhb yh where  yh.rylx = #{classJsid}
+		        )
+		]]>
+	</delete>
+	-->
+	
+	<delete id="deleteYhqx">
+		<![CDATA[
+			delete from M_FWGL_yhqx  t 
+		]]>
+			<where>
+		        <if test="tids != null and (!tids.empty)">
+		            <foreach collection="tids" item="id" open=" and t.fwbm in (" separator="," close=")">
+		                #{id} 
+		            </foreach>
+		        </if>
+		        
+		        and t.yhid in (
+		        	select yh.zgh from zftal_xtgl_yhb yh where  yh.rylx = #{jsid}
+		        )
+		      
+		     </where>
+	</delete>
+	
+	<delete id="deleteCyfw">
+			<![CDATA[
+			delete from m_fwgl_cyfwglb 
+			where fwbm = #{classFwbm}
+		]]>
+	</delete>
+	
+</mapper>

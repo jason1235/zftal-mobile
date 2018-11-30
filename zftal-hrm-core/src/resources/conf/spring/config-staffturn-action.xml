@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	<!-- 预退休 -->
+	<bean id="preRetireAction" class="com.zfsoft.hrm.staffturn.retire.action.PreRetireAction" scope="prototype">
+		<property name="retireService" ref="retireService"/>
+	</bean>
+	
+	<!-- 20140423 add start -->
+	<bean id="retireSpAction" class="com.zfsoft.hrm.staffturn.retire.action.RetireSpAction" scope="prototype">
+        <property name="service" ref="toolsSelectPersonService"/>
+    </bean>
+	<!-- 20140423 add end -->
+	
+	<!-- 退休 -->
+	<bean id="retireAction" class="com.zfsoft.hrm.staffturn.retire.action.RetireAction" scope="prototype">
+		<property name="retireService" ref="retireService"></property>
+		<property name="scheduleControlService" ref="scheduleControlService"/>
+		<property name="printTemplateService" ref="printTemplateService"></property>
+	</bean>
+	<!--退休扫描-->
+	<bean id="retireScanAction" class="com.zfsoft.hrm.staffturn.retire.action.RetireScanAction" scope="prototype">
+		<property name="retireScanService" ref="retireScanService"/>
+		<property name="scheduleControlService" ref="scheduleControlService"/>
+		<property name="retireRuleService" ref="retireRuleService"/>
+	</bean>
+	
+	<!--离校环节配置-->
+	<bean id="leaveStepAction" class="com.zfsoft.hrm.staffturn.leaveschool.action.LeaveStepAction" scope="prototype">
+		<property name="leaveStepService" ref="leaveStepService"/>
+	</bean>
+	
+	<!--离校流程管理-->
+	<bean id="leaveFlowAction" class="com.zfsoft.hrm.staffturn.leaveschool.action.LeaveFlowAction" scope="prototype">
+		<property name="leaveFlowService" ref="leaveFlowService"/>
+		<property name="leaveProcessService" ref="leaveProcessService"/>
+		<property name="leaveStepService" ref="leaveStepService"/>
+		<property name="iDynaBeanBusiness" ref="baseDynaBeanBusiness"/>
+	</bean>
+	
+	<!--离校处理-->
+	<bean id="leaveProcessAction" class="com.zfsoft.hrm.staffturn.leaveschool.action.LeaveProcessAction" scope="prototype">
+		<property name="leaveProcessService" ref="leaveProcessService"/>
+	</bean>
+	<!-- 离世 -->
+	<bean id="deadAction" class="com.zfsoft.hrm.staffturn.dead.action.DeadAction" scope="prototype">
+		<property name="deadService" ref="deadService"/>
+	</bean>
+</beans>

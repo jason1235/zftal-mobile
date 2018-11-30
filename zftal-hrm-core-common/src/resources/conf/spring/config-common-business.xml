@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.springframework.org/schema/tx
+				http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+				http://www.springframework.org/schema/aop
+				http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<bean id="baseInfoCatalogBusiness" name="baseInfoCatalogBusiness"
+			class="com.zfsoft.hrm.baseinfo.infoclass.business.impl.CatalogBusinessImpl">
+		<property name="dao" ref="baseInfoCatalogDao" />
+	</bean>
+	<!-- 信息属性展示配置 -->
+	<bean id="infoPropertyViewBusiness" class="com.zfsoft.hrm.baseinfo.infoclass.business.impl.InfoPropertyViewBusinessImpl">
+		<property name="viewDao" ref="infoPropertyViewDao"></property>
+	</bean>
+	
+	<bean id="baseDynaBeanBusiness" name="baseDynaBeanBusiness"
+			class="com.zfsoft.hrm.baseinfo.dyna.business.impl.DynaBeanBusinessImpl">
+		<property name="dao" ref="baseDynaBeanDao" />
+		<property name="dynaBeanLogBusiness" ref="baseDynaBeanLogBusiness" />
+	</bean>
+	
+	<bean id="baseDynaBeanLogBusiness" name="baseDynaBeanLogBusiness"
+			class="com.zfsoft.hrm.baseinfo.dyna.business.impl.DynaBeanLogBusinessImpl">
+		<property name="dynaBeanLogDao" ref="baseDynaBeanLogDao" />
+		<property name="dynaBeanDao" ref="baseDynaBeanDao" />
+	</bean>
+	
+	<!--组织机构business-->
+	<bean id="baseOrgBusiness" name="baseOrgBusiness" class="com.zfsoft.hrm.baseinfo.org.business.impl.OrgBusinessImpl">
+		<property name="orgDao" ref="baseOrgDao"></property>
+		<property name="orgSearchDao" ref="baseOrgSearchDao"></property>
+	</bean>
+	
+	<!--组织机构查询business-->
+	<bean id="baseOrgSearchBusiness" name="baseOrgSearchBusiness" class="com.zfsoft.hrm.baseinfo.org.business.impl.OrgSearchBusinessImpl">
+		<property name="orgSearchDao" ref="baseOrgSearchDao"></property>
+	</bean>
+	
+</beans>

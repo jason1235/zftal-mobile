@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="zftal-mobile-zpack"
+  id="myeclipse.1332235383859"
+  context-root="/zftal-mobile"
+  j2ee-spec="6.0"
+  archive="zftal-mobile-zpack.war">
+  <attributes>
+    <attribute name="webrootdir" value="/WebRoot" />
+  </attributes>
+</project-module>
+

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.seniorreport.dao.ISeniorReportDao">
+    <sql id="where">
+        <where>
+            <if test="reportId != null">
+                and bbpzb.bbbh = #{reportId}
+            </if>
+            <if test="reportName != null">
+                and bbpzb.bbmc = #{reportName}
+            </if>
+            <if test="menuId != null">
+                and bbpzb.cdbh = #{menuId}
+            </if>
+        </where>
+    </sql>
+    <select id="findById" resultType="com.zfsoft.hrm.seniorreport.entity.SeniorReportConfigData">
+        select
+        <foreach collection="sqlNamesAll" item="item" separator=",">
+            <![CDATA[bbpzb.${item} as ${sqlLocalNameMap[item]}]]>
+        </foreach>
+        from HRM_BJGL_GJBBPZB bbpzb
+        <where>
+        bbpzb.bbbh = #{reportId}
+        </where>
+        order by bbpzb.bbbh asc
+    </select>
+    
+    <select id="findList" resultType="com.zfsoft.hrm.seniorreport.entity.SeniorReportConfigData">
+        select
+        <foreach collection="sqlNamesAll" item="item" separator=",">
+            <![CDATA[bbpzb.${item} as ${sqlLocalNameMap[item]}]]>
+        </foreach>
+        from HRM_BJGL_GJBBPZB bbpzb
+        <include refid="where" />
+        order by bbpzb.bbmc asc
+    </select>
+
+    <insert id="insert" keyProperty="reportId">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="reportId">
+            <![CDATA[
+            select SYS_GUID() GUID from DUAL
+            ]]>
+        </selectKey>
+        insert into HRM_BJGL_GJBBPZB(BBBH,
+        <foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+            ${item}
+        </foreach>
+        values (#{reportId},
+        <foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+            #{${sqlLocalNameMap[item]}}
+        </foreach>
+    </insert>
+
+    <update id="update">
+        update HRM_BJGL_GJBBPZB
+        <set>
+            <foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," >
+                 ${item}=#{${sqlLocalNameMap[item]}}
+            </foreach>
+        </set>
+        where bbbh=#{reportId}
+    </update>
+
+    <delete id="delete">
+        delete from HRM_BJGL_GJBBPZB where bbbh = #{reportId}
+    </delete>
+    
+    <select id="count" resultType="int">
+        select count(*) from (${sql}) report 
+        <where> (${columnCondition}) and (${rowCondition})
+        </where>
+    </select>
+    
+    <select id="find" resultType="java.lang.String">
+        ${dataSql} data join (${sql}) report on ${joinSql} 
+        <where> (${columnCondition}) and (${rowCondition})
+        </where>
+    </select>
+    
+
+</mapper>

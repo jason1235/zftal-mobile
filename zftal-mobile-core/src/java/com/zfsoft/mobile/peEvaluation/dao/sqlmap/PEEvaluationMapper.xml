@@ -1,0 +1,529 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.peEvaluation.dao.IPEEvaluationDao">
+     
+    <!-- 体育测评班级 --> 
+	<select id="getClassInfoList" resultType="com.zfsoft.mobile.peEvaluation.entity.ClassInfoEntity">
+		select *
+		  from (select a.id,
+		               a.name,
+		               a.studentamt,
+		               a.classtime,
+		               a.teachername,
+		               a.institutename,
+		               (case
+		                 when a.status > 0 then
+		                  '已测评'
+		                 else
+		                  '未测评'
+		               end) status,
+		               rownum rn
+		          from (select t.id,
+		                       t.name,
+		                     
+		                       t.classtime,
+		                       t.teachername,
+		                       t1.name as institutename,
+		                       (select count(*)
+		                          from M_PEEVALUATION_DATA t2
+		                         inner join M_PEEVALUATION_STUDENTINFO t3
+		                            on t2.schoolnumber = t3.schoolnumber
+		                         inner join M_PEEVALUATION_CLASSINFO t4
+		                            on t3.classid = t4.id
+		                         WHERE 1 = 1
+		                            and t4.id = t.id) as status,
+		            (select count(1) from m_peevaluation_studentinfo b where b.classid = t.id) as studentamt
+		                  from M_PEEVALUATION_CLASSINFO t
+		                 inner join M_PEEVALUATION_INSTITUTEINFO t1
+		                    on t.instituteid = t1.id
+		                 where 1 = 1
+		                 order by t.id) a)
+		      where rn &gt;=#{startRow} and rn &lt;=#{endRow}
+	</select>
+	
+	<!-- 体育测评班级总数 --> 
+	<select id="getClassInfoListCount" resultType="int">
+		select count(*)
+		  from M_PEEVALUATION_CLASSINFO t
+		 inner join M_PEEVALUATION_INSTITUTEINFO t1
+		    on t.instituteid = t1.id where 1=1 
+	</select>
+	
+	<!-- 体育测评班级分数列表 --> 
+	<select id="getClassScoreList" resultType="com.zfsoft.mobile.peEvaluation.entity.PEDataEntity"  statementType="STATEMENT">
+		select *
+		  from (select a.*, rownum rn
+		          from (select schoolnumber,
+		                       name,
+		                       ${columnStr},
+		                       max(createtime) createtime
+		                  from (select b.*
+		                          from (select t1.schoolnumber,
+		                                       t1.name,
+		                                        to_number(${columnStr}) as ${columnStr},
+		                                       t.createtime
+		                                  from M_PEEVALUATION_DATA t
+		                                 inner join M_PEEVALUATION_STUDENTINFO t1
+		                                    on t.schoolnumber = t1.schoolnumber
+		                                 inner join M_PEEVALUATION_CLASSINFO t2
+		                                    on t1.classid = t2.id
+		                                 where t.datatype = ${dataType}
+		                                   and t1.classid = ${classId} 
+		                                 order by ${columnStr}) b)
+		                 group by schoolnumber, name, ${columnStr}
+		                 order by ${columnStr} ${orderKey} nulls last 
+		                 ) a)
+		 where rn &gt;=${startRow} and rn &lt;=${endRow}
+	</select>
+	
+	<!-- 体育测评班级分数列表总数 --> 
+	<select id="getClassScoreListCount" resultType="int">
+		select count(*)
+		  from (select schoolnumber, name,max(createtime) createtime
+		          from (select b.*
+		                  from (select t1.schoolnumber,
+		                               t1.name,
+		                               t.createtime
+		                          from M_PEEVALUATION_DATA t
+		                         inner join M_PEEVALUATION_STUDENTINFO t1
+		                            on t.schoolnumber = t1.schoolnumber
+		                         inner join M_PEEVALUATION_CLASSINFO t2
+		                            on t1.classid = t2.id
+		                         where t.datatype = #{dataType}
+		                           and t1.classid = #{classId}) b)
+		         group by schoolnumber, name
+		         order by schoolnumber) 
+	</select>
+	
+	<!-- 查询学生信息 -->
+	<select id="getStudentInfo" resultType="com.zfsoft.mobile.peEvaluation.entity.StudentInfoEntity">
+		select t.*
+		  from M_PEEVALUATION_STUDENTINFO t
+		 where t.schoolnumber = #{schoolNumber} 	
+	</select>
+	
+	<!-- 查询班级所有学生信息 -->
+	<select id="getStudentInfoListByClass" resultType="com.zfsoft.mobile.peEvaluation.entity.StudentInfoEntity">
+		select t.* from M_PEEVALUATION_STUDENTINFO t where t.classId = #{classId} 
+	</select>
+	
+	<!-- 检查体测数据表中是否存在学号数据 -->
+	<select id="checkHaveData" resultType="int">
+         select count(*) from M_PEEVALUATION_DATA t where t.schoolNumber = #{schoolNumber} and t.dataType=#{dataType}
+	</select>
+	
+	<!-- 插入体测数据 -->
+	<insert id="insertData" parameterType="com.zfsoft.mobile.peEvaluation.query.PEDataQuery">
+			insert into M_PEEVALUATION_DATA(
+				year,
+				schoolNumber,
+				height,
+				weight,
+				pulmonary,
+				fiftyRun,
+				jump,
+				antexion,
+				eightHundredRun,
+				oneThousandRun,
+				sitUp,
+				pullUp,
+				BMI,
+				pulmonaryScore,
+				fiftyRunScore,
+				jumpScore,
+				antexionScore,
+				eightHundredRunScore,
+				oneThousandRunScore,
+				sitUpScore,
+				pullUpScore,
+				generalScore,
+				dataType,
+				createTime
+			) values(
+				#{year,jdbcType=VARCHAR},
+				#{schoolNumber,jdbcType=VARCHAR},
+				#{height,jdbcType=VARCHAR},
+				#{weight,jdbcType=VARCHAR},
+				#{pulmonary,jdbcType=VARCHAR},
+				#{fiftyRun,jdbcType=VARCHAR},
+				#{jump,jdbcType=VARCHAR},
+				#{antexion,jdbcType=VARCHAR},
+				#{eightHundredRun,jdbcType=VARCHAR},
+				#{oneThousandRun,jdbcType=VARCHAR},
+				#{sitUp,jdbcType=VARCHAR},
+				#{pullUp,jdbcType=VARCHAR},
+				#{BMI,jdbcType=VARCHAR},
+				#{pulmonaryScore,jdbcType=VARCHAR},
+				#{fiftyRunScore,jdbcType=VARCHAR},
+				#{jumpScore,jdbcType=VARCHAR},
+				#{antexionScore,jdbcType=VARCHAR},
+				#{eightHundredRunScore,jdbcType=VARCHAR},
+				#{oneThousandRunScore,jdbcType=VARCHAR},
+				#{sitUpScore,jdbcType=VARCHAR},
+				#{pullUpScore,jdbcType=VARCHAR},
+				#{generalScore,jdbcType=VARCHAR},
+				#{dataType,jdbcType=VARCHAR},
+				#{createTime,jdbcType=VARCHAR}
+			)
+	</insert>
+	
+	<!--  更新数据-->
+	<update id="updateData"  parameterType="com.zfsoft.mobile.peEvaluation.query.PEDataQuery">
+	       update M_PEEVALUATION_DATA 
+	           <set>
+				<if test="year != null and year != ''">
+	    			year = #{year},
+	    		</if>
+	    		<if test="schoolNumber != null and schoolNumber != ''">
+	    			schoolNumber = #{schoolNumber},
+	    		</if>
+				<if test="height != null and height != ''">
+	    			height = #{height},
+	    		</if>
+	    		<if test="weight != null and weight != ''">
+	    			weight = #{weight},
+	    		</if>
+	    		<if test="pulmonary != null and pulmonary != ''">
+	    			pulmonary = #{pulmonary},
+	    		</if>
+	    		<if test="fiftyRun != null and fiftyRun != ''">
+	    			fiftyRun = #{fiftyRun},
+	    		</if>
+	    		<if test="jump != null and jump != ''">
+	    			jump = #{jump},
+	    		</if>
+	    		<if test="antexion != null and antexion != ''">
+	    			antexion = #{antexion},
+	    		</if>
+	    		<if test="eightHundredRun != null and eightHundredRun != ''">
+	    			eightHundredRun = #{eightHundredRun},
+	    		</if>
+	    		<if test="oneThousandRun != null and oneThousandRun != ''">
+	    			oneThousandRun = #{oneThousandRun},
+	    		</if>
+	    		<if test="sitUp != null and sitUp != ''">
+	    			sitUp = #{sitUp},
+	    		</if>
+	    		<if test="pullUp != null and pullUp != ''">
+	    			pullUp = #{pullUp},
+	    		</if>
+	    		<if test="BMI != null and BMI != ''">
+	    			BMI = #{BMI},
+	    		</if>
+	    		<if test="pulmonaryScore != null and pulmonaryScore != ''">
+	    			pulmonaryScore = #{pulmonaryScore},
+	    		</if>
+	    		<if test="fiftyRunScore != null and fiftyRunScore != ''">
+	    			fiftyRunScore = #{fiftyRunScore},
+	    		</if>
+	    		<if test="jumpScore != null and jumpScore != ''">
+	    			jumpScore = #{jumpScore},
+	    		</if>
+	    		<if test="antexionScore != null and antexionScore != ''">
+	    			antexionScore = #{antexionScore},
+	    		</if>
+	    		<if test="eightHundredRunScore != null and eightHundredRunScore != ''">
+	    			eightHundredRunScore = #{eightHundredRunScore},
+	    		</if>
+	    		<if test="oneThousandRunScore != null and oneThousandRunScore != ''">
+	    			oneThousandRunScore = #{oneThousandRunScore},
+	    		</if>
+	    		<if test="sitUpScore != null and sitUpScore != ''">
+	    			sitUpScore = #{sitUpScore},
+	    		</if>
+	    		<if test="pullUpScore != null and pullUpScore != ''">
+	    			pullUpScore = #{pullUpScore},
+	    		</if>
+	    		<if test="generalScore != null and generalScore != ''">
+	    			generalScore = #{generalScore},
+	    		</if>
+	    		<if test="dataType != null and dataType != ''">
+	    			dataType = #{dataType},
+	    		</if>
+	    		<if test="createTime != null and createTime != ''">
+	    			createTime = #{createTime},
+	    		</if>
+	    	</set>
+			where schoolNumber = #{schoolNumber} and dataType = #{dataType}
+	</update>
+	
+	<!-- 学生查询体测成绩 -->
+	<select id="queryStudentScore" resultType="com.zfsoft.mobile.peEvaluation.entity.PEDataEntity">
+	    select t.* from M_PEEVALUATION_DATA t where t.schoolNumber=#{schoolNumber} and t.dataType=#{dataType}
+	</select>
+	
+	<!-- 计算成绩超过班级百分比，四个参数字段名、字段值、是否国测、学号 -->
+	<select id="countScoreClassPercent"  resultType="double"  statementType="STATEMENT">
+	    <![CDATA[
+		    select round((select count(*)
+	          from M_PEEVALUATION_DATA ttt
+	         where ${columnStr} ${operator} ${columnData}
+	           and ttt.datatype = ${dataType}
+	           and ttt.schoolnumber in
+	               (select tt.schoolnumber
+	                  from M_PEEVALUATION_STUDENTINFO tt
+	                 where tt.classid =
+	                       (select t.classid
+	                          from M_PEEVALUATION_STUDENTINFO t
+	                         where t.schoolnumber = ${schoolNumber}))) /
+				       (select  case count(*)
+				                 when 0 then
+				                  1
+				                 else
+				                  count(*)
+				                end
+				          from M_PEEVALUATION_STUDENTINFO tt
+				         where tt.classid =
+				               (select t.classid
+				                  from M_PEEVALUATION_STUDENTINFO t
+				                 where t.schoolnumber = ${schoolNumber})),2) percent
+				  from dual
+	      ]]>		  
+	</select>
+	
+	<!-- 计算成绩超过学院百分比，四个参数字段名、字段值、是否国测、学号 -->
+	<select id="countScoreInstitutePercent"  resultType="double"  statementType="STATEMENT">
+	    <![CDATA[
+		    select round((select count(*)
+                from M_PEEVALUATION_DATA ttt
+               where ${columnStr} ${operator} ${columnData}
+                 and ttt.datatype = ${dataType}
+                 and ttt.schoolnumber in
+                     (select sst1.schoolnumber
+                        from M_PEEVALUATION_STUDENTINFO sst1
+                       inner join M_PEEVALUATION_CLASSINFO sst2
+                          on sst1.classid = sst2.id
+                       where sst2.instituteid =
+                             (select sstt3.id
+                                from M_PEEVALUATION_STUDENTINFO sstt1
+                               inner join M_PEEVALUATION_CLASSINFO sstt2
+                                  on sstt1.classid = sstt2.id
+                               inner join M_PEEVALUATION_INSTITUTEINFO sstt3
+                                  on sstt2.instituteid = sstt3.id
+                               where sstt1.schoolnumber = ${schoolNumber}))) /
+		             (select case count(*)
+		                       when 0 then
+		                        1
+		                       else
+		                        count(*)
+		                     end as totalcount
+		                from M_PEEVALUATION_STUDENTINFO st1
+		               inner join M_PEEVALUATION_CLASSINFO st2
+		                  on st1.classid = st2.id
+		               where st2.instituteid =
+		                     (select tt3.id
+		                        from M_PEEVALUATION_STUDENTINFO tt1
+		                       inner join M_PEEVALUATION_CLASSINFO tt2
+		                          on tt1.classid = tt2.id
+		                       inner join M_PEEVALUATION_INSTITUTEINFO tt3
+		                          on tt2.instituteid = tt3.id
+		                       where tt1.schoolnumber = ${schoolNumber})),
+		              2) percent
+		            from dual
+	          ]]>		  
+	</select>
+	
+	
+	<select id="countHtStudent" resultType="java.lang.Integer">
+		SELECT count(1)
+	  	FROM (SELECT b.*,rownum rn
+	          FROM (
+			select a.*,c.name as sclassname,d.name as sschoolname from M_PEEVALUATION_STUDENTINFO a 
+			left join M_PEEVALUATION_CLASSINFO c on a.classid = c.id
+      		left join M_PEEVALUATION_INSTITUTEINFO d on d.id = a.INSTITUTEID
+      		where 1=1
+      		<if test="name != null and name != ''">
+    			and a.name like '%'||#{name}||'%'
+    		</if>
+    		<if test="schoolNumber != null and schoolNumber != ''">
+    			and schoolnumber like '%'||#{schoolNumber}||'%'
+    		</if>
+    		<if test="gender != null and gender != ''">
+    			and gender = #{gender},
+    		</if>
+      		
+			) b)
+			<if test="sclassname != null and sclassname != ''">
+    			and sclassname like '%'||#{sclassname}||'%'
+    		</if>
+	</select>
+	
+	<!--后台学生基本信息列表-->
+	<select id="selectHtStudentList" parameterType="com.zfsoft.mobile.peEvaluation.query.StudentInfoQuery" resultType="com.zfsoft.mobile.peEvaluation.entity.StudentInfoEntity">
+		SELECT *
+	  	FROM (SELECT b.*,rownum rn
+	          FROM (
+			select a.*,c.name as sclassname,d.name as sschoolname from M_PEEVALUATION_STUDENTINFO a 
+			left join M_PEEVALUATION_CLASSINFO c on a.classid = c.id
+      		left join M_PEEVALUATION_INSTITUTEINFO d on d.id = a.INSTITUTEID
+      		where 1=1
+      		<if test="name != null and name != ''">
+    			and a.name like '%'||#{name}||'%'
+    		</if>
+    		<if test="schoolNumber != null and schoolNumber != ''">
+    			and schoolnumber like '%'||#{schoolNumber}||'%'
+    		</if>
+    		<if test="gender != null and gender != ''">
+    			and gender = #{gender}
+    		</if>
+      		
+			) b)
+				 <![CDATA[
+	 				WHERE RN >=#{startRow}  AND RN <=#{endRow} 
+				 ]]>	
+			<if test="sclassname != null and sclassname != ''">
+    			and sclassname like '%'||#{sclassname}||'%'
+    		</if>
+	</select>
+	
+	<!--根据学籍号删除学生信息-->
+	<select id="delStuBySchoolNumber">
+		delete from M_PEEVALUATION_STUDENTINFO where SCHOOLNUMBER =#{schoolNumber}
+	</select>
+	
+	<!--  更新学生信息-->
+	<update id="updateStuByPrimaryKey"  parameterType="com.zfsoft.mobile.peEvaluation.query.StudentInfoQuery">
+       update M_PEEVALUATION_STUDENTINFO 
+           <set>
+			<if test="name != null and name != ''">
+    			name = #{name},
+    		</if>
+    		<if test="gender != null and gender != ''">
+    			gender = #{gender},
+    		</if>
+			<if test="birthday != null and birthday != ''">
+    			birthday = #{birthday},
+    		</if>
+    		<if test="idNumber != null and idNumber != ''">
+    			idNumber = #{idNumber},
+    		</if>
+    		<if test="nation != null and nation != ''">
+    			nation = #{nation},
+    		</if>
+    		<if test="homeAddr != null and homeAddr != ''">
+    			homeAddr = #{homeAddr},
+    		</if>
+    		<if test="highSchoolName != null and highSchoolName != ''">
+    			highSchoolName = #{highSchoolName},
+    		</if>
+    		<if test="classId != null and classId != ''">
+    			classId = #{classId},
+    		</if>
+    		<if test="instituteId != null and instituteId != ''">
+    			instituteId = #{instituteId},
+    		</if>
+    		<if test="bak != null and bak != ''">
+    			bak = #{bak},
+    		</if>
+    		<if test="height != null and height != ''">
+    			height = #{height},
+    		</if>
+    		<if test="weight != null and weight != ''">
+    			weight = #{weight},
+    		</if>
+    	</set>
+			where schoolNumber = #{schoolNumber}
+	</update>
+	
+	
+	<!--后台体育测评信息列表-->
+	<select id="selectHtPeData" resultType="com.zfsoft.mobile.peEvaluation.entity.PEDataEntity">
+		SELECT *
+	  	FROM (SELECT b.*,rownum rn
+	          FROM (
+			 select a.*,c.name as stuName,d.name as className,d.teachername as teacherName,c.gender from M_PEEVALUATION_DATA a 
+			left join m_Peevaluation_Studentinfo c on a.schoolnumber = c.SCHOOLNUMBER
+      		left join m_Peevaluation_Classinfo d on d.id = c.classid
+      		where a.DATATYPE = #{dataType}
+      		<if test="stuName != null and stuName != ''">
+    			and c.name like '%'||#{stuName}||'%'
+    		</if>
+    		<if test="schoolNumber != null and schoolNumber != ''">
+    			and a.schoolnumber like '%'||#{schoolNumber}||'%'
+    		</if>
+    		<if test="gender != null and gender != ''">
+    			and c.gender = #{gender}
+    		</if>
+      		
+			) b)
+				 <![CDATA[
+	 				WHERE RN >=#{startRow}  AND RN <=#{endRow} 
+				 ]]>	
+			<if test="className != null and className != ''">
+    			and className like '%'||#{className}||'%'
+    		</if>
+	</select>
+	
+	<!--后台体育测评信息列表条数-->
+	<select id="countHtPeData" resultType="java.lang.Integer">
+		SELECT count(1)
+	  	FROM (SELECT b.*,rownum rn
+	          FROM (
+			 select a.*,c.name as stuName,d.name as className,d.teachername as teacherName from M_PEEVALUATION_DATA a 
+			left join m_Peevaluation_Studentinfo c on a.schoolnumber = c.SCHOOLNUMBER
+      		left join m_Peevaluation_Classinfo d on d.id = c.classid
+      		where a.DATATYPE = #{dataType}
+      		<if test="stuName != null and stuName != ''">
+    			and c.name like '%'||#{stuName}||'%'
+    		</if>
+    		<if test="schoolNumber != null and schoolNumber != ''">
+    			and a.schoolnumber like '%'||#{schoolNumber}||'%'
+    		</if>
+    		<if test="gender != null and gender != ''">
+    			and c.gender = #{gender}
+    		</if>
+      		
+			) b)
+					
+			<if test="className != null and className != ''">
+    			and className like '%'||#{className}||'%'
+    		</if>
+	</select>
+	
+	<select id="selectInstituteInfoEntities" resultType="com.zfsoft.mobile.peEvaluation.entity.InstituteInfoEntity">
+		select * from m_peevaluation_instituteinfo
+	</select>
+	
+	<select id="selectClassInfoByInsId" resultType="com.zfsoft.mobile.peEvaluation.entity.ClassInfoEntity">
+		select * from m_peevaluation_classinfo a where a.instituteid =#{instituteId}
+	</select>
+	
+	
+	<select id="selectDataAnal" resultType="com.zfsoft.mobile.peEvaluation.entity.DataAnalEntity">
+		select a.*,(select count(*) from m_peevaluation_studentinfo b
+	       left join m_peevaluation_classinfo c on b.classid = c.id
+	       where a.id = c.INSTITUTEID) as xyrs,
+	       (select count(*) from m_peevaluation_studentinfo b
+	       left join m_peevaluation_classinfo c on b.classid = c.id
+	       left join m_peevaluation_data d on b.schoolnumber = d.schoolnumber
+	       <![CDATA[
+	       		where a.id = c.INSTITUTEID and d.datatype = #{dataType} and d.year = (Select to_char(sysdate,'yyyy') from dual) and d.generalscore >= 60
+	       ]]>
+	       ) as xyhgrs,
+	       (select count(*) from m_peevaluation_studentinfo b
+	       left join m_peevaluation_classinfo c on b.classid = c.id
+	       left join m_peevaluation_data d on b.schoolnumber = d.schoolnumber
+	       <![CDATA[
+	       		where a.id = c.INSTITUTEID and d.datatype = #{dataType} and d.year = (Select to_char(sysdate,'yyyy') from dual) and d.generalscore >= 80
+	       ]]>
+	       ) as xyylrs
+		from m_peevaluation_instituteinfo a
+	</select>
+	
+	
+	<select id="selectExportList" resultType="com.zfsoft.mobile.peEvaluation.entity.ExportEntity">
+		select a.*, b.name as sclassName, c.name as schoolName,d.year,d.pulmonary,d.fiftyrun,
+        		d.jump,d.antexion,d.eighthundredrun,d.onethousandrun,d.situp,d.pullup
+		  from m_peevaluation_studentinfo a 
+		  left join m_peevaluation_classinfo b
+		    on a.classid = b.id
+		  left join m_peevaluation_instituteinfo c 
+		    on a.instituteid = c.id
+		  left join m_peevaluation_data d 
+		    on a.schoolnumber = d.schoolnumber and d.datatype = #{dataType}
+		
+	</select>
+	
+</mapper>

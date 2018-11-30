@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="spgl" namespace="/sourcegoods" extends="configuration" >
+		<action name="sourcegoods_*" class="sourcegoodsAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/sourceexchange/sourcegoods_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/sourceexchange/sourcegoods_edit.jsp</result>
+		</action>
+		
+		<action name="sourcesignin_*" class="sourcesigninAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/sourceexchange/sourcesignin_list.jsp</result>
+		</action>
+		
+		<action name="sourceconsumer_*" class="sourceconsumerhisAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/sourceexchange/sourceconsumer_list.jsp</result>
+		</action>
+	</package>
+	
+</struts>

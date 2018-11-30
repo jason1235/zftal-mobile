@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="print" namespace="/print" extends="configuration">
+      <action name="printTemplate_*" class="printTemplateAction" method="{1}" >
+         <result name="page">/WEB-INF/pages/hrm/print/printTemplate_page.jsp</result>
+         <result name="edit">/WEB-INF/pages/hrm/print/printTemplate_edit.jsp</result>
+         <result name="editProperty">/WEB-INF/pages/hrm/print/printTemplate_editProperty.jsp</result>
+      </action>
+    </package>
+</struts>

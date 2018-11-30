@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.hrm.expertvote.vote.dao.IExpertAssessDao">
+
+    <resultMap id="expertAssess" type="com.zfsoft.hrm.expertvote.vote.entity.ExpertAssessInstance">
+        <result property="id"           column="ID" />
+        <result property="workId"         column="W_ID" />
+        <result property="expertId"         column="ZJ_ID" />
+        <result property="groupId"    column="ZJZ_ID" />
+        <result property="taskId"    column="TASK_ID" />
+        <result property="batchId"    column="BATCH_ID" />
+        <result property="status"    column="STATUS" />
+        <result property="result"    column="RESULT" />
+        <result property="description"    column="DES" />
+        <result property="assessTime"    column="PS_TIME" />
+        
+        <result property="gh"    column="USER_ID" />
+        <result property="xm"    column="xm" />
+        <result property="dwm"    column="dwm" />
+        <result property="businessClassId"    column="bsnsclass_id" />
+    </resultMap>
+    
+    <insert id="insertInstances">
+        <![CDATA[
+            INSERT INTO 
+                hrm_expert_voteinstance(
+                    ID,
+                    W_ID,
+                    ZJ_ID,
+                    ZJZ_ID,
+                    TASK_ID
+                )
+                select 
+                (select SYS_GUID() globalid from DUAL where  z.id is not null and pr.id is not null ) id, 
+                pr.id,
+                z.expert_id,
+                z.group_id,
+                #{taskId}
+                from hrm_expert_group_member z,
+                (select p.*
+		            from hrm_businessinfo_change p
+		            join (SELECT wt.*,wn.status
+		                     FROM SP_WORK_TASK wt, SP_WORK_NODE wn
+		                    WHERE wt.NODE_ID = wn.NODE_ID
+		                      AND wt.W_ID = wn.W_ID
+		                      AND wn.status = 'PASS_AUDITING'
+                              AND wt.e_status = 'WAIT_EXECUTE'
+		                      AND wt.TASK_ID = #{taskId}) t 
+		            on (p.id = t.w_id)
+		            WHERE p.status in ('IN_AUDITING', 'WAIT_AUDITING') 
+		                and p.bsnsclass_id = #{businessClassId}
+		                and p.id  not in (select w_id from hrm_expert_voteinstance z where z.task_id = #{taskId})) pr
+		         where z.group_id = #{groupId}
+        ]]>
+    </insert>
+    
+   <delete id="removeInstances">
+        DELETE FROM hrm_expert_voteinstance Z
+        WHERE
+            Z.TASK_ID = #{taskId}
+            AND
+            Z.W_ID in 
+                (select p.id
+                    from hrm_businessinfo_change p
+                    join (SELECT wt.*,wn.status
+                             FROM SP_WORK_TASK wt, SP_WORK_NODE wn
+                            WHERE wt.NODE_ID = wn.NODE_ID
+                              AND wt.W_ID = wn.W_ID
+                              AND wn.status = 'PASS_AUDITING'
+                              AND wt.e_status = 'WAIT_EXECUTE'
+                              AND wt.TASK_ID = #{taskId}) t 
+                    on (p.id = t.w_id)
+                    WHERE p.status in ('IN_AUDITING', 'WAIT_AUDITING') 
+                        and p.bsnsclass_id = #{businessClassId}
+                )
+    </delete>
+   
+    <select id="findById" resultMap="expertAssess" >
+        select p.user_id,p.bsnsclass_id,o.xm,o.dwm,t.*
+        from hrm_expert_voteinstance t
+        left join hrm_businessinfo_change p on t.w_id=p.id
+        left join overall o on o.gh=p.user_id
+        where t.id=#{id}
+    </select>
+    
+    <update id="modify" >
+        update hrm_expert_voteinstance
+        <set>
+        <if test="result != null and result != ''">
+            RESULT = #{result},
+        </if>
+        <if test="status != null and status != ''">
+            STATUS = #{status},
+        </if>
+        <if test="description !=null and description != ''">
+            DES = #{description},
+        </if>
+        <if test="assessTime != null and assessTime != ''">
+            PS_TIME = #{assessTime},
+        </if>
+        </set>
+        <where>
+            ID=#{id}
+        </where>
+    </update>
+   
+   <!-- 获取信息 -->
+    <select id="getInstanceList" resultMap="expertAssess" >
+        select p.user_id,p.bsnsclass_id,o.xm,o.dwm,t.*
+        from hrm_expert_voteinstance t
+        left join hrm_businessinfo_change p on t.w_id=p.id
+        left join overall o on o.gh=p.user_id
+        <include refid="where"/>
+        <if test="orderStr != null and orderStr != ''">
+            order by ${orderStr}
+        </if> 
+    </select>
+    <!-- 获取分页信息 -->
+    <select id="getInstancePageList" resultMap="expertAssess" >
+    select * from (select a.*, rownum rn from(
+        select p.user_id,p.bsnsclass_id,o.xm,o.dwm,t.*
+        from hrm_expert_voteinstance t
+        left join hrm_businessinfo_change p on t.w_id=p.id
+        left join overall o on o.gh=p.user_id
+        <include refid="where"/>
+        <if test="orderStr != null and orderStr != ''">
+            order by ${orderStr}
+        </if> 
+     ) a )
+        <![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+    </select>
+    
+    <!-- 获取分页计数 -->
+    <select id="getInstancePageCount" resultType="int">
+        select 
+            count(0) cnt
+        from hrm_expert_voteinstance t
+        left join hrm_businessinfo_change p on t.w_id=p.id
+        <include refid="where"/>
+    </select>
+    
+    <sql id="where">
+	    <where>
+	        <if test="expertId != null and expertId != ''">
+	            and t.zj_id = #{expertId}
+	        </if>
+	        <if test="workId != null and workId != ''">
+                and t.w_id = #{workId}
+            </if>
+	        <if test="groupId != null and groupId != ''">
+	            and t.zjz_id = #{groupId}
+	        </if>
+	        <if test="taskId != null and taskId != ''">
+	            and t.task_id = #{taskId}
+	        </if>
+	         <if test="status !=null and status != '' ">
+	            and t.status = #{status}
+	         </if>
+	         <if test="result !=null and result != '' ">
+                and t.RESULT = #{result}
+             </if>
+	         <if test="gh !=null and gh != '' ">
+                and t.zj_id in ( select id from hrm_expert_info where gh = #{gh})
+             </if>
+	    </where>
+    </sql>
+   
+    
+</mapper>

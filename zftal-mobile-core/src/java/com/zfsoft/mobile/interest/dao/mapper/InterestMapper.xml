@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.mobile.interest.dao.InterestDao">
+
+	<select id="selectTypeList" resultType="com.zfsoft.mobile.interest.entity.InterestType">
+		select * from M_INTEREST_TYPE t
+	</select>
+	
+	<select id="selectInterestListByType" parameterType="com.zfsoft.mobile.interest.entity.InterestQuery"  resultType="com.zfsoft.mobile.interest.entity.InterestEntity">
+		select *
+		  from (select a.*, rownum rn
+		          from (
+		          select t.id,t.name,t.img,t.createuserid,t.status,t.content,t.type,t.idcard,t.title,t.createtime,t.adminisid,t.postname,
+       				(select count(1) from M_INTEREST_PERSONINFO q where q.type = '2' and q.interestid = t.id   ) BLACKNUM,
+		         	 (select count(1) from m_interest_personinfo t2 where t2.userid = #{userId} and t2.type = '1' and t2.interestid = t.id)as isJoin,
+		          		(select count(1) from M_INTEREST_PERSONINFO i where i.interestid = t.id and i.type = '1')as follow,
+		          		(select count(1) from M_INTEREST_POST p where p.interestid = t.id)as postNum
+		                 from M_INTEREST t
+		                 where 1=1
+		                <if test="status != null and status != ''">
+		                   and t.status = #{status}
+		                </if>
+		                <if test="type != null and type != ''">
+		                   and t.type = #{type}
+		                </if>
+		                <if test="name != null and name != ''">
+		                   and t.name like '%'||#{name}||'%'
+		                </if>
+		                <if test="orderCode == 2">
+		                   and t.id in (select t1.interestid from M_INTEREST_PERSONINFO t1 where t1.userid = #{userId} and t1.type = '1')
+		                </if>
+		                 ) a
+		                 <if test="orderCode == 1">
+		                   order by a.postnum desc
+		                	</if>
+		                 )
+		<![CDATA[                 
+		 where rn >= #{startRow}
+		   and rn <= #{endRow}
+		]]>	
+	</select>
+	
+	<insert id="insertPersonInfo" parameterType="com.zfsoft.mobile.interest.entity.PersonInfo">
+		INSERT INTO 
+				M_INTEREST_PERSONINFO(
+					id,	
+					userid,
+					type,
+					interestId,
+					createtime,
+					createuserid,
+					reportid
+				)
+			VALUES(
+				#{id,jdbcType=VARCHAR}, 
+				#{userId,jdbcType=VARCHAR},          
+				#{type,jdbcType=VARCHAR},
+				#{interestId,jdbcType=VARCHAR},
+				#{createTime,jdbcType=VARCHAR},
+				#{createUserId,jdbcType=VARCHAR},
+				#{reportId,jdbcType=VARCHAR}
+			)
+		  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		  </selectKey>	
+	</insert>
+	
+	
+	<delete id="exitInterest" parameterType="com.zfsoft.mobile.interest.entity.PersonInfo">
+		delete from M_INTEREST_PERSONINFO where userid = #{userId,jdbcType=VARCHAR} and interestId = #{interestId,jdbcType=VARCHAR}
+	</delete>
+	
+	<insert id="insertInterest" parameterType="com.zfsoft.mobile.interest.entity.InterestEntity">
+		INSERT INTO 
+				M_INTEREST(
+					id,	
+					name,
+					img,
+					createuserid,
+					
+					status,
+					content,
+					type,
+					idcard,
+					title,
+					createtime,
+					blacknum,
+					adminisid,
+					postname
+				)
+			VALUES(
+				#{id,jdbcType=VARCHAR}, 
+				#{name,jdbcType=VARCHAR},          
+				#{img,jdbcType=VARCHAR},
+				#{createUserId,jdbcType=VARCHAR},
+			
+				#{status,jdbcType=VARCHAR},
+				#{content,jdbcType=VARCHAR},          
+				#{type,jdbcType=VARCHAR},
+				#{idCard,jdbcType=VARCHAR},
+				#{title,jdbcType=VARCHAR},
+				#{createTime,jdbcType=VARCHAR},          
+				#{blackNum,jdbcType=INTEGER},
+				#{adminisId,jdbcType=VARCHAR},
+				#{postName,jdbcType=VARCHAR}
+			)
+		  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		  </selectKey>	
+	</insert>
+	
+	<select id="selectInterestListCount" parameterType="com.zfsoft.mobile.interest.entity.InterestQuery"  resultType="java.lang.Integer">
+		select count(1)
+		                 from M_INTEREST t
+		                 where 1=1
+		                <if test="status != null and status != ''">
+		                   and t.status = #{status}
+		                </if>
+		                <if test="type != null and type != ''">
+		                   and t.type = #{type}
+		                </if>
+		                <if test="name != null and name != ''">
+		                   and t.name like '%'||#{name}||'%'
+		                </if>
+		                <if test="orderCode == '2'">
+		                   and t.id in (select t1.interestid from M_INTEREST_PERSONINFO t1 where t1.userid = #{userId} where t2.userid = #{userId} and t2.type = '1')
+		                </if>
+	</select>
+	
+	<insert id="insertPost" parameterType="com.zfsoft.mobile.interest.entity.InterestPost">
+		INSERT INTO 
+				M_INTEREST_POST(
+					id,	
+					interestid,
+					content,
+					img,
+					address,
+					givenum,
+					collnum,
+					istop,
+					REPORTID,
+					createuserid,
+					createtime
+				)
+			VALUES(
+				#{id,jdbcType=VARCHAR}, 
+				#{interestId,jdbcType=VARCHAR},          
+				#{content,jdbcType=VARCHAR},
+				#{img,jdbcType=VARCHAR},
+				#{address,jdbcType=INTEGER},
+				#{giveNum,jdbcType=INTEGER},
+				#{collNum,jdbcType=INTEGER},          
+				#{isTop,jdbcType=INTEGER},
+				#{reportId,jdbcType=VARCHAR},
+				#{createUserId,jdbcType=VARCHAR},
+				#{createTime,jdbcType=VARCHAR}
+			)
+		  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		  </selectKey>	
+	</insert>
+	
+	<select id="getInterestPostList" parameterType="com.zfsoft.mobile.interest.entity.InterestPostQuery"  resultType="com.zfsoft.mobile.interest.entity.InterestPost">
+		select *
+		  from (select a.*, rownum rn
+		          from (select t.*,(select count(1) from m_interest_personinfo t2 where t2.userid = #{userId} and t2.type = '3' and t2.interestid=t.id )as isGive,
+                   (select count(1) from m_interest_comment t3 where t3.interpostid = t.id) as commentNum
+		                 from M_INTEREST_POST t
+		                 where t.interestid = #{interestId}
+		                 ) a
+		                   order by a.istop desc,a.createtime desc
+		                 )
+		<![CDATA[                 
+		 where rn >= #{startRow}
+		   and rn <= #{endRow}
+		]]>	
+	</select>
+	
+	<select id="getInterestPostCount" parameterType="com.zfsoft.mobile.interest.entity.InterestPostQuery"  resultType="java.lang.Integer">
+		select count(1) from M_INTEREST_POST t where t.interestid = #{interestId}
+	</select>
+	
+	<select id="getInterestById" resultType="com.zfsoft.mobile.interest.entity.InterestEntity">
+		select t.* from M_INTEREST t where t.id = #{interestId}
+	</select>
+	
+	<select id="updatePersoninfo">
+		update M_INTEREST_PERSONINFO t set t.type = #{type},t.createuserid = #{createUserId} where t.interestid = #{interestId} and t.userid = #{userId}
+	</select>
+	
+	<select id="getInterestPostById" resultType="com.zfsoft.mobile.interest.entity.InterestPost">
+		select t.* from M_INTEREST_POST t where t.id = #{interestId}
+	</select>
+	
+	<select id="updateInterestPost" parameterType="com.zfsoft.mobile.interest.entity.InterestPost">
+		update M_INTEREST_POST t set t.giveNum = #{giveNum} where  id = #{id}
+	</select>
+	
+	<select id="setPostNotTop">
+		update M_INTEREST_POST t set t.istop = 0 where t.interestid = #{interestId}
+	</select>
+
+	<select id="setPostTop">
+		update M_INTEREST_POST t set t.istop = 1 where t.id = #{postId}
+	</select>
+	
+	<select id="delPost">
+		delete from M_INTEREST_POST t
+		<if test="userId == null or userId == ''">
+			where t.id = #{postId}
+		</if>
+		<if test="userId != null and userId != ''">
+			where t.createUserId = #{userId}
+		</if>
+	</select>
+	
+	<update id="updateInterestById"  parameterType="com.zfsoft.mobile.interest.entity.InterestEntity">
+		update M_INTEREST
+		 <set>
+		 	<if test="name != '' and name != null">
+		 		name=#{name},
+		 	</if>
+		 	<if test='img != "" and img != null'>
+		 		img=#{img},
+		 	</if>
+		 	<if test='createUserId != "" and createUserId != null'>
+		 		createUserId=#{createUserId},
+		 	</if>
+		 	<if test='status != "" and status != null'>
+		 		status=#{status},
+		 	</if>
+		 	<if test='content != "" and content != null'>
+		 		content=#{content},
+		 	</if>
+		 	<if test='type != "" and type != null'>
+		 		type=#{type},
+		 	</if>
+		 	<if test='idCard != "" and idCard != null'>
+		 		idCard=#{idCard},
+		 	</if>
+		 	<if test='title != "" and title != null'>
+		 		title=#{title},
+		 	</if>
+		 	<if test='createTime != "" and createTime != null'>
+		 		createTime=#{createTime},
+		 	</if>
+		 	<if test='blackNum != "" and blackNum != null'>
+		 		blackNum=#{blackNum},
+		 	</if>
+		 	<if test="adminisId != null and adminisId != ''">
+		 		adminisid=#{adminisId},
+		 	</if>
+		 </set>
+		   where id = #{id}
+	</update>
+	
+	<select id="getPersonInfoList" parameterType="com.zfsoft.mobile.interest.entity.PersonInfoQuery"  resultType="com.zfsoft.mobile.interest.entity.PersonInfo">
+		select *
+		  from (select a.*, rownum rn
+		          from (select t.*,b.xm as name
+		                 from M_INTEREST_PERSONINFO t
+		                 left join zftal_xtgl_yhb b on t.userid = b.zgh 
+		                 where t.interestid = #{interestId} and t.type = #{type}
+		                 <if test="name != null and name != '' ">
+							and t.userid in (select b.zgh from zftal_xtgl_yhb b where b.xm like '%'||#{name}||'%')
+						</if>
+		                 
+		                 order by t.createtime desc
+		                 
+		                 ) a)
+		<![CDATA[                 
+		 where rn >= #{startRow}
+		   and rn <= #{endRow}
+		]]>	
+	</select>
+	
+	<select id="selectpersonListCount" parameterType="com.zfsoft.mobile.interest.entity.PersonInfoQuery"  resultType="java.lang.Integer">
+		select count(1) from M_INTEREST_PERSONINFO t where t.interestid = #{interestId} and t.type = #{type}
+		<if test="name != null and name != '' ">
+			and t.userid in (select a.zgh from zftal_xtgl_yhb a where a.xm like '%'||#{name}||'%')
+		</if>
+	</select>
+	
+	<insert id="addComment" parameterType="com.zfsoft.mobile.interest.entity.InterestComment">
+		INSERT INTO 
+				M_INTEREST_COMMENT(
+					id,	
+					interpostid,
+					userid,
+					commentid,
+					commentuserid,
+					createtime,
+					content
+				)
+			VALUES(
+				#{id,jdbcType=VARCHAR}, 
+				#{interPostId,jdbcType=VARCHAR},          
+				#{userId,jdbcType=VARCHAR},
+				#{commentId,jdbcType=VARCHAR},
+				#{commentUserId,jdbcType=VARCHAR},
+				#{createTime,jdbcType=VARCHAR},
+				#{content,jdbcType=VARCHAR}
+			)
+		  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		  </selectKey>	
+	</insert>
+	
+	<select id="getCommentList" resultType="com.zfsoft.mobile.interest.entity.InterestComment">
+		select * from M_INTEREST_COMMENT t where t.interpostid = #{postId}
+		<if test='commentId != "" and commentId != null'>
+		 	and t.commentid =#{commentId}
+		</if>
+		<if test='commentId == "" or commentId == null'>
+		 	 and t.commentid is null
+		</if>
+		order by t.createtime desc
+	</select>
+	
+	<select id="selectInterestComment" parameterType="com.zfsoft.mobile.interest.entity.InterestCommentQuery" resultType="com.zfsoft.mobile.interest.entity.InterestComment">
+	SELECT *
+  	FROM (SELECT b.*,rownum rn
+          FROM (
+		select t.*,t2.xm as userName 
+               from M_INTEREST_COMMENT t
+               left join zftal_xtgl_yhb t2 on t.userid = t2.zgh
+                where t.interpostid = #{interPostId}
+               ) b)
+               <![CDATA[
+ 				WHERE RN >=#{startRow}  AND RN <=#{endRow} 
+			   ]]>	
+	</select>
+	
+	<select id="selectInterestCommentCount" parameterType="com.zfsoft.mobile.market.entity.MarketCommentQuery"  resultType="java.lang.Integer">
+		select count(1) from M_INTEREST_COMMENT t where t.interpostid = #{interPostId}
+	</select>
+	
+	<select id="delInterestById">
+		delete from M_INTEREST t where t.id = #{interestId}
+	</select>
+	
+	<select id="delInterestPostById">
+		delete from M_INTEREST_POST t where t.id = #{interestId}
+	</select>
+	
+	<select id="delInterestCommentById">
+		delete from M_INTEREST_COMMENT t where t.id = #{interestId}
+	</select>
+	
+	
+	<select id="selectHtInterestList" parameterType="com.zfsoft.mobile.interest.entity.InterestQuery"  resultType="com.zfsoft.mobile.interest.entity.InterestEntity">
+		select *
+		  from (select a.*, rownum rn
+		          from (select t.*
+		                 from M_INTEREST t
+		                 where 1=1
+		                <if test="status != null and status != ''">
+		                   and t.status = #{status}
+		                </if>
+		                <if test="type != null and type != ''">
+		                   and t.type = #{type}
+		                </if>
+		                <if test="name != null and name != ''">
+		                   and t.name like '%'||#{name}||'%'
+		                </if>
+		                 ) a
+		                 )
+		<![CDATA[                 
+		 where rn >= #{startRow}
+		   and rn <= #{endRow}
+		]]>	
+	</select>
+	
+	
+	<select id="selectInterestInfo" parameterType="com.zfsoft.mobile.interest.entity.InterestQuery"  resultType="com.zfsoft.mobile.interest.entity.InterestEntity">
+		select t.id,t.name,t.img,t.createuserid,t.status,t.content,t.type,t.idcard,t.title,t.createtime,t.adminisid,t.postname,
+       			(select count(1) from M_INTEREST_PERSONINFO q where q.type = '2' and q.interestid = t.id   ) BLACKNUM,
+				(select count(1) from m_interest_personinfo t2 where t2.userid = #{userId} and t2.type = '1' and t2.interestid = t.id)as isJoin,
+         		(select count(1) from M_INTEREST_PERSONINFO i where i.interestid = t.id and i.type = '1')as follow,
+         		(select count(1) from M_INTEREST_POST p where p.interestid = t.id)as postNum
+        from M_INTEREST t  where  t.id = #{id} and rownum=1
+	</select>
+	
+
+</mapper>

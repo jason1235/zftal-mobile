@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IRzglDao">
+
+	<select id="getPagedList" 
+		parameterType="RzglModel"
+		resultType="RzglModel">
+		  select rz.czbh,rz.czr,rz.czrq,rz.czmk,rz.ywmc,
+			   case when rz.czlx='insert' then '新增'
+			   		when rz.czlx='update' then '更改'
+			   		when rz.czlx='delete' then '删除' end czlx,
+			   rz.czms,rz.ipdz,rz.zjm
+	      from zftal_xtgl_czrzb rz
+          <where>
+          	1=1
+          	<if test="czlx != null and czlx !=''">
+				and rz.czlx=#{czlx}
+			</if>
+			<if test="czkssj != null and czkssj !='' and (czjssj =='' or czjssj ==null)">
+				and to_date(rz.czrq,'yyyy-mm-dd hh24:mi:ss') &gt;= to_date(#{czkssj},'yyyy-mm-dd hh24:mi:ss')
+			</if>
+			<if test="czjssj != null and czjssj !='' and (czkssj =='' or czkssj ==null)">
+				and to_date(rz.czrq,'yyyy-mm-dd hh24:mi:ss') &lt;= to_date(#{czjssj},'yyyy-mm-dd hh24:mi:ss')
+			</if>
+			<if test="czjssj != null and czjssj !='' and czkssj !='' and czkssj !=null">
+				and (to_date(rz.czrq,'yyyy-mm-dd hh24:mi:ss') between to_date(#{czkssj},'yyyy-mm-dd hh24:mi:ss') 
+				and  to_date(#{czjssj},'yyyy-mm-dd hh24:mi:ss'))
+			</if>
+			<if test="czmk != null and czmk !=''">
+				and rz.czmk like '%'||#{czmk}||'%'
+			</if>
+			<if test="czr != null and czr !=''">
+				and rz.czr like '%'||#{czr}||'%'
+			</if>
+		</where>
+	</select>
+
+
+	<select id="getModel" parameterType="string"
+		resultType="RzglModel" useCache="false"
+		resultSetType="FORWARD_ONLY" flushCache="false" statementType="PREPARED"
+		timeout="20000">
+		select t1.czbh,t1.czr,t1.czrq,t1.czmk,t1.ywmc,t1.czms,
+			   case when t1.czlx='insert' then '新增'
+			   		when t1.czlx='update' then '更改'
+			   		when t1.czlx='delete' then '删除' end czlx,
+			   t1.ipdz,t1.zjm
+		from zftal_xtgl_czrzb t1 where t1.czbh=#{CZBH}
+    </select>
+
+</mapper>

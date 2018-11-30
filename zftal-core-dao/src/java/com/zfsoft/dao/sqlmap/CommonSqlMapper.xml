@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.ICommonSqlDao" >
+
+	<!-- 查询所有学院-->
+	<select id="queryAllXy" resultType="BmdmModel">
+		select 
+			   bmdm_id,
+		       bmmc,
+		       bmdm_id_ls,
+		       ywmc,
+		       bmjc cydm_id_bmlb,
+		       sfyx,
+		       sfst,
+		       bmfzr,
+		       kkxy
+		from 
+			zftal_xtgl_bmdmb
+	    where 
+	   		sfyx = '1'
+	</select>
+	
+	<!-- 查询所有专业-->
+	<select id="queryAllZy" resultType="ZydmModel">
+		select 
+			   zydm_id,        
+		       zydm,           
+		       zymc,           
+		       zyjc,           
+		       zyywmc,         
+		       bmdm_id_lsbm,   
+		       cydm_id_xkml,   
+		       xz,             
+		       cydm_id_cc,     
+		       cydm_id_gbzydm, 
+		       bmdm_id_tgxy,   
+		       sfty,           
+		       bz            
+		  from 
+		  	 zftal_xtgl_zydmb
+		  where
+		 	 sfty = '0'      
+	</select>
+    
+	<!-- 查询所有年级-->
+	<select id="queryAllNj" resultType="NjdmModel">
+		select 
+		  	  njdm_id,
+		  	  njxh,
+		      njmc 
+		from 
+		      zftal_xtgl_njdmb   
+		order by njxh asc  
+	</select>
+	
+	<!-- 查询所有班级-->
+	<select id="queryAllBj" resultType="BjdmModel">
+		select 
+			   bjdm_id,
+		       bjdm,
+		       bjmc,
+		       zydm_id,
+		       bmdm_id,
+		       njdm_id,
+		       xqdm_id,
+		       jbny,
+		       bzrgh_id,
+		       bzxh_id,
+		       fdyh_id,
+		       zxrs,
+		       bz
+		from 
+			zftal_xtgl_bjdmb
+	</select>
+	
+	<!-- 按所属部门查询专业代码列表-->
+	<select id="queryZydm" resultType="ZydmModel">
+	    select 
+	    	zydm_id, zydm, zymc
+	    from 
+	      	zftal_xtgl_zydmb zy
+	    where 
+	    	zy.sfty = '0'
+	    <if test="bmdm_id_lsbm != null and bmdm_id_lsbm != ''">
+      			and zy.bmdm_id_lsbm= #{bmdm_id_lsbm}
+	    </if> 		 	 
+	</select>
+	
+	<!-- 按所属部门、专业查询班级代码列表-->
+	<select id="queryBjdm" resultType="BjdmModel" parameterType="BjdmModel">
+ 		select 
+ 			bjdm_id,bjmc 
+ 		from 
+ 			zftal_xtgl_bjdmb 
+ 		<where>
+ 			<if test="bmdm_id!=null">
+ 			   and bmdm_id = #{bmdm_id}
+ 			</if>
+ 			<if test="zydm_id!=null">
+ 			   and zydm_id = #{zydm_id}
+ 			</if>
+ 		</where>
+ 		order by bjdm_id
+	</select>
+	
+	
+</mapper>

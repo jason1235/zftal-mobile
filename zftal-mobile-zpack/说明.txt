@@ -1,0 +1,1 @@
+项目部署好之后在tomcat部署的项目中的lib文件夹中的jar包全部删除，用svn上zftal-mobile-zpack下的lib.zip中的jar包

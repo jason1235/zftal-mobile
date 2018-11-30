@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="interest" namespace="/interest" extends="configuration" >
+		<action name="interest_*" class="interestAction" method="{1}" >
+			<result name="interestList">/WEB-INF/pages/mobile/interest/interestList.jsp</result>
+			<result name="postList">/WEB-INF/pages/mobile/interest/postList.jsp</result>
+			<result name="commentList">/WEB-INF/pages/mobile/interest/commentList.jsp</result>
+			<result name="interestDetail">/WEB-INF/pages/mobile/interest/interestDetail.jsp</result>
+		</action>
+		
+	</package>
+	
+</struts>

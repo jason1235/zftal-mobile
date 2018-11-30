@@ -1,0 +1,142 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://"
+			+ request.getServerName() + ":" + request.getServerPort()
+			+ path + "/";
+%>
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+	<%@ include file="/commons/hrm/head_v5.ini" %>
+  <title>图片裁剪</title>
+  <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+
+<script src="../js/jquery.min.js"></script>
+<script src="../js/jquery.Jcrop.js"></script>
+<script type="text/javascript">
+
+  jQuery(function($){
+
+    var jcrop_api;
+
+    $('#target').Jcrop({
+      onChange:   showCoords,
+      onSelect:   showCoords,
+      onRelease:  clearCoords
+    },function(){
+      jcrop_api = this;
+    });
+
+    $('#coords').on('change','input',function(e){
+      var x1 = $('#x1').val(),
+          x2 = $('#x2').val(),
+          y1 = $('#y1').val(),
+          y2 = $('#y2').val();
+      jcrop_api.setSelect([x1,y1,x2,y2]);
+    });
+    
+    jQuery('#cancel').click(function() {
+    	window.parent.$('#myModal_toji').modal('hide');
+    });
+    jQuery('#cropButton').click(function() {
+		var x = jQuery("#x").val();
+		var y = jQuery("#y").val();
+		var w = jQuery("#w").val();
+		var h = jQuery("#h").val();
+		var oldImgPath = jQuery("#oldImgPath").val();
+		var imgRoot = jQuery("#imgRoot").val();
+		var imgFileExt = jQuery("#imgFileExt").val();
+		var width = jQuery("#width").val();
+		var height = jQuery("#height").val();
+		var imageName = jQuery("#imageName").val();
+		var guid = jQuery("#guid").val();
+		if (w == 0 || h == 0) {
+			alert("您还没有选择图片的剪切区域,不能进行剪切图片!");
+			return;
+		}
+		$.post("<%=request.getContextPath() %>/file/file_imgCut.html",
+				"x="+x+"&y="+y+"&w="+w+"&h="+h+"&oldImgPath="+oldImgPath+"&imgRoot="+imgRoot+"&imgFileExt="+imgFileExt+
+				"&width="+width+"&height="+height+"&imageName="+imageName+"&guid="+guid,
+				function(data){
+					//window.parent.$('#myModal_toji').modal('hide');
+					window.parent.cutsuccess();
+        },"json");
+		//document.form1.submit();
+	});
+
+  });
+
+  // Simple event handler, called from onChange and onSelect
+  // event handlers, as per the Jcrop invocation above
+  function showCoords(c)
+  {
+    $('#x').val(c.x);
+    $('#y').val(c.y);
+    $('#x2').val(c.x2);
+    $('#y2').val(c.y2);
+    $('#w').val(c.w);
+    $('#h').val(c.h);
+  };
+
+  function clearCoords()
+  {
+    $('#coords input').val('');
+  };
+
+
+
+</script>
+<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/demos.css">
+		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/jquery.Jcrop.css">
+		<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/js/jquery.min.js"></script>
+		<script type="text/javascript" language="javascript" src="<%=request.getContextPath()%>/js/jquery.Jcrop.js"></script>
+
+</head>
+<body style="background: #FFFFFF;">
+
+<div class="container">
+<div class="jc-demo-box" >
+
+<div class="page-header" style="margin-top: 10px;">
+<button type="button" class="btn btn-primary" id="cropButton">裁  剪</button>&nbsp;&nbsp;
+<button type="button" class="btn btn-primary" id="cancel">关  闭</button>
+</div>
+
+  <!-- This is the image we're attaching Jcrop to -->
+  <img src="<%=path%>${param.oldImgPath}" id="target" alt="" />
+
+  <!-- This is the form that our event handler fills -->
+  <form id="coords"
+    class="coords"
+    onsubmit="return false;"
+    >
+
+    <div class="inline-labels">
+    <input type="hidden" size="4" id="x" name="x" /></label>
+    <input type="hidden" size="4" id="y" name="y" /></label>
+    <input type="hidden" size="4" id="x2" name="x2" /></label>
+    <input type="hidden" size="4" id="y2" name="y2" /></label>
+    <input type="hidden" size="4" id="w" name="w" /></label>
+    <input type="hidden" size="4" id="h" name="h" /></label>
+    <input type="hidden" id="width" name="width" value="${param.width}" />
+	<input type="hidden" id="height" name="height" value="${param.height}" />
+	<input type="hidden" id="oldImgPath" name="oldImgPath" value="${param.oldImgPath}" />
+	<input type="hidden" id="imgRoot" name="imgRoot" value="${param.imgRoot}" />
+	<input type="hidden" id="imgFileExt" name="imgFileExt" value="${param.imgFileExt}" />
+	<input type="hidden" id="imageName" name="imageName" value="${param.imageName}" />
+	<input type="hidden" id="guid" name="guid" value="${param.guid}" />
+    </div>
+  </form>
+
+
+  </div>
+
+
+
+</div>
+</div>
+
+</html>

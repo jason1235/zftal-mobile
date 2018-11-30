@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="bnsinfo" namespace="/bnsinfo" extends="configuration">
+
+        <!--基础设置信息-->
+        <action name="infochange_*" class="businessInfoChangeAction" method="{1}">
+            <result name="page">/WEB-INF/pages/hrm/bnsinfo/declare/bnsInfoChange_page.jsp</result>
+            <result name="declarelist">/WEB-INF/pages/hrm/bnsinfo/declare/bnsInfoChange_declarelist.jsp</result>
+            <result name="infolist">/WEB-INF/pages/hrm/bnsinfo/declare/bnsInfoChange_infolist.jsp</result>
+            <result name="detail">/WEB-INF/pages/hrm/bnsinfo/declare/bnsInfoChange_detail.jsp</result>
+            <result name="view">/WEB-INF/pages/hrm/bnsinfo/declare/bnsInfoChange_view.jsp</result>
+        </action> 
+        
+        <action name="infoaudit_*" class="businessInfoAuditAction" method="{1}">
+            <result name="page">/WEB-INF/pages/hrm/bnsinfo/audit/bnsInfoAudit_page.jsp</result>
+            <result name="detail">/WEB-INF/pages/hrm/bnsinfo/audit/bnsInfoAudit_detail.jsp</result>
+            <result name="view">/WEB-INF/pages/hrm/bnsinfo/audit/bnsInfoAudit_view.jsp</result>
+        </action>
+    </package>
+
+</struts>

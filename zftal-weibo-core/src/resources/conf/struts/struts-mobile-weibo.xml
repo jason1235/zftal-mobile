@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="weibo" namespace="/weibo" extends="configuration" >
+		
+		<action name="weibo_*" class="weiboAction" method="{1}">
+			<result name="list">/WEB-INF/pages/mobile/weibo/weibo_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/weibo/weibo_edit.jsp</result>
+			<result name="access">/WEB-INF/pages/mobile/weibo/weibo_access.jsp</result>
+		</action>
+		
+	</package>
+	
+</struts>

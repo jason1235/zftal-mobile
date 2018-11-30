@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.zfsoft.mobile.helpguide.dao.IHelpGuideDao">
+
+	<resultMap id="guideMap" type="com.zfsoft.mobile.helpguide.entity.HelpGuideEntity">
+		<result property="id" 		 column="id" />
+		<result property="title"   column="title" />
+		<result property="content"   column="content" />
+		<result property="isPlayed"   column="isplayed" />
+		<result property="isHot"   column="ishot" />
+		<result property="createTime"   column="createtime" />
+		<result property="orderNumber"   column="ordernumber" />
+	</resultMap>
+	
+	<resultMap  id="countMap" type="com.zfsoft.mobile.news.entity.Counts">
+		<result property="topCount"   column="zds" />
+		<result property="rmdCount"   column="tjs" />
+		<result property="headCount"   column="tts" />
+	</resultMap>
+	
+	<sql id="where">
+		<where>
+			<if test='id != null and id != ""'> and t1.id = #{id}</if>
+			<if test='title != null and title != ""'> and t1.title like '%'||#{title}||'%'</if>
+			<if test='isPlayed != null and isPlayed != ""'> and t1.isplayed = #{isPlayed} </if>
+			<if test='isHot != null and isHot != ""'> and t1.ishot = #{isHot} </if>
+		</where>
+	</sql>
+
+
+   <select id="getPageCount" resultType="int">
+		select count(*) from ZFTAL_XTGL_HELPGUIDE t1 
+	</select>
+	
+	<select id="getPageList" resultMap="guideMap">
+	select * from(
+	select t.*,rownum as rn from(
+	select t1.id,t1.title,t1.content,t1.isplayed,t1.ishot,t1.createtime,t1.ordernumber from ZFTAL_XTGL_HELPGUIDE t1
+	<include refid="where" /> order by t1.isplayed desc,t1.isHot desc,t1.createtime desc
+	) t)               
+	  <![CDATA[
+	 where rn>=#{startRow}  and rn<=#{endRow}	
+	 ]]>
+   </select>
+   
+   <select id="getAllList" resultMap="guideMap">
+	  select t1.* from ZFTAL_XTGL_HELPGUIDE t1 
+	  <where>
+	     <if test='title != null and title != ""'> t1.title like '%'||#{title}||'%'</if>
+	  </where>
+	 order by t1.ordernumber 
+   </select>
+   
+   <select id="findById" resultMap="guideMap">
+		select t1.* from ZFTAL_XTGL_HELPGUIDE t1
+		<where>
+			id = #{id}
+		</where>
+	</select>
+	
+	<select id="getMaxPxm" resultType="int">
+			select nvl(max(ordernumber),0) as ordernumber  from (
+				select * from ZFTAL_XTGL_HELPGUIDE m
+			) 
+	</select>
+	
+	<!-- 根据类别获取推荐数 -->
+	<select id="getRmdCount" resultMap="countMap">
+		select sum(ishot) as tjs from ZFTAL_XTGL_HELPGUIDE t1
+	</select>
+   
+   <insert id="insert">
+			INSERT INTO 
+				ZFTAL_XTGL_HELPGUIDE(
+					id,	
+					title,
+					content,
+					isplayed,
+					<if test='isHot != "" and isHot != null'>
+					ishot,
+					</if>
+					<if test='orderNumber != "" and orderNumber != null'>
+					ordernumber,
+					</if>
+					createtime
+				)
+			VALUES(
+				#{id},  
+				#{title},  
+				#{content,jdbcType=VARCHAR},           
+				#{isPlayed},
+				<if test='isHot != "" and isHot != null'>
+				#{isHot},
+				</if>
+				<if test='orderNumber != "" and orderNumber != null'>
+					#{orderNumber},
+				</if>
+				sysdate
+			)
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		update ZFTAL_XTGL_HELPGUIDE
+		 <set>
+		 title=#{title},
+		 content=#{content,jdbcType=VARCHAR}, 
+		  createtime=sysdate,
+		  isplayed=#{isPlayed}
+		 <!-- ,isHot= #{isHot},
+		  orderNumber=#{orderNumber}
+		 --></set>
+		 where id = #{id}
+	</update>
+	
+	<update id="guideControl">
+		update ZFTAL_XTGL_HELPGUIDE 
+		<set>
+		<if test='isPlayed == "1"'>
+			isplayed = '1'
+		</if>
+		<if test='isPlayed == "0"'>
+			isplayed = '0',
+			ishot = '0'
+		</if>
+		<if test='isHot == "1"'>
+			ishot = '1'
+		</if>
+		<if test='isHot == "0"'>
+			ishot = '0'
+		</if>
+		</set> 
+		 where id = #{id} 
+		
+	</update>
+	
+	<update id="updateIndex">
+		update ZFTAL_XTGL_HELPGUIDE 
+		set ordernumber = #{index}
+		 where id = #{id} 
+	</update>
+	
+	<delete id="delete">
+		delete from  ZFTAL_XTGL_HELPGUIDE 
+		<where>
+		 id in #{id}
+		</where>
+	</delete>
+	
+</mapper>

@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.zfsoft.mobile.canteenfood.dao.ICanteenDao">
+
+	<resultMap type="com.zfsoft.mobile.canteenfood.entity.Canteen" id="cateenMap">
+	   <result property="canteenId" 	column="CANTEENID" />
+	   <result property="canteenName" 	column="CANTEENNAME"/>
+	   <result property="description" 	column="DESCRIPTION"/>
+	   <result property="picId"         column="PICID"/>
+	   <result property="picPath" 	    column="PICPATH"/>
+	   <result property="distance"		column="DISTANCE"/>
+
+	   
+	   <result property="isactive" 		column="ISACTIVE"/>
+	   <result property="createtime" 	column="CREATETIME"/>
+	   <result property="telephone"		column="TELEPHONE"/>
+	</resultMap>
+	
+	<sql id="where">
+	   <where>
+	      <if test="canteenId!=null and canteenId!=''">
+		    	and m.canteenid = #{canteenId}
+		   </if>
+		   <if test="canteenName!=null and canteenName!=''">
+		    	and m.canteenname like '%'||#{canteenName}||'%'
+		   </if>
+		   <if test="isactive!=null and isactive!=''">
+		   		and m.isactive = #{isactive}
+		   </if> 
+	   </where>
+	</sql>
+	
+	<select id="getPageCount" resultType="int">
+		select count(*) from 
+		(select m.* from M_CANTEEN m
+			<include refid="where" /> )
+		a
+	</select>
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getPageList" resultMap="cateenMap">
+	 select * from (
+	  select a.*,rownum rn from (
+	       select m.* from M_CANTEEN m 
+	      left join (
+	         select  t.canteenid
+	         from M_CANTEEN t
+	       ) d
+	       on m.canteenid=d.canteenid 
+	       <where>
+	         ( m.distance=0 or (m.distance >0 and d.jl &lt;=m.distance))
+	          <if test="canteenId!=null and canteenId!=''">
+		    		and m.canteenid = #{canteenId}
+			   </if>
+			   <if test="canteenName!=null and canteenName!=''">
+			    	and m.canteenname like '%'||#{canteenName}||'%'
+			   </if>
+			   <if test="isactive!=null and isactive!=''">
+			   		and m.isactive = #{isactive}
+			   </if> 
+	       </where>
+	       order by d.jl asc,m.createtime desc
+	    ) a)
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+	</select>
+	
+	<select id="getPageList2" resultMap="cateenMap">
+		select * from (
+			select a.*,rownum rn from (
+				select * from M_CANTEEN m 
+				<include refid="where" /> 
+				order by m.createtime desc 
+			) a)
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+	</select>
+	
+	<select id="getCanteennameList" resultMap="cateenMap">
+	  select m.canteenid,m.canteenName from M_CANTEEN  m
+		<include refid="where" /> 
+		order by m.isactive desc,m.createtime desc
+	</select>
+	
+	<select id="findById" resultMap="cateenMap">
+		select t1.* from M_CANTEEN t1
+		<where>
+			t1.canteenid = #{canteenId} 
+		</where>
+	</select>
+	
+    <!--<select id="getDistance" statementType="CALLABLE" parameterType="java.util.Map" resultType="DOUBLE">  
+          <![CDATA[ 
+        {call getdistance(#{LATITUDE1,mode=IN,jdbcType=DOUBLE},#{LONGITUDE1,mode=IN,jdbcType=DOUBLE},
+       		#{LATITUDE2,mode=IN,jdbcType=DOUBLE},#{LONGITUDE2,mode=IN,jdbcType=DOUBLE})}
+       ]]>
+    	select getdistance(#{LATITUDE1},#{LONGITUDE1},#{LATITUDE2},#{LONGITUDE2}) as e from dual
+     </select>-->
+    
+    
+	<insert id="insertCanteen">
+		<![CDATA[
+			 insert into M_CANTEEN(
+				canteenid,
+				canteenname,
+				description,
+				picid,
+				picpath,
+				isactive,
+				telephone,
+				createtime
+			 )
+			 VALUES(
+				#{canteenId},
+				#{canteenName,jdbcType=VARCHAR},
+				#{description,jdbcType=VARCHAR},
+				#{picId,jdbcType=VARCHAR},
+				#{picPath,jdbcType=VARCHAR},
+				
+				#{isactive,jdbcType=VARCHAR},
+				#{telephone,jdbcType=VARCHAR},
+				
+				sysdate
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="canteenId">
+		    <![CDATA[
+				select SYS_GUID() canteenId from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="updateCanteen">
+		update M_CANTEEN
+		<set>
+			canteenname=#{canteenName},
+			description=#{description,jdbcType=VARCHAR},
+			picid=#{picId,jdbcType=VARCHAR},
+			picpath=#{picPath,jdbcType=VARCHAR},
+			
+			isactive=#{isactive},
+			telephone=#{telephone,jdbcType=VARCHAR},
+			
+		</set>
+		where canteenid=#{canteenId}
+	</update>
+	
+	<delete id="deleteCanteen">
+		delete from M_CANTEEN <where> canteenid=#{canteenId}</where>
+	</delete>
+	
+	<delete id="deleteCanteenById">
+		delete from M_CANTEEN <where> canteenid=#{canteeId}</where>
+	</delete>
+	
+	<update id="control">
+		update M_CANTEEN
+		<set>
+			<if test='isactive == "1"'>
+				isactive = '1'
+			</if>
+			<if test='isactive == "0"'>
+				isactive = '0'
+			</if>
+		</set>
+		where canteenid=#{canteenId}
+	</update>
+
+</mapper>

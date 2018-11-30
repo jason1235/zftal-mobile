@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.hrm.expertvote.vote.dao.IDeclareInstanceDao">
+
+    <resultMap id="declareInstance" type="com.zfsoft.hrm.expertvote.vote.entity.DeclareInstance">
+        <result property="id"           column="id" />
+        <result property="gh"           column="user_id" />
+        <result property="businessClassId"   column="BSNSCLASS_ID" />
+        <result property="name"           column="xm" />
+        <result property="department"           column="dwm" />
+        <result property="configId"         column="bill_config_id" />
+        <result property="instanceId"           column="bill_instance_id" />
+        <result property="auditConfigId"        column="audit_config_id" />
+        <result property="auditInstanceId"          column="audit_instance_id" />
+        <result property="auditTime"          column="audit_date" />
+        <result property="declareTime"          column="commit_date" />
+    </resultMap>
+   
+    <select id="findById" resultMap="declareInstance" >
+        select 
+            *
+        from hrm_businessinfo_change 
+        where id = #{id}
+    </select>
+    
+   
+   <!-- 获取信息 -->
+    <select id="getInstanceList" resultMap="declareInstance" >
+        select p.user_id,p.bsnsclass_id,o.xm,o.dwm,t.*
+        from hrm_expert_voteinstance t
+        left join hrm_businessinfo_change p on t.w_id=p.id
+        left join overall o on o.gh=p.user_id
+        <include refid="where"/>
+        <if test="orderStr != null and orderStr != ''">
+            order by ${orderStr}
+        </if> 
+    </select>
+    <!-- 获取分页信息 -->
+    <select id="getInstancePageList" resultMap="declareInstance" >
+    select * from (select a.*, rownum rn from(
+        select p.*,o.xm,o.dwm,
+            (select count(1) from hrm_expert_voteinstance instance where instance.w_id =p.id and instance.task_id =#{taskId} ) as expertNum,
+            (select count(1) from hrm_expert_voteinstance instance where instance.w_id =p.id and instance.task_id =#{taskId} and result = '1') as allowNum
+            from hrm_businessinfo_change p join overall o on o.gh = p.user_id 
+            join (SELECT wt.*,wn.status
+                     FROM SP_WORK_TASK wt, SP_WORK_NODE wn
+                    WHERE wt.NODE_ID = wn.NODE_ID
+                      AND wt.W_ID = wn.W_ID
+                      AND wt.TASK_ID = #{taskId}
+                      <if test="taskStatus != null and taskStatus == 'BEFORE'">
+                        AND wn.status = 'WAIT_AUDITING'
+                        AND wt.e_status = 'WAIT_EXECUTE'
+                      </if>
+                      <if test="taskStatus != null and taskStatus == 'WAIT'">
+                        AND wn.status = 'PASS_AUDITING'
+                        AND wt.e_status = 'WAIT_EXECUTE'
+                      </if>
+                      <if test="taskStatus != null and taskStatus == 'PASS'">
+                        AND wn.status = 'PASS_AUDITING'
+                        AND wt.e_status = 'ALREADY_EXECUTE'
+                      </if>
+                      ) t 
+            on (p.id = t.w_id)
+            WHERE p.status in ('IN_AUDITING', 'WAIT_AUDITING')
+            <if test="businessClassId != null and businessClassId != ''">
+                AND p.bsnsclass_id = #{businessClassId}
+            </if>
+     ) a )
+        <![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+    </select>
+    
+    <!-- 获取分页计数 -->
+    <select id="getInstancePageCount" resultType="int">
+       select count(1)
+            from hrm_businessinfo_change p
+            join (SELECT wt.*,wn.status
+                     FROM SP_WORK_TASK wt, SP_WORK_NODE wn
+                    WHERE wt.NODE_ID = wn.NODE_ID
+                      AND wt.W_ID = wn.W_ID
+                       AND wt.TASK_ID = #{taskId}
+                      <if test="taskStatus != null and taskStatus == 'BEFORE'">
+                        AND wn.status = 'WAIT_AUDITING'
+                        AND wt.e_status = 'WAIT_EXECUTE'
+                      </if>
+                      <if test="taskStatus != null and taskStatus == 'WAIT'">
+                        AND wn.status = 'PASS_AUDITING'
+                        AND wt.e_status = 'WAIT_EXECUTE'
+                      </if>
+                      <if test="taskStatus != null and taskStatus == 'PASS'">
+                        AND wn.status = 'PASS_AUDITING'
+                        AND wt.e_status = 'ALREADY_EXECUTE'
+                      </if>
+                     ) t 
+            on (p.id = t.w_id)
+            WHERE p.status in ('IN_AUDITING', 'WAIT_AUDITING')
+            <if test="businessClassId != null and businessClassId != ''">
+                AND p.bsnsclass_id = #{businessClassId}
+            </if>
+    </select>
+    
+    <sql id="where">
+        <where>
+	        <if test="gh != null and gh != ''">
+	            and p.user_id = #{gh}
+	        </if>
+	        <if test="department !=null and department != ''">
+	            and o.dwm = #{department}
+	        </if>
+	        <if test="name !=null and name != ''">
+	            and o.xm = #{name}
+	        </if>
+        </where>
+    </sql>
+   
+    
+</mapper>

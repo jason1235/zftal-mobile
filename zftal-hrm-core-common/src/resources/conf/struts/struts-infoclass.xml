@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="infoclass" namespace="/infoclass" extends="configuration">
+		<!-- 数据字典 -->
+		<action name="infocatalog_*" class="baseInfoCatalogAction" method="{1}">
+			<result name="edit">/WEB-INF/pages/hrm/infoclass/catalog_edit.jsp</result>
+		</action>
+		
+		<action name="infoclass_*" class="baseInfoClassAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/infoclass/infoclass_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/infoclass/infoclass_edit.jsp</result>
+		</action>
+		
+		<action name="infoproperty_*" class="baseInfoClassPropertyAction" method="{1}">
+			<result name="list">/WEB-INF/pages/hrm/infoclass/property_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/hrm/infoclass/property_edit.jsp</result>
+			<result name="sync">/WEB-INF/pages/hrm/infoclass/property_sync.jsp</result>
+			<result name="copy">/WEB-INF/pages/hrm/infoclass/property_copy.jsp</result>
+			<result name="doSyncView">/WEB-INF/pages/hrm/infoclass/property_dosync.jsp</result>
+		</action>
+		
+		<!-- 页面显示字段配置 -->
+		<action name="infoPropertyView_*" class="infoPropertyViewAction" method="{1}">
+	  		<result name="list">/WEB-INF/pages/hrm/infoclass/property_viewList.jsp</result>
+	    </action>
+	</package>
+</struts>

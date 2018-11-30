@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+  
+<mapper namespace="com.zfsoft.sjzx.jhpz.dsqpzb.dao.DsqpzbDao">  
+    <!--<resultMap type="RoleInfo" id="RoleMap">
+    -->
+    <resultMap type="com.zfsoft.sjzx.jhpz.dsqpzb.model.Dsqpzb" id="DsqpzbMap">
+        <result column="dsqxh" property="dsqxh"/>
+        <result column="dsqmc" property="dsqmc"/>
+        <result column="cjsj" property="cjsj"/>
+        <result column="xgsj" property="xgsj"/>
+        <result column="dxlsh" property="dxlsh"/>
+        <result column="ddsjd" property="ddsjd"/>
+        <result column="jgsj" property="jgsj"/>       
+        <result column="jdqssj" property="jdqssj"/>
+        <result column="jdjssj" property="jdjssj"/>
+        <result column="czdxbh" property="czdxbh"/>
+        <result column="dsqlx"   property="dsqlx"/>
+        <result column="sjdwbh" property="sjdwbh"/>
+        <result column="cjr" property="cjr"/>
+        <result column="xgr" property="xgr"/>
+        <result column="dsqzt" property="dsqzt"/>
+        <result column="jdzxjh" property="jdzxjh"/>
+        <result column="jobclassname" property="jobclassname"/>
+        <result column="isjk" property="isjk"/>
+        <result column="wjbh" property="wjbh"/>
+    </resultMap>
+    
+    <resultMap type="com.zfsoft.sjzx.jhpz.dsqpzb.model.DsqpzbWrapper" id="DsqpzbWrapperMap">
+        <result column="sjdwmc" property="sjdwmc"/>
+        <result column="dsqlxmc" property="dsqlxmc"/>
+        <result column="dsqxh" property="dsqxh"/>
+        <result column="dsqmc" property="dsqmc"/>
+        <result column="cjsj" property="cjsj"/>
+        <result column="xgsj" property="xgsj"/>
+        <result column="dxlsh" property="dxlsh"/>
+        <result column="ddsjd" property="ddsjd"/>
+        <result column="jgsj" property="jgsj"/>       
+        <result column="jdqssj" property="jdqssj"/>
+        <result column="jdjssj" property="jdjssj"/>
+        <result column="czdxbh" property="czdxbh"/>
+        <result column="dsqlx"   property="dsqlx"/>
+        <result column="sjdwbh" property="sjdwbh"/>
+        <result column="cjr" property="cjr"/>
+        <result column="xgr" property="xgr"/>
+        <result column="dsqzt" property="dsqzt"/>
+        <result column="jdzxjh" property="jdzxjh"/>
+        <result column="jobclassname" property="jobclassname"/>
+        <result column="isjk" property="isjk"/>
+        <result column="wjbh" property="wjbh"/>
+    </resultMap>
+    
+    <select id="getRunSetBywjbh" resultMap="DsqpzbWrapperMap">
+    
+       select t.isjk,t.dsqxh,t1.sjdwmc,t2.dsqlxmc,t.dsqmc,t.ddsjd,t.jgsj,t.dsqlx,t.sjdwbh,
+	        case when substr(t.jdqssj,1,4)='0000' then substr(t.jdqssj,6,5) else t.jdqssj end jdqssj,
+	        case when substr(t.jdjssj,1,4)='0000' then substr(t.jdjssj,6,5) else t.jdjssj end jdjssj,
+	        dsqzt 
+       from xt_dsqpzb t ,xt_sjdwb t1,xt_dsqlx t2 
+            where t.sjdwbh=t1.sjdwbh(+) and t.dsqlx = t2.dsqlx and t.czdxbh=1 and t.wjbh=#{wjbh} order by dsqxh
+    
+              
+    </select>
+    
+    <select id="getRunSet" resultMap="DsqpzbWrapperMap">
+    
+        select t.isjk,t.dsqxh,t1.sjdwmc,t2.dsqlxmc,t.dsqmc,t.ddsjd,t.jgsj,t.dsqlx,t.sjdwbh,
+            case when substr(t.jdqssj,1,4)='0000' then substr(t.jdqssj,6,5) else t.jdqssj end jdqssj,
+            case when substr(t.jdjssj,1,4)='0000' then substr(t.jdjssj,6,5) else t.jdjssj end jdjssj,
+            dsqzt 
+            from xt_dsqpzb t ,xt_sjdwb t1,xt_dsqlx t2 
+            where t.sjdwbh=t1.sjdwbh(+) and t.dsqlx = t2.dsqlx and t.czdxbh=1 and t.dxlsh=#{dxlsh} order by dsqxh
+              
+    </select>
+    
+    <select id="getDsqpzbByZt" resultType="int">
+    
+        SELECT COUNT(*) FROM XT_DSQPZB WHERE DXLSH=#{dxlsh} AND DSQZT=#{dsqzt} AND CZDXBH=#{czdxbh}
+              
+    </select>
+    
+    <select id="getDsqpzbListCount" resultType="int">
+    
+        select count(*) from xt_dsqpzb  t where t.dxlsh ='0'  and  t.czdxbh='2'
+              <if test='dsqmc != null and dsqmc != ""'> and t.dsqmc like '%'||#{dsqmc}||'%'</if>
+              <if test='dsqlx != null and dsqlx != ""'> and t.dsqlx = #{dsqlx}</if>
+              <if test='dsqzt != null and dsqzt != ""'> and t.dsqzt = #{dsqzt}</if>
+              
+    </select>
+    
+    <select id="getDsqpzbList" resultMap="DsqpzbMap">
+        select * from (select t.*,rownum rn from xt_dsqpzb t where t.dxlsh ='0'  and  t.czdxbh='2'
+              <if test='dsqmc != null and dsqmc != ""'> and t.dsqmc like '%'||#{dsqmc}||'%'</if>
+              <if test='dsqlx != null and dsqlx != ""'> and t.dsqlx = #{dsqlx}</if>
+              <if test='dsqzt != null and dsqzt != ""'> and t.dsqzt = #{dsqzt}</if>
+               order by to_date(t.cjsj,'yyyy-mm-dd hh24:mi:ss') desc, dsqxh desc 
+               <![CDATA[
+              ) where rn>=#{startRow} and rn<=#{endRow}
+              ]]> 
+              
+    </select>
+    
+    <select id="getRunSetBydsqxh">
+        select 
+	        t.dsqxh,t1.sjdwmc,t2.dsqlxmc,t.dsqmc,t.ddsjd,t.jgsj,t.dsqlx,t.sjdwbh,
+	        case when substr(t.jdqssj,1,4)='0000' then substr(t.jdqssj,6,5) else t.jdqssj end jdqssj,
+	        case when substr(t.jdjssj,1,4)='0000' then substr(t.jdjssj,6,5) else t.jdjssj end jdjssj,
+	        dsqzt 
+        from xt_dsqpzb t ,xt_sjdwb t1,xt_dsqlx t2 
+            where t.sjdwbh=t1.sjdwbh(+) and t.dsqlx = t2.dsqlx and t.czdxbh=2 and t.dsqxh=#{dsqxh} order by dsqxh
+    </select>
+    
+    <select id="getXtjkSjjhrzb" resultMap="DsqpzbMap">
+        select * from xt_dsqpzb where  isjk=1  and dsqzt=1
+    </select>
+    
+    <select id="getRunTasks" resultMap="DsqpzbMap">
+        select * from xt_dsqpzb where dxlsh ='0'  and  czdxbh='2' and dsqzt=1
+    </select>
+    
+    <select id="getDsqpzb" resultMap="DsqpzbMap">
+        select * from xt_dsqpzb where dsqxh=#{dsqxh}
+    </select>
+    
+    <select id="getInsertDsqpzb" resultType="int">
+        SELECT SEQ_XT_DSQPZB_DSQXH.CURRVAL as dsqxh FROM DUAL
+    </select>
+    
+    <insert id="saveDsqpzbBatch" >
+        
+            insert into xt_dsqpzb(dsqxh, dsqmc, cjsj, xgsj, dxlsh, ddsjd, jgsj, jdqssj,jdjssj,
+                                  czdxbh, dsqlx, sjdwbh, cjr, xgr,dsqzt,jobclassname,isjk,wjbh)
+                           values(#{dsqxh}, #{dsqmc}, #{cjsj}, #{xgsj}, #{dxlsh}, #{ddsjd}, #{jgsj}, #{jdqssj},#{jdjssj}, 
+                                  #{czdxbh}, #{dsqlx}, #{sjdwbh}, #{cjr}, #{xgr}, #{dsqzt},#{jobclassname},#{isjk},#{wjbh})
+    
+        
+    </insert>
+    
+    <insert id="insertDsqpzb" >
+        
+            insert into xt_dsqpzb(dsqxh, dsqmc, cjsj, xgsj, dxlsh, ddsjd, jgsj, jdqssj,jdjssj,
+                                  czdxbh, dsqlx, sjdwbh, cjr, xgr,dsqzt,jobclassname,isjk,wjbh)
+                           values(SEQ_XT_DSQPZB_DSQXH.nextval, #{dsqmc}, #{cjsj}, #{xgsj}, #{dxlsh}, #{ddsjd}, #{jgsj}, #{jdqssj},#{jdjssj}, 
+                                  #{czdxbh}, #{dsqlx}, #{sjdwbh}, #{cjr}, #{xgr}, #{dsqzt},#{jobclassname},#{isjk},#{wjbh})
+    
+        
+    </insert>
+    
+    <update id="updateDsqpzb">
+        update xt_dsqpzb 
+        <set>
+        <if test='dsqmc != "" and dsqmc != null'>
+            dsqmc = #{dsqmc},
+        </if> 
+        <if test='cjsj != "" and cjsj != null'>
+            cjsj = #{cjsj},
+        </if>
+        <if test='xgsj != "" and xgsj != null'>
+            xgsj = #{xgsj},
+        </if> 
+        <if test='dxlsh != "" and dxlsh != null'>
+            dxlsh = #{dxlsh},
+        </if>
+        <if test='ddsjd != "" and ddsjd != null'>
+            ddsjd = #{ddsjd},
+        </if> 
+        <if test='jgsj != "" and jgsj != null'>
+            jgsj = #{jgsj},
+        </if>
+        <if test='jdqssj != "" and jdqssj != null'>
+            jdqssj = #{jdqssj},
+        </if> 
+        <if test='jdjssj != "" and jdjssj != null'>
+            jdjssj = #{jdjssj},
+        </if>
+        <if test='czdxbh != "" and czdxbh != null'>
+            czdxbh = #{czdxbh},
+        </if>
+        <if test='dsqlx != "" and dsqlx != null'>
+            dsqlx = #{dsqlx},
+        </if>
+        <if test='sjdwbh != "" and sjdwbh != null'>
+            sjdwbh = #{sjdwbh},
+        </if>
+        <if test='cjr != "" and cjr != null'>
+            cjr = #{cjr},
+        </if>
+        <if test='dsqzt != "" and dsqzt != null'>
+            dsqzt = #{dsqzt},
+        </if>
+        <if test='jdzxjh != "" and jdzxjh != null'>
+            jdzxjh = #{jdzxjh},
+        </if>
+        <if test='jobclassname != "" and jobclassname != null'>
+            jobclassname = #{jobclassname},
+        </if>
+        <if test='isjk != "" and isjk != null'>
+            isjk = #{isjk},
+        </if>
+        <if test='wjbh != "" and wjbh != null'>
+            wjbh = #{wjbh},
+        </if>
+        </set>
+        where dsqxh=#{dsqxh}
+    
+    </update>
+    
+    <update id="updateLastRunTime">
+         update xt_dsqpzb set xgsj=#{xgsj} where dsqxh=#{dsqxh}
+    </update>
+    
+    <update id="closeDsq">
+        update xt_dsqpzb set dsqzt=#{dsqzt} where dxlsh=#{dxlsh} and czdxbh=#{czdxbh}
+    </update>
+    
+    <update id="updateDsqpzbIsjk">
+         update xt_dsqpzb set isjk=#{isjk} where dsqxh=#{dsqxh}
+    </update>
+    
+    <delete id="deleteDsqByDxlsh">
+        <![CDATA[
+            delete from xt_dsqpzb where dxlsh=#{dxlsh}
+        ]]>
+    </delete>
+    
+    <delete id="deleteDsqpzb">
+        <![CDATA[
+            delete from xt_dsqpzb where dsqxh=#{dsqxh}
+        ]]>
+    </delete>
+    
+    <delete id="deleteDsqpzbByDxlsh">
+        <![CDATA[
+            delete from xt_dsqpzb where dxlsh=#{dxlsh} and czdxbh=#{czdxbh}
+        ]]>
+    </delete>
+    
+    
+</mapper>  

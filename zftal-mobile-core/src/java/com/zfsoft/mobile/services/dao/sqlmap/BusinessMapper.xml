@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.services.dao.daointerface.IBusinessDao" >
+	
+	<resultMap type="com.zfsoft.mobile.services.entity.Business" id="BusinessMap">
+		<result column="xtid" property="classId"/>
+		<result column="xtbm" property="classXtbm"/>
+		<result column="xtmc" property="classXtmc"/>
+		<result column="xtms" property="classXtms"/>
+		<result column="xtdz" property="classXtdz"/>
+		<result column="cjsj" property="classCjsj"/>
+		<result column="cjzid" property="classCjzid"/>
+		<result column="gxsj" property="classGxsj"/>
+		<result column="gxzid" property="classGxzid"/>
+		<result column="syzt" property="classSyzt"/>
+		<result column="deleted" property="classDeleted"/>
+		<result column="fwsl" property="classFwsl"/>
+		<result column="procode" property="procode"/>
+		<result column="otherFlag" property="otherFlag"/>
+		<result column="pxm" property="pxm"/>
+		<result column="signalXtbm" property="signalXtbm"/>
+	</resultMap>
+	<resultMap type="com.zfsoft.mobile.services.entity.OauthYhDyXt" id="OauthYhDyXtMap">
+		<result column="yhid" 	 property="yhid"/>
+		<result column="procode" property="procode"/>
+		<result column="endtime" property="endtime"/>
+	</resultMap>
+	
+	
+	<sql id="where">
+    	<where>
+			<if test="classId != null and classId != ''">
+   				and m.xtid = #{classId}
+	   		</if>
+			<if test="classXtbm != null and classXtbm != ''">
+    			and m.xtbm  like '%'||#{classXtbm}||'%' 
+    		</if>
+    		<if test="classXtmc != null and classXtmc != ''">
+    			and m.xtmc like '%'||#{classXtmc}||'%'
+    		</if>
+    		<if test="classSyzt != null and classSyzt != ''">
+    			and m.syzt = #{classSyzt}
+    		</if>
+    		<if test="procode != null and procode != ''">
+    			and m.procode = #{procode}
+    		</if>
+    		    and m.deleted ='0'
+		</where>
+    </sql> 
+    
+    <!-- 获取分页列表信息 -->
+	<select id="getOauthYhDyXtList" resultMap="OauthYhDyXtMap">
+				select * from  M_OAUTH_YHDYXT m  where m.yhid=#{yhid} and m.procode=#{procode}
+	</select>
+	
+	
+	<select id="getBusinessList" parameterType="com.zfsoft.mobile.services.entity.Business" resultMap="BusinessMap">
+		select xtid,xtbm,xtmc,xtms,xtdz,cjsj,cjzid,gxsj,gxzid,syzt,deleted,fwsl,procode,otherFlag,pxm,signalXtbm,rn from (
+		select a.*,b.fwsl,rownum rn from
+		(select * from M_FWGL_YWXTGLB m where m.xtid = #{classId}  order by m.pxm asc )
+		a
+          left join (select ssywxt, nvl(count(*), 0) as fwsl
+                      from M_FWGL_FWGLB where deleted='0'
+                     group by ssywxt) b
+            on a.xtid = b.ssywxt 
+			) c
+	</select>
+	
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getList" resultMap="BusinessMap">
+	select xtid,xtbm,xtmc,xtms,xtdz,cjsj,cjzid,gxsj,gxzid,syzt,deleted,fwsl,procode,otherFlag,pxm,signalXtbm,rn from (
+		select a.*,b.fwsl,rownum rn from
+		(select * from M_FWGL_YWXTGLB m 
+		<include refid="where" /> order by m.pxm asc )
+		a
+          left join (select ssywxt, nvl(count(*), 0) as fwsl
+                      from M_FWGL_FWGLB where deleted='0'
+                     group by ssywxt) b
+            on a.xtid = b.ssywxt 
+			) c
+			
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} 
+			]]>	
+	</select>
+	
+	<select id="getListCount" resultType="int">
+			select count(*) from
+				(select * from M_FWGL_YWXTGLB m
+				<include refid="where" /> )
+			a 
+	</select>
+	
+	<select id="getMaxPxm" resultType="int">
+			select nvl(max(pxm),1) from M_FWGL_YWXTGLB m
+	</select>
+	
+	<select id="getOauthYhDyXtCount" resultType="int">
+			select count(*) from
+				(
+					select * from M_OAUTH_YHDYXT m
+					where yhid=#{yhid} and procode=#{procode} 
+				)
+			a 
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<![CDATA[
+			insert into M_FWGL_YWXTGLB(
+				xtid,xtbm,xtmc,xtms,xtdz,cjsj,cjzid,gxsj,gxzid,syzt,deleted,procode,otherFlag,pxm,signalXtbm
+			) values(
+				#{classId}, #{classXtbm}, #{classXtmc}, #{classXtms,jdbcType=VARCHAR}, #{classXtdz,jdbcType=VARCHAR}, #{classCjsj},
+				 #{classCjzid},#{classGxsj,jdbcType=DATE},#{classGxzid,jdbcType=VARCHAR}, #{classSyzt}, #{classDeleted}, #{procode,jdbcType=VARCHAR},
+				 #{otherFlag,jdbcType=VARCHAR},#{pxm},#{signalXtbm,jdbcType=VARCHAR}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="classId">
+			<![CDATA[
+			select SYS_GUID() CLASSID from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<insert id="insertOauthYhDyXt">
+		<![CDATA[
+			insert into M_OAUTH_YHDYXT(
+				YHID,PROCODE,ENDTIME
+			) values(
+				#{yhid}, #{procode}, #{endtime}
+				)
+		]]>
+	</insert>
+	
+	<update id="updateOauthYhDyXt">
+		<![CDATA[
+			update M_OAUTH_YHDYXT set
+				endtime = #{endtime}
+			where YHID = #{yhid} and  PROCODE = #{procode}
+		]]>
+	</update>
+	
+	<update id="update">
+		<![CDATA[
+			update M_FWGL_YWXTGLB set
+				xtmc = #{classXtmc,jdbcType=VARCHAR}, xtms = #{classXtms,jdbcType=VARCHAR}, xtdz = #{classXtdz,jdbcType=VARCHAR}
+			   ,gxsj = #{classGxsj},gxzid = #{classGxzid}, procode = #{procode,jdbcType=VARCHAR},otherFlag = #{otherFlag,jdbcType=VARCHAR}
+			   ,signalXtbm = #{signalXtbm}
+			where xtid = #{classId}
+		]]>
+	</update>
+	
+	<update id="updateById">
+		<![CDATA[
+			update M_FWGL_YWXTGLB set
+				syzt = #{classSyzt}
+			where xtid = #{classId}
+		]]>
+	</update>
+	
+	<update id="updateIndex">
+		update M_FWGL_YWXTGLB 
+		set pxm = #{index}
+		 where xtid = #{id} 
+		
+	</update>
+	
+	<delete id="delete">
+		<![CDATA[
+			update M_FWGL_YWXTGLB set
+			deleted = '1',gxsj = #{classGxsj},gxzid = #{classGxzid}
+			where xtid = #{classId}
+		]]>
+	</delete>
+	
+	<select id="getProcodeBm" resultType="string">
+        select m.PROCODE from M_FWGL_YWXTGLB m
+        where m.XTID = #{classSsywxt}
+    </select>
+	
+	
+</mapper>

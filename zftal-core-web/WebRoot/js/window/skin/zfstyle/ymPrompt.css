@@ -1,0 +1,83 @@
+/*container*/
+#ym-window{
+	background:#fff;overflow:hidden;
+	font-size:12px;font-family:'宋体';
+	position: relative; border: 1px solid #4271A6;border-top:none; background:#fff url(images/windown-box_bg.gif) repeat-x left bottom;
+	z-index:997;
+}
+
+/*header*/
+.ym-tl{background:url("images/open_titlebg_02.gif") repeat-x left center;height:22px;overflow:hidden;position:relative; width:100%;}
+.ym-ttc{height:3px}
+.ym-header-text{font-size:12px;font-weight:bold;color:#fff;margin-left:5px;position:relative;left:10px;top:5px;}
+.ym-header-tools{float:right;margin-top:5px}
+.ym-header-tools strong{display:none}
+
+/*body*/
+
+.ym-body{overflow-y:auto;overflow-x:hidden;padding:0;font-size:12px;}
+
+/*button*/
+.ym-btn{text-align:center}
+
+
+/*icon*/
+.ymPrompt_alert{
+	padding-left:130px;
+	background:url(images/info.gif) no-repeat 60px 50%
+}
+.ymPrompt_succeed{
+	padding-left:130px;
+	background:url(images/right.gif) no-repeat 60px 50%
+}
+.ymPrompt_error{
+	padding-left:130px;
+	background:url(images/err.gif) no-repeat 60px 50%
+}
+.ymPrompt_confirm{
+	padding-left:130px;
+	background:url(images/ask.gif) no-repeat 60px 50%
+}
+.ymPrompt_alert .ym-content,.ymPrompt_succeed .ym-content,.ymPrompt_error .ym-content,.ymPrompt_confirm .ym-content{padding:50px 0 0}
+/*图标公共定义*/
+.ym-header-tools div{
+	cursor:pointer;
+	width:23px;height:16px;
+	position:absolute;
+	text-indent:-10em;
+	top:2px;
+}
+.ymPrompt_close{
+	background:url("images/open_close.gif") no-repeat left center;
+	right:3px;
+}
+.ymPrompt_close:hover { cursor: pointer; background: url("images/open_close01.png") no-repeat left center; _filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/open_close01.png'); /* IE6 尽量少用滤镜影响速度*/
+_background-image: none; /* IE6 */}
+.ymPrompt_max{
+	background: url("images/ico.gif") no-repeat scroll left center transparent;
+	background-position:0 -16px !important;
+}
+.ymPrompt_min{
+	background: url("images/ico.gif") no-repeat scroll left center transparent;
+	background-position:0 0 !important;
+}
+.ymPrompt_normal{
+	background-position:-16px -16px !important;
+}
+
+/*取消确认按钮样式*/
+input.btnStyle{
+	background:url(images/buttonbg.gif) repeat-x left center;
+	border:1px solid #C6DAF4 !important;outline:1px solid #4D93EA;    
+	color: #FFFFFF;
+    cursor: pointer;
+    font-size: 12px;
+    height: 19px;
+    letter-spacing: 0.1em;
+    margin: 0 3px;
+    overflow: visible;
+    padding: 0 15px 2px;
+    text-align: center;
+}
+input.btnStyle:hover {background:url("images/button_hover.gif") repeat-x left top #BBD2F0;}
+.ym-bl { height:15px;display:none;}

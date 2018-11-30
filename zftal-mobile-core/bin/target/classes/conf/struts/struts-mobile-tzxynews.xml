@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="tzxynews" namespace="/tzxynews" extends="configuration" >
+		<action name="tzxynews_*" class="tzxynewsAction" method="{1}" >
+		    <result name="toList">/WEB-INF/pages/mobile/tzxy/oa_newsList.jsp</result>
+		    <result name="newsDetail">/WEB-INF/pages/mobile/tzxy/oa_ggDetail.jsp</result>
+		</action>
+	</package>
+</struts>

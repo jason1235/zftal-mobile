@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>	
+	<package name="wpjs" namespace="/wpjs" extends="configuration">
+	  <!-- 外聘兼职教师申请 -->
+	  <action name="wpjsdeclare_*" class="wpjsDeclareAction" method="{1}" >
+	  	 <result name="page">/WEB-INF/pages/hrm/wpjs/wpjsDeclare_page.jsp</result>
+	  	 <result name="input">/WEB-INF/pages/hrm/wpjs/wpjsDeclare_input.jsp</result>
+	  	 <result name="modify">/WEB-INF/pages/hrm/wpjs/wpjsDeclare_modify.jsp</result>
+	  	  <result name="view">/WEB-INF/pages/hrm/wpjs/wpjsDeclare_order.jsp</result>
+	  	 <result name="list">/WEB-INF/pages/hrm/wpjs/wpjsDeclare_list.jsp</result>
+	  </action>
+	</package>
+</struts>

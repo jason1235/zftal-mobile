@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.workflow.dao.ISpNodeTaskDao">
+
+	<resultMap id="spNodeTaskMap" type="com.zfsoft.workflow.model.SpNodeTask">
+		<result property="need" column="IS_MUST" />
+		<result property="auto" column="IS_AUTO" />
+		<result property="billId" column="BILL_ID" />
+		<result property="classId" column="CLASS_ID" />
+		<result property="classModeType" column="CLASS_MODE_TYPE" />
+		<result property="exeCondition" column="EXE_CONDITION" />
+		<result property="decCondition" column="DEC_CONDITION" />
+		<result property="classPrivilege" column="CLASSES_PRIVILEGE" />
+		
+		<association property="spTask" column="{taskId=TASK_ID}" select="com.zfsoft.workflow.dao.ISpTaskDao.findTaskById"/>
+		<association property="spNode" column="{nodeId=NODE_ID}" select="com.zfsoft.workflow.dao.ISpNodeDao.findNodeById"/>
+	</resultMap>
+	
+	<insert id="insert">
+		<![CDATA[
+			INSERT INTO SP_NODE_TASK
+			  (TASK_ID,
+			   NODE_ID,
+			   IS_MUST,
+			   IS_AUTO,
+			   BILL_ID,
+			   CLASS_ID,
+			   CLASS_MODE_TYPE,
+			   EXE_CONDITION,
+			   CLASSES_PRIVILEGE)
+			VALUES
+			  (#{spTask.taskId},
+			   #{spNode.nodeId},
+			   #{need},
+			   #{auto},
+			   #{billId,jdbcType=VARCHAR},
+			   #{classId,jdbcType=VARCHAR},
+			   #{classModeType,jdbcType=VARCHAR},
+			   #{exeCondition,jdbcType=VARCHAR},
+			   #{classPrivilege,jdbcType=VARCHAR})
+		]]>
+	</insert>
+	
+	<!-- 根据NODEID删除节点 -->
+	<delete id="delete">
+		<![CDATA[
+			DELETE FROM SP_NODE_TASK WHERE NODE_ID = #{spNode.nodeId} and TASK_ID = #{spTask.taskId}
+		]]>
+	</delete>
+	
+	<!-- 删除流程下所有节点 -->
+	<delete id="deleteByNodeId">
+		<![CDATA[
+			DELETE FROM SP_NODE_TASK WHERE NODE_ID = #{spNode.nodeId}
+		]]>
+	</delete>
+	
+
+	  <!-- 根据流程ID条件查询记录（结果一个或多个） -->
+    <select id="findNodeTaskListByNodeId" resultMap="spNodeTaskMap">
+    	<![CDATA[ 
+			SELECT NODE_ID,
+			       TASK_ID,
+			       IS_MUST,
+			       IS_AUTO,
+			       BILL_ID,
+			       CLASS_ID,
+			       CLASS_MODE_TYPE,
+			       EXE_CONDITION,
+			       CLASSES_PRIVILEGE
+			  FROM SP_NODE_TASK
+			 WHERE NODE_ID = #{0}
+		]]>		 
+	</select>
+
+	<!-- 根据对象中的条件查询记录（结果一个或多个） -->
+	<select id="findNodeTaskList" resultMap="spNodeTaskMap">
+		<![CDATA[ 
+			SELECT NODE_ID,
+			       TASK_ID,
+			       IS_MUST,
+			       IS_AUTO,
+			       BILL_ID,
+			       CLASS_ID,
+			       CLASS_MODE_TYPE,
+			       EXE_CONDITION,
+			       CLASSES_PRIVILEGE
+			  FROM SP_NODE_TASK sn
+			 WHERE 1 = 1
+		 ]]>
+		<if test="nodeId != null and nodeId != ''">
+			<![CDATA[ AND NODE_ID = #{spNode.nodeId} ]]>
+        </if>
+        <if test="taskId != null and taskId != ''">
+			<![CDATA[ AND TASK_ID = #{spTask.taskId} ]]>
+        </if>
+	</select>
+
+</mapper>

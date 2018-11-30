@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.authpost.auth.dao.daointerface.IAuthStatisticsDao">
+
+	<resultMap type="com.zfsoft.hrm.authpost.post.entities.DeptPost" id="DeptPostMap">
+		<result property="guid" column="guid"/>
+		<result property="postId" column="gwid"/>
+		<result property="duty" column="gwzz"/>
+		<result property="level" column="gwdj"/>
+		<result property="superiorId" column="sjgwbh"/>
+		<result property="planNumber" column="jhbzs"/>
+		<result property="deptId" column="bmid"/>
+		<result property="postType" column="gwlbdm"/>
+	</resultMap>
+	
+	<resultMap type="com.zfsoft.hrm.authpost.post.entities.PersonPostInfo" id="PersonPostInfoMap">
+		<result property="userId" column="zgh"/>
+		<result property="postState" column="gwzt"/>
+		<result property="authState" column="bzzt"/>
+		<result property="postLevel" column="gwdjm"/>
+		<result property="deptId" column="dwm"/>
+		<association property="postInfo" javaType="com.zfsoft.hrm.authpost.post.entities.PostInfo">
+			<id property="id" column="GWBH" />
+			<result property="name" column="GWMC" />
+			<result property="typeCode" column="GWLBDM" />
+			<result property="sort" column="PX" />
+		</association>
+	</resultMap>
+	
+    <!--获取部门岗位类型计划编制数 -->
+	<select id="getDeptPostByLikeId" resultType="int">
+		select nvl(sum(bmgwglb.jhbzs),0) from HRM_BZGL_BMGWGLB bmgwglb
+		left join HRM_BZGL_GWXXB gwxxb on bmgwglb.gwid=gwxxb.gwbh
+		left join HRM_BZGL_ZZJGB zzjg on zzjg.bmdm=bmgwglb.bmid
+		where (zzjg.bmdm =#{deptId} or zzjg.sjbmdm=#{deptId}) and gwlbdm=#{postType}
+	</select>
+	
+	 <!--获取部门岗位等级计划编制数 -->
+	<select id="getDeptPostByLikeLevel" resultType="int">
+		select nvl(sum(bmgwglb.jhbzs),0) from HRM_BZGL_BMGWGLB bmgwglb
+		left join HRM_BZGL_GWXXB gwxxb on bmgwglb.gwid=gwxxb.gwbh
+		left join HRM_BZGL_ZZJGB zzjg on zzjg.bmdm=bmgwglb.bmid
+		where (zzjg.bmdm =#{deptId} or zzjg.sjbmdm=#{deptId}) and BMGWGLB.Gwdj=#{level} and gwlbdm=#{postType}
+	</select>
+	
+	 <!--获取部门岗位类别实际编制数 -->
+	<select id="getDeptTypeCurrentNum" resultType="int">
+		select count(*) from bzgl_gwzt_st gwztb 
+		left join HRM_BZGL_GWXXB gwxxb on gwztb.gwbh=gwxxb.gwbh
+		left join HRM_BZGL_ZZJGB zzjg on zzjg.bmdm=gwztb.dwm
+		where (zzjg.bmdm =#{deptId} or zzjg.sjbmdm=#{deptId}) and gwxxb.gwlbdm=#{postType}
+	</select>
+	
+	<!--获取部门岗位等级实际编制数 -->
+	<select id="getDeptPostLevelCurrentNum" resultType="int">
+		select count(*) from bzgl_gwzt_st gwztb 
+		left join HRM_BZGL_GWXXB gwxxb on gwztb.gwbh=gwxxb.gwbh
+		left join HRM_BZGL_ZZJGB zzjg on zzjg.bmdm=gwztb.dwm
+		where (zzjg.bmdm =#{deptId} or zzjg.sjbmdm=#{deptId}) and gwztb.gwdjm=#{level}
+	</select>
+	
+	 <!--获取部门岗位类别岗位等级实际编制数 -->
+	<select id="getDeptTypeLevelCurrentNum" resultType="int">
+		select count(*) from bzgl_gwzt_st gwztb 
+		left join HRM_BZGL_GWXXB gwxxb on gwztb.gwbh=gwxxb.gwbh
+		left join HRM_BZGL_ZZJGB zzjg on zzjg.bmdm=gwztb.dwm
+		where (zzjg.bmdm =#{deptId} or zzjg.sjbmdm=#{deptId}) and gwxxb.gwlbdm=#{postType} and gwztb.gwbh=#{postId}
+		 <if test="level != null and level != '' ">and gwztb.GWDJM=#{level}</if>
+		 <if test="level == null or level == '' ">and gwztb.GWDJM is null</if>
+		<![CDATA[ ]]>
+	</select>
+	
+	<!--获取部门岗位计划 -->
+	<select id="findDeptPost" resultMap="DeptPostMap">
+		SELECT bmgwglb.guid,bmgwglb.gwid,bmgwglb.gwzz,bmgwglb.gwdj,bmgwglb.sjgwbh,bmgwglb.jhbzs,bmgwglb.bmid,
+		gwxxb.gwlbdm
+		FROM HRM_BZGL_BMGWGLB bmgwglb
+		LEFT JOIN HRM_BZGL_GWXXB gwxxb on bmgwglb.gwid=gwxxb.gwbh
+		left join HRM_BZGL_ZZJGB zzjg on zzjg.bmdm=bmgwglb.bmid
+		WHERE (zzjg.bmdm =#{deptId} or zzjg.sjbmdm=#{deptId}) and gwxxb.gwlbdm=#{postType}
+		<if test="level == ''">and bmgwglb.gwdj is null</if>
+		<if test="level != '' and level != null">and bmgwglb.gwdj=#{level}</if>
+		ORDER BY guid asc
+	</select>
+	
+	 <!--人员岗位视图 -->
+	<select id="findPersonPostInfo" resultMap="PersonPostInfoMap">
+		SELECT gwztb.zgh,gwztb.gwzt,gwztb.bzzt,gwztb.gwbh,gwztb.gwdjm,
+			   gwxxb.GWMC,gwxxb.GWLBDM,gwxxb.px,gwztb.dwm
+		FROM BZGL_GWZT_ST gwztb
+		LEFT JOIN HRM_BZGL_GWXXB gwxxb on gwztb.gwbh=gwxxb.gwbh
+		left join HRM_BZGL_ZZJGB zzjg on zzjg.bmdm=gwztb.dwm
+		WHERE (zzjg.bmdm =#{deptId} or zzjg.sjbmdm=#{deptId}) and gwxxb.gwlbdm=#{postType} and gwxxb.gwbh is not null
+		<if test="level == '' ">and gwztb.gwdjm is null</if>
+		<if test="level != '' and level != null">and gwztb.gwdjm=#{level}</if>
+		ORDER BY zgh asc
+	</select>
+</mapper>

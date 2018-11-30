@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.portal.dao.daointerface.IPortalDao">
+	
+	<resultMap id="bookMap" type="com.zfsoft.mobile.portal.entity.bookDetail">
+		<result property="classDzzh" 		 column="DZZH" />
+		<result property="classTxm"   column="TXM" />
+		<result property="classZtm"   column="ZTM" />
+		<result property="classJcsj"   column="JCSJ" />
+		<result property="classXhsj"   column="XHSJ" />
+		<result property="classXjcs"   column="XJCS" />
+		<result property="classLtlx"   column="LTLX" />
+		<result property="classWxlx"   column="WXLX" />
+		<result property="classSqh"   column="SQH" />
+		<result property="classCbs"   column="CBS" />
+		<result property="classCbrq"   column="CBRQ" />
+		<result property="classYjs"   column="YJS" />
+		<result property="classSfgh"   column="SFGH" />
+		<result property="classGhsj"   column="GHSJ" />
+		<result property="classZz"   column="ZZ" />
+		<result property="classGcd"   column="GCD" />
+		<result property="classYrh"   column="YRH" />
+		<result property="classIsLate"   column="ISLATE" />
+	</resultMap>
+	
+	<resultMap id="bookerMap" type="com.zfsoft.mobile.portal.entity.bookerDetail">
+		<result property="classDzzh" 		 column="DZZH" />
+		<result property="classYrh"   column="YRH" />
+		<result property="classDzxm"   column="DZXM" />
+		<result property="classXbm"   column="XBM" />
+		<result property="classDwmc"   column="DWMC" />
+		<result property="classDzlx"   column="DZLX" />
+		<result property="classBzrq"   column="BZRQ" />
+		<result property="classYjcs"   column="YJCS" />
+		<result property="classLjcc"   column="LJCC" />
+		<result property="classQkje"   column="QKJE" />
+		<result property="classZjzt"   column="ZJZT" />
+		<result property="classXzzt"   column="XZZT" />
+		<result property="classTyjsz"   column="TYJSZ" />
+		<result property="classWzzt"   column="WZZT" />
+	</resultMap>
+	
+	<resultMap id="cardMap" type="com.zfsoft.mobile.portal.entity.Card">
+		<result property="classRyh" 		 column="RyH" />
+		<result property="classKh"   column="KH" />
+		<result property="classWlkh"   column="WLKH" />
+		<result property="classXm"   column="XM" />
+		<result property="classYhlx"   column="YHLX" />
+		<result property="classYue"   column="YUE" />
+	</resultMap>
+	
+	<resultMap id="bankCardMap" type="com.zfsoft.mobile.portal.entity.bankCard">
+		<result property="classYhkh" 		 column="YHKH" />
+        <result property="classRyh"   		column="RYH" />
+		<result property="classSsyh"   		column="SSYH" />
+		<result property="classIscheck"   	column="ISCHECK" />
+	</resultMap>
+	
+	<resultMap id="businessMap" type="com.zfsoft.mobile.portal.entity.businessFrom">
+		<result property="classLsh" 		 column="LSH" />
+		<result property="classJysj"   		column="JYSJ" />
+		<result property="classJye"   		column="JYE" />
+		<result property="classRyh"   		column="RYH" />
+		<result property="classSbbh"   		column="SBBH" />
+		<result property="classSh"   		column="SH" />
+	</resultMap>
+	
+	<sql id="whereBookCondition">
+		<where>
+			b.YRH = #{classYrh}	
+			<if test='classDzzh != null and classDzzh != ""'> and a.DZZH = #{classDzzh} </if>
+			<if test='classTxm != null and classTxm != ""'> and a.TXM = #{classTxm} </if>
+			<if test='classJcsj != null and classJcsj != ""'> and a.JCSJ = #{classJcsj} </if>
+		</where>
+	</sql>
+	
+	<select id="getBusinessFrom" resultMap="businessMap">
+	select * from (
+	
+	
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH from zftal_xtgl_yktjsxfb  a  left join zftal_xtgl_yktjbxxb b on a.kh = b.kh
+		<![CDATA[
+			where b.RYH = #{classRyh}
+			]]>
+		union all 
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH from zftal_xtgl_yktxsxfb  a  left join zftal_xtgl_yktjbxxb b on a.kh = b.kh
+		<![CDATA[
+			where b.RYH = #{classRyh}
+			]]>
+		union all 
+		select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH from zftal_xtgl_yktjsczb  a  left join zftal_xtgl_yktjbxxb b on a.kh = b.kh
+		<![CDATA[
+			where b.RYH = #{classRyh}
+			]]>
+		union all 
+		 select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH from zftal_xtgl_yktxsczb  a  left join zftal_xtgl_yktjbxxb b on a.kh = b.kh
+		<![CDATA[
+			where b.RYH = #{classRyh}
+			]]>
+		
+		) c	
+		<where>
+			<if test='classDate != null and classDate != ""'>
+			<![CDATA[ 
+			and to_char(JYSJ,'YYYY-MM') =  #{classDate}
+        	]]>
+        	</if>	
+       	</where>
+       	order by c.JYSJ desc
+	</select>
+	
+	<select id="getBankCard" resultMap="bankCardMap">
+		select * from zftal_xtgl_yhkxx 
+		<![CDATA[
+			where RyH = #{classRyh}
+			]]>
+	</select>
+	
+	<select id="getCardNumber" resultMap="cardMap">
+		select * from zftal_xtgl_yktjbxxb a 
+		<![CDATA[
+			where RyH = #{yhm}
+			]]>
+	</select>
+	<select id="getYueFromTeacher" resultType="float">
+	select to_number(nvl(d.yue,0)) from (
+	  select t.*,rownum rn from (
+		select c.yue from (
+			select a.ye as yue,a.JYSJ as JYSJ from zftal_xtgl_yktjsxfb a 
+			<![CDATA[
+				where a.KH = #{kh}
+				]]>
+			union all
+			select b.CZYE as yue,b.CZSJ as JYSj from zftal_xtgl_yktjsczb b
+			<![CDATA[
+				where b.KH = #{kh}
+				]]>
+			) c 
+			<![CDATA[
+				order by c.JYSj desc 
+				]]>
+				) t
+			) d
+		<![CDATA[
+			where d.rn = 1
+			]]>	
+	</select>
+	<select id="getYueFromStudent" resultType="float">
+	select to_number(nvl(d.yue,0)) from (
+	  select t.*,rownum rn from (
+		select c.yue from (
+			select a.ye as yue,a.JYSJ as JYSJ from zftal_xtgl_yktxsxfb a 
+			<![CDATA[
+				where a.KH = #{kh}
+				]]>
+			union all
+			select b.CZYE as yue,b.CZSJ as JYSj from zftal_xtgl_yktxsczb b
+			<![CDATA[
+				where b.KH = #{kh}
+				]]>
+			) c 
+			<![CDATA[
+				order by c.JYSj desc 
+				]]>
+			) t
+			) d
+		<![CDATA[
+			where d.rn = 1
+			]]>	
+	</select>
+	
+	<select id="getBooker" resultMap="bookerMap">
+		select b.* from zftal_xtgl_tsgdzxxb b 
+		<![CDATA[
+			where b.YRH = #{classYrh}
+			]]>
+	</select>
+	
+	<select id="getAllBooks" resultMap="bookMap">
+		<![CDATA[
+		select a.* ,(case when to_date(a.XHSJ,'yyyy-mm-dd') < trunc(sysdate) and a.sfgh = '0' then  '0' 
+                  when to_date(a.XHSJ,'yyyy-mm-dd') >= trunc(sysdate) and to_date(a.XHSJ,'yyyy-mm-dd') <= trunc(sysdate) + #{warnDays} and a.sfgh = '0' then  '1' 
+                  when to_date(a.XHSJ,'yyyy-mm-dd') > trunc(sysdate) + #{warnDays} and a.sfgh = '0' then  '2' 
+                  when a.sfgh = '1' then '3' end
+		) as ISLATE
+		]]>
+			from zftal_xtgl_tsgjyxxb a inner join zftal_xtgl_tsgdzxxb b on  a.DZZH = b.DZZH 
+		<include refid="whereBookCondition" />
+		<![CDATA[
+			order by sfgh asc,(to_date(a.XHSJ,'yyyy-mm-dd') - trunc(sysdate)) asc ,txm asc
+		]]>
+	</select>
+	
+	<select id="getAllWarnBooks" resultMap="bookMap">
+	<![CDATA[
+		select a.*,(case when to_date(a.XHSJ,'yyyy-mm-dd') < trunc(sysdate) and a.sfgh = '0' then  '0' 
+                  when to_date(a.XHSJ,'yyyy-mm-dd') >= trunc(sysdate) and to_date(a.XHSJ,'yyyy-mm-dd') <= trunc(sysdate) + #{warnDays} and a.sfgh = '0' then  '1' 
+                  when to_date(a.XHSJ,'yyyy-mm-dd') > trunc(sysdate) + #{warnDays} and a.sfgh = '0' then  '2' 
+                  when a.sfgh = '1' then '3' end
+		) as ISLATE
+		]]>
+		 from zftal_xtgl_tsgjyxxb a inner join zftal_xtgl_tsgdzxxb b on  a.DZZH = b.DZZH 
+		<![CDATA[
+		where
+			b.YRH = #{classYrh}
+			and to_date(a.XHSJ,'yyyy-mm-dd') >= trunc(sysdate) and to_date(a.XHSJ,'yyyy-mm-dd') <= trunc(sysdate) + #{warnDays} and a.sfgh = '0'
+		]]>
+		<![CDATA[
+			order by sfgh asc,(to_date(a.XHSJ,'yyyy-mm-dd') - trunc(sysdate)) asc ,txm asc
+		]]>
+	</select>
+	
+	<select id="getAllLateBooks" resultMap="bookMap">
+	<![CDATA[
+		select a.*,(case when to_date(a.XHSJ,'yyyy-mm-dd') < trunc(sysdate) and a.sfgh = '0' then  '0' 
+                  when to_date(a.XHSJ,'yyyy-mm-dd') >= trunc(sysdate) and to_date(a.XHSJ,'yyyy-mm-dd') <= trunc(sysdate) + #{warnDays} and a.sfgh = '0' then  '1' 
+                  when to_date(a.XHSJ,'yyyy-mm-dd') > trunc(sysdate) + #{warnDays} and a.sfgh = '0' then  '2' 
+                  when a.sfgh = '1' then '3' end
+		) as ISLATE
+		]]>
+		 from zftal_xtgl_tsgjyxxb a inner join zftal_xtgl_tsgdzxxb b on  a.DZZH = b.DZZH 
+		<![CDATA[
+		where
+			b.YRH = #{classYrh}
+			and to_date(a.XHSJ,'yyyy-mm-dd') <= trunc(sysdate) and a.sfgh = '0'
+		]]>
+		<![CDATA[
+			order by sfgh asc,(to_date(a.XHSJ,'yyyy-mm-dd') - trunc(sysdate)) asc ,txm asc
+		]]>
+	</select>
+	
+	<select id="getDetailBook" resultMap="bookMap">
+	<![CDATA[
+		select a.*,(case when to_date(a.XHSJ,'yyyy-mm-dd') < trunc(sysdate) and a.sfgh = '0' then  '0' 
+                  when to_date(a.XHSJ,'yyyy-mm-dd') >= trunc(sysdate) and to_date(a.XHSJ,'yyyy-mm-dd') <= trunc(sysdate) + #{warnDays} and a.sfgh = '0' then  '1' 
+                  when to_date(a.XHSJ,'yyyy-mm-dd') > trunc(sysdate) + #{warnDays} and a.sfgh = '0' then  '2' 
+                  when a.sfgh = '1' then '3' end
+		) as ISLATE
+		]]>
+		 from zftal_xtgl_tsgjyxxb a left join zftal_xtgl_tsgdzxxb b on  a.DZZH = b.DZZH 
+		<include refid="whereBookCondition" />
+	</select>
+	
+	
+	
+</mapper>

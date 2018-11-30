@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.skin.dao.ISkinDao">
+    
+    <select id="getSkinList" resultType="com.zfsoft.mobile.skin.entity.SkinEntity">
+		  select t.* from M_SKIN t where 1=1
+	</select>
+	
+	
+    <select id="getPreviewPicList" resultType="com.zfsoft.mobile.skin.entity.SkinPreviewPicsEntity">
+		  select t.* from M_SKIN_PREVIEWPICS t where 1=1 and t.skinid=#{skinId}
+	</select>
+</mapper>

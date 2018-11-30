@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.dybill.dao.ISpBillDataPushEventConfigDao">
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+    		</if>
+		</where>
+	</sql>
+	
+	<select id="findList" resultType="com.zfsoft.hrm.dybill.entity.SpBillDataPushEventConfig">
+		select
+		<foreach collection="sqlNamesAll" item="item" separator=",">
+			<![CDATA[${item} as ${sqlLocalNameMap[item]}]]>
+		</foreach>
+		from ${tableName} 
+		<include refid="where" />
+	</select>
+	
+	<select id="findById" resultType="com.zfsoft.hrm.dybill.entity.SpBillDataPushEventConfig">
+		select
+		<foreach collection="sqlNamesAll" item="item" separator=",">
+			<![CDATA[${item} as ${sqlLocalNameMap[item]}]]>
+		</foreach>
+		from ${tableName}
+		<where>
+			${keyOf}=#{${keyOf}}
+		</where>
+	</select>
+	
+
+	<insert id="insert" keyProperty="id">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+		insert into ${tableName}(${keyOf},
+		<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+			${item}
+		</foreach>
+		values (#{${keyOf}},
+		<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+			#{${sqlLocalNameMap[item]}}
+		</foreach>
+	</insert>
+
+	<update id="update">
+		update ${tableName}
+		<set>
+			<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," >
+				 ${item}=#{${sqlLocalNameMap[item]}}
+			</foreach>
+		</set>
+		where ${keyOf}=#{${keyOf}}
+	</update>
+
+	<!-- 删除岗位信息 -->
+	<delete id="delete">
+		delete from ${tableName} where ${keyOf} = #{${keyOf}}
+	</delete>
+	
+</mapper>

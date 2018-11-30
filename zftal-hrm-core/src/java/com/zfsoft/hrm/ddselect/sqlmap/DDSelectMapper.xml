@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.ddselect.dao.daointerface.IDDSelectDao">
+
+	<resultMap id="ddSelectMap" type="com.zfsoft.hrm.ddselect.entities.DDSelect">
+		<result property="name" 		 column="table_name" />
+		<result property="chineseName"   column="comments" />
+		<collection property="fields" 	 column="table_name" select="getField"/>
+		<collection property="keys" 	 column="table_name" select="getKey"/>
+		<collection property="indexs" 	 column="table_name" select="getIndex"/>
+		<collection property="pFkeyRelations" 	 column="table_name" select="getPFkeyRelation"/>
+	</resultMap>
+	
+	<resultMap id="fieldsMap" type="com.zfsoft.hrm.ddselect.entities.Fields">
+		<result property="tableName" column="TABLE_NAME" />
+		<result property="fieldName" column="COLUMN_NAME" />
+		<result property="fieldChineseName" column="COMMENTS" />
+		<result property="fieldtype" column="DATA_TYPE" />
+		<result property="fieldLength" column="DATA_LENGTH" />
+		<result property="fieldDefalutValue" column="DATA_DEFAULT" />
+		<result property="vacant" column="NULLABLE" />
+	</resultMap>
+	
+	<resultMap id="keyMap" type="com.zfsoft.hrm.ddselect.entities.Keys">
+		<result property="keyName" 		     column="constraint_name" />
+		<result property="keyType"           column="constraint_type" />
+		<result property="columnName" 		 column="column_name" />
+		<result property="comments"          column="comments" />
+		<result property="rconstraintName"   column="r_constraint_name" />
+	</resultMap>
+	
+	<resultMap id="indexMap" type="com.zfsoft.hrm.ddselect.entities.Indexs">
+		<result property="indexName" 		 column="INDEX_NAME" />
+		<result property="indexType"         column="INDEX_TYPE" />
+		<result property="columnName" 		 column="COLUMN_NAME" />
+	</resultMap>
+
+	<resultMap id="pFkeyRelationMap" type="com.zfsoft.hrm.ddselect.entities.PFkeyRelation">
+		<result property="pk_constraint_name" 		 column="pk_constraint_name" />
+		<result property="pk_table_name"         column="pk_table_name" />
+		<result property="pk_column_name" 		 column="pk_column_name" />
+		<result property="fk_constraint_name" 		 column="fk_constraint_name" />
+		<result property="fk_table_name" 		 column="fk_table_name" />
+		<result property="fk_column_name" 		 column="fk_column_name" />
+		<result property="ke_seq" 		 column="ke_seq" />
+	</resultMap>
+	
+	<!-- 查询系统中的表 -->
+	<select id="getPagedTable" parameterType="com.zfsoft.hrm.ddselect.entities.DDSelect" resultMap="ddSelectMap">
+		SELECT 
+			t2.table_name, 
+			t2.comments
+		FROM 
+			user_tables t1, user_tab_comments t2
+		WHERE 
+			t1.table_name = t2.table_name
+		<if test="queryName != null and queryName != ''">
+		AND
+			(
+				t1.table_name LIKE '%'||#{queryName}||'%'
+			OR
+				t2.comments LIKE '%'||#{queryName}||'%'
+			)
+		</if>
+		AND NOT REGEXP_LIKE(t1.table_name, 'BAK')
+	    AND NOT REGEXP_LIKE(t1.table_name, 'TEMP')
+	    <!-- AND NOT REGEXP_LIKE(t1.table_name, 'HRM') -->
+	    AND NOT REGEXP_LIKE(t1.table_name, 'QRTZ')
+	    <!-- AND NOT REGEXP_LIKE(t1.table_name, 'XTGL') -->
+		<if test="exportIdStr != null and exportIdStr != ''">
+		AND
+			t1.table_name
+		IN
+        	(${exportIdStr})
+        </if>
+        ORDER BY t2.table_name
+	</select>
+	
+	<!-- 查询表中的字段 -->
+	<select id="getField" resultMap="fieldsMap">
+		<![CDATA[
+		SELECT 
+			t1.TABLE_NAME,
+       		t1.COLUMN_NAME,
+       		t2.COMMENTS,
+	       	t1.DATA_TYPE,
+	       	t1.DATA_LENGTH,
+	     	t1.NULLABLE,
+	     	t1.DATA_DEFAULT
+  		FROM 
+  			user_tab_columns t1, user_col_comments t2
+ 		WHERE 
+ 			t1.TABLE_NAME = t2.TABLE_NAME
+   		AND 
+   			t1.COLUMN_NAME = t2.COLUMN_NAME
+   		AND 
+   			t1.TABLE_NAME = #{tableName}
+	    ]]>
+	</select>
+	
+	<!-- 查询表中的主外键 -->
+	<select id="getKey" resultMap="keyMap">
+		<![CDATA[
+		SELECT c.table_name,
+		       c.constraint_name,
+		       DECODE(c.constraint_type, 'P', '主键', '外键') constraint_type,
+		       d.column_name,
+		       c.r_constraint_name
+		  FROM user_constraints c
+		  LEFT JOIN user_cons_columns d
+		    ON (c.constraint_name = d.constraint_name)
+		 WHERE (c.constraint_type = 'R' OR c.constraint_type = 'P')
+		   AND c.TABLE_NAME = #{tableName}
+		]]>
+	</select>
+	
+	<!-- 查询表中的外键关系 -->
+	<select id="getPFkeyRelation" resultMap="pFkeyRelationMap">
+		<![CDATA[
+		SELECT b.constraint_name pk_constraint_name,
+		       b.table_name      pk_table_name,
+		       b.column_name     pk_column_name,
+		       c.constraint_name fk_constraint_name,
+		       c.table_name      fk_table_name,
+		       c.column_name     fk_column_name,
+		       c.position        ke_seq
+		  FROM (SELECT * FROM user_cons_columns) b
+		  LEFT JOIN (SELECT *
+		               FROM user_constraints
+		              WHERE user_constraints.constraint_type = 'R') a
+		    ON b.constraint_name = a.r_constraint_name
+		  LEFT JOIN user_cons_columns c
+		    ON c.constraint_name = a.constraint_name
+		 WHERE c.position IS NOT NULL
+		   AND c.position = b.position
+		   AND (c.TABLE_NAME = #{tableName} OR b.TABLE_NAME = #{tableName})
+		 ORDER BY c.table_name, c.position	
+		]]>
+	</select>
+	
+	<!-- 查询表中的索引 -->
+	<select id="getIndex" resultMap="indexMap">
+		<![CDATA[
+		SELECT t.INDEX_NAME,
+		       DECODE(i.index_type,
+		              'NORMAL',
+		              '普通索引',
+		              'UNIQUE',
+		              '惟一索引',
+		              '位图索引') INDEX_TYPE,
+		       t.COLUMN_NAME
+		  FROM user_ind_columns t, user_indexes i
+		 WHERE t.index_name = i.index_name
+		   AND t.table_name = #{tableName}
+		]]>
+   </select>
+   
+   
+</mapper>

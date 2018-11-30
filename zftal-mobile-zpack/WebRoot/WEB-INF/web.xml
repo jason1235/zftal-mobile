@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns="http://java.sun.com/xml/ns/j2ee"
+    xmlns:web="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd "
+    version="2.4">
+    <error-page>
+        <error-code>404</error-code>
+        <location>/page/error/404.html</location>
+    </error-page>
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>zfsoft.root</param-value>
+    </context-param>
+    <listener>
+        <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>
+    <listener>
+        <listener-class>com.zfsoft.hrm.listener.InitializeListener</listener-class>
+    </listener>
+    <!--<listener>
+        <listener-class>com.zfsoft.framework.util.QuartzInitializerListener</listener-class>
+    </listener>
+    --><!-- Character Encoding filter -->
+    <!--
+    <filter>  
+	    <filter-name>urlFilter</filter-name>  
+	    <filter-class>com.zfsoft.dataprivilege.dto.UrlFilter</filter-class>  
+	    <init-param>  
+	      <param-name>DEFAULT_URI_ENCODE</param-name>  
+	      <param-value>UTF-8</param-value>  
+	    </init-param>  
+	 </filter>  
+	 <filter-mapping>  
+	    <filter-name>urlFilter</filter-name>  
+	    <url-pattern>/*</url-pattern>  
+     </filter-mapping>  
+     -->
+   
+   
+    <filter>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+        <init-param>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <param-name>forceEncoding</param-name>
+            <param-value>true</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    <!-- 单点登录配置开始 -->
+    <!--<servlet>
+        <servlet-name>ZfssoLoginServlet</servlet-name>
+        <servlet-class>com.zfsoft.zfca.tp.cas.client.zfsso.ZfssoLogin</servlet-class>
+        <init-param>
+            <param-name>setsessionclass</param-name>
+            <param-value>com.zfsoft.hrm.common.SsoSetSession</param-value>
+        </init-param>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>ZfssoLoginServlet</servlet-name>  
+        <url-pattern>/portal/*</url-pattern>
+    </servlet-mapping>
+    
+    --><listener>
+        <listener-class>
+            com.zfsoft.zfca.tp.cas.client.logout.SingleSignOutHttpSessionListener
+        </listener-class>
+    </listener>
+    
+    <filter>
+        <filter-name>Zfca Single Sign Out Filter</filter-name>
+        <filter-class>
+            com.zfsoft.zfca.tp.cas.client.logout.SingleSignOutFilter
+        </filter-class>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>Zfca Single Sign Out Filter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    
+    <filter>
+        <filter-name>ZFSSO Filter</filter-name>
+        <filter-class>com.zfsoft.zfca.tp.cas.client.filter.ZFSSOFilter</filter-class>
+        
+        <init-param>
+            <param-name>setsessionclass</param-name>
+            <param-value>com.zfsoft.hrm.common.SsoSetSession</param-value>
+        </init-param>
+        <init-param>
+            <param-name>notCheckURLList</param-name>
+            <param-value>/WEB-INF/pages/globalweb/login.jsp</param-value>
+        </init-param>
+        <init-param>
+            <param-name>notCheckURLList</param-name>
+            <param-value>/WEB-INF/pages/mobile/image/index.jsp</param-value>
+        </init-param>
+    </filter>
+    
+    <filter-mapping>
+        <filter-name>ZFSSO Filter</filter-name>
+        <url-pattern>*.html</url-pattern>
+    </filter-mapping>
+    <!-- 单点登录配置结束 -->
+    
+    <servlet>
+	    <servlet-name>FileServlet</servlet-name>
+	    <servlet-class>com.zfsoft.mobile.file.servlet.FileServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>FileServlet</servlet-name>
+	    <url-pattern>/servlet/FileServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+	    <servlet-name>UpdateZwByIDServlet</servlet-name>
+	    <servlet-class>com.zfsoft.mobile.file.servlet.UpdateZwByIDServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>UpdateZwByIDServlet</servlet-name>
+	    <url-pattern>/servlet/UpdateZwByIDServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+	    <servlet-name>NotifyServlet</servlet-name>
+	    <servlet-class>com.zfsoft.mobile.alipay.servlet.ALiNotifyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>NotifyServlet</servlet-name>
+	    <url-pattern>/servlet/NotifyServlet/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+	    <servlet-name>WiseduServlet</servlet-name>
+	    <servlet-class>com.zfsoft.mobile.servlet.wiseduServlet.WiseduServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>WiseduServlet</servlet-name>
+	    <url-pattern>/servlet/WiseduServlet</url-pattern>
+    </servlet-mapping>
+    
+    
+    <servlet>
+	    <servlet-name>MemoServlet</servlet-name>
+	    <servlet-class>com.zfsoft.mobile.file.servlet.MemoServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>MemoServlet</servlet-name>
+	    <url-pattern>/servlet/MemoServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+	    <servlet-name>MemoPictureServlet</servlet-name>
+	    <servlet-class>com.zfsoft.mobile.file.servlet.MemoPictureServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>MemoPictureServlet</servlet-name>
+	    <url-pattern>/servlet/MemoPictureServlet</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+	    <servlet-name>SuggestServlet</servlet-name>
+	    <servlet-class>com.zfsoft.mobile.suggest.servlet.SuggestServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>SuggestServlet</servlet-name>
+	    <url-pattern>/servlet/SuggestServlet</url-pattern>
+    </servlet-mapping>
+    
+    
+  
+    <servlet>
+        <servlet-name>DisplayChart</servlet-name>
+        <servlet-class>org.jfree.chart.servlet.DisplayChart</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>DisplayChart</servlet-name>
+        <url-pattern>/servlet/DisplayChart</url-pattern>
+    </servlet-mapping>
+    <!-- oauth认证servlet -->
+     <servlet>
+	    <servlet-name>OauthServlet</servlet-name>
+	    <servlet-class>com.zfsoft.mobile.oauth.servlet.OauthServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>OauthServlet</servlet-name>
+	    <url-pattern>/oauth2/authorize/*</url-pattern>
+    </servlet-mapping>
+    
+     <servlet>
+	    <servlet-name>MobileLoginServlet</servlet-name>
+	    <servlet-class>com.zfsoft.mobile.servlet.MobileLoginServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+	    <servlet-name>MobileLoginServlet</servlet-name>
+	    <url-pattern>/newmobile/MobileLoginServlet/*</url-pattern>
+    </servlet-mapping>
+    
+    
+    <servlet-mapping>
+        <servlet-name>DisplayChart</servlet-name>
+        <url-pattern>/servlet/DisplayChart</url-pattern>
+    </servlet-mapping>
+    
+    
+    
+    <servlet>
+		<servlet-name>imgUpload</servlet-name>
+		<servlet-class>com.zfsoft.mobile.common.imageServlet.ImageUploadServlet</servlet-class>
+	</servlet>
+  <servlet>
+    <servlet-name>imgCrop</servlet-name>
+    <servlet-class>com.zfsoft.mobile.common.imageServlet.ImageCrop</servlet-class>
+  </servlet>
+	<servlet-mapping>
+		<servlet-name>imgUpload</servlet-name>
+		<url-pattern>/imgUpload</url-pattern>
+	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>imgCrop</servlet-name>
+    <url-pattern>/imgCrop</url-pattern>
+  </servlet-mapping>
+  
+  
+  
+    
+    <!-- 微信登录过滤器 --><!--
+    <filter>
+        <filter-name>WeiXinBinding</filter-name>
+        <filter-class>com.zfsoft.wechat.login.filter.WeChatLoginFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>WeiXinBinding</filter-name> 
+        <url-pattern>/*</url-pattern> 
+    </filter-mapping>
+	--><!-- 结束 -->
+    
+    <servlet>
+        <!-- 配合Spring容器中XFire一起工作的Servlet-->
+        <servlet-name>xfireServlet</servlet-name>
+        <servlet-class>org.codehaus.xfire.spring.XFireSpringServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>xfireServlet</servlet-name>
+        <!-- 在这个URI下开放Web Service服务 -->
+        <url-pattern>/service/*</url-pattern>
+    </servlet-mapping>
+    
+    <!-- CXF过滤器 开始 -->
+	<servlet>  
+    	<servlet-name>CXFServlet</servlet-name>  
+	    <servlet-class>  
+	        org.apache.cxf.transport.servlet.CXFServlet  
+	    </servlet-class>  
+	</servlet>  
+	<servlet-mapping>  
+	    <servlet-name>CXFServlet</servlet-name>  
+	    <url-pattern>/webservice/*</url-pattern>  
+	</servlet-mapping>
+	<!-- CXF过滤器 结束 -->
+
+    <!-- 对图片、附件上传类不进行request的inputStream读取 -->
+    <filter>
+        <filter-name>notCheckFile</filter-name>
+        <filter-class>com.zfsoft.hrm.file.filter.FileNotReadFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/file/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/servlet/MemoServlet</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/servlet/MemoPictureServlet</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/appCenter/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/myPortalHttp/*</url-pattern>
+    </filter-mapping>
+     <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/homePageHttp/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/commonHttp/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/servlet/SuggestServlet</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/servlet/FileServlet</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/servlet/FileServlet/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/servlet/UpdateZwByIDServlet</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/servlet/UpdateZwByIDServlet/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/kindeditor/uploadJson.html</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/serviceManager/loss_publishLoss.html</url-pattern>
+    </filter-mapping>
+     <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/vote/*</url-pattern>
+    </filter-mapping>
+     <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/reportFix/*</url-pattern>
+    </filter-mapping>
+     <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/htballot/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/oaMobile/oaMobile_fjUploadByType.html</url-pattern>
+    </filter-mapping>
+    
+
+    
+    <filter-mapping>
+     	<filter-name>notCheckFile</filter-name>
+        <url-pattern>/pushMsg/*</url-pattern>
+    </filter-mapping>
+
+     <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/classCommunity/*</url-pattern>
+    </filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/firstAnswer/*</url-pattern>
+    </filter-mapping>
+    
+        
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/market/*</url-pattern>
+    </filter-mapping>
+    
+    <filter-mapping>
+        <filter-name>notCheckFile</filter-name>
+        <url-pattern>/interest/*</url-pattern>
+    </filter-mapping>
+   
+
+    <!-- 结束 -->
+
+    <filter>
+        <filter-name>struts2</filter-name>
+        <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
+        <init-param>
+            <param-name>config</param-name>
+            <param-value>
+                struts-default.xml,struts-plugin.xml,/conf/struts/struts.xml
+            </param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>struts2</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>
+            classpath*:/conf/config/config*.xml,
+            classpath*:/conf/spring/common.xml,
+            classpath*:/conf/spring/config*.xml,
+            classpath*:/conf/spring/plus/config*.xml,
+            classpath*:applicationContext.xml
+        </param-value>
+    </context-param>
+    
+    <!-- session超时定义,单位为分钟 -->
+    <session-config>
+        <session-timeout>30</session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>/WEB-INF/pages/globalweb/login_r.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>

@@ -1,0 +1,1485 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.common.dao.daointerface.IMobileCommonDao">
+
+	<resultMap id="ServiceNotReadingMap" type="com.zfsoft.mobile.webservices.entity.ServiceNotReading">
+        <result property="serviceCode"           	column="serviceCode" />
+        <result property="notReadingNum"        	column="notReadingNum" />
+    </resultMap>
+    
+	<resultMap id="ThirdPartyMap" type="com.zfsoft.mobile.webservices.entity.ThirdPartyEntity">
+        <result property="userId"           column="userId" />
+        <result property="openId"        	column="openId" />
+        <result property="type"        		column="type" />
+    </resultMap>
+    
+	<resultMap id="ScalendarMap" type="com.zfsoft.mobile.webservices.entity.ScalendarEntity">
+        <result property="xqstart"          column="from_date" />
+        <result property="xqend"        	column="to_date" />
+        <result property="stustart"        	column="student_from_date" />
+        <result property="stuend"          	column="student_to_date" />
+        <result property="teastart"         column="teacher_from_date" />
+        <result property="teaend"        	column="teacher_to_date" />
+        <result property="count"        	column="week_count" />
+        <result property="code"          	column="code" />
+    </resultMap>
+    
+    <resultMap id="ServiceManagerMap" type="com.zfsoft.mobile.services.entity.ServiceManager">
+        <result property="classId"          column="FWID" />
+        <result property="classFwbm"        column="FWBM" />
+        <result property="classFwmc"        column="FWMC" />
+        <result property="classSsywxt"      column="SSYWXT" />
+        <result property="classSscp"        column="SSCP" />
+        <result property="classFwlx"        column="FWLX" />
+        <result property="classFbzt"        column="FBZT" />
+        <result property="classFwly"        column="FWLY" />
+        <result property="classFwms"        column="FWMS" />
+        <result property="classFwlj"        column="FWLJ" />
+        <result property="classFwtbdz"      column="FWTBDZ" />
+        <result property="classFwtbid"      column="FWTBID" />
+        <result property="classRdpx"        column="RDPX" />
+        <result property="classAppyydz"     column="APPYYDZ" />
+        <result property="classAndroidUrl"  column="ANDROIDURL" />
+        <result property="classIosUrl"      column="IOSURL" />
+        <result property="classWXUrl"       column="WXURL" />
+        <result property="xtdz"             column="XTDZ" />
+        <result property="choice"           column="CHOICE" />
+        <result property="procode"          column="PROCODE" />
+        <result property="xtbm"             column="XTBM" />
+        <result property="apkfilename"      column="wjmc" />
+        <result property="otherFlag"      	column="otherFlag" />
+        <result property="iscommon"      	column="iscommon" />
+    </resultMap>
+    
+    
+    
+    <resultMap id="BusinessMap" type="com.zfsoft.mobile.services.entity.Business">
+        <result property="classId"          column="XTID" />
+        <result property="classXtbm"        column="XTBM" />
+        <result property="classXtmc"        column="XTMC" />
+        <result property="procode"          column="PROCODE" />
+        <result  property="otherFlag"       column="otherFlag"/>
+        <result  property="signalXtbm"       column="signalXtbm"/>
+    </resultMap>
+    
+    <resultMap id="imageDB" type="com.zfsoft.hrm.file.entity.ImageDB">
+		<result property="fileName" 	column="WJBT"/> 
+		<result property="fileContent" 	column="WJNR"/>
+		<result property="path" 		column="WJLJ"/>
+		<result property="uploadTime" 	column="SCRQ"/>
+		<result property="opUser" 		column="USERID"/>
+	</resultMap>
+	
+	<resultMap id="MemoDBMap" type="com.zfsoft.mobile.webservices.entity.MemoDB">
+		<result property="memoCatalogId" 	column="memoCatalogId"/> 
+		<result property="memoTitle" 		column="memoTitle"/>
+		<result property="memoFileName" 	column="memoFileName"/>
+		<result property="memoContent" 		column="memoContent"/>
+		<result property="createTime" 		column="createTime"/>
+		<result property="memoPath" 		column="memoPath"/>
+		<result property="userName" 		column="userName"/>
+		<result property="contentFlag" 		column="contentFlag"/>
+	</resultMap>
+	<resultMap id="MemoPictureMap" type="com.zfsoft.mobile.webservices.entity.MemoPictureEntity">
+		<result property="memoFileName" 			column="memoFileName"/>
+		<result property="title"   					column="title" />
+		<result property="pictureContent"   		column="pictureContent" />
+		<result property="picturePath"   			column="picturePath" />
+		<result property="createTime"   			column="createTime" />
+	</resultMap>
+	
+	
+	<resultMap id="MemoCatalogMap" type="com.zfsoft.mobile.webservices.entity.MemoCatalog">
+		<result property="memoCatalogId" 	column="memoCatalogId"/> 
+		<result property="memoCatalogName" 	column="memoCatalogName"/>
+		<result property="userName" 		column="userName"/>
+		<result property="catalogColor" 	column="catalogColor"/>
+		<result property="sortNumber" 		column="sortNumber"/>
+	</resultMap>
+	
+	<resultMap id="departmentMap" type="com.zfsoft.mobile.webservices.entity.NumberDepartment">
+		<result property="globalid" column="globalid"/> 
+		<result property="bmbm" 	column="bmbm"/>
+		<result property="bmmc" 	column="bmmc"/>
+	</resultMap>
+	
+	<resultMap id="personMap" type="com.zfsoft.mobile.webservices.entity.PersonEntity">
+		<result property="ryid" 			column="gh"/> 
+		<result property="ryname" 			column="xm"/>
+		<result property="ryicoid" 			column="zp"/>
+		<result property="pybs" 			column="pybs"/>
+		<result property="lxdh" 			column="lxdh"/>
+	</resultMap>
+	
+	<resultMap id="InformationMap" type="com.zfsoft.mobile.webservices.entity.InformationListEntity">
+		<result property="informationid" column="xxlbh"/> 
+		<result property="informationname" column="xxlmc"/>
+		<result property="informationico" column="datadz"/>
+	</resultMap>
+	
+	<resultMap id="VoteActivityMap" type="com.zfsoft.mobile.webservices.entity.VoteActivity">
+		<result property="tphdid" column="TPHDID"/> 
+		<result property="tphdmc" column="TPHDMC"/>
+		<result property="tphdms" column="TPHDMS"/>
+		<result property="ztys" column="ZTYS"/>
+		<result property="zttpid" column="ZTTPID"/>
+		<result property="sfqy" column="SFQY"/>
+	</resultMap>
+	
+	<resultMap id="ProgramMap" type="com.zfsoft.mobile.webservices.entity.Program">
+		<result property="jmid" column="JMID"/> 
+		<result property="jmbh" column="JMBH"/>
+		<result property="title" column="TITLE"/>
+		<result property="dp" column="DP"/>
+		<result property="yy" column="YY"/>
+		<result property="jmtpid" column="JMTPID"/>
+		<result property="sshdid" column="SSHDID"/>
+		<result property="ps" column="PS"/>
+	</resultMap>
+	
+	<resultMap id="CardBusinessMap" type="com.zfsoft.mobile.webservices.entity.CardBusinessEntity">
+		<result property="classLsh" 		 column="LSH" />
+		<result property="classJysj"   		column="JYSJ" />
+		<result property="classJye"   		column="JYE" />
+		<result property="classSbbh"   		column="SBBH" />
+		<result property="classSh"   		column="SH" />
+		<result property="classYe"   		column="YE" />
+	</resultMap>
+	<resultMap id="XBCardBusinessMap" type="com.zfsoft.mobile.webservices.entity.CardBusinessEntity">
+		<result property="classJysj"   		column="FSSJ" />
+		<result property="classJye"   		column="JYE" />
+		<result property="classSbbh"   		column="SHZH" />
+		<result property="classSh"   		column="SHMC" />
+		<result property="classYe"   		column="KNYE" />
+		<result property="classZh"   		column="ZH" />
+	</resultMap>
+	
+	<resultMap id="WeiBoEntityMap" type="com.zfsoft.mobile.webservices.entity.WeiBoEntity">
+		<result property="wbbh" 		 		column="wbbh" />
+		<result property="wbmc"   				column="wbmc" />
+		<result property="client_id"   			column="client_id" />
+		<result property="client_sercret"   	column="client_sercret" />
+		<result property="istimeout"   			column="istimeout" />
+		<result property="sfqy"   				column="sfqy" />
+	</resultMap>
+	
+	<resultMap id="NoticeInfoMap" type="com.zfsoft.mobile.webservices.entity.NoticeInfoEntity">
+		<result property="resource_id" 		 		column="resource_id" />
+		<result property="title" 		 			column="title" />
+		<result property="belong_unit" 		 		column="dwmc" />
+		<result property="content" 		 			column="nr" />
+		<result property="content_sort" 		 	column="tzlx" />
+		<result property="create_time" 		 		column="create_time" />
+		<result property="topi" 		 			column="topi" />
+	</resultMap>
+	
+	<!-- 根据用户名所有服务未读数 -->
+	<select id="getAllServiceNotreadingByUserName" resultMap="ServiceNotReadingMap" parameterType="map">
+	     select * from m_service_notreading t where t.username = #{username}
+	</select>
+	
+	<!-- 根据所有服务未读数 -->
+	<select id="getAllServiceNotreading" resultMap="ServiceNotReadingMap" parameterType="map">
+	     select * from m_service_notreading t
+	</select>
+	
+	
+	<!-- 根据类型获取通知公告 -->
+	<select id="selectThirdParty" resultMap="ThirdPartyMap">
+	            select * from m_ThirdParty t 
+	            <where>
+						<if test="openId != null and openId != ''">
+			   				and t.openId = #{openId}
+				   		</if>
+				   		<if test="userId != null and userId != ''">
+			   				and t.userId = #{userId}
+				   		</if>
+				   		<if test="type != null and type != ''">
+			   				and t.type = #{type}
+				   		</if>
+				</where>
+	</select>
+	
+	<!-- 根据类型获取通知公告 -->
+	<select id="getTermWeek" resultMap="ScalendarMap">
+		<![CDATA[
+			 select * from (
+			     select a.*,rownum rn from 
+	          (
+	            select * from wapp_scalendar m
+	                       	
+			  ) a
+			)
+		]]>	
+	</select>
+	
+	<!-- 获取通知公告记录数 -->
+	<select id="getNoticeListCount" resultType="int">
+			select count(*) from
+				(
+					select * from tb_tzgh_x m
+					<where>
+						<if test="content_sort != null and content_sort != ''">
+			   				and m.tzlx = #{content_sort}
+				   		</if>
+					</where>
+				)
+			a 
+	</select>
+	
+	<!-- 根据类型获取通知公告 -->
+	<select id="getNoticeList" resultMap="NoticeInfoMap">
+			select * from (
+			     select a.*,rownum rn from 
+					(
+						select * from tb_tzgh_x m
+						<where>
+							<if test="content_sort != null and content_sort != ''">
+				   				and m.tzlx = #{content_sort}
+					   		</if>
+						</where>
+					) a
+			)
+			<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow} order by topi
+			]]>	
+	</select>
+	
+	<!-- 根据id获取通知公告 -->
+	<select id="getNoticeInfo" resultMap="NoticeInfoMap">
+			select * from tb_tzgh_x m
+			<where>
+				<if test="_parameter != null and _parameter != ''">
+	   				and m.resource_id = #{_parameter}
+		   		</if>
+			</where>
+	</select>
+	
+	<select id="getdetailListByXB" resultMap="XBCardBusinessMap">
+		select * from (
+		     select c.*,rownum rn from 
+				(
+					select a.fssj,a.JYE,a.SHZH,a.SHMC,a.KNYE from XGD_YKT_WEBLIST  a  
+						<![CDATA[
+						where a.zh = #{ocid}
+						]]>
+						<if test='startdate != null and startdate != ""'>
+							<![CDATA[ 
+								and to_date(a.fssj,'yyyy-mm-dd hh24:mi:ss')  >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+				        	]]>
+				        	</if>	
+			        	<if test='startdate != null and startdate != ""'>
+				        	<![CDATA[ 
+								and to_date(a.fssj,'yyyy-mm-dd hh24:mi:ss')	 <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+							]]>
+						</if>	
+						<if test='detailtype != null and detailtype != "" and detailtype == "1"'>
+				        	<![CDATA[ 
+								and a.jye < 0
+							]]>
+						</if>
+						<if test='detailtype != null and detailtype != "" and detailtype == "0"'>
+				        	<![CDATA[ 
+								and a.jye > 0
+							]]>
+						</if>	
+				) c
+		)
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}  order by fssj desc
+			]]>	
+	</select>
+	<select id="getNoticeListNewTableType" resultType="String">
+			select distinct t.tzlx from tb_tzgh_x t
+	</select>
+	
+	<select id="getWeiBoListCount" resultType="int">
+			select count(*) from
+				(
+					select * from m_weibo_wbglb m
+					where m.sfqy='1'
+					<if test="wbbh != null and wbbh != ''">
+		   				and m.wbbh = #{wbbh}
+			   		</if>
+					
+				)
+			a 
+	</select>
+	
+	
+	<select id="getWeiBoList" resultMap="WeiBoEntityMap">
+		select * from (
+		     select a.*,rownum rn from 
+				(
+					select * from m_weibo_wbglb m
+					where m.sfqy='1'
+					<if test="wbbh != null and wbbh != ''">
+				   				and m.wbbh = #{wbbh}
+			   		</if>
+				) a
+		)
+		<![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>	
+	</select>
+	
+	<select id="getcdetailList" resultMap="CardBusinessMap">
+	select * from(
+			select t.*,rownum as rn from(
+		select * from (
+	
+	
+		select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH,a.czye as ye from zftal_xtgl_yktjsczb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		union all 
+		 select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH,a.czye as ye from zftal_xtgl_yktxsczb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		) c	order by c.jysj desc
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[ 
+					and JYSJ >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+	        	]]>
+	        	</if>	
+        	<if test='startdate != null and startdate != ""'>
+	        	<![CDATA[ 
+					and JYSJ <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+				]]>
+			</if>	
+       	</where>
+       	) t)
+                
+		  <![CDATA[
+		 where rn>=#{startRow}  and rn<=#{endRow} 
+		 ]]>
+	</select>
+	
+	<select id="getcdetailCount" resultType="int">
+		select count(*) from (
+	
+	
+		select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH,a.czye as ye from zftal_xtgl_yktjsczb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		union all 
+		 select a.LSH,a.CZSJ as JYSJ,to_char(abs(a.JYE)) as JYE,a.SBBH,a.SH,a.czye as ye from zftal_xtgl_yktxsczb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		) c	
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[ 
+					and JYSJ >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+	        	]]>
+	        	</if>	
+        	<if test='startdate != null and startdate != ""'>
+	        	<![CDATA[ 
+					and JYSJ <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+				]]>
+			</if>	
+       	</where>
+	</select>
+	
+	<select id="getodetailList" resultMap="CardBusinessMap">
+	select * from(
+			select t.*,rownum as rn from(
+		
+		select * from (
+	
+	
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH,a.ye from zftal_xtgl_yktjsxfb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		union all 
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH,a.ye from zftal_xtgl_yktxsxfb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		) c	order by c.jysj desc
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[ 
+					and JYSJ >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+	        	]]>
+	        	</if>	
+        	<if test='startdate != null and startdate != ""'>
+	        	<![CDATA[ 
+					and JYSJ <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+				]]>
+			</if>	
+       	</where>
+       	) t)
+                
+		  <![CDATA[
+		 where rn>=#{startRow}  and rn<=#{endRow} 
+		 ]]>
+	</select>
+	
+	<select id="getodetailCount" resultType="int">
+		select count(*) from (
+	
+	
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH,a.ye from zftal_xtgl_yktjsxfb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		union all 
+		select a.LSH,a.JYSJ,concat('-',abs(a.JYE)) as JYE,a.SBBH,a.SH,a.ye from zftal_xtgl_yktxsxfb  a  
+		<![CDATA[
+			where a.kh = #{ocid}
+			]]>
+		) c	
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[ 
+					and JYSJ >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+	        	]]>
+	        	</if>	
+        	<if test='startdate != null and startdate != ""'>
+	        	<![CDATA[ 
+					and JYSJ <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+				]]>
+			</if>	
+       	</where>
+       		
+	</select>
+	
+	<!-- 获取西北工业大一卡通充值或者消费记录记录数 -->
+	<select id="getdetailCountByXB" resultType="int">
+		select count(*) from (
+	
+	
+		select * from XGD_YKT_WEBLIST  a  
+		<![CDATA[
+			where a.zh = #{ocid}
+			]]>
+		
+		) c	
+		<where>
+			<if test='startdate != null and startdate != ""'>
+				<![CDATA[ 
+					and to_date(c.fssj,'yyyy-mm-dd hh24:mi:ss')  >=  to_date(#{startdate},'yyyy-mm-dd hh24:mi:ss') 
+	        	]]>
+	        	</if>	
+        	<if test='startdate != null and startdate != ""'>
+	        	<![CDATA[ 
+					and to_date(c.fssj,'yyyy-mm-dd hh24:mi:ss')	 <=  to_date(#{enddate},'yyyy-mm-dd hh24:mi:ss') 
+				]]>
+			</if>	
+			<if test='detailtype != null and detailtype != "" and detailtype == "1"'>
+	        	<![CDATA[ 
+					and c.jye < 0
+				]]>
+			</if>
+			<if test='detailtype != null and detailtype != "" and detailtype == "0"'>
+	        	<![CDATA[ 
+					and c.jye > 0
+				]]>
+			</if>	
+			
+       	</where>
+	</select>
+	
+	<select id="getCardByUser" resultMap="XBCardBusinessMap">
+		select * from (
+		     select c.*,rownum rn from 
+				(
+					select a.zh,a.KNYE from XGD_YKT_WEBLIST  a  
+						where trim(a.xgh)=#{userid}
+					order by a.fssj desc
+				) c
+		) where rn = 1
+		
+	</select>
+	
+	<select id="getCardKHByXB" resultMap="XBCardBusinessMap">
+		select * from (
+		     select c.*,rownum rn from 
+				(
+					select a.KNYE,a.zh from XGD_YKT_WEBLIST  a 
+					<![CDATA[
+						where a.xgh = #{userid}
+					]]>
+					order by a.fssj desc
+				) c
+		)
+		<![CDATA[
+				where rn = 1 
+		]]>	
+	
+			
+	</select>
+	
+	
+	
+	
+	
+	<select id="getCardKH" resultType="String">
+		select a.kh from zftal_xtgl_yktjbxxb a 
+		<![CDATA[
+			where a.ryh = #{userid}
+			]]>
+	</select>
+	
+	<select id="getCardNumber" resultType="float">
+		select to_number(nvl(a.yue,0)) from zftal_xtgl_yktjbxxb a 
+		<![CDATA[
+			where a.ryh = #{userid}
+			]]>
+	</select>
+    
+    <select id="getAllInformationList" resultMap="InformationMap">
+		select b.xxlbh, b.xxlmc, z.datadz
+		  from xxlysjb b
+		  left join xxlmlb t
+		    on b.xxlssml = t.mlid
+		  left join m_jcsz_ccgcsz z
+		    on b.xxlbh = z.xxlid
+		 where t.mlmc = '个人档案'
+		 order by b.xxlxh
+	</select>
+	
+	<select id="getVoteList" resultMap="VoteActivityMap">
+		select * from m_tp_tphd t
+		  where t.TPHDID =  #{tphdid}
+		  
+	</select>
+	
+	<select id="getTPByUserAndJmid" resultType="int">
+		select count(*) from m_tp_yhb t
+		  where t.jmid =  #{jmid} and t.yhid = #{username}
+	</select>
+	
+	
+	<select id="getProgramList" resultMap="ProgramMap">
+		select * from m_tp_jm t
+		  where t.sshdid =  #{sshdid}
+		  order by t.jmbh asc
+	</select>
+	
+	<select id="getRankListByTphdid" resultMap="ProgramMap">
+		select a.title,a.ps from (
+			select y.title,
+			       (select count(*) from m_tp_yhb t where t.jmid = y.jmid) as ps
+			  from m_tp_jm y
+			 where y.sshdid = #{tphdid}
+			) a order by a.ps desc
+	</select>
+	
+	<select id="getPersonList" resultMap="personMap">
+		select * from(
+			select t.*,rownum as rn from(
+			
+			select a.gh,a.xm,a.zp,a.pybs,a.lxdh from (
+    	  select distinct e.gh,e.xm,e.zp,e.pybs,e.lxdh from m_jbxx e where e.bm in(
+         	select distinct d.bmbm from zftal_xtgl_yhzu a 
+        	left join zftal_xtgl_zuxxb b on a.zubh = b.zubh 
+        	left join zftal_xtgl_sjqxgxb c on a.zubh=c.zubh 
+        	left join m_bm d on c.tmid=d.bmbm
+        	<where>
+			<if test="userName != null and userName != ''">
+   				and a.yhbh = #{userName}
+	   		</if>
+			<if test="dpId != null and dpId != ''">
+   				and d.bmbm = #{dpId}
+	   		</if>
+	   		<if test="searchName != null and searchName != ''">
+   				and (e.gh like '%'||#{searchName}||'%'   or e.xm  like '%'||#{searchName}||'%' )
+	   		</if>
+    		and d.bmbm is not null and d.deleted ='0' 
+			</where>
+               )  and (e.rylx is null or e.rylx!='student')
+               union all 
+          select distinct e.gh,e.xm,e.zp,e.pybs,e.lxdh from m_jbxx e where e.bj in(
+    	    select distinct d.bmbm from zftal_xtgl_yhzu a 
+            left join zftal_xtgl_zuxxb b on a.zubh = b.zubh 
+            left join zftal_xtgl_sjqxgxb c on a.zubh=c.zubh 
+       		left join m_bm d on c.tmid=d.bmbm 
+       		<where>
+			<if test="userName != null and userName != ''">
+   				and a.yhbh = #{userName}
+	   		</if>
+			<if test="dpId != null and dpId != ''">
+   				and d.bmbm = #{dpId}
+	   		</if>
+	   		<if test="searchName != null and searchName != ''">
+   				and (e.gh like '%'||#{searchName}||'%'   or e.xm  like '%'||#{searchName}||'%' )
+	   		</if>
+    		and d.bmbm is not null and d.deleted ='0' 
+			</where>
+               ) and e.rylx='student' 
+               ) a order by a.gh asc
+			
+		) t)
+                
+		  <![CDATA[
+		 where rn>=#{startRow}  and rn<=#{endRow}
+		 ]]>
+	</select>
+	
+	<!-- 查询是否已经插入工资记录 -->
+	<select id="getSalCountById" resultType="int">
+		select count(*) from m_jsgz where globalid = #{globalid}
+	</select>
+	<!-- 查询是否已经插入此图书馆用户记录 -->
+	<select id="getLibUserCountById" resultType="int">
+		select count(*) from zftal_xtgl_tsgdzxxb where yrh = #{ryh}
+	</select>
+	<!-- 查询是否已经插入此图书馆借阅记录 -->
+	<select id="getLibBusCountById" resultType="int">
+		select count(*) from zftal_xtgl_tsgjyxxb where lsh = #{lsh}
+	</select>
+	<!-- 查询是否已经插入此流水号的一卡通记录 -->
+	<select id="getBsiCountByLsh" resultType="int">
+		select count(*) from XGD_YKT_WEBLIST where lsh = #{lsh}
+	</select>
+	
+	<select id="getPersonCount" resultType="int">
+		select count(*) from (
+			select a.gh,a.xm,a.zp,a.pybs,a.lxdh from (
+    	  select distinct e.gh,e.xm,e.zp,e.pybs,e.lxdh from m_jbxx e where e.bm in(
+         	select distinct d.bmbm from zftal_xtgl_yhzu a 
+        	left join zftal_xtgl_zuxxb b on a.zubh = b.zubh 
+        	left join zftal_xtgl_sjqxgxb c on a.zubh=c.zubh 
+        	left join m_bm d on c.tmid=d.bmbm
+        	<where>
+			<if test="userName != null and userName != ''">
+   				and a.yhbh = #{userName}
+	   		</if>
+			<if test="dpId != null and dpId != ''">
+   				and d.bmbm = #{dpId}
+	   		</if>
+	   		<if test="searchName != null and searchName != ''">
+   				and (e.gh like '%'||#{searchName}||'%'   or e.xm  like '%'||#{searchName}||'%' )
+	   		</if>
+    		and d.bmbm is not null and d.deleted ='0' 
+			</where>
+               )  and (e.rylx is null or e.rylx!='student')
+               union all 
+          select distinct e.gh,e.xm,e.zp,e.pybs,e.lxdh from m_jbxx e where e.bj in(
+    	    select distinct d.bmbm from zftal_xtgl_yhzu a 
+            left join zftal_xtgl_zuxxb b on a.zubh = b.zubh 
+            left join zftal_xtgl_sjqxgxb c on a.zubh=c.zubh 
+       		left join m_bm d on c.tmid=d.bmbm 
+       		<where>
+			<if test="userName != null and userName != ''">
+   				and a.yhbh = #{userName}
+	   		</if>
+			<if test="dpId != null and dpId != ''">
+   				and d.bmbm = #{dpId}
+	   		</if>
+	   		<if test="searchName != null and searchName != ''">
+   				and (e.gh like '%'||#{searchName}||'%'   or e.xm  like '%'||#{searchName}||'%' )
+	   		</if>
+    		and d.bmbm is not null and d.deleted ='0' 
+			</where>
+               ) and e.rylx='student' 
+               ) a order by a.gh asc
+			)
+	</select>
+    
+    <select id="getAllPerson" resultMap="personMap">
+    	select a.gh,a.xm,a.zp,a.pybs,a.lxdh from (
+    	  select distinct e.gh,e.xm,e.zp,e.pybs,e.lxdh from m_jbxx e where e.bm in(
+         	select distinct d.bmbm from zftal_xtgl_yhzu a 
+        	left join zftal_xtgl_zuxxb b on a.zubh = b.zubh 
+        	left join zftal_xtgl_sjqxgxb c on a.zubh=c.zubh 
+        	left join m_bm d on c.tmid=d.bmbm
+        	<where>
+			<if test="userName != null and userName != ''">
+   				and a.yhbh = #{userName}
+	   		</if>
+			<if test="dpId != null and dpId != ''">
+   				and d.bmbm = #{dpId}
+	   		</if>
+    		and d.bmbm is not null and d.deleted ='0' 
+			</where>
+               )  and (e.rylx is null or e.rylx!='student')
+               union all 
+          select distinct e.gh,e.xm,e.zp,e.pybs,e.lxdh from m_jbxx e where e.bj in(
+    	    select distinct d.bmbm from zftal_xtgl_yhzu a 
+            left join zftal_xtgl_zuxxb b on a.zubh = b.zubh 
+            left join zftal_xtgl_sjqxgxb c on a.zubh=c.zubh 
+       		left join m_bm d on c.tmid=d.bmbm 
+       		<where>
+			<if test="userName != null and userName != ''">
+   				and a.yhbh = #{userName}
+	   		</if>
+			<if test="dpId != null and dpId != ''">
+   				and d.bmbm = #{dpId}
+	   		</if>
+    		and d.bmbm is not null and d.deleted ='0' 
+			</where>
+               ) and e.rylx='student' 
+               ) a order by a.gh asc
+    	
+	</select>
+	
+	
+    <select id="getAllDepartment" resultMap="departmentMap">
+    
+     select distinct d.bmbm,d.bmmc,d.globalid from zftal_xtgl_yhzu a 
+ 
+        left join zftal_xtgl_zuxxb b on a.zubh = b.zubh 
+        
+        left join zftal_xtgl_sjqxgxb c on a.zubh=c.zubh 
+        
+        left join m_bm d on c.tmid=d.bmbm
+        
+		<where>
+			<if test="userName != null and userName != ''">
+   				and a.yhbh = #{userName}
+	   		</if>
+			<if test="dpId != null and dpId != ''">
+   				and d.bmbm = #{dpId}
+	   		</if>
+    		and d.bmbm is not null and d.deleted ='0'
+		</where>
+		order by d.bmbm asc
+	</select>
+	
+    <select id="findImageById" resultMap="imageDB">
+		SELECT WJNR,WJDX,WJCCBBH,WJBT,WJLJ,SCRQ,HZM,CZR
+		from hrm_xtgl_zpb 
+		where WJCCBBH=#{imageId}
+	</select>
+    
+    <!-- 获取上传图片的名称 -->
+    <select id="getUploadImageName" resultType="string" >
+        select t.wjbt from hrm_xtgl_zpb t
+         where t.wjccbbh = #{imageId}
+    </select>
+    
+    <!-- 获取上传图片的名称 -->
+    <select id="getUploadFileName" resultType="string" >
+        select t.wjmc from hrm_xtgl_fjxxb t
+         where t.fjbh = #{fjbh}
+    </select>
+    
+    <!-- 根据服务编码获取当前日期访问量是否存在-->
+    <select id="getVisitsByFwbm" resultType="int" >
+        select count(*) from m_tjgl_yytj t where t.datetime = to_char(sysdate, 'yyyy-mm-dd') and t.fwbm = #{fwbm}
+    </select>
+    
+    <!-- 根据服务编码插入当前日期的应用访问量记录  -->
+    <insert id="insertVisitsByFwbm" >
+    	insert into m_tjgl_yytj 
+    		(datetime,visits,fwbm) 
+   		values 
+   			(to_char(sysdate, 'yyyy-mm-dd'),1,#{fwbm})
+    </insert>
+    
+    
+    <!-- 根据服务编码和学校编码插入当前日期的应用访问量记录，此插入操作是对正方正是服务器的插入操作  -->
+    <insert id="insertVisitsToZFByFwbm" >
+    	insert into m_tjgl_yytj 
+    		(datetime,visits,fwbm,schoolCode) 
+   		values 
+   			(to_char(sysdate, 'yyyy-mm-dd'),1,#{fwbm},#{schoolCode})
+    </insert>
+    
+    <!-- 插入一卡通记录  -->
+    <insert id="insertBsi" >
+    	insert into XGD_YKT_WEBLIST 
+    		(lsh,fssj,jye,xgh,shmc,knye,zh) 
+   		values 
+   			(#{lsh},#{jysj},to_number(#{jye}),#{ryh},#{sh},to_number(#{ye}),#{zh})
+    </insert>
+    <!-- 插入图书馆借阅记录  -->
+    <insert id="insertLibBus" >
+    	insert into zftal_xtgl_tsgjyxxb 
+    		(dzzh, txm, ztm, jcsj, xhsj, xjcs, ltlx, wxlx, sqh, cbs, cbrq, yjs,sfgh, ghsj, zz, gcd, lsh) 
+   		values 
+   			(#{dzzh},#{txm,jdbcType=VARCHAR},#{ztm},#{jcsj},#{xhsj},#{xjcs,jdbcType=VARCHAR},#{ltlx,jdbcType=VARCHAR},#{wxlx,jdbcType=VARCHAR},
+   			#{sqh,jdbcType=VARCHAR},#{cbs,jdbcType=VARCHAR},#{cbrq,jdbcType=VARCHAR},#{yjs,jdbcType=VARCHAR},
+				#{sfgh},#{ghsj,jdbcType=VARCHAR},#{zz,jdbcType=VARCHAR},#{gcd,jdbcType=VARCHAR},#{lsh})
+    </insert>
+    <!-- 插入图书馆个人基本信息记录  -->
+    <insert id="insertLibUser" >
+    	insert into zftal_xtgl_tsgdzxxb 
+    		(dzzh,yrh,dzxm,xbm,bzrq,yjcs,ljcc,qkje) 
+   		values 
+   			(#{dzzh},#{ryh},#{dzxm},#{xb,jdbcType=VARCHAR},#{bzrq,jdbcType=VARCHAR},#{yjcs},#{ljcs},#{qkje})
+    </insert>
+    <!-- 插入工资记录  -->
+    <insert id="insertSal" >
+    	insert into m_jsgz 
+    		(gh,sfgz,ffyf,ffsj,gwgz,xjgz,gwjt,jxgz,jxjj,syqgz,bsjt,gzxjt,shxjt,wsf,zfbt,yfgz,grsds,gjj,ylbx,ylbxj,bjylbx,
+    			bjylbxj,bjzfgjj,ff,sf,df,fyf,grqk,kfxj,bfgz,dwdkk,bfgzyfe,bfgzs,ynssde,globalid) 
+   		values 
+   			(#{gh},#{sfgz},to_date(#{ffyf},'yyyy-mm-dd'),to_date(#{ffsj},'yyyy-mm-dd'),#{gwgz,jdbcType=VARCHAR},#{xjgz,jdbcType=VARCHAR},
+   			#{gwjt,jdbcType=VARCHAR},#{jxgz,jdbcType=VARCHAR},#{jxjj,jdbcType=VARCHAR},#{syqgz,jdbcType=VARCHAR},#{bsjt,jdbcType=VARCHAR},
+   			#{gzxjt,jdbcType=VARCHAR},#{shxjt,jdbcType=VARCHAR},#{wsf,jdbcType=VARCHAR},#{zfbt,jdbcType=VARCHAR},#{yfgz,jdbcType=VARCHAR},
+   			#{grsds,jdbcType=VARCHAR},#{gjj,jdbcType=VARCHAR},#{ylbx,jdbcType=VARCHAR},#{ylbxj,jdbcType=VARCHAR},#{bjylbx,jdbcType=VARCHAR},
+   			#{bjylbxj,jdbcType=VARCHAR},#{bjzfgjj,jdbcType=VARCHAR},#{ff,jdbcType=VARCHAR},#{sf,jdbcType=VARCHAR},#{df,jdbcType=VARCHAR},
+   			#{fyf,jdbcType=VARCHAR},#{grqk,jdbcType=VARCHAR},#{kfxj,jdbcType=VARCHAR},#{bfgz,jdbcType=VARCHAR},#{dwdkk,jdbcType=VARCHAR},
+   			#{bfgzyfe,jdbcType=VARCHAR},#{bfgzs,jdbcType=VARCHAR},#{ynssde,jdbcType=VARCHAR},#{globalid,jdbcType=VARCHAR})
+    </insert>
+    
+    <!-- 更新安装统计  -->
+    <update id="updateVisitsByFwbm">
+    
+       update m_tjgl_yytj t set t.visits = 
+	       (
+        	<![CDATA[
+              select (nvl(max(y.visits), 0) + 1) from m_tjgl_yytj y where y.datetime = to_char(sysdate, 'yyyy-mm-dd')  and y.fwbm =#{fwbm}
+          	]]>
+	        )
+	   where t.datetime = to_char(sysdate, 'yyyy-mm-dd')  and t.fwbm =#{fwbm}
+    </update>
+    
+    <!-- 更新安装统计  -->
+    <update id="updateVisitsToZFByFwbm">
+    
+       update m_tjgl_yytj t set t.visits = 
+	       (
+        	<![CDATA[
+              select (nvl(max(y.visits), 0) + 1) from m_tjgl_yytj y where y.datetime = to_char(sysdate, 'yyyy-mm-dd')  and y.fwbm =#{fwbm}
+          	]]>
+	        )
+	   where 
+	   t.datetime = to_char(sysdate, 'yyyy-mm-dd')  
+	   and t.fwbm =#{fwbm}
+ 		and t.schoolCode = #{schoolCode}
+    </update>
+    
+    <!-- 根据用户取得该用户的所有服务数量 -->
+    <select id="getAllServiceByUserCnt" resultType="int" >
+    select count(*) from M_FWGL_yhqx  y 
+    	left join M_FWGL_FWGLB b on y.fwbm = b.fwbm 
+    		left join M_FWGL_FWLM m on b.fwbm = m.fwbm
+    		left join M_FWGL_YWXTGLB  e on e.xtid = b.ssywxt
+     <where>
+			<if test="userId != null and userId != ''">
+   				and y.yhid = #{userId}
+	   		</if>
+			<if test="ywId != null and ywId != ''">
+    			and e.xtbm = #{ywId}
+    		</if>
+    		<if test="androidIos != null and androidIos != ''">
+    			and b.showway like '%'||#{androidIos}||'%'  
+    		</if>
+    		and b.deleted ='0' and b.fbzt='1' 
+    		order by rdpx asc
+		</where>
+    </select>
+    
+    <!-- 根据用户取得该用户的所有服务 -->
+    <select id="getAllServiceByUser" resultMap="ServiceManagerMap" >
+    select * from (select a.*, rownum rn from
+       (select b.*,m.androidurl,m.iosurl,m.wxurl,e.xtdz,e.procode,e.xtbm,e.otherFlag,h.wjmc from M_FWGL_yhqx  y 
+           left join M_FWGL_FWGLB b 
+               on y.fwbm = b.fwbm 
+                 left join M_FWGL_FWLM m on b.fwbm = m.fwbm
+                     left join M_FWGL_YWXTGLB  e on e.xtid = b.ssywxt
+                     	left join HRM_XTGL_FJXXB h on b.fileid = h.fjbh
+               <where>
+			<if test="userId != null and userId != ''">
+   				and y.yhid = #{userId}
+	   		</if>
+			<if test="ywId != null and ywId != ''">
+    			and e.xtbm = #{ywId}
+    		</if>
+    		and b.deleted ='0'  and b.fbzt ='1' 	order by b.rdpx asc 	
+			</where>
+               ) a )
+    	<![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+         	order by iscommon desc ,rdpx asc,fwbm asc
+    
+    </select>
+    
+    <!-- 取得通用服务 -->
+    <select id="getCommonService" resultMap="ServiceManagerMap" >
+    select * from (select a.*, rownum rn from
+       (select b.*,m.androidurl,m.iosurl,m.wxurl,e.xtdz,e.procode,e.xtbm,e.otherFlag,h.wjmc from M_FWGL_FWGLB b 
+                 left join M_FWGL_FWLM m on b.fwbm = m.fwbm
+                     left join M_FWGL_YWXTGLB  e on e.xtid = b.ssywxt
+                     	left join HRM_XTGL_FJXXB h on b.fileid = h.fjbh
+               where b.deleted ='0'  and b.fbzt ='1' and b.iscommon = '1'
+               ) a )
+         	order by rdpx asc,fwbm asc 
+    
+    </select>
+    
+	
+	<select id="getOtherServiceByUser" resultMap="ServiceManagerMap" >
+    select t.* from (select a.*, rownum rn from
+       (select b.*,m.androidurl,m.iosurl,m.wxurl,e.xtdz,e.procode,e.xtbm,e.otherFlag,h.wjmc from M_FWGL_yhqx  y 
+           left join M_FWGL_FWGLB b 
+               on y.fwbm = b.fwbm 
+                 left join M_FWGL_FWLM m on b.fwbm = m.fwbm
+                     left join M_FWGL_YWXTGLB  e on e.xtid = b.ssywxt
+                     	left join HRM_XTGL_FJXXB h on b.fileid = h.fjbh
+               <where>
+			<if test="userId != null and userId != ''">
+   				and y.yhid = #{userId}
+	   		</if>
+			
+    		and b.deleted ='0'  and b.fbzt ='1' 
+			</where>
+               ) a ) t where t.fwbm not in (
+                   select x.fwbm from m_fwgl_cyfwglb  x
+					where  x.yhid = #{userId}
+                 )
+    	
+         	order by t.iscommon desc ,t.fwbm asc
+    
+    </select>
+    
+    
+    <!-- 根据用户取得该用户的常用服务 -->
+    <select id="getFrequentlyServiceByUser" resultMap="ServiceManagerMap" >
+       
+        
+        select t2.*, t1.rd,m.androidurl,m.iosurl,m.wxurl, e.xtdz,e.procode,e.xtbm,e.otherFlag,h.wjmc
+		  from m_fwgl_cyfwglb t1
+		  left join     m_fwgl_fwglb   t2  on t1.fwbm = t2.fwbm
+		  left join     M_FWGL_FWLM    m   on t2.fwbm = m.fwbm
+		  left join     M_FWGL_YWXTGLB e   on t2.ssywxt = e.xtid
+		  left join     HRM_XTGL_FJXXB h   on t2.fileid = h.fjbh 
+		 where  t1.yhid = #{userId}
+		   and t2.deleted = '0'
+		   and t2.fbzt = '1'
+		 order by t1.rd
+    </select>
+    
+    <!-- 登录的服务 -->
+    <select id="getLoginFw" resultMap="ServiceManagerMap" >
+       select b.*,m.androidurl,m.iosurl,m.wxurl,e.xtdz,e.procode,e.xtbm,e.otherFlag from M_FWGL_yhqx  y 
+           left join M_FWGL_FWGLB b 
+               on y.fwbm = b.fwbm 
+                 left join M_FWGL_FWLM m on b.fwbm = m.fwbm
+                     left join M_FWGL_YWXTGLB  e on e.xtid = b.ssywxt
+               <where>
+               <foreach collection="fwids" item="item" open=" and b.fwbm in (" separator="," close=")">
+                    #{item} 
+               </foreach>
+            and b.deleted ='0' 
+			<if test="userId != null and userId != ''">
+   				and y.yhid = #{userId}
+	   		</if>
+            </where>
+    </select>
+    
+    <!-- 取得用户的所有业务系统 -->
+    <select id="getAllXtYwByUser" resultMap="BusinessMap" >
+        select distinct x.*
+          from M_FWGL_yhqx y,
+    	       M_FWGL_FWGLB b,
+    		   M_FWGL_YWXTGLB x
+    	 where
+    		y.fwbm = b.fwbm
+    		and b.ssywxt = x.xtid
+    		and b.deleted = '0'
+    		and b.fbzt='1'
+    		and x.deleted = '0'
+   			and y.yhid = #{userId}
+   			and x.syzt = '1'
+	    order by x.pxm asc
+    </select>
+    
+    <!-- 取得用户的所有业务系统 -->
+    <select id="getMemoCatalogList" resultMap="MemoCatalogMap" >
+    select * from (
+    	select * from M_MEMO_CATALOG t where t.username is null 
+			union all
+        select * from m_memo_catalog where username = #{userId} 
+    ) order by sortNumber asc
+    </select>
+    
+    <!-- 取得用户头像 -->
+    <select id="getMyPicture" resultMap="imageDB" >
+        select * from M_ZPB t where  t.USERID= #{userId}
+    </select>
+    
+    <sql id="memoWhere">
+    	<where>
+    		<if test="userName != null and userName != ''">
+   				and m.userName = #{userName}
+	   		</if>
+			<if test="memoFileName != null and memoFileName != ''">
+   				and m.memoFileName = #{memoFileName}
+	   		</if>
+			<if test="memoTitle != null and memoTitle != ''">
+    			and m.memoTitle  like '%'||#{memoTitle}||'%' 
+    		</if>
+    		<if test="memoCatalogName != null and memoCatalogName != ''">
+    			and n.memoCatalogName like '%'||#{memoCatalogName}||'%'
+    		</if>
+    			
+		</where>
+    </sql> 
+    
+    <select id="getMemoPicture" resultType="int" >
+	    	select count(*) from
+			(
+		        select m.* from m_memo_picture m 
+						where m.memoFileName =    #{memoFileName} and m.title = #{title}     
+	        ) 
+    </select>
+    
+    <select id="getMemoPictureList" resultMap="MemoPictureMap"  >
+	    	
+		        select m.* from m_memo_picture m 
+						where m.memoFileName =    #{memoFileName}     
+	       
+    </select>
+    
+    <select id="getMyMemoListCount" resultType="int" >
+	    	select count(*) from
+			(
+		        select m.* from m_memo_selfMemo m 
+		        	left join m_memo_catalog n on m.memoCatalogId = n. memoCatalogId
+		        <include refid="memoWhere" />  order by m.createTime desc
+	        ) 
+    </select>
+    
+    <!-- 取得用户头像 -->
+    <select id="getMyMemoList" resultMap="MemoDBMap" >
+    	select * from (
+	    	select a.*,rownum rn from
+			(
+		        select m.* from m_memo_selfMemo m 
+		        	left join m_memo_catalog n on m.memoCatalogId = n. memoCatalogId
+		        <include refid="memoWhere" />  order by m.createTime desc
+	        ) a
+        ) c
+			
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+    </select>
+    
+    
+    <!-- 添加常用服务 -->
+    <insert id="insertFrequentlyService">
+         insert into m_fwgl_cyfwglb (
+             yhid,
+             fwbm,
+             rd,
+             cjsj,
+             gxsj,
+             sycs
+         ) values (
+             #{userId},
+             #{fwBm},
+             <if test="isadd == 'yes'">
+             (select nvl(max(to_number(rd)), 0) + 1 from m_fwgl_cyfwglb where yhid = #{userId}),
+             </if>
+             <if test="isadd != 'yes'">
+             1,
+             </if>
+             sysdate,
+             sysdate,
+             1
+         )
+    </insert>
+    
+    <!-- 添加常用服务 -->
+    <insert id="insertMyPicture">
+         insert into M_ZPB(
+							
+							WJBT,
+							WJNR,
+							WJLJ,
+							SCRQ,
+							USERID
+							) 
+				   values(
+							
+							#{fileName}, 
+							#{fileContent}, 
+							#{path},
+							sysdate,
+							#{opUser}
+							)
+    </insert>
+    
+    <!-- 添加常用服务 -->
+    <insert id="insertMemo">
+         insert into m_memo_selfMemo(
+							userName,
+							memoContent,
+							memoTitle,
+							memoPath,
+							createTime,
+							memoCatalogId,
+							memoFileName,
+							contentFlag
+							) 
+				   values(
+				   			#{userName}, 
+							#{memoContent}, 
+							#{memoTitle,jdbcType=VARCHAR},
+							#{memoPath},
+							to_date(#{createTime},'yyyy-mm-dd hh24:mi:ss'),
+							#{memoCatalogId},
+							#{memoFileName},
+							#{contentFlag}
+							)
+    </insert>
+    
+    <!-- 添加常用服务 -->
+    <insert id="insertMemoPicture">
+         INSERT INTO 
+				m_memo_picture(
+					memoFileName,	
+					title,
+					pictureContent,
+					picturePath,
+					createTime
+				)
+			VALUES(
+				#{memoFileName},           
+				#{title},
+				#{pictureContent},
+				#{picturePath},
+				sysdate
+				)
+    </insert>
+    
+    <!-- 投票 -->
+    <insert id="insertTPByUserAndJmid">
+         insert into m_tp_yhb(
+							jmid,
+							yhid
+							) 
+				   values(
+							#{jmid}, 
+							#{username}
+							)
+    </insert>
+    
+    <!-- 删除投票-->
+    <delete id="deleteTPByUserAndJmid">
+        delete from m_tp_yhb t where t.yhid = #{username} and t.jmid = #{jmid}
+    </delete>
+
+    <!-- 删除常用服务 -->
+    <delete id="deleteFrequentlyService">
+        delete from m_fwgl_cyfwglb t where t.yhid = #{userId} and t.fwbm = #{fwBm}
+    </delete>
+    <!-- 删除用户权限中没有的服务 -->
+    <delete id="deleteFwbmFromYhqx">
+        delete from m_fwgl_yhqx t where t.fwbm = #{fwBm}
+    </delete>
+    <!-- 删除没有在用户权限中的常用服务	 -->
+    <delete id="deleteFrequentlyServiceNotInYhqx">
+        delete from m_fwgl_cyfwglb t1 where t1.fwbm not in(
+		        select q.fwbm from m_fwgl_yhqx q where q.yhid=#{userId}
+		 ) and t1.yhid=#{userId}
+    </delete>
+    
+    
+     <!-- 删除用户所有常用服务 -->
+    <delete id="deleteAllFrequentlyService">
+        delete from m_fwgl_cyfwglb t where t.yhid = #{userId}
+    </delete>
+
+    <!-- 更新常用服务 -->
+    <update id="upFrequentlyService">
+        update m_fwgl_cyfwglb
+        set gxsj = sysdate,
+            rd = rd - 1
+        where yhid = #{userId}
+          <![CDATA[
+          and rd > #{mark}
+          ]]>
+    </update>
+    
+    <!-- 更新一卡通记录-->
+    <update id="updateBsiByLsh">
+        update XGD_YKT_WEBLIST
+        set fssj = #{jysj},
+            jye = to_number(#{jye}),
+            xgh = #{ryh},
+            shmc = #{sh},
+            knye = to_number(#{ye}),
+            zh = #{zh}
+        where lsh = #{lsh}
+    </update>
+    <!-- 更新图书馆借阅记录-->
+    <update id="updateLibBusById">
+        update zftal_xtgl_tsgjyxxb set 
+        dzzh = #{dzzh},
+		txm = #{txm,jdbcType=VARCHAR},	
+		ztm = #{ztm},		
+		jcsj = #{jcsj},		
+		xhsj = #{xhsj},		
+		xjcs = #{xjcs,jdbcType=VARCHAR},	
+		ltlx = #{ltlx,jdbcType=VARCHAR},	
+		wxlx = #{wxlx,jdbcType=VARCHAR},	
+		sqh = #{sqh,jdbcType=VARCHAR},	
+		cbs = #{cbs,jdbcType=VARCHAR},	
+		cbrq = #{cbrq,jdbcType=VARCHAR},	
+		yjs = #{yjs,jdbcType=VARCHAR},	
+		sfgh = #{sfgh},	
+		ghsj = #{ghsj,jdbcType=VARCHAR},	
+		zz = #{zz,jdbcType=VARCHAR},	
+		gcd = #{gcd,jdbcType=VARCHAR}	
+        where lsh = #{lsh}
+    </update>
+    
+    <!-- 更新图书馆个人基本信息记录-->
+    <update id="updateLibUserById">
+        update zftal_xtgl_tsgdzxxb set 
+        dzzh = #{dzzh},
+		yrh = #{ryh},
+		dzxm = #{dzxm},
+		xbm = #{xb,jdbcType=VARCHAR},
+		bzrq = #{bzrq,jdbcType=VARCHAR},
+		yjcs = #{yjcs},
+		ljcc = #{ljcs},
+		qkje = #{qkje}
+        where yrh = #{ryh}
+    </update>
+    
+    <!-- 更新图书馆个人基本信息记录-->
+    <update id="updateSalById">
+        update m_jsgz set 
+	        gh = #{gh},
+			sfgz = #{sfgz},	
+			ffyf = to_date(#{ffyf},'yyyy-mm-dd'),	
+			ffsj = to_date(#{ffsj},'yyyy-mm-dd'),	
+			gwgz = #{gwgz,jdbcType=VARCHAR},	
+			xjgz = #{xjgz,jdbcType=VARCHAR},	
+			gwjt = #{gwjt,jdbcType=VARCHAR},	
+			jxgz = #{jxgz,jdbcType=VARCHAR},	
+			jxjj = #{jxjj,jdbcType=VARCHAR},	
+			syqgz = #{syqgz,jdbcType=VARCHAR},	
+			bsjt = #{bsjt,jdbcType=VARCHAR},	
+			gzxjt = #{gzxjt,jdbcType=VARCHAR},	
+			shxjt = #{shxjt,jdbcType=VARCHAR},	
+			wsf = #{wsf,jdbcType=VARCHAR},	
+			zfbt = #{zfbt,jdbcType=VARCHAR},	
+			yfgz = #{yfgz,jdbcType=VARCHAR},	
+			grsds = #{grsds,jdbcType=VARCHAR},	
+			gjj = #{gjj,jdbcType=VARCHAR},	
+			ylbx = #{ylbx,jdbcType=VARCHAR},	
+			ylbxj = #{ylbxj,jdbcType=VARCHAR},	
+			bjylbx = #{bjylbx,jdbcType=VARCHAR},	
+			bjylbxj = #{bjylbxj,jdbcType=VARCHAR},	
+			bjzfgjj = #{bjzfgjj,jdbcType=VARCHAR},	
+			ff = #{ff,jdbcType=VARCHAR},	
+			sf = #{sf,jdbcType=VARCHAR},	
+			df = #{df,jdbcType=VARCHAR},	
+			fyf = #{fyf,jdbcType=VARCHAR},	
+			grqk = #{grqk,jdbcType=VARCHAR},	
+			kfxj = #{kfxj,jdbcType=VARCHAR},	
+			bfgz = #{bfgz,jdbcType=VARCHAR},	
+			dwdkk = #{dwdkk,jdbcType=VARCHAR},	
+			bfgzyfe = #{bfgzyfe,jdbcType=VARCHAR},	
+			bfgzs = #{bfgzs,jdbcType=VARCHAR},	
+			ynssde = #{ynssde,jdbcType=VARCHAR}
+        where globalid = #{globalid}
+    </update>
+    
+    <!-- 更新用户头像-->
+    <update id="updateMyPicture">
+        update M_ZPB
+        set WJBT = #{fileName},
+            WJNR = #{fileContent},
+            WJLJ = #{path},
+            SCRQ = sysdate
+        where USERID = #{opUser}
+    </update>
+    
+    <!-- 更新用户头像-->
+    <update id="updateMemo">
+        update m_memo_selfMemo
+        set 
+	        memoTitle = #{memoTitle}
+        <if test="memoContent != '' and memoContent != null">
+	        ,memoContent = #{memoContent}
+        </if>
+        <if test="memoCatalogId != '' and memoCatalogId != null">
+	        ,memoCatalogId = #{memoCatalogId}
+        </if>
+        <if test="contentFlag != '' and contentFlag != null">
+	        ,contentFlag = #{contentFlag}
+        </if>
+        where memoFileName = #{memoFileName}
+    </update>
+    
+    
+    <!-- 更新常用服务 -->
+    <update id="downFrequentlyService">
+        update m_fwgl_cyfwglb
+        set gxsj = sysdate,
+            rd = rd + 1
+        where yhid = #{userId}
+          <![CDATA[
+          and rd >= #{mark}
+          ]]>
+    </update>
+    
+    <!-- 更新常用服务 -->
+    <update id="modifyFrequentlyService">
+        update m_fwgl_cyfwglb
+        set gxsj = sysdate,
+            sycs = sycs + 1
+        where yhid = #{userId}
+          and fwbm = #{fwBm}
+    </update>
+    
+    <!-- 更新常用服务 -->
+    <update id="swapFrequentlyService">
+        update m_fwgl_cyfwglb
+        set gxsj = sysdate,
+        rd = #{rd}
+        where yhid = #{userId}
+          and fwbm = #{fwBm}
+    </update>
+    
+    <!-- 取得需要交换的服务 -->
+    <select id="getSwapFrequentlyService" resultType="hashmap" >
+        select t.rd, t.fwbm
+          from m_fwgl_cyfwglb t
+         where t.yhid = #{userId}
+         <![CDATA[
+           and t.rd >= #{startMark}
+           and t.rd <= #{endMark}
+         ]]>
+        order by t.rd
+    </select>
+    
+    <!-- 取得服务热度 -->
+    <select id="getRd" resultType="int" >
+        select t.rd
+          from m_fwgl_cyfwglb t
+         where t.yhid = #{userId}
+           and t.fwbm = #{fwBm}
+    </select>
+    
+    <!-- 更新常用服务 -->
+    <update id="moveFrequentlyService">
+        update m_fwgl_cyfwglb
+        set gxsj = sysdate,
+            <if test="move == 'dowm'">
+            rd = rd - 1
+            </if>
+            <if test="move == 'up'">
+            rd = rd + 1
+            </if>
+        where yhid = #{userId}
+          <if test="move == 'dowm'">
+          <![CDATA[
+          and rd > #{self}
+          and rd <= #{mark}
+          ]]>
+          </if>
+          <if test="move == 'up'">
+          <![CDATA[
+          and rd >= #{mark}
+          and rd < #{self}
+          ]]>
+          </if>
+    </update>
+    
+	<!-- 获取我的门户图书馆未归还图书数，一卡通余额，工资信息 -->
+    <select id="getPortalInfo" resultType="hashmap" >
+	select sum(whs) whs,sum(yue) yue,sum(sfgz) sfgz from (   
+	        select t.whs,y.yue,g.sfgz from
+		(select t1.yrh,count(*) as whs from ZFTAL_XTGL_TSGDZXXB t1,ZFTAL_XTGL_TSGJYXXB t2 where t1.dzzh=t2.dzzh and t2.sfgh = 0 group by t1.yrh) t full join
+		(select ryh,yue from ZFTAL_XTGL_YKTJBXXB) y on t.yrh=y.ryh full join
+		(select gh,sfgz from m_jsgz z where   to_char(z.ffyf,'yyyy-mm') = to_char(sysdate,'yyyy-mm')) g on t.yrh=g.gh where (t.yrh=#{userId} or y.ryh=#{userId} or g.gh=#{userId})
+    )
+    </select>
+    
+    <!-- 添加用户建议 -->
+    <insert id="submitSuggestion">
+         insert into zftal_xtgl_sugge (
+             userId,
+             schoolName,
+             suggestContent,
+             version,
+             time
+         ) values (
+             #{userId},
+             #{schoolName},
+             #{suggestContent},
+             #{version},
+             sysdate
+         )
+    </insert>
+    
+    <!-- 添加用户建议 -->
+    <insert id="insertmemoCatalogByUser">
+         insert into m_memo_catalog (
+             memoCatalogId,
+             memoCatalogName,
+             userName,
+             catalogColor,
+             sortNumber
+         ) values (
+             #{memoCatalogId},
+             #{memoCatalogName},
+             #{userName},
+             #{catalogColor},
+             #{sortNumber}
+         )
+         <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="memoCatalogId">
+			<![CDATA[
+			select SYS_GUID() memoCatalogId from DUAL
+			]]>
+		</selectKey>
+    </insert>
+    
+    <!-- 添加用户第三方绑定关系 -->
+    <insert id="insertThirdParty">
+         insert into m_ThirdParty (
+             userId,
+             openId,
+             type
+         ) values (
+             #{userId},
+             #{openId},
+             #{type}
+         )
+    </insert>
+    
+    <delete id="deleteAllmemoCatalogByUser">
+		<![CDATA[
+			delete from m_memo_catalog where userName = #{userId}
+		]]>
+	</delete>
+	
+	<delete id="deleteMyMemo">
+		<![CDATA[
+			delete from m_memo_selfmemo where memoFileName = #{memoFileName}
+		]]>
+	</delete>
+	
+	<delete id="deleteMyMemoPicture">
+		<![CDATA[
+			delete from m_memo_picture where memoFileName = #{memoFileName}
+		]]>
+	</delete>
+	
+	<delete id="deleteThirdParty">
+			delete from m_ThirdParty t 
+			 <where>
+						<if test="openId != null and openId != ''">
+			   				and t.openId = #{openId}
+				   		</if>
+				   		<if test="userId != null and userId != ''">
+			   				and t.userId = #{userId}
+				   		</if>
+				   		<if test="type != null and type != ''">
+			   				and t.type = #{type}
+				   		</if>
+				</where>
+	</delete>
+    
+       
+</mapper>

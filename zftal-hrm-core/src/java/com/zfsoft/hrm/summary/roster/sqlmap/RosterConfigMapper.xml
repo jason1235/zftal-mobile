@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.summary.roster.dao.daointerface.IRosterConfigDao" >
+	
+	<resultMap type="com.zfsoft.hrm.summary.roster.entity.RosterConfig" id="rosterConfigMap">
+		<result property="guid" column="guid"/>
+		<result property="classid" column="classid"/>
+		<result property="queryType" column="cxlx"/>
+	</resultMap>
+	
+	<!-- 插入单条信息 -->
+	<insert id="insert">
+		insert into HRM_TJFX_HMCTJB (guid,cxlx,classid,createtime)
+		values(#{guid},#{queryType},#{classid},#{createtime})
+	</insert>
+	
+	<sql id="where">
+		<where>
+		<if test="queryType != null and queryType != ''">
+			and cxlx = #{queryType}
+		</if>
+		<if test="classid != null and classid != ''">
+			and classid = #{classid}
+		</if>
+    	</where>
+    </sql>
+    
+    <select id="getById" resultMap="rosterConfigMap">
+    	select 
+			*
+		from HRM_TJFX_HMCTJB hmctj
+		where hmctj.guid = #{guid}
+    </select>
+	
+	<!-- 获取分页信息 -->
+	<select id="getPagingList" resultMap="rosterConfigMap" >
+	select * from (select a.*, rownum rn from(
+		select 
+			*
+		from HRM_TJFX_HMCTJB hmctj
+		<include refid="where"/>
+		order by createtime desc
+	 ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<!-- 获取分页计数 -->
+	<select id="getPagingCount" resultType="int">
+		select 
+			count(guid) cnt
+		from HRM_TJFX_HMCTJB hmctj
+		<include refid="where"/>
+		order by createtime desc
+	</select>
+	
+	<select id="getList" resultMap="rosterConfigMap">
+		select 
+			*
+		from HRM_TJFX_HMCTJB hmctj
+		<include refid="where"/>
+		order by createtime desc
+	</select>
+	
+	<update id="update">
+		update HRM_TJFX_HMCTJB set cxlx = #{queryType} where guid = #{guid}
+	</update>
+	
+	<delete id="delete">
+		delete from HRM_TJFX_HMCTJB where guid = #{guid}
+	</delete>
+	
+	
+	<select id="getCountByClassid" resultType="hashmap">
+		select count(guid) cnt,classid from HRM_TJFX_HMCTJB group by classid
+	</select>
+</mapper>

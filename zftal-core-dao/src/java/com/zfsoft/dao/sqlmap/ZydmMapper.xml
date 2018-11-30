@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IZydmDao" >
+
+	<!-- 查询专业列表-->
+	<select id="queryModel" parameterType="hashMap" resultType="ZydmModel">
+	    SELECT 
+	    	ZYDM_ID, ZYDM, ZYMC
+	    FROM 
+	      	ZFTAL_XTGL_ZYDMB ZY
+	    WHERE 
+	    	ZY.SFTY = '0'
+	    <if test="bmdm_id_lsbm != null and bmdm_id_lsbm != ''">
+      			AND ZY.BMDM_ID_LSBM= #{bmdm_id_lsbm}
+	    </if> 
+	</select>
+    
+</mapper>

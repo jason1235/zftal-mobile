@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="oauth" namespace="/oauth" extends="configuration" >
+		<action name="oauth_*" class="oauth" method="{1}" >
+			<result name="authorize">/WEB-INF/pages/mobile/oauth/authorize.jsp</result>
+			<result name="redirect">/WEB-INF/pages/mobile/oauth/redirect.jsp</result>
+		</action>
+		
+	</package>
+	
+</struts>

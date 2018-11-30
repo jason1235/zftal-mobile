@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.workflow.dao.ISpNodeBillDao">
+
+	<resultMap id="spNodeBillMap" type="com.zfsoft.workflow.model.SpNodeBill">
+		<result property="id" column="ID" />
+		<result property="nodeId" column="NODE_ID" />
+		<result property="billId" column="BILL_ID" />
+		<result property="billType" column="BILL_TYPE" />
+		<result property="classId" column="CLASS_ID" />
+		<result property="classesPrivilege" column="CLASSES_PRIVILEGE" />
+		<result property="classModeType" column="CLASS_MODE_TYPE" />
+	</resultMap>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO SP_NODE_BILL
+			  (ID, BILL_ID, BILL_Type, CLASS_ID, NODE_ID, CLASSES_PRIVILEGE, CLASS_MODE_TYPE)
+			VALUES
+			  (#{id},
+			   #{billId,jdbcType=VARCHAR},
+			   #{billType},
+			   #{classId},
+			   #{nodeId},
+			   #{classesPrivilege,jdbcType=VARCHAR},
+			   #{classModeType,jdbcType=VARCHAR})
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			SELECT SYS_GUID() KHLC_ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	
+	<!-- 根据节点ID和表单ID删除关联关系 -->
+	<delete id="delete">
+		<![CDATA[
+			DELETE FROM SP_NODE_BILL WHERE NODE_ID = #{nodeId} and CLASS_ID = #{classId}
+		]]>
+	</delete>
+	
+	<!-- 删除下所有节点 -->
+	<delete id="deleteByNodeId">
+		<![CDATA[
+			DELETE FROM SP_NODE_BILL WHERE NODE_ID = #{nodeId}
+		]]>
+	</delete>
+
+	  <!-- 根据NODEID条件查询记录（结果一个或多个） -->
+    <select id="findNodeBillListByNodeId" resultMap="spNodeBillMap">
+    	<![CDATA[ 
+			SELECT ID, NODE_ID, BILL_ID, BILL_Type, CLASS_ID, CLASSES_PRIVILEGE
+			  FROM SP_NODE_BILL 
+			 WHERE NODE_ID = #{0} 
+		]]>		 
+	</select>
+	
+	  <!-- 根据NODEID条件查询记录（结果一个或多个） -->
+    <select id="findCommitNodeBillListByNodeId" resultMap="spNodeBillMap">
+    	<![CDATA[ 
+			SELECT ID, NODE_ID, BILL_ID, BILL_Type, CLASS_ID, CLASSES_PRIVILEGE
+			  FROM SP_NODE_BILL 
+			 WHERE NODE_ID = #{nodeId} 
+			 	AND BILL_TYPE = 'COMMIT'
+		]]>		 
+	</select>
+	
+	  <!-- 根据NODEID条件查询记录（结果一个或多个） -->
+    <select id="findApproveNodeBillListByNodeId" resultMap="spNodeBillMap">
+    	<![CDATA[ 
+			SELECT ID, NODE_ID, BILL_ID, BILL_Type, CLASS_ID, CLASSES_PRIVILEGE
+			  FROM SP_NODE_BILL 
+			 WHERE NODE_ID = #{nodeId} 
+			 	AND BILL_TYPE = 'APPROVE'
+		]]>		 
+	</select>
+	
+	<!-- 根据节点ID和CLASSID条件查询记录（结果一个或多个） -->
+	<select id="getCountByNodeIdAndClassId" resultType="int">
+		SELECT COUNT(ID) FROM SP_NODE_BILL WHERE NODE_ID = #{nodeId} AND CLASS_ID = #{classId} 
+	</select>
+
+</mapper>

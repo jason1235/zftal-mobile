@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="vote" namespace="/vote" extends="configuration" >
+		<action name="vote_*" class="voteAction" method="{1}" >
+		    <result name="list">/WEB-INF/pages/mobile/vote/hdVoteList.jsp</result>
+		    <result name="toAdd">/WEB-INF/pages/mobile/vote/hdVoteAdd.jsp</result>
+		    <result name="toUpdate">/WEB-INF/pages/mobile/vote/hdVoteEdit1.jsp</result>
+		    <result name="toResult">/WEB-INF/pages/mobile/vote/hdVoteResult.jsp</result>
+		</action>
+	</package>
+</struts>

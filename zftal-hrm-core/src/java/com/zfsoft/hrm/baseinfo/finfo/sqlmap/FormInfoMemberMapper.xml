@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.baseinfo.finfo.dao.daointerface.IFormInfoMemberDao">
+
+	<resultMap  id="formInfoMember" type="com.zfsoft.hrm.baseinfo.finfo.entities.FormInfoMember">
+		<result property="name" column="ZMC" />
+		<result property="classId" column="XXLID" />
+		<result property="text" column="WBXX" />
+		<result property="title" column="BT" />
+		<result property="comment" column="ZS" />
+		<result property="tooltip" column="TSXX" />
+		<result property="open" column="SFKF" />
+		<result property="editable" column="SFSQBJ" />
+		<result property="index" column="XH" />
+	</resultMap>
+	
+	<sql id="columns">
+		<![CDATA[ ZMC, XXLID, WBXX, BT, ZS, TSXX, SFKF, SFSQBJ, XH ]]>
+	</sql>
+	
+	<sql id="where">
+		<where>
+			<if test="name != null">
+				and ZMC = #{name}
+			</if>
+			<if test="classId != null">
+				and XXLID = #{classId}
+			</if>
+			<if test="batch != null">
+				and plcz = #{batch}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="findList" resultMap="formInfoMember">
+		select <include refid="columns" /> from HRM_XTGL_XXWHCYB
+		<include refid="where" />
+		order by ZMC, XH
+	</select>
+	
+	<select id="findCount" resultType="long">
+		select count(1) from HRM_XTGL_XXWHCYB
+		<include refid="where" />
+	</select>
+	
+	<insert id="insert">
+		<![CDATA[
+		insert into HRM_XTGL_XXWHCYB(
+			ZMC, XXLID, WBXX, BT, ZS, TSXX, SFKF, SFSQBJ, XH,plcz
+		) values(
+			#{name}, #{classId}, #{text}, #{title}, #{comment}, #{tooltip},
+			#{open}, #{editable}, #{index},#{batch}
+		)
+		]]>
+	</insert>
+		
+	<update id="update">
+		<![CDATA[
+		update HRM_XTGL_XXWHCYB set
+			WBXX = #{text}, BT = #{title}, ZS = #{comment}, TSXX = #{tooltip},plcz=#{batch},
+			SFSQBJ = #{editable}
+		where 
+			ZMC = #{name} and XXLID = #{classId} and plcz=#{batch}
+		]]>
+	</update>
+	
+	<update id="updateOpen">
+		<![CDATA[
+		update HRM_XTGL_XXWHCYB set
+			SFKF = #{open}
+		where
+			ZMC = #{name} and XXLID = #{classId} and plcz=#{batch}
+		]]>
+	</update>
+	
+	<update id="updateIndex">
+		update HRM_XTGL_XXWHCYB set
+			XH = #{index}
+		where
+			ZMC = #{name} and XXLID = #{classId} and plcz=#{batch}
+	</update>
+	
+	<update id="upIndex">
+		update HRM_XTGL_XXWHCYB set
+			XH = XH - 1
+		where
+			ZMC = #{name} and XXLID = #{classId}  and plcz=#{batch} and XH > #{index}
+	</update>
+	
+	<delete id="delete">
+		delete HRM_XTGL_XXWHCYB where ZMC = #{name} and XXLID = #{classId} and plcz=#{batch}
+	</delete>
+</mapper>

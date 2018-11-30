@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.mobile.accessStatistics.dao.IVisitDao">
+
+	<resultMap id="VisitForDayMap" type="com.zfsoft.mobile.accessStatistics.entity.VisitForDay">
+        <result property="visitTime"                column="visitTime"/>  
+        <result property="userVisitCount"                column="userVisitCount"/>
+    </resultMap>
+    
+    <resultMap id="VisitForHourMap" type="com.zfsoft.mobile.accessStatistics.entity.VisitForHour">
+        <result property="userVisitCount"                column="userVisitCount"/>
+        <result property="visitTime"                column="visitTime"/>  
+    </resultMap>
+    
+    
+    <select id="getTopTodayVisitByMouth" resultMap="VisitForDayMap">
+		select m.* from (
+			select a.*,rownum rn from
+				(
+		      select to_char(t.visittime, 'yyyy-mm-dd') visittime,t.uservisitcount uservisitcount 
+		          from  M_visit_day t 
+		            order by t.uservisitcount desc,t.visittime asc 
+		    ) a
+	    ) m
+	    <![CDATA[ 
+	    	where m.rn >=1 and m.rn <= 10
+	   	]]>
+	</select>
+	
+	<select id="getTopHourVisitByDay" resultMap="VisitForHourMap">
+		select m.* from (
+			select a.*,rownum rn from
+				(
+		      select to_char(t.visittime, 'yyyy-mm-dd HH') visittime,t.uservisitcount uservisitcount 
+		          from  m_Visit_Hour t 
+		            order by t.uservisitcount desc,t.visittime asc 
+		    ) a
+	    ) m
+	    <![CDATA[ 
+	    	where m.rn >=1 and m.rn <= 10
+	   	]]>
+	</select>
+	
+	 <select id="getHourVisitByDay" resultMap="VisitForHourMap">
+      select to_char(t.visittime, 'yyyy-mm-dd HH') visittime,t.uservisitcount uservisitcount 
+          from  m_Visit_Hour t 
+          <![CDATA[
+            where to_char(t.visittime,'yyyy-mm-dd')  = to_char(to_date(#{_parameter},'yyyy-mm-dd'),'yyyy-mm-dd')
+            order by t.visittime asc
+		  ]]>
+	</select>
+    
+    <select id="getTodayVisitByMouth" resultMap="VisitForDayMap">
+      select to_char(t.visittime, 'yyyy-mm-dd') visittime,t.uservisitcount uservisitcount 
+          from  M_visit_day t 
+          <![CDATA[
+            where to_char(t.visittime,'yyyy-mm-dd')  >= to_char(trunc(to_date(#{_parameter},'yyyy-mm-dd'),'MONTH'),'yyyy-mm-dd')
+            and to_char(t.visittime,'yyyy-mm-dd')  <= to_char(last_day(trunc(to_date(#{_parameter},'yyyy-mm-dd'),'MONTH')),'yyyy-mm-dd')
+            order by t.visittime asc
+		  ]]>
+	</select>
+    
+    
+    <select id="getTodayVisit" resultType="com.zfsoft.mobile.accessStatistics.entity.VisitForDay">
+				select to_char(t.visittime, 'yyyy-mm-dd') visittime,t.uservisitcount uservisitcount 
+					from  M_visit_day t  
+						where to_char(t.visittime,'yyyy-mm-dd') = to_char(sysdate,'yyyy-mm-dd')
+	</select>
+	
+	 <select id="getTodayHourVisit" resultType="com.zfsoft.mobile.accessStatistics.entity.VisitForHour">
+				select to_char(t.visittime, 'yyyy-mm-dd HH') visittime,t.uservisitcount uservisitcount 
+					from  M_visit_hour t 
+						where to_char(t.visittime,'yyyy-mm-dd HH') = to_char(sysdate,'yyyy-mm-dd HH')
+	</select>
+	
+	<insert id="insertTodayVisit">
+		<![CDATA[
+			 insert into M_VISIT_DAY  values(to_date(to_char(sysdate,'yyyy-mm-dd'),'YYYY-mm-dd'),1)
+		]]>
+	</insert>
+	
+	<insert id="insertTodayHourVisit">
+		<![CDATA[
+			 insert into M_VISIT_HOUR values(to_date(to_char(sysdate,'yyyy-mm-dd HH'),'YYYY-mm-dd HH'),1)
+		]]>
+	</insert>
+    
+    <update id="updateTodayVisit">
+		<![CDATA[
+			update M_VISIT_DAY t set
+				USERVISITCOUNT = #{userVisitCount}
+			where to_char(t.visittime,'yyyy-mm-dd') = to_char(sysdate,'yyyy-mm-dd')
+		]]>
+	</update>
+	
+	<update id="updateTodayHourVisit">
+		<![CDATA[
+			update M_VISIT_HOUR t set
+				USERVISITCOUNT = #{userVisitCount}
+			where to_char(t.visittime,'yyyy-mm-dd HH') = to_char(sysdate,'yyyy-mm-dd HH')
+		]]>
+	</update>
+	
+	<delete id="deleteHourVisit">
+		<![CDATA[
+			delete from M_VISIT_HOUR t 
+				where to_char(t.visittime,'yyyy-mm-dd') < to_char(sysdate-365,'yyyy-mm-dd')
+		]]>
+	</delete>
+	
+	
+</mapper>

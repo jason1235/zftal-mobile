@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.exampaper.dao.IExampaperDao">
+
+	<select id="getPageCount" resultType="int">
+		select count(*) from m_exampapermain a1
+			  left join m_examdyjs a2
+			    on a1.papermainid = a2.papermainid
+			  left join mobile_qzb a3
+			    on a2.qzid = a3.id
+			  left join mobile_ryqzb a4
+			    on a3.id = a4.group_id
+		  where a4.user_id=#{userId}
+	</select>
+	
+	<select id="getPageList" resultType="com.zfsoft.mobile.exampaper.entity.Exampaper">
+		  <![CDATA[  
+		  select a1.*,(case
+	         when a1.endtime - sysdate < 0 then
+	          '已结束'
+	         when a1.endtime - sysdate > 0 then
+	          '进行中'     
+	         else
+	           '已停用'
+	         end) status from m_exampapermain a1
+			  left join m_examdyjs a2
+			    on a1.papermainid = a2.papermainid
+			  left join mobile_qzb a3
+			    on a2.qzid = a3.id
+			  left join mobile_ryqzb a4
+			    on a3.id = a4.group_id
+		  where a4.user_id=#{userId} order by createtime desc
+		  ]]> 
+	</select>
+	
+	
+	<select id="getAllQes" resultType="com.zfsoft.mobile.exampaper.entity.ExampaperQes">
+		select t.* from m_exampaperqes t where t.papermainid=#{paperMainId}  order by t.sort 
+	</select>
+	
+	<insert id="insertQesResult">
+		insert into m_examdyyh(
+            <if test='yhid != "" and yhid != null'>
+			  yhid,
+			</if>
+			<if test='questionId != "" and questionId != null'>
+			  questionId,
+			</if>
+			<if test='itemValue != "" and itemValue != null'>
+			  itemValue
+			</if>)
+		values (
+			<if test='yhid != "" and yhid != null'>
+			 #{yhid},
+			</if>
+			<if test='questionId != "" and questionId != null'>
+			 #{questionId},
+			</if>
+			<if test='itemValue != "" and itemValue != null'>
+			 #{itemValue}
+			</if>				
+		)
+	</insert>
+	
+	<insert id="insertQesResultList" useGeneratedKeys="true" parameterType="java.util.List"> 
+		insert into m_examdyyh(yhid,questionid,itemvalue) 
+		values 
+		<foreach collection="list" item="item" index="index" separator="," > 
+		(#{item.yhId},#{item.questionId},#{item.itemValue}) 
+		</foreach> 
+	</insert>
+	
+	<select  id="checkUserPartIn" resultType="int">
+		select count(t.papermainid)
+		  from m_exampapermain t
+		  left join m_exampaperqes t1
+		    on t.papermainid = t1.papermainid
+		  left join M_EXAMDYYH t2
+		    on t2.questionid = t1.questionid
+		  where t2.yhid=#{userId}  
+		    and t.papermainid=#{paperMainId}
+	</select>
+	
+	<select id="selectExampaperById" parameterType="string" resultType="com.zfsoft.mobile.exampaper.entity.Exampaper">
+		select * from M_EXAMPAPERMAIN t where t.papermainid = #{id}
+	</select>
+	
+</mapper>

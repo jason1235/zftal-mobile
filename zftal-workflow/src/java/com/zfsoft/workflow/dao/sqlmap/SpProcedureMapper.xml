@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.workflow.dao.ISpProcedureDao">
+
+	<resultMap id="spProcedureMap" type="com.zfsoft.workflow.model.SpProcedure">
+		<result property="pid" column="P_ID" />
+		<result property="pname" column="P_NAME" />
+		<result property="ptype" column="P_TYPE" />
+		<result property="pstatus" column="P_STATUS" />
+		<result property="pdesc" column="P_DESC" />
+		<result property="belongToSys" column="BELONG_TO_SYS" />
+		<result property="belongToSysName" column="BELONG_TO_SYS_NAME" />
+		<result property="link" column="LINK" />
+		<collection property="spLineList" column="{pid=P_ID}" select="com.zfsoft.workflow.dao.ISpLineDao.findLineListByPid"/>
+		<collection property="spNodeList" column="{pid=P_ID}" select="com.zfsoft.workflow.dao.ISpNodeDao.findNodeListByPid"/>
+		<collection property="spCommitBillList" column="{pid=P_ID}" select="com.zfsoft.workflow.dao.ISpProcedureBillDao.findCommitBillListByPIdAndBillType"/>
+		<collection property="spApproveBillList" column="{pid=P_ID}" select="com.zfsoft.workflow.dao.ISpProcedureBillDao.findApproveBillListByPIdAndBillType"/>
+	</resultMap>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="pid">
+		<![CDATA[
+			INSERT INTO SP_PROCEDURE
+			  (P_ID, P_NAME, P_TYPE, P_STATUS, P_DESC, BELONG_TO_SYS, LINK)
+			VALUES
+			  (#{pid},
+			   #{pname,jdbcType=VARCHAR},
+			   #{ptype,jdbcType=VARCHAR},
+			   #{pstatus,jdbcType=VARCHAR},
+			   #{pdesc,jdbcType=VARCHAR},
+			   #{belongToSys,jdbcType=VARCHAR},
+			   #{link,jdbcType=VARCHAR})
+		]]>
+		
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="pid">
+			<![CDATA[
+			SELECT SYS_GUID() KHLC_ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<!-- 根据NODEID删除流程 -->
+	<delete id="delete">
+		<![CDATA[
+			DELETE FROM SP_PROCEDURE WHERE P_ID = #{pid}
+		]]>
+	</delete>
+	
+	<!-- 删除流程下所有节点的任务 -->
+	<delete id="deleteTaskByPid">
+		<![CDATA[
+			DELETE FROM SP_NODE_TASK t
+			 WHERE t.NODE_ID in (SELECT a.NODE_ID FROM SP_NODE a WHERE a.P_ID = #{pid})
+		]]>
+	</delete>
+
+	<!-- 修改流程 -->
+	<update id="update">
+		<![CDATA[
+			UPDATE SP_PROCEDURE
+			   SET P_NAME   = #{pname},
+			       P_TYPE = #{ptype},
+			       P_STATUS   = #{pstatus},
+			       P_DESC   = #{pdesc,jdbcType=VARCHAR},
+			       BELONG_TO_SYS = #{belongToSys,jdbcType=VARCHAR},
+			       LINK = #{link,jdbcType=VARCHAR}
+		]]>
+		<![CDATA[
+			 WHERE P_ID = #{pid}
+		]]>
+	</update>
+	
+	<!-- 是否存在相同名称和业务类型的流程记录 -->
+	<select id="getCountByProcedureNameAndPtype"  resultType="int">
+        <![CDATA[ SELECT count(P_ID) from  SP_PROCEDURE where P_TYPE=#{ptype} and P_NAME=#{pname} ]]>
+    </select>
+    
+    <!-- 根据业务编码查询流程对象 -->
+	<select id="findSpProcedureByBCode" resultMap="spProcedureMap">
+		<![CDATA[ 
+			SELECT a.P_ID, a.P_NAME, a.P_STATUS, a.P_TYPE, a.P_DESC, a.BELONG_TO_SYS, a.LINK, d.gnmkmc as BELONG_TO_SYS_NAME
+			  FROM SP_PROCEDURE a, SP_BUSINESS c, ZFTAL_XTGL_JSGNMKDMB d
+			 WHERE 1 = 1 and a.BELONG_TO_SYS=d.gnmkdm
+			   AND a.P_ID = c.P_ID
+			   AND ROWNUM = 1 
+			   AND c.B_CODE = #{bCode}
+	 	]]>
+	</select> 
+	
+	<!-- 根据对象中的条件查询记录（结果一个或多个） -->
+	<select id="findSpProcedureList" resultMap="spProcedureMap">
+		SELECT P_ID, P_NAME, P_STATUS, P_TYPE, P_DESC, BELONG_TO_SYS, LINK, b.gnmkmc as BELONG_TO_SYS_NAME
+		  FROM SP_PROCEDURE a left join ZFTAL_XTGL_JSGNMKDMB b on a.BELONG_TO_SYS=b.gnmkdm
+		  <where>
+	        <if test="pid != null and pid != ''">
+				<![CDATA[  P_ID = #{pid} ]]>
+	        </if>
+			<if test="pname != null and pname != ''">
+				<![CDATA[ AND P_NAME = #{pname} ]]>
+	        </if>
+	        <if test="pstatus != null and pstatus != ''">
+				<![CDATA[ AND P_STATUS = #{pstatus} ]]>
+	        </if>
+	        <if test="ptype != null and ptype != ''">
+				<![CDATA[ AND P_TYPE = #{ptype} ]]>
+	        </if>
+        </where>
+	</select>
+	
+		<!-- 根据对象中的条件查询记录,有分页（结果一个或多个） -->
+	<select id="getPagingList" resultMap="spProcedureMap">
+		select * from (select b.*, rownum rn from (
+		  SELECT P_ID, P_NAME, P_STATUS, P_TYPE, P_DESC, BELONG_TO_SYS, LINK, b.gnmkmc as BELONG_TO_SYS_NAME
+		  FROM SP_PROCEDURE a left join ZFTAL_XTGL_JSGNMKDMB b on a.BELONG_TO_SYS=b.gnmkdm
+		  <include refid="where"/>
+		  <if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if>
+	      ) b )
+	        <![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>
+	</select>
+	
+	<sql id = "where">
+		<where>
+			<if test="pname != null and pname != ''">
+				<![CDATA[ AND P_NAME like '%'||#{pname}||'%' ]]>
+	        </if>
+	        <if test="plink != null and plink != ''">
+				<![CDATA[ AND LINK like '%'||#{plink}||'%' ]]>
+	        </if>
+	        <if test="pstatus != null and pstatus != ''">
+				<![CDATA[ AND P_STATUS = #{pstatus} ]]>
+	        </if>
+	        <if test="pdesc != null and pdesc != ''">
+				<![CDATA[ AND P_DESC like '%'|| #{pdesc}||'%' ]]>
+	        </if>
+	        <if test="pbelongToSysName != null and pbelongToSysName != ''">
+                <![CDATA[ AND BELONG_TO_SYS = #{pbelongToSysName}]]>
+            </if>
+	    </where>
+	</sql>
+	
+		<!-- 获取分页计数 -->
+	<select id="getPagingCount" resultType="int">
+		select 
+			count(*) cnt
+		from SP_PROCEDURE
+		<where>
+			<if test="pname != null and pname != ''">
+				<![CDATA[ AND P_NAME like '%'||#{pname}||'%' ]]>
+	        </if>
+	        <if test="plink != null and plink != ''">
+				<![CDATA[ AND LINK like '%'||#{plink}||'%' ]]>
+	        </if>
+	        <if test="pstatus != null and pstatus != ''">
+				<![CDATA[ AND P_STATUS = #{pstatus} ]]>
+	        </if>
+	        <if test="pdesc != null and pdesc != ''">
+				<![CDATA[ AND P_DESC like '%'|| #{pdesc}||'%' ]]>
+	        </if>
+        </where>
+	</select>
+	
+	<!-- 根据对象中的条件查询记录（结果一个或多个） -->
+	<select id="findSpProcedureById" resultMap="spProcedureMap">
+		<![CDATA[ 
+			SELECT P_ID,
+			       P_NAME,
+			       P_STATUS,
+			       P_TYPE,
+			       P_DESC,
+			       BELONG_TO_SYS,
+			       LINK,
+			       b.gnmkmc AS BELONG_TO_SYS_NAME
+			  FROM SP_PROCEDURE a
+			  LEFT JOIN ZFTAL_XTGL_JSGNMKDMB b
+			    ON a.BELONG_TO_SYS = b.gnmkdm
+			 WHERE P_ID = #{pid}
+		]]>
+	</select>
+
+</mapper>

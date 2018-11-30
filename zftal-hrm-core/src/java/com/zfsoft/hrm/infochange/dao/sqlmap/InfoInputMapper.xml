@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.infochange.dao.IInfoInputDao">
+    <sql id="where">
+        <where>
+            <if test="express2 != null">
+                ${express2}
+            </if>
+            
+            <if test="id != null">
+                and info.id = #{id}
+            </if>
+            <if test="userId != null and userId != ''">
+                and info.user_id like '%'||#{userId}||'%' 
+            </if>
+            <if test="classId != null">
+                and info.class_id = #{classId}
+            </if>
+            <if test="status != null">
+                and info.status = #{status}
+            </if>
+            <if test="username != null and username != ''">
+                and ov.xm like '%'||#{username}||'%'
+            </if>
+            <if test="screateDate != null">
+                <![CDATA[and info.create_date >= #{screateDate}]]>
+            </if>
+            <if test="ecreateDate != null">
+                <![CDATA[and info.create_date <= #{ecreateDate}]]>
+            </if> 
+            <if test="departmentListString != null and departmentListString != ''">
+                <![CDATA[and ov.dwm in (${departmentListString})]]>
+            </if> 
+        </where>
+        order by COMMIT_DATE DESC,CREATE_DATE  DESC
+    </sql>
+    
+    <select id="getPagedList" resultType="com.zfsoft.hrm.infochange.entity.InfoChange">
+        select distinct ov.xm as userName, ov.dwm as deptId,
+        <foreach collection="sqlNamesAll" item="item" separator=",">
+            <![CDATA[info.${item} as ${sqlLocalNameMap[item]}]]>
+        </foreach>
+        from ${tableName} info left join overall ov on ov.gh=info.user_id  
+        <if test="express != null">
+            ${express}
+        </if>
+        <include refid="where" />
+    </select>
+    
+    <select id="findList" resultType="com.zfsoft.hrm.infochange.entity.InfoChange">
+        select
+        <foreach collection="sqlNamesAll" item="item" separator=",">
+            <![CDATA[${item} as ${sqlLocalNameMap[item]}]]>
+        </foreach>
+        from ${tableName} info
+        <include refid="where" />
+    </select>
+    
+    <select id="findById" resultType="com.zfsoft.hrm.infochange.entity.InfoChange">
+        select
+        <foreach collection="sqlNamesAll" item="item" separator=",">
+            <![CDATA[${item} as ${sqlLocalNameMap[item]}]]>
+        </foreach>
+        from ${tableName} info
+        <where>
+            ${keyOf}=#{${keyOf}}
+        </where>
+    </select>
+    
+
+    <insert id="insert" keyProperty="id">
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            <![CDATA[
+            select SYS_GUID() GUID from DUAL
+            ]]>
+        </selectKey>
+        insert into ${tableName}(${keyOf},
+        <foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+            ${item}
+        </foreach>
+        values (#{${keyOf}},
+        <foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+            #{${sqlLocalNameMap[item]}}
+        </foreach>
+    </insert>
+
+    <update id="update">
+        update ${tableName}
+        <set>
+            <foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," >
+                 ${item}=#{${sqlLocalNameMap[item]}}
+            </foreach>
+        </set>
+        where ${keyOf}=#{${keyOf}}
+    </update>
+
+    <!-- 删除岗位信息 -->
+    <delete id="delete">
+        delete from ${tableName} where ${keyOf} = #{${keyOf}}
+    </delete>
+    
+</mapper>

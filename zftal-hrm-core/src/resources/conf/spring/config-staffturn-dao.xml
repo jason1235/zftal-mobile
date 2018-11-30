@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<!--预退休扫描 -->
+	<bean id="retireScanDao" name="retireScanDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.staffturn.retire.dao.daointerface.IRetireScanDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <!-- 退休 -->
+    <bean id="retireDao" name="retireDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.staffturn.retire.dao.daointerface.IRetireDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <bean id="retireRuleDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.staffturn.retire.dao.daointerface.RetireRuleDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!--离校环节 -->
+	<bean id="leaveStepDao" name="leaveStepDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.staffturn.leaveschool.dao.daointerface.ILeaveStepDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <!--离校流程管理 -->
+	<bean id="leaveFlowDao" name="leaveFlowDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.staffturn.leaveschool.dao.daointerface.ILeaveFlowDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <!--离校处理 -->
+	<bean id="leaveProcessDao" name="leaveProcessDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.staffturn.leaveschool.dao.daointerface.ILeaveProcessDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    <!-- 离世 -->
+    <bean id="deadDao" name="deadDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.staffturn.dead.dao.daointerface.IDeadDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+</beans>

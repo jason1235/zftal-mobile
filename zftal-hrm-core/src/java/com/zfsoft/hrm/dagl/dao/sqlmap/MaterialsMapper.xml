@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.hrm.dagl.dao.IMaterialsDao">
+
+	<resultMap id="materialsAddItemMap" type="com.zfsoft.hrm.dagl.query.MaterialsAddItem">
+	        <result property="classId"                column="id" />
+	        <result property="classGh"                column="gh" />
+	        <result property="classXm"                column="xm" />
+	        <result property="classClid"              column="clid" />
+	        <result property="classJysj"              column="jysj" />
+	        <result property="classGhsj"              column="ghsj" />
+	        <result property="classLh"                column="lh" />
+	        <result property="classXh"                column="xh" />
+	        <result property="classClmc"              column="name" />
+	        <result property="classDescribe"          column="describe" />
+    </resultMap>
+    
+    <update id="update">
+        update DACLJYB
+        <set>
+        <if test="classGh !=null">
+        GH = #{classGh},
+        </if>
+        <if test="classXm !=null">
+        XM = #{classXm},
+        </if>
+        <if test="classClid !=null">
+        CLID = #{classClid},
+        </if>
+        <if test="classJysj !=null">
+        JYSJ = #{classJysj},
+        </if>
+       <if test="classGhsj !=null">
+        GHSJ = #{classGhsj},
+        </if>
+        </set>
+        where ID = #{classId}
+    </update>
+    
+    <!-- 获取分页计数 -->
+    <select id="getList" resultMap="materialsAddItemMap">
+    select * from (select a.*, rownum rn from(
+        select 
+            t.id,t.gh,t.xm,t.clid,t.jysj,t.ghsj,o.lh,o.xh,o.name,o.describe
+        from DACLJYB T
+        left join HRM_DAGL_CLXX O  on T.CLID = O.ITEMID
+        <include refid="where"/>
+        ) a )
+        <![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+    </select>
+    
+    <select id="getMaterialsCount" resultType="int">
+        select count(*) from(
+           select t.* from DACLJYB t 
+           left join HRM_DAGL_CLXX O  on T.CLID = O.ITEMID
+        <include refid="where"/>
+           ) 
+    </select>
+    
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO 
+                DACLJYB(
+                      ID,
+                      GH,
+                      XM,
+                      CLID,
+					  JYSJ,
+					  GHSJ
+                )
+            VALUES(
+                #{classId},
+                #{classGh},
+                #{classXm},
+                #{classClid},
+                #{classJysj},
+                #{classGhsj,jdbcType=DATE}
+            )
+        ]]>
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="classId">
+            <![CDATA[
+            select SYS_GUID() globalid from DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    <delete id="remove">
+        delete from DACLJYB  where ID like '%'||#{classId}||'%'
+    </delete>
+    
+    <sql id="where">
+    <where>
+        <if test="classId != null and classId != ''">
+            and t.ID like '%'||#{classId}||'%'
+        </if>
+        <if test="classGh != null and classGh != ''">
+            and t.GH like '%'||#{classGh}||'%'
+        </if>
+        <if test="classXm != null and classXm != ''">
+            and t.xm like '%'||#{classXm}||'%'
+        </if>
+        <if test="classClmc != null and classClmc != ''">
+            and o.name like '%'||#{classClmc}||'%'
+        </if>
+        
+    </where>
+    </sql>
+    
+</mapper>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.workflow.dao.ISpWorkNodeBillDao">
+
+	<resultMap id="spWorkNodeBillMap" type="com.zfsoft.workflow.model.SpWorkNodeBill">
+		<result property="id" column="ID" />
+		<result property="wid" column="W_ID" />
+		<result property="nodeId" column="NODE_ID" />
+		<result property="billId" column="BILL_ID" />
+		<result property="billType" column="BILL_TYPE" />
+		<result property="classId" column="CLASS_ID" />
+		<result property="classesPrivilege" column="CLASSES_PRIVILEGE" />
+	</resultMap>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="id">
+		<![CDATA[
+			INSERT INTO SP_WORK_NODE_BILL
+			  (ID, W_ID, BILL_ID, BILL_TYPE, CLASS_ID, NODE_ID, CLASSES_PRIVILEGE)
+			VALUES
+			  (#{id},
+			   #{wid},
+			   #{billId,jdbcType=VARCHAR},
+			   #{billType,jdbcType=VARCHAR},
+			   #{classId,jdbcType=VARCHAR},
+			   #{nodeId,jdbcType=VARCHAR},
+			   #{classesPrivilege,jdbcType=VARCHAR})
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			SELECT SYS_GUID() KHLC_ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	
+	<!-- 根据节点ID和表单ID删除关联关系 -->
+	<delete id="delete">
+		<![CDATA[
+			DELETE FROM SP_WORK_NODE_BILL WHERE NODE_ID = #{nodeId} and CLASS_ID = #{classId} and W_ID = #{wid}
+		]]>
+	</delete>
+	
+	<!-- 删除下所有节点 -->
+	<delete id="deleteByNodeId">
+		<![CDATA[
+			DELETE FROM SP_WORK_NODE_BILL WHERE NODE_ID = #{nodeId}
+		]]>
+	</delete>
+
+	<!-- 根据NODEID条件查询记录（结果一个或多个） -->
+    <select id="findWorkNodeBillListByNodeId" resultMap="spWorkNodeBillMap">
+    	<![CDATA[ 
+			SELECT ID, W_ID, NODE_ID, BILL_ID, BILL_TYPE, CLASS_ID, CLASSES_PRIVILEGE
+			  FROM SP_WORK_NODE_BILL 
+			 WHERE NODE_ID = #{0} 
+		]]>		 
+	</select>
+	
+	<!-- 根据NODEID和W_ID条件查询记录（结果一个或多个） -->
+    <select id="findWorkNodeBillListByNodeIdAndWid" resultMap="spWorkNodeBillMap">
+    	<![CDATA[ 
+			SELECT ID, W_ID, NODE_ID, BILL_ID, BILL_TYPE, CLASS_ID, CLASSES_PRIVILEGE
+			  FROM SP_WORK_NODE_BILL 
+			 WHERE NODE_ID = #{nodeId}
+			   AND W_ID = #{wid} 
+		]]>		 
+	</select>
+	
+	<!-- 根据NODEID和W_ID条件查询记录（结果一个或多个） -->
+    <select id="findCommitWorkNodeBillListByNodeIdAndWid" resultMap="spWorkNodeBillMap">
+    	<![CDATA[ 
+			SELECT ID, W_ID, NODE_ID, BILL_ID, BILL_TYPE, CLASS_ID, CLASSES_PRIVILEGE
+			  FROM SP_WORK_NODE_BILL 
+			 WHERE NODE_ID = #{nodeId}
+			   AND W_ID = #{wid} 
+			   AND BILL_TYPE = 'COMMIT'
+		]]>		 
+	</select>
+	
+	<!-- 根据NODEID和W_ID条件查询记录（结果一个或多个） -->
+    <select id="findApproveWorkNodeBillListByNodeIdAndWid" resultMap="spWorkNodeBillMap">
+    	<![CDATA[ 
+			SELECT ID, W_ID, NODE_ID, BILL_ID, BILL_TYPE, CLASS_ID, CLASSES_PRIVILEGE
+			  FROM SP_WORK_NODE_BILL 
+			 WHERE NODE_ID = #{nodeId}
+			   AND W_ID = #{wid} 
+			   AND BILL_TYPE = 'APPROVE'
+		]]>		 
+	</select>
+	
+	<!-- 根据节点ID和CLASSID条件查询记录（结果一个或多个） -->
+	<select id="getCountByNodeIdAndClassId" resultType="int">
+		SELECT COUNT(ID) FROM SP_WORK_NODE_BILL WHERE NODE_ID = #{nodeId} AND CLASS_ID = #{classId} 
+	</select>
+	
+</mapper>

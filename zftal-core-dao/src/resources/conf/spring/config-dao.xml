@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+    <!-- 角色管理DAO -->
+    <bean id="jsglDao" name="jsglDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IJsglDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>    
+    
+    <!-- 用户管理DAO -->
+    <bean id="yhglDao" name="yhglDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IYhglDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!-- 日志管理DAO -->
+    <bean id="rzglDao" name="rzglDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean" >
+		<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IRzglDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+    <!-- 基础数据DAO -->
+    <bean id="jcsjDao" name="jcsjDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IJcsjDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!-- 数据导出DAO -->
+	<bean id="dcDao" name="dcDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+		<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IDcDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+    <!-- 首页加载DAO -->
+    <bean id="indexDao" name="indexDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IIndexDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean> 
+    
+    <!-- 按钮菜单DAO -->
+    <bean id="ancdDao" name="ancdDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IAncdDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+
+    <!-- 用户登录DAO -->
+    <bean id="loginDao" name="loginDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.ILoginDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean> 
+    
+	<!-- 系统设置DAO -->
+	<bean id="xtszDao" name="xtszDao"
+		class="org.mybatis.spring.mapper.MapperFactoryBean" >
+		<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IXtszDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+    <!-- 操作日志DAO -->
+ 	<bean id="logDao" name="logDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.ILogDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>	
+     
+    <!-- 部门代码DAO -->
+ 	<bean id="bmdmDao" name="bmdmDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IBmdmDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>	 
+        
+    <!-- 专业代码DAO -->
+ 	<bean id="zydmDao" name="zydmDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IZydmDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean> 
+
+    <!-- 年级代码DAO -->
+ 	<bean id="njdmDao" name="njdmDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.INjdmDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean> 
+    
+    <!-- 班级代码DAO -->
+ 	<bean id="bjdmDao" name="bjdmDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IBjdmDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean> 
+    
+    <!-- 学生管理范围DAO -->
+ 	<bean id="xsglfwDao" name="xsglfwDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IXsglfwDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean> 
+    
+    <!-- 公共DAO -->
+ 	<bean id="commonSqlDao" name="commonSqlDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.ICommonSqlDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!-- 功能模块DAO -->
+ 	<bean id="gnmkDao" name="gnmkDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IGnmkDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!-- 我的应用DAO -->
+ 	<bean id="wdyyDao" name="wdyyDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IWdyyDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!-- 新闻管理DAO -->
+ 	<bean id="xwglDao" name="xwglDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IXwglDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>    
+    
+    <!-- 用户角色范围DAO -->
+ 	<bean id="yhjsfwDao" name="yhjsfwDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IYhjsfwDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>
+    
+    <!-- 数据范围组DAO -->
+ 	<bean id="sjfwzDao" name="sjfwzDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.ISjfwzDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>  
+    
+    <!-- 数据范围组DAO -->
+ 	<bean id="sjfwdxDao" name="sjfwdxDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.ISjfwdxDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean> 
+    
+    <!-- 口令维护DAO -->
+    <bean id="klwhDao" name="klwhDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.dao.daointerface.IKlwhDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>         
+    
+     <!--数据授权dao -->
+   <bean id="dataPrivilegeDao" name="dataPrivilegeDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+   		<property name="mapperInterface" value="com.zfsoft.dataprivilege.dao.IDataPrivilegeDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>      
+     <!--子系统dao -->
+   <bean id="subsystemDao" class="org.mybatis.spring.mapper.MapperFactoryBean" >
+   		<property name="mapperInterface" value="com.zfsoft.dao.daointerface.SubsystemDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean>      
+</beans>

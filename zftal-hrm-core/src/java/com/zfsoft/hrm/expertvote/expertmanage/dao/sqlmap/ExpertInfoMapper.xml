@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.expertvote.expertmanage.dao.IExpertInfoDao">
+	<select id="getPagedExpert" parameterType="com.zfsoft.hrm.expertvote.expertmanage.entity.ExpertInfo" resultType="com.zfsoft.hrm.expertvote.expertmanage.entity.ExpertInfo">
+		select o.xm xm,z.ID id, z.GH gh, z.TYPE type, z.SBZ sbz, z.DEDATE dedate, z.CONFIG_ID config_id, z.INSTANCE_ID instance_id 
+		from hrm_expert_info z,overall o where z.gh = o.gh(+)
+		<if test = "xm !=null and xm !=''">
+			and xm like '%'||#{xm}||'%'
+		</if>
+		<if test = "gh !=null and gh !=''">
+			and z.gh like '%'||#{gh}||'%'
+		</if>
+		<if test = "type !=null and type !=''">
+			and type=#{type} 
+		</if>
+		<if test = "sbz !=null and sbz !=''">
+			and sbz=#{sbz}
+		</if>
+	</select>	
+	
+	<insert id="insert" parameterType="com.zfsoft.hrm.expertvote.expertmanage.entity.ExpertInfo">
+		insert into hrm_expert_info
+		  (ID, GH, TYPE, SBZ, DEDATE, CONFIG_ID, INSTANCE_ID)
+		values
+		  (#{id},
+		   #{gh jdbcType=VARCHAR},
+		   #{type jdbcType=VARCHAR},
+		   #{sbz jdbcType=VARCHAR},
+		   #{dedate jdbcType=DATE},
+		   #{config_id jdbcType=VARCHAR},
+		   #{instance_id jdbcType=VARCHAR})
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			SELECT SYS_GUID() ID FROM DUAL
+			]]>
+		</selectKey>
+	</insert>
+	<!-- 删除 -->
+	<delete	id="delete" parameterType="java.lang.String">
+		delete from hrm_expert_info where id=#{id}
+	</delete>
+	<!-- 获取所有专家的ID -->
+	<select id="getListIdByAll" resultType="java.lang.String">
+		select id from hrm_expert_info
+	</select>
+		<!-- 获取所有专家的ID -->
+	<select id="getListIdBySingle" resultType="java.lang.String">
+		select id from hrm_expert_info where type=#{type}
+	</select>
+</mapper>
+
+

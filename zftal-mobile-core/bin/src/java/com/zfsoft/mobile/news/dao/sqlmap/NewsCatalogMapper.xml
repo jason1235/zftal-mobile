@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.news.dao.INewsCatalogDao">
+
+	<resultMap id="newsCatalogMap" type="com.zfsoft.mobile.news.entity.NewsCatalog">
+		<result property="catalogId" 		 column="lbid" />
+		<result property="catalogCode"   column="lbbm" />
+		<result property="catalogName"   column="lbmc" />
+		<result property="showType"   column="zxxs" />
+		<result property="status"   column="syzt" />
+		<result property="source"   column="zxlbly" />
+		<result property="pxm"   column="pxm" />
+		<result property="logoUrl"   column="lbtpdz" />
+		<result property="logoId"   column="lbtpid" />
+		<result property="createTime"   column="cjsj" />
+		<result property="creator"   column="cjzid" />
+		<result property="updateTime"   column="gxsj" />
+		<result property="updater"   column="gxzid" />
+		<result property="deleted"   column="deleted" />
+		<result property="ct"   column="ct" />
+		<result property="listType"   column="lbxs" />
+	</resultMap>
+	
+	<sql id="where">
+		<where>
+			<if test='catalogCode != null and catalogCode != ""'> and lbbm like '%'||#{catalogCode}||'%'</if>
+			<if test='catalogName != null and catalogName != ""'> and lbmc like '%'||#{catalogName}||'%'</if>
+			<if test='showType != null and showType != ""'> and zxxs = #{showType} </if>
+			<if test='status != null and status != ""'> and syzt = #{status} </if>
+			<if test='source != null and source != ""'> and zxlbly = #{source} </if>
+			and deleted = '0'
+		</where>
+	</sql>
+	
+	<select id="getPageCount" resultType="int">
+		select count(*) from m_zxgl_zxlbglb
+		<include refid="where" />
+	</select>
+	
+	<select id="getPageList" resultMap="newsCatalogMap">
+	select *
+  from (select t.*, rownum as rn
+          from (select a.*, b.ct
+                  from m_zxgl_zxlbglb a
+                  left join (select m.lbbm, count(m.lbbm) ct
+                              from m_zxgl_zxglb m
+                              where deleted = '0'
+                             group by m.lbbm ) b
+                    on a.lbbm = b.lbbm
+                 <where>
+					<if test='catalogCode != null and catalogCode != ""'> and a.lbbm like '%'||#{catalogCode}||'%'</if>
+					<if test='catalogName != null and catalogName != ""'> and a.lbmc like '%'||#{catalogName}||'%'</if>
+					<if test='showType != null and showType != ""'> and a.zxxs = #{showType} </if>
+					<if test='status != null and status != ""'> and a.syzt = #{status} </if>
+					<if test='source != null and source != ""'> and a.zxlbly = #{source} </if>
+					and deleted = '0'
+				</where>
+					 order by a.pxm) t)
+                
+  <![CDATA[
+ where rn>=#{startRow}  and rn<=#{endRow}
+ ]]>
+	</select>
+	
+	<insert id="insertFwqx" >
+		
+			INSERT INTO 
+				M_FWGL_yhqx(
+						
+					yhid,
+					fwbm	
+				)
+			VALUES(
+				  
+				'everyone',  
+				#{catalogCode}          
+				)
+		
+	</insert>
+	
+	
+	<insert id="insert" >
+		
+			INSERT INTO 
+				m_zxgl_zxlbglb(
+						
+					lbbm,
+					lbmc,	
+					zxxs,
+					
+					lbtpdz,
+					lbtpid,
+					pxm,
+					<if test='listType != null and listType != ""'>
+						lbxs,
+					</if>
+					cjsj,
+					cjzid
+					
+					
+				)
+			VALUES(
+				  
+				#{catalogCode},  
+				#{catalogName},           
+				#{showType},
+				#{logoUrl},
+				
+				#{logoId},
+				#{pxm},
+				<if test='listType != null and listType != ""'>
+						#{listType},
+				</if>
+				sysdate,
+				#{creator}
+				
+				)
+		
+	</insert>
+	<select id="getMaxPxm" resultType="java.lang.String">
+		select max(pxm) from m_zxgl_zxlbglb
+	</select>
+	<select id="getCount" resultType="int">
+		select count(*) from m_zxgl_zxlbglb where lbbm = #{catalogCode} or lbmc = #{catalogName} and deleted = '0'
+	</select>
+	<select id="getAllCatalog" resultMap="newsCatalogMap">
+		select * from m_zxgl_zxlbglb 
+		where 
+		<if test='isAll != null and isAll == "true"'>
+		syzt=1 and 
+		 </if>
+		deleted = 0 order by pxm
+	</select>
+		
+	<select id="findByName" resultMap="newsCatalogMap">
+		select * from  m_zxgl_zxlbglb
+		<where>
+			(lbbm = #{catalogCode} or
+			lbmc = #{catalogName}
+			)and deleted = '0'
+		</where>
+	</select>
+	
+	<select id="findById" resultMap="newsCatalogMap">
+		select * from  m_zxgl_zxlbglb
+		<where>
+			lbid = #{catalogId} and deleted = 0
+		</where>
+	</select>
+	
+	<select id="countNewsByCatalogId" resultType="int">
+		select count(*) from m_zxgl_zxglb where lbbm = #{catalogCode} and deleted = '0'
+	</select>
+	
+	<update id="update">
+		update m_zxgl_zxlbglb
+		 <set>
+		 	<if test='catalogCode != "" and catalogCode != null'>
+		 		lbbm=#{catalogCode},
+		 	</if>
+		 	<if test='catalogName != "" and catalogName != null'>
+		 		lbmc=#{catalogName},
+		 	</if>
+		 	<if test='showType != "" and showType != null'>
+		 		zxxs=#{showType},
+		 	</if>
+		 	
+		 	<if test='listType != null and listType != ""'>
+				lbxs=#{listType}, 
+			</if>
+		 	
+		 	<if test='source != "" and source != null'>
+		 		zxlbly=#{source},
+		 	</if>
+		 	<if test='logoUrl != "" and logoUrl != null'>
+		 		lbtpdz=#{logoUrl},
+		 	</if>
+		 	<if test='logoId != "" and logoId != null'>
+		 		lbtpid=#{logoId},
+		 	</if>
+		 	<if test='status != "" and status != null'>
+		 		syzt=#{status},
+		 	</if>
+		 	
+		 		gxsj=sysdate,
+		 	
+		 	<if test='updater != "" and updater != null'>
+		 		gxzid=#{updater},
+		 	</if>
+		 	
+		 	<if test='deleted != "" and deleted != null'>
+		 		deleted=#{deleted},
+		 	</if>
+		 </set>
+		   where lbid = #{catalogId}
+	</update>
+	
+	<update id="updateByService">
+		update m_zxgl_zxlbglb
+		 <set>
+		 	<if test='catalogName != "" and catalogName != null'>
+		 		lbmc=#{catalogName},
+		 	</if>
+		 	<if test='logoUrl != "" and logoUrl != null'>
+		 		lbtpdz=#{logoUrl},
+		 	</if>
+		 	<if test='logoId != "" and logoId != null'>
+		 		lbtpid=#{logoId},
+		 	</if>
+		 	
+		 		gxsj=sysdate,
+		 	
+		 	<if test='updater != "" and updater != null'>
+		 		gxzid=#{updater},
+		 	</if>
+		 	
+		 </set>
+		   where lbid = #{catalogId}
+	</update>
+	
+	
+	<delete id="delete">
+		update m_zxgl_zxlbglb set deleted = '1' where lbid = #{catalogId}
+	</delete>
+	
+	
+	<!-- 启用类别 -->
+	<update id="enable">
+		update m_zxgl_zxlbglb set syzt = '1' where lbid = #{catalogId}
+		
+	</update>
+	
+	<!-- 停用类别 -->
+	<update id="disable">
+		update m_zxgl_zxlbglb set syzt = '0' where lbid = #{catalogId} 
+		
+	</update>
+	
+	<update id="updateIndex">
+		update m_zxgl_zxlbglb 
+		set pxm = #{index}
+		 where lbid = #{id} 
+		
+	</update>
+	
+	<!-- 查询类别下已经启用的资讯数量 -->
+	<select id="countEnable" resultType="int">
+		select count(*)
+  from m_zxgl_zxglb t1
+  left join m_zxgl_zxlbglb t2
+    on t1.lbbm = t2.lbbm
+ where t1.syzt = '1'
+   and t1.deleted = '0'
+  and t2.lbid = #{catalogId}
+	</select>
+	
+</mapper>

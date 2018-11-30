@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.schedule.dao.daointerface.TriggerStoreDao">
+
+	<resultMap id="TriggerStore" type="com.zfsoft.hrm.schedule.entities.TriggerStore">
+		<id property="guid" column="CFQBH" />
+		<result property="expression" column="BDS" />
+		<result property="serviceClass" column="FWL" />
+		<result property="isUsable" column="SFQY" />
+		<result property="description" column="MS" />
+	</resultMap>
+	
+	<sql id="columns">
+		<![CDATA[
+			CFQBH,BDS,FWL,SFQY,MS
+		]]>
+	</sql>
+	
+	<sql id="where">
+		<where>
+		</where>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<![CDATA[
+			insert into ZFTAL_TIME_TRIGGER(
+				CFQBH,BDS,FWL,SFQY,MS
+			) values(
+				#{guid}, #{expression}, #{serviceClass}, #{isUsable}, #{description}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			update ZFTAL_TIME_TRIGGER set
+				BDS = #{expression}, FWL = #{serviceClass}, SFQY = #{isUsable}, MS = #{description}
+			where CFQBH = #{guid}
+		]]>
+	</update>
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from ZFTAL_TIME_TRIGGER where CFQBH = #{guid}
+		]]>
+	</delete>
+	
+	<select id="findList" resultMap="TriggerStore">
+		select <include refid="columns" />
+		from ZFTAL_TIME_TRIGGER a order by CFQBH;
+	</select>
+	
+	<select id="findById" resultMap="TriggerStore">
+		select <include refid="columns" />
+		from ZFTAL_TIME_TRIGGER 
+		where CFQBH = #{guid}
+	</select>
+	
+</mapper>

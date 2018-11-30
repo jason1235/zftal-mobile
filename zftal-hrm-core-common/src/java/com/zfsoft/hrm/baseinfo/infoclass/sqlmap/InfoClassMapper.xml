@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.baseinfo.infoclass.dao.daointerface.IInfoClassDao">
+
+	<resultMap id="InfoClassModel" type="com.zfsoft.hrm.baseinfo.infoclass.entities.InfoClass">
+		<id property="guid" column="XXLBH" />
+		<result property="name" column="XXLMC" />
+		<result property="identityName" column="XXLBZM" />
+		<result property="type" column="XXLLX" />
+		<result property="index" column="XXLXH" />
+		<result property="lessThanOne" column="ZSYTJL" />
+		<result property="xxly" column="XXLY" />
+		<result property="menuId" column="CDBH" />
+		<result property="displayNum" column="XXZXS" />
+		<result property="pxzd" column="PXZD" />
+        <result property="scanStyle" column="XSFS" />    
+		<association property="catalog" resultMap="com.zfsoft.hrm.baseinfo.infoclass.dao.daointerface.ICatalogDao.CatalogModel">
+		</association>
+	</resultMap>
+	
+	<sql id="columns">
+		<![CDATA[
+			a.XXLBH, a.XXLMC, a.XXLBZM, a.XXLLX, a.ZSYTJL, a.XXLXH, a.PXZD, a.XXLY,
+			a.CDBH, a.XXZXS, a.XSFS, b.MLID, b.MLMC, b.MLXH, b.MLFL
+		]]>
+	</sql>
+	
+	<sql id="where">
+		<where>
+			a.XXLSSML = b.MLID
+			<if test="classId != null and classId != ''">
+				and a.XXLBH = #{classId}
+			</if>
+			<if test="catalogId != null and catalogId != ''">
+				and a.XXLSSML = #{catalogId}
+			</if>
+			<if test="name != null and name != ''">
+				and a.XXLMC = #{name}
+			</if>
+			<if test="identityName != null and identityName != ''">
+				and a.XXLBZM = #{identityName}
+			</if>
+			<if test="types != null and types.size > 0">
+				<foreach collection="types" item="type" index="index"  open="and (" separator=" or " close=")">
+					a.XXLLX = #{type}
+				</foreach>
+			</if>
+			<if test="catalogType != null and catalogType != ''">
+				and b.MLFL = #{catalogType}
+			</if>
+		</where>
+	</sql>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<![CDATA[
+			insert into XXLYSJB(
+				XXLBH, XXLMC, XXLBZM, XXLLX, XXLSSML, ZSYTJL, XXLXH, XXLY, CDBH, XXZXS,XSFS
+			) values(
+				#{guid}, #{name}, #{identityName}, #{type}, #{catalog.guid}, #{lessThanOne}, #{index}, #{xxly},
+				#{menuId},#{displayNum},#{scanStyle}
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		<![CDATA[
+			update XXLYSJB set
+				XXLMC = #{name}, XXLBZM = #{identityName}, XXLLX = #{type}, ZSYTJL = #{lessThanOne}, XXLY=#{xxly}, 
+				CDBH = #{menuId}, XXZXS = #{displayNum},XXLXH = #{index},PXZD= #{pxzd,jdbcType=VARCHAR},
+				XSFS = #{scanStyle}
+			where XXLBH = #{guid}
+		]]>
+	</update>
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from XXLYSJB where XXLBH = #{guid}
+		]]>
+	</delete>
+	
+	<delete id="removeProceduresById">
+		<![CDATA[
+			delete from m_jcsz_ccgcsz where XXLID = #{guid}
+		]]>
+	</delete>
+	
+	<delete id="removeService">
+		<![CDATA[
+			delete from m_jcsz_xxlfwglb where XXLID = #{guid}
+		]]>
+	</delete>
+	
+	<delete id="deleteMenuProperty">
+        delete M_JCSZ_XXLCDB t
+        	where XXLID = #{guid}
+    </delete>
+	
+	
+	<select id="findCount" resultType="int">
+		select count(1)
+		from XXLYSJB a, XXLMLB b
+		<include refid="where" />
+	</select>
+
+	<select id="findList" resultMap="InfoClassModel">
+		select <include refid="columns" />
+		from XXLYSJB a, XXLMLB b
+		<include refid="where" />
+		order by b.MLXH, a.XXLXH
+	</select>
+	
+	<select id="findById" resultMap="InfoClassModel">
+		select <include refid="columns" />
+		from XXLYSJB a, XXLMLB b
+		where a.XXLSSML = b.MLID and a.XXLBH = #{guid}
+	</select>
+	
+	<select id="findByCatalogId" resultMap="InfoClassModel">
+		select <include refid="columns" />
+		from XXLYSJB a, XXLMLB b
+		where a.XXLSSML = b.MLID and a.XXLSSML = #{catalogId}
+		order by a.XXLXH
+	</select>
+	
+	<update id="updateAllIndex">
+		<![CDATA[
+		update XXLYSJB set XXLXH = XXLXH - 1 where XXLXH > #{index} and XXLSSML = #{catalog.guid}
+		]]>
+	</update>
+	
+	<update id="modifyProcedure">
+        update m_jcsz_ccgcsz
+        <set>
+          
+          <if test="isOrNotLike != null and isOrNotLike != ''">
+          mhcx = #{isOrNotLike},
+          </if>
+          <if test="xxlall != null and xxlall != ''">
+          xxlall = #{xxlall},
+          </if>
+        </set>
+        <where>
+            <if test="classId != null and classId != ''" >
+                and xxlid = #{classId}
+            </if>
+        </where>
+    </update>
+	
+	<select id="getProceduresMhcx" resultType="java.lang.String" >
+        select c.mhcx
+        from m_jcsz_ccgcsz c
+        where c.xxlid = #{xxlid}
+    </select>
+    
+    <select id="getProceduresXxlall" resultType="java.lang.String" >
+        select c.xxlall
+        from m_jcsz_ccgcsz c
+        where c.xxlid = #{xxlid}
+    </select>
+	
+</mapper>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xmlns:aop="http://www.springframework.org/schema/aop"
+		xmlns:tx="http://www.springframework.org/schema/tx"
+		xsi:schemaLocation="http://www.springframework.org/schema/beans
+				http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+				http://www.springframework.org/schema/tx
+				http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+				http://www.springframework.org/schema/aop
+				http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+	
+	<bean id="formInfoFactory" class="com.zfsoft.hrm.config.FormInfoFactory">
+		<property name="infos">
+			<map>
+				<entry key="fellows">
+					<ref bean="formInfoFellows" />
+				</entry>
+			</map>
+		</property>
+	</bean>
+	
+	<bean id="formInfoFellows" class="com.zfsoft.hrm.baseinfo.finfo.entities.FormInfo">
+		<property name="name" value="fellows" />
+		<property name="type" value="teacher" />
+		<property name="text" value="教职工信息服务" />
+		<property name="help" value="无" />
+		<property name="comment" value="定义教职工信息维护的操作权限" />
+	</bean>
+</beans>

@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.zfsoft.mobile.sourceexchange.dao.ISourcegoodsDao">
+
+	<resultMap id="sourcegoodsMap" type="com.zfsoft.mobile.sourceexchange.entity.Sourcegoods">
+	   <result property="goodsid" 		column="GOODSID" />
+	   <result property="goodsname" 	column="GOODSNAME"/>
+	   <result property="price" 		column="PRICE"/>
+	   <result property="numbericvalue" column="NUMBERICVALUE"/>
+	   <result property="description" 	column="DESCRIPTION"/>
+	   <result property="picids" 		column="PICIDS"/>
+	   <result property="picpaths" 		column="PICPATHS"/>
+	   <result property="storage" 		column="STORAGE"/>
+	   <result property="isactive" 		column="ISACTIVE"/>
+	   <result property="createtime" 	column="CREATETIME"/>
+	</resultMap>
+	
+	<sql id="where">
+	 <where>
+	 	<if test="goodsid!=null and goodsid!=''">
+	 	  and m.goodsid=#{goodsid}
+	 	</if>
+	 	<if test="goodsname!=null and goodsname!=''">
+	 	  and m.goodsname like '%'||#{goodsname}||'%'
+	 	</if>
+	 	<if test="numbericvalue!=null and numbericvalue!=''">
+	 	  and m.numbericvalue=#{numbericvalue}
+	 	</if>
+	 	<if test='isactive != null and isactive != ""'> 
+	 		and m.isactive = #{isactive} 
+	 	</if>
+	 	<if test="storage!=null and storage!=''">
+		       <if test="storage==-1">
+		    	   and  m.storage =0
+		       </if>
+		       <if test="storage==-2">
+		    	   and  m.storage !=0
+		    	</if>
+		</if>
+	 </where>
+	</sql>
+	
+	<select id="getPageCount" resultType="int">
+		select count(*) from
+			(select * from M_SOURCE_GOODS m
+			<include refid="where" /> )
+		a 
+	</select>
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getPageList" resultMap="sourcegoodsMap">
+		select * from (
+		select a.*,rownum rn from(
+			select * from M_SOURCE_GOODS m 
+				<include refid="where" /> 
+				order by  m.numbericvalue
+				<if test="price==1">
+				  desc
+				</if>
+				<if test="price==2">
+				  asc
+				</if>
+				 ,m.createtime desc 
+		) a)	
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+	</select>
+	
+	<select id="getAllgoodsList" resultMap="sourcegoodsMap">
+	  select t1.* from M_SOURCE_GOODS t1  order by t1.numbericvalue desc, t1.createtime desc 
+   </select>
+
+	<select id="findById" resultMap="sourcegoodsMap">
+		select t1.* from M_SOURCE_GOODS t1
+		<where>
+			goodsid = #{goodsid}
+		</where>
+	</select>
+	
+	<insert id="insert" >
+		<![CDATA[
+			INSERT INTO 
+				M_SOURCE_GOODS(
+					goodsid,
+					goodsname,
+					numbericvalue,
+					description,
+					picids,
+					picpaths,
+					storage,
+					isactive,
+					createtime
+				)
+			VALUES(
+				#{goodsid},
+				#{goodsname,jdbcType=VARCHAR},
+				#{numbericvalue},
+				#{description,jdbcType=VARCHAR},
+				#{picids,jdbcType=VARCHAR},
+				#{picpaths,jdbcType=VARCHAR},
+				#{storage},
+				#{isactive,jdbcType=VARCHAR},         
+			    sysdate
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="goodsid">
+			<![CDATA[
+			select SYS_GUID() goodsid from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		update M_SOURCE_GOODS
+		 <set>
+		  goodsname=#{goodsname},
+		  numbericvalue=#{numbericvalue},
+		  description=#{description,jdbcType=VARCHAR},
+		  picids=#{picids,jdbcType=VARCHAR},
+		  picpaths=#{picpaths,jdbcType=VARCHAR},
+		  storage=#{storage},
+		  isactive=#{isactive}
+		 </set>
+		 where goodsid = #{goodsid}
+	</update>
+	
+	<update id="updateStorage">
+		update M_SOURCE_GOODS
+		 <set>		 
+		  storage=#{storage}
+		 </set>
+		 where goodsid = #{goodsid}
+	</update>
+	
+	<update id="goodsControl">
+		update M_SOURCE_GOODS
+		<set>
+		<if test='isactive == "1"'>
+			isactive = '1'
+		</if>
+		<if test='isactive == "0"'>
+			isactive = '0'
+		</if>
+		</set> 
+		  where goodsid = #{goodsid}
+	</update>
+	
+	<delete id="deleteGoods">
+		delete from  M_SOURCE_GOODS
+		<where>
+		 goodsid in #{goodsid}
+		</where>
+	</delete>
+
+</mapper>

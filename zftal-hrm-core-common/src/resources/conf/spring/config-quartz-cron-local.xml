@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.0.xsd"
+	default-lazy-init="true">
+
+	<description>Quartz的本地Cron式执行任务配置</description>
+	<!-- Quartz本地Schduler -->
+	<bean id="localQuartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean" lazy-init="false">
+		<property name="dataSource" ref="dataSource"></property>   
+        <property name="applicationContextSchedulerContextKey"  value="applicationContextKey" />   
+        <property name="configLocation" value="classpath:quartz.properties"/>
+		<!-- Triggers集成 -->
+		<property name="triggers">
+			<list>
+				<!--<ref bean="testTrigger" />
+			--></list>
+		</property>
+		<!-- Quartz配置 -->
+		<property name="quartzProperties">
+			<props>
+				<prop key="org.quartz.threadPool.threadCount">5</prop>
+			</props>
+		</property>
+		<!-- 启动时延期3秒开始任务 -->
+		<property name="startupDelay" value="10" />
+	</bean>
+	
+<!-- ==================配置触发器时间================== -->
+	<bean id="testTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="testJobDetail" />
+		<!-- 每天23点59分59秒执行一次 -->
+		<property name="cronExpression" value="0/2 * * * * ?" />
+	</bean>
+<!-- ==================配置触发器时间结束================== -->
+
+<!-- ==================配置触发器的执行方法和执行方式================== -->
+	<bean id="testJobDetail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="testJobDetailService" />
+		<property name="targetMethod" value="execute" />
+		<!-- 同一任务在前一次执行未完成而Trigger时间又到时是否并发开始新的执行, 默认为true. -->
+		<property name="concurrent" value="false" />
+	</bean>
+<!-- ==================配置触发器的执行方法和执行方式结束================== -->
+
+<!-- ==================配置触发器的服务类================== -->
+	<bean id="testJobDetailService" class="com.zfsoft.hrm.schedule.TestJobDetailService">
+	</bean>
+	<bean id="scheduleControlService" class="com.zfsoft.hrm.schedule.ScheduleControlService">
+		<property name="localQuartzScheduler" ref="localQuartzScheduler"/>
+	</bean>
+ <!-- ==================配置触发器的服务类结束================== -->  
+ 
+    <!-- bean id="triggerStoreDao" name="triggerStoreDao" 
+    		class="org.mybatis.spring.mapper.MapperFactoryBean" >
+    	<property name="mapperInterface" value="com.zfsoft.hrm.schedule.dao.daointerface.TriggerStoreDao"></property>
+    	<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+    </bean-->
+</beans>

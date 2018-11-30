@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+  <package name="basedata" namespace="/basedata" extends="configuration">
+    <!-- 基础数据 -->
+    <action name="basedata_*" class="baseDataAction" method="{1}" >
+      <result name="synBaseData">/WEB-INF/pages/mobile/basedata/synchronize_synBaseData.jsp</result>
+      <result name="clientBaseData">/WEB-INF/pages/mobile/client/client_baseData.jsp</result>
+      <result name="clientBaseDetailData">/WEB-INF/pages/mobile/client/client_baseDetailData.jsp</result>
+      <result name="setProcedure">/WEB-INF/pages/mobile/basedata/synchronize_setProcedure.jsp</result>
+      <result name="regular">/WEB-INF/pages/mobile/basedata/synchronize_regular.jsp</result>
+      <result name="setInfoClazz">/WEB-INF/pages/mobile/basedata/synchronize_setInfoClazz.jsp</result>
+      <result name="setInfoClazzNew">/WEB-INF/pages/mobile/basedata/synchronize_setInfoClazz_new.jsp</result>
+      <result name="publishService">/WEB-INF/pages/mobile/basedata/publish_service_new.jsp</result>
+      <result name="publishPicture">/WEB-INF/pages/mobile/basedata/publish_Picture_new.jsp</result>
+      <result name="addMenu">/WEB-INF/pages/mobile/basedata/basedata_addMenuList_new.jsp</result>
+      <result name="addMenuItem">/WEB-INF/pages/mobile/basedata/basedata_addMenuItem_new.jsp</result>
+    </action>
+    
+    <action name="infocatalog_*" class="baseInfoCatalogAction" method="{1}">
+        <result name="edit">/WEB-INF/pages/mobile/basedata/basedata_catalog.jsp</result>
+        <result name="editNew">/WEB-INF/pages/mobile/basedata/basedata_catalog_new.jsp</result>
+    </action>
+    
+    <action name="infoclass_*" class="baseInfoClassAction" method="{1}">
+        <result name="edit">/WEB-INF/pages/mobile/basedata/basedata_infoclass.jsp</result>
+        <result name="editNew">/WEB-INF/pages/mobile/basedata/basedata_infoclass_new.jsp</result>
+    </action>
+        
+    <action name="infoproperty_*" class="baseInfoClassPropertyAction" method="{1}">
+        <result name="edit">/WEB-INF/pages/mobile/basedata/basedata_infoproperty.jsp</result>
+        <result name="editNew">/WEB-INF/pages/mobile/basedata/basedata_infoproperty_new.jsp</result>
+    </action>
+  </package>
+</struts>

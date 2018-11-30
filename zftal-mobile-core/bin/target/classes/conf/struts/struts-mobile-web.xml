@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="mobile" namespace="/mobile" extends="configuration" >
+		
+		<action name="web_*" class="mobileWebAction" method="{1}">
+			<result name="index">/WEB-INF/pages/mobile/web/new/index.jsp</result>
+			<result name="index_jit">/WEB-INF/pages/mobile/web/new/index_jit.jsp</result>
+			<result name="subscribe">/WEB-INF/pages/mobile/web/new/subscribe.jsp</result>
+			<result name="appCenter">/WEB-INF/pages/mobile/web/new/appCenter.jsp</result>
+			<result name="content">/WEB-INF/pages/mobile/web/new/content.jsp</result>
+			<!-- <result name="portal">/WEB-INF/pages/mobile/web/new/portal.jsp</result> -->
+			<result name="portal">/WEB-INF/pages/mobile/web/portal/portal.jsp</result>
+			<result name="login">/WEB-INF/pages/wechat/login/login_page.jsp</result>
+		</action>
+	</package>
+	
+</struts>

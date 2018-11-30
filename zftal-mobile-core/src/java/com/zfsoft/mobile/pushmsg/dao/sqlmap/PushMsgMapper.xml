@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.mobile.pushmsg.dao.IPushMsgDao">
+
+	<resultMap type="com.zfsoft.mobile.pushmsg.entity.PushMsg"
+		id="pushMsgMap">
+		<result property="tsid" column="tsid" />
+		<result property="tssj" column="tssj" />
+		<result property="tsbt" column="tsbt" />
+		<result property="tsnr" column="tsnr" />
+		<result property="tsry" column="tsry" />
+		<result property="tsfs" column="tsfs" />
+		<result property="tsdx" column="tsdx" />
+		<result property="tspt" column="tspt" />
+		<result property="tsdxlx" column="tsdxlx" />
+		<result property="appType" column="app_type" />
+		<result property="tsjg" column="tsjg" />
+		<result property="timeToLive" column="live_time" />
+		<result property="extrasStr" column="extrasStr" />
+	</resultMap>
+
+	<!-- 插入单条信息 -->
+	<insert id="insert" useGeneratedKeys="true" keyProperty="tsid">
+	<![CDATA[
+		insert into MOBILE_PUSHMSG
+		(tsid,tssj,tsbt,tsnr,tsry,tsfs,tsdx,tspt,tsdxlx,tsjg,live_time,extrasStr,app_type)
+		values(#{tsid},
+		sysdate,
+		#{tsbt},
+		#{tsnr},
+		#{tsry},
+		#{tsfs},
+		#{tsdx},
+		#{tspt},
+		#{tsdxlx},
+		#{tsjg},
+		#{timeToLive},
+		#{extrasStr,jdbcType=VARCHAR},
+		#{appType}
+		)
+			]]>
+		<selectKey resultType="java.lang.String" order="BEFORE"
+			keyProperty="tsid">
+			<![CDATA[
+			select SYS_GUID() globalid from DUAL
+			]]>
+		</selectKey>
+	</insert>
+
+	<delete id="delete">
+		delete from MOBILE_PUSHMSG where tsid = #{tsid}
+	</delete>
+
+	<select id="getPagingCount" resultType="int">
+		select count(*)
+		from MOBILE_PUSHMSG pm
+		<include refid="where" />
+	</select>
+
+	<sql id="where">
+		<where>
+		    1=1
+		    <if test="appType != null and appType != ''"> 
+                 and app_type=#{appType}
+            </if>
+		    <if test="tsfs != null and tsfs != ''"> 
+                 and tsfs = #{tsfs}
+            </if>
+			<if test="tsry != null and tsry != ''"> 
+			     and tsry = #{tsry}
+			</if>
+			<if test="tsdx != null and tsdx != ''"> 
+			     and (tsdxlx='ALL' or tsdx like #{tsdx}||',%' or tsdx like '%,'||#{tsdx}||',%')
+		    </if>
+		</where>
+	</sql>
+
+	<select id="getPagingList" resultMap="pushMsgMap">
+		select * from (select a.*, rownum rn from(
+		select
+		pm.tsid,pm.tssj,pm.tsbt,pm.tsnr,pm.tsfs,pm.tsdx,pm.tspt,pm.tsdxlx,pm.tsjg,pm.live_time,pm.extrasStr,pm.app_type,yhb.xm tsry
+		from MOBILE_PUSHMSG pm left join zftal_xtgl_yhb yhb on pm.tsry = yhb.zgh
+		<include refid="where" />
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr} 
+		</if>
+		) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<select id="getEntity" resultMap="pushMsgMap">
+		select * from MOBILE_PUSHMSG
+		where tsid = #{tsid}
+	</select>
+</mapper>

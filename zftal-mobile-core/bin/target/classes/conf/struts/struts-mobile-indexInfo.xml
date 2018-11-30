@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	
+	<package name="indexInfo" namespace="/indexInfo" extends="configuration" >
+		<action name="indexInfo_*" class="indexInfoAction" method="{1}" >
+		</action>
+	</package>
+	
+</struts>

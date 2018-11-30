@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="interfaceManager" namespace="/interfaceManager" extends="configuration" >
+		<action name="interfaceManager_*" class="interfaceManagerAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/interfaceManager/interfaceManager_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/interfaceManager/interfaceManager_edit.jsp</result>
+		</action>
+		<action name="serviceInterface_*" class="serviceInterfaceAction" method="{1}" >
+			<result name="list">/WEB-INF/pages/mobile/interfaceManager/serviceInterface_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/interfaceManager/serviceInterface_edit.jsp</result>
+		</action>
+	</package>
+	
+</struts>

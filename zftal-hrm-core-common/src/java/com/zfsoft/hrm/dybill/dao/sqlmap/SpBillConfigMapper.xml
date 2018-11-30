@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.dybill.dao.ISpBillConfigDao">
+	<sql id="where">
+		<where>
+			<if test="id != null">
+				and id = #{id}
+    		</if>
+    		<if test="name != null">
+				and name = #{name}
+    		</if>
+    		<if test="billType != null">
+				and bill_type = #{billType}
+    		</if>
+    		<if test="status != null">
+				and status = #{status}
+    		</if>
+		</where>
+	</sql>
+	
+	<select id="findList" resultType="com.zfsoft.hrm.dybill.entity.SpBillConfig">
+		select
+		<foreach collection="sqlNamesAll" item="item" separator=",">
+			<![CDATA[${item} as ${sqlLocalNameMap[item]}]]>
+		</foreach>
+		from ${tableName} 
+		<include refid="where" />
+	</select>
+
+	<!-- 表单配置列表，分页显示 -->
+	<select id="getPagingList" resultType="com.zfsoft.hrm.dybill.entity.SpBillQuery">
+		select * from (select b.*, rownum rn from (select
+		*
+		from sp_bill_config
+		  <include refid="whereName"/>
+		  <if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		  </if> 
+	     ) b )
+	        <![CDATA[
+				where rn>=#{startRow} and rn<=#{endRow}
+			]]>
+	</select>
+	
+	<sql id="whereName">
+		<where>
+			<if test="name != null and name != ''">
+				<![CDATA[ AND name like '%'||#{name}||'%' ]]>
+	        </if>
+	        <if test="bill_type != null and bill_type != ''">
+				<![CDATA[ AND bill_type like '%'||#{bill_type}||'%' ]]>
+	        </if>
+	        <if test="id_name != null and id_name != ''">
+				<![CDATA[ AND id_name like '%'||#{id_name}||'%' ]]>
+	        </if>
+	        <if test="status != null and status != ''">
+				<![CDATA[ AND status like '%'||#{status}||'%' ]]>
+	        </if>
+		</where>
+	</sql>
+	
+	<!-- 获取分页计数 -->
+	<select id="getPagingCount" resultType="int">
+		select 
+			count(*) cnt
+		from sp_bill_config
+		<where>
+			<if test="name != null and name != ''">
+				<![CDATA[ AND name like '%'||#{name}||'%' ]]>
+	        </if>
+	        <if test="bill_type != null and bill_type != ''">
+				<![CDATA[ AND bill_type like '%'||#{bill_type}||'%' ]]>
+	        </if>
+	        <if test="id_name != null and id_name != ''">
+				<![CDATA[ AND id_name = #{id_name} ]]>
+	        </if>
+	        <if test="status != null and status != ''">
+				<![CDATA[ AND status like '%'||#{status}||'%' ]]>
+	        </if>
+        </where>
+	</select>
+	
+	<select id="findById" resultType="com.zfsoft.hrm.dybill.entity.SpBillConfig">
+		select
+		<foreach collection="sqlNamesAll" item="item" separator=",">
+			<![CDATA[${item} as ${sqlLocalNameMap[item]}]]>
+		</foreach>
+		from ${tableName}
+		<where>
+			${keyOf}=#{${keyOf}}
+		</where>
+	</select>
+	
+
+	<insert id="insert" keyProperty="id">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+		insert into ${tableName}(${keyOf},
+		<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+			${item}
+		</foreach>
+		values (#{${keyOf}},
+		<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," close=")">
+			#{${sqlLocalNameMap[item]}}
+		</foreach>
+	</insert>
+
+	<update id="update">
+		update ${tableName}
+		<set>
+			<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," >
+				 ${item}=#{${sqlLocalNameMap[item]}}
+			</foreach>
+		</set>
+		where ${keyOf}=#{${keyOf}}
+	</update>
+
+	<!-- 删除岗位信息 -->
+	<delete id="delete">
+		delete from ${tableName} where ${keyOf} = #{${keyOf}}
+	</delete>
+	
+</mapper>

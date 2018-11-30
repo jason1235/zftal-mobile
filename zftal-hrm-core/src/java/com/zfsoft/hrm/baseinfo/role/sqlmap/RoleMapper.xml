@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.role.dao.IRoleDao" >
+	
+	<resultMap type="com.zfsoft.hrm.baseinfo.role.entity.Role" id="roleMap">
+		<result property="guid" column="jsdm"/>
+		<result property="name" column="jsmc"/>
+		<result property="remark" column="jssm"/>
+	</resultMap>
+	
+	<select id="getList" resultMap="roleMap">
+		select * from ZFTAL_XTGL_JSXXB 
+		where jsdm != 'admin'
+		order by jsdm desc
+	</select>
+	
+</mapper>

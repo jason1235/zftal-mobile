@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.mobile.news.dao.ISchoolSceneryDao">
+
+	<resultMap id="schoolSceneryMap" type="com.zfsoft.mobile.news.entity.SchoolScenery">
+		<result property="sceneryId" 		 column="sceneryId" />
+		<result property="sceneryName"   	 column="sceneryName" />
+		<result property="sceneryCatalogId"  column="sceneryCatalogId" />
+		<result property="sceneryPicId"   	 column="sceneryPicId" />
+		<result property="sceneryPicUrl"     column="sceneryPicUrl" />
+		<result property="createTime"   	 column="createTime" />
+		<result property="sortNumber"   	 column="sortNumber" />
+		<result property="isActive"   	 column="isActive" />
+	</resultMap>
+	
+	
+	<sql id="where">
+		<where>
+			<if test='sceneryName != null and sceneryName != ""'> and sceneryName like '%'||#{sceneryName}||'%'</if>
+			<if test='sceneryCatalogId != null and sceneryCatalogId != ""'> and sceneryCatalogId = #{sceneryCatalogId} </if>
+			<if test='isActive != null and isActive != ""'> and isActive = #{isActive} </if>
+		</where>
+	</sql>
+	
+	
+	<select id="getMaxSortNumber" resultType="int">
+		select nvl(max(a.sortNumber),0) from m_scenery_scenery a
+	</select>
+	
+	<select id="getListCount" resultType="int">
+		select count(*) from m_scenery_scenery
+		<include refid="where" />
+	</select>
+	
+	<select id="getList" resultMap="schoolSceneryMap">
+	select *
+	  from (select t.*, rownum as rn
+	          from (
+	          			select a.*
+	                  		from m_scenery_scenery a  
+	                			 <include refid="where" />
+						 order by a.sortNumber asc,a.isActive desc 
+				   ) t)
+	                
+	  <![CDATA[
+	 where rn>=#{startRow}  and rn<=#{endRow}
+	 ]]>
+	</select>
+	
+	
+	<insert id="insert" >
+		<![CDATA[
+			INSERT INTO 
+				m_scenery_scenery(
+					sceneryId,
+					sceneryName,	
+					sceneryCatalogId,
+					sortNumber,
+					createTime,
+					sceneryPicId,
+					sceneryPicUrl
+				)
+			VALUES(
+				#{sceneryId},  
+				#{sceneryName},           
+				#{sceneryCatalogId},
+				#{sortNumber},
+				#{createTime},
+				#{sceneryPicId},
+				#{sceneryPicUrl}
+				)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="sceneryId">
+			<![CDATA[
+			select SYS_GUID() sceneryId from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	
+	<update id="update">
+		update m_scenery_scenery
+		 <set>
+		 	<if test='sceneryName != "" and sceneryName != null'>
+		 		sceneryName=#{sceneryName},
+		 	</if>
+		 	<if test='sceneryCatalogId != "" and sceneryCatalogId != null'>
+		 		sceneryCatalogId=#{sceneryCatalogId},
+		 	</if>
+		 	<if test='sceneryPicId != "" and sceneryPicId != null'>
+		 		sceneryPicId=#{sceneryPicId},
+		 	</if>
+		 	<if test='sceneryPicUrl != "" and sceneryPicUrl != null'>
+		 		sceneryPicUrl=#{sceneryPicUrl},
+		 	</if>
+		 	<if test='isActive != "" and isActive != null'>
+		 		isActive=#{isActive},
+		 	</if>
+		 </set>
+		   where sceneryId = #{sceneryId}
+	</update>
+	
+	<update id="updateIndex">
+		update m_scenery_scenery set sortNumber = #{sortNumber}
+		 	where sceneryId = #{sceneryId}
+	</update>
+	
+	<delete id="delete">
+		delete from  m_scenery_scenery 
+			where sceneryId = #{sceneryId}
+	</delete>
+	
+	
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IXsglfwDao" >
+
+	<!-- 添加学生管理范围信息-->
+	<insert id="insert" parameterType="XsglfwModel">
+		INSERT INTO ZFTAL_XTGL_XSGLFWB
+		  (XSGLFW_ID, XX_ID, XY_ID, ZY_ID, NJ_ID, BJ_ID,ZJR, ZJSJ)
+		VALUES
+		  (ZFTAL_SEQ_XSGLFWB.NEXTVAL,#{xx_id},#{xy_id},#{zy_id},#{nj_id},#{bj_id},#{zjr},#{zjsj})
+	</insert>
+	
+    <!-- 查询学生管理范围（分页） -->
+    <select id="getPagedList" parameterType="XsglfwModel" resultType="XsglfwModel">
+		SELECT 
+		       A.XSGLFW_ID AS XSGLFW_ID,
+		       A.XX_ID AS XX_ID,
+		       (SELECT BM.BMMC FROM ZFTAL_XTGL_BMDMB BM WHERE BM.BMDM_ID = A.XY_ID) AS XY_ID,
+		       (SELECT ZY.ZYMC FROM ZFTAL_XTGL_ZYDMB ZY WHERE ZY.ZYDM_ID = A.ZY_ID) AS ZY_ID,
+		       (SELECT NJ.NJMC FROM ZFTAL_XTGL_NJDMB NJ WHERE NJ.NJDM_ID = A.NJ_ID) AS NJ_ID,
+		       (SELECT BJ.BJMC FROM ZFTAL_XTGL_BJDMB BJ WHERE BJ.BJDM_ID = A.BJ_ID) AS BJ_ID
+		FROM 
+				ZFTAL_XTGL_XSGLFWB A
+		WHERE 
+				EXISTS 
+						(SELECT XSGLFW_ID
+		          FROM ZFTAL_XTGL_JSXSGLFWB B
+		        	 WHERE A.XSGLFW_ID = B.XSGLFW_ID
+		           AND JSDM = #{jsdm})
+    </select> 
+    
+</mapper>

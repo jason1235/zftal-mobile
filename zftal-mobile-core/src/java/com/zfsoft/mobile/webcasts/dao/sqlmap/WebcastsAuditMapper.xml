@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.zfsoft.mobile.webcasts.dao.IWebcastsAuditDao">
+	<resultMap type="com.zfsoft.mobile.webcasts.entity.WebcastsAuditEntity" id="auditMap">
+	   <result property="appid" 	column="APPID" />
+	   <result property="userid" 		column="USERID"/>
+	   <result property="isaudit" 		column="ISAUDIT"/>
+	   <result property="auditReason" 	column="AUDITREASON"/>
+	   <result property="appreason" 	column="APPREASON"/>
+	   <result property="createTime" 	column="CREATETIME"/>
+	   <result property="auditTime"	    column="AUDITTIME"/> 
+	</resultMap>
+	
+	<sql id="where">
+	   <where>
+	       <if test="appid!=null and appid!=''">
+		    	and m.appid = #{appid}
+		   </if>
+		    <if test="userid!=null and userid!=''">
+		    	and m.userid = #{userid}
+		   </if>
+		   <if test="isaudit!=null and isaudit!=''">
+		   		and m.isaudit = #{isaudit}
+		   </if> 
+	   </where>
+	</sql>
+	
+	<select id="getPageCount" resultType="int">
+		select count(*) from 
+		(select * from M_WEBCASTS_AUDIT m
+			<include refid="where" /> ) a
+	</select>
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getPageList" resultMap="auditMap">	
+		select * from (
+			select m.*,u.xm as username,rownum rn 
+			from M_WEBCASTS_AUDIT m 
+			left join zftal_xtgl_yhb u on u.zgh=m.userid
+			<include refid="where" /> 
+			order by m.createtime desc 
+		)
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+	</select>
+	
+	<select id="findById" resultMap="auditMap">
+		select t1.* from M_WEBCASTS_AUDIT t1
+		<where>
+			t1.appid = #{appid}
+		</where>
+	</select>
+	
+	<select id="getResultByUserid" resultMap="auditMap">
+	  select t.* from (
+		select t1.*,rownum rn from M_WEBCASTS_AUDIT t1
+		  <where>
+			t1.userid = #{userid} order by t1.createtime desc
+		  </where>
+	  )  t  
+	  <![CDATA[
+			 where t.rn=1
+		]]>	
+	</select>
+	
+	<insert id="application" >
+		<![CDATA[
+			INSERT INTO 
+				M_WEBCASTS_AUDIT(
+					appid,
+					userid,				
+					isaudit,
+					appreason,
+					createtime
+				)
+			VALUES(
+				#{appid},
+				#{userid,jdbcType=VARCHAR},
+				'0',
+				#{appreason,jdbcType=VARCHAR},
+			    sysdate
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="appid">
+			<![CDATA[
+			select SYS_GUID() appid from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="audit">
+		update M_WEBCASTS_AUDIT
+		 <set>
+		  isaudit=#{isaudit},
+		  auditreason=#{auditReason,jdbcType=VARCHAR},
+		  audittime=sysdate
+		 </set>
+		 where appid = #{appid}
+	</update>
+	
+	<delete id="delete">
+		delete from  M_WEBCASTS_AUDIT
+		<where>
+		  appid = #{appid}
+		</where>
+	</delete>
+	
+
+</mapper>

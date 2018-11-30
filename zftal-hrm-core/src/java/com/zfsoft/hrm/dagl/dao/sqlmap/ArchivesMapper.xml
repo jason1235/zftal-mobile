@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        
+<mapper namespace="com.zfsoft.hrm.dagl.dao.IArchivesDao">
+
+    <resultMap id="archivesMap" type="com.zfsoft.hrm.dagl.entity.Archives">
+	        <result property="id"                column="id" />
+	        <result property="xm"                column="xm" />
+	        <result property="bh"                column="DABH" />
+	        <result property="gh"                column="GH" />
+	        <result property="detail"            column="DETAIL" />
+	        <result property="status"            column="STATUS" />
+	        <result property="savePoint"         column="SAVEPOINT" />
+	        <result property="type"              column="TYPE" />
+	        <result property="changeStatusTime"  column="LASTMODIFY" />
+	        <result property="dataNum"           column="dataNum"/>
+	        <result property="rdsj"              column="rdsj"/>
+    </resultMap>
+    
+     <insert id="insert" useGeneratedKeys="true" keyProperty="id">
+        <![CDATA[
+            INSERT INTO 
+                HRM_DAGL_DAXX(
+                      ID,
+                      GH,
+                      DETAIL,
+                      SAVEPOINT,
+					  STATUS,
+					  TYPE,
+					  DABH,
+                      LASTMODIFY,
+                      RDSJ
+                )
+            VALUES(
+                #{id},
+                #{gh},
+                #{detail,jdbcType=VARCHAR},
+                #{savePoint,jdbcType=VARCHAR},
+                #{status},
+                #{type,jdbcType=VARCHAR},
+                #{bh},
+                #{changeStatusTime},
+                #{rdsj}
+            )
+        ]]>
+        <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+            <![CDATA[
+            select SYS_GUID() globalid from DUAL
+            ]]>
+        </selectKey>
+    </insert>
+    
+    <update id="update">
+        update HRM_DAGL_DAXX
+        <set>
+        <if test="changeStatusTime!=null">
+        LASTMODIFY = #{changeStatusTime},
+        </if>
+        <if test="status!=null">
+        status = #{status},
+        </if>
+        <if test="savePoint!=null">
+        SAVEPOINT = #{savePoint},
+        </if>
+        <if test="detail!=null">
+        DETAIL = #{detail},
+        </if>
+        <if test="bh!=null">
+        DABH = #{bh},
+        </if>
+        </set>
+        where id = #{id}
+    </update>
+    
+    
+    <!-- 获取分页信息 -->
+    <select id="getPagingList" resultMap="archivesMap" >
+    select * from (select a.*, rownum rn from(
+        select t.*,
+        o.xm,
+        (select count(id) from hrm_dagl_clxx c where c.archiveId=t.id) as dataNum
+        from HRM_DAGL_DAXX t
+        left join overall o on t.gh = o.gh
+        <include refid="where"/>
+        <if test="orderStr == null">
+            order by t.LASTMODIFY
+        </if>
+        <if test="orderStr != null and orderStr != ''">
+            order by ${orderStr}
+        </if>
+     ) a )
+        <![CDATA[
+            where rn>=#{startRow}  and rn<=#{endRow}
+        ]]>
+    </select>
+    
+    <delete id="remove">
+        delete from HRM_DAGL_DAXX where id = #{id}
+    </delete>
+    
+    <select id="findById" resultMap="archivesMap" >
+        select t.*,
+        o.xm,
+        (select count(id) from hrm_dagl_clxx c where c.archiveId=t.id) as dataNum
+        from HRM_DAGL_DAXX t
+        left join overall o on t.gh = o.gh
+        where t.id = #{id}
+    </select>
+    
+    <select id="findByBh" resultMap="archivesMap" >
+        select t.*,
+        o.xm,
+        (select count(id) from hrm_dagl_clxx c where c.archiveId=t.id) as dataNum
+        from HRM_DAGL_DAXX t
+        left join overall o on t.gh = o.gh
+        where t.dabh = #{bh}
+    </select>
+    
+        <!-- 获取分页计数 -->
+    <select id="getPagingCount" resultType="int">
+        select 
+            count (t.id) cnt
+        from HRM_DAGL_DAXX t
+        left join overall o on t.gh = o.gh
+        <include refid="where"/>
+    </select>
+    
+    <sql id="where">
+    <where>
+        <if test="bh != null and bh != ''">
+            and t.dabh like '%'||#{bh}||'%'
+        </if>
+        <if test="gh != null and gh != ''">
+            and o.gh like '%'||#{gh}||'%'
+        </if>
+        <if test="xm != null and xm != ''">
+            and o.xm like '%'||#{xm}||'%'
+        </if>
+        <if test="savePoint != null and savePoint != ''">
+            and t.savePoint like '%'||#{savePoint}||'%'
+        </if>
+        <if test="detail != null and detail != ''">
+            and t.detail like '%'||#{detail}||'%'
+        </if>
+        <if test="status != null and status != ''">
+            and t.status = #{status}
+        </if>
+        <if test="type != null and type != ''">
+            and t.type = #{type}
+        </if>
+    </where>
+    </sql>
+    
+</mapper>

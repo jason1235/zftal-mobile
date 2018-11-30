@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.staffturn.leaveschool.dao.daointerface.ILeaveFlowDao" >
+	
+	<resultMap type="com.zfsoft.hrm.staffturn.leaveschool.entities.LeaveFlowInfo" id="leaveFlowMap">
+		<result property="accountId" column="gh"/>
+		<result property="type" column="lxlb"/>
+		<result property="leaveDate" column="lxsj"/>
+		<result property="salaryStatus" column="gzjs"/>
+		<result property="leaveStatus" column="lxzt"/>
+		<result property="comment" column="cljg"/>
+		<result property="remark" column="bz"/>
+		<!-- 20140422 add start -->
+		<result property="bzzkCd" column="bzzk"/>
+		<!-- 20140422 add end -->
+		<result property="lxqx" column="lxqx"/>
+	</resultMap>
+	
+	<sql id="where">
+		<where>
+		<if test="deptId != null and deptId !=''">
+			over.dwm = #{deptId}
+		</if>
+		<if test="type != null and type !=''">
+            and lxlb = #{type}
+        </if>
+		<if test="name != null and name != ''">
+			and over.xm like '%'||#{name}||'%'
+		</if>
+		<if test="leaveDateStart != null">
+			<![CDATA[and lxsj>=#{leaveDateStart}]]>
+		</if>
+		
+		<if test="leaveDateEnd != null">
+			<![CDATA[and lxsj<=#{leaveDateEnd}]]>
+		</if>
+		<if test="leaveStatus != null">
+			and lxlcglb.lxzt = #{leaveStatus}
+		</if>
+		<!-- 20140422 add start -->
+		<if test="bzzk != null and bzzk !=''">
+            and lxlcglb.bzzk like '%'||#{bzzk}||'%'
+        </if>
+        <if test="lxqx != null and lxqx !=''">
+            and lxlcglb.lxqx like '%'||#{lxqx}||'%'
+        </if>
+		<!-- 20140422 add end -->
+    	</where>
+    </sql>
+	<!-- 获取列表信息 -->
+	<select id="getList" resultMap="leaveFlowMap" >
+		select 
+			lxlcglb.gh as gh,
+			lxlcglb.lxlb as type,
+			lxlcglb.lxsj as lxsj,
+			lxlcglb.gzjs as gzjs,
+			lxlcglb.lxzt as lxzt,
+			lxlcglb.cljg as cljg,
+			lxlcglb.bz   as bz
+		from RYYD_LXLCGLB lxlcglb
+			left join overall over on lxlcglb.gh = over.gh
+		<include refid="where"/>
+		order by lxlcglb.gh asc
+	</select>
+	
+	<!-- 获取分页信息 -->
+	<select id="getPagingList" resultMap="leaveFlowMap" >
+	select * from (select a.*, rownum rn from(
+		select 
+			lxlcglb.gh as gh,
+			lxlcglb.lxlb as type,
+			lxlcglb.lxsj as lxsj,
+			lxlcglb.gzjs as gzjs,
+			lxlcglb.lxzt as lxzt,
+			lxlcglb.cljg as cljg,
+			<!-- 20140422 add start -->
+			lxlcglb.bzzk as bzzk,
+			<!-- 20140422 add end -->
+			lxlcglb.lxqx as lxqx,
+			lxlcglb.bz   as bz
+		from RYYD_LXLCGLB lxlcglb
+			left join overall over on lxlcglb.gh = over.gh
+		<include refid="where"/>
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if>
+	 ) a )
+		<![CDATA[
+			where rn>=#{startRow}  and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<!-- 获取分页计数 -->
+	<select id="getPagingCount" resultType="int">
+		select 
+			count(lxlcglb.gh)
+		from RYYD_LXLCGLB lxlcglb
+			left join overall over on lxlcglb.gh = over.gh
+		<include refid="where"/>
+		order by lxlcglb.gh asc
+	</select>
+	
+	<select id="getById" resultMap="leaveFlowMap" >
+		select gh,lxlb,lxsj,gzjs,lxzt,cljg,bzzk,lxqx from RYYD_LXLCGLB 
+		where gh = #{accountId}
+	</select>
+	
+	<insert id="insert">
+	    <!-- 20140422 upd start -->
+	    <!-- 
+		insert into RYYD_LXLCGLB (gh,lxlb,bz)
+		values(#{accountId},#{type},#{remark}) -->
+		insert into RYYD_LXLCGLB (gh, lxlb, bz, bzzk,lxqx)
+        values(#{accountId}, #{type}, #{remark}, #{bzzkCd}, #{lxqx,jdbcType=VARCHAR})
+		<!-- 20140422 upd end -->
+	</insert>
+	
+	<update id="update">
+		update RYYD_LXLCGLB set 
+			lxsj = #{leaveDate},
+			gzjs = #{salaryStatus},
+			cljg = #{comment},
+			lxzt = #{leaveStatus}
+		 where gh = #{accountId}
+	</update>
+	
+</mapper>

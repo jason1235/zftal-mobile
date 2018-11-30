@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.staffturn.retire.dao.daointerface.IRetireDao">
+	<!-- 插入单条信息 -->
+	<insert id="insert">
+		insert into ${tableName}
+		<foreach collection="sqlNamesHasKeyAndNotNull" item="item" open="(" separator="," close=")">
+			${item}
+		</foreach>
+		values
+		<foreach collection="sqlNamesHasKeyAndNotNull" item="item" open="(" separator="," close=")">
+			#{${sqlLocalNameMap[item]}}
+		</foreach>
+	</insert>
+
+	<!-- 批量修改退休文号(退休人员管理中的修改文号，只修改文号，不做其他操作) -->
+	<update id="updateXgwh">
+		update ${tableName}
+		<set>
+			txwh = #{num}
+		</set>
+		where GH=#{userId}
+	</update>
+
+	<update id="update">
+		update ${tableName}
+		<set>
+			<foreach collection="sqlNamesNoKeyAndNotNull" item="item" separator="," >
+				 ${item}=#{${sqlLocalNameMap[item]}}
+			</foreach>
+		</set>
+		where GH=#{userId}
+	</update>
+	
+	<!-- 删除岗位信息 -->
+	<delete id="delete">
+		delete from ${tableName} where GH in ( ${userId} )
+	</delete>
+
+	<sql id="where">
+		<where>
+			<if test="userId != null">
+				and t.userId = #{userId}
+    		</if>
+			<if test="deptCode != null">
+    			<![CDATA[and ova.dwm like '${deptCode}%']]>
+			</if>
+			<if test="state != null">
+				and t.state = #{state}
+    		</if>
+			<if test="userName != null">
+    			<![CDATA[and ova.xm like '%${userName}%']]>
+			</if>
+			<if test="startBothdayTime != null">
+    			<![CDATA[and ova.csrq >= #{startBothdayTime}]]>
+			</if>
+			<if test="endBothdayTime != null">
+    			<![CDATA[and ova.csrq <= #{endBothdayTime}]]>
+			</if>
+			<if test="startRetireTime != null">
+    			<![CDATA[and t.retireTime >= #{startRetireTime}]]>
+			</if>
+			<if test="endRetireTime != null">
+    			<![CDATA[and t.retireTime <= #{endRetireTime}]]>
+			</if>
+			<if test="retirePost != null">
+				and t.retirePost = #{retirePost}
+    		</if>
+			<if test="sex != null">
+				and ova.xbm = #{sex}
+    		</if>
+    		<if test="identifier != null and identifier != '' ">
+                <![CDATA[and t.identifier like '%'||#{identifier}||'%']]>
+            </if>
+            <if test="isDoctorMentor != null and isDoctorMentor != ''">
+				and ova.sfbssds = #{isDoctorMentor}
+    		</if>
+    		<if test="reEngage != null and reEngage == true">
+				and t.doResult = '04'
+    		</if>
+    		<if test="reEngage != null and reEngage == false">
+				and t.doResult != '04'
+    		</if>
+    		<if test="isEmploy != null and isEmploy == true">
+				and t.doResult = '12'
+    		</if>
+    		<if test="isEmploy != null and isEmploy == false">
+				and t.doResult != '12'
+    		</if>
+		</where>
+	</sql>
+
+	<select id="findByQuery" resultType="com.zfsoft.hrm.staffturn.retire.entities.RetireInfo">
+		<if test="endRow>0">
+			select * from (select a.*, rownum rn from (
+		</if>
+				select * from (select
+				<foreach collection="sqlNamesAll" item="item" separator=",">
+					<![CDATA[rt.${item} as ${sqlLocalNameMap[item]}]]>
+				</foreach>
+				,txf.txsgwgz as txsgwgz,txf.txsxzjgz as txsxzjgz,txf.jbtxfbl as jbtxfbl
+				from ${tableName} rt, txfgl txf where rt.gh = txf.gh(+)) t
+				left join overall ova on ova.gh=t.userId
+				<include refid="where" />
+				<if test="orderStr != null and orderStr != ''">
+			    	order by ${orderStr}
+				</if> 
+		<if test="endRow>0">
+			) a )
+			<![CDATA[
+				where rn>=#{startRow}  and rn<=#{endRow}
+			]]>
+		</if>
+	</select>
+		
+	<select id="getCountQuery" resultType="int">
+		select count(*) from (select
+		<foreach collection="sqlNamesAll" item="item" separator=",">
+			<![CDATA[rt.${item} as ${sqlLocalNameMap[item]}]]>
+		</foreach>
+		from ${tableName} rt, txfgl txf where rt.gh = txf.gh(+)) t
+		left join overall ova on ova.gh=t.userId
+		<include refid="where" />
+	</select>
+	
+	<select id="findById" resultType="com.zfsoft.hrm.staffturn.retire.entities.RetireInfo">
+		select
+		<foreach collection="sqlNamesAll" item="item" separator=",">
+			<![CDATA[t.${item} as ${sqlLocalNameMap[item]}]]>
+		</foreach>
+		from ${tableName} t
+		left
+		join overall ova on ova.gh=t.gh
+		where
+		t.GH=#{userId}
+		order by t.gh asc
+	</select>
+	
+	<!-- 20140425 add start -->
+	<select id="getReceiver" resultType="String">
+      select t.value
+      from HRM_XTGL_STCSSZGLB t
+      where lower(t.key) = 'receiver'
+    </select>
+    
+    <select id="getReceiverCount" resultType="int">
+      select count(1)
+      from HRM_XTGL_STCSSZGLB t
+      where lower(t.key) = 'receiver'
+    </select>
+    
+    <insert id="insertReceiver">
+        insert into HRM_XTGL_STCSSZGLB (key, value)
+        values
+        ('receiver', #{receiver})
+    </insert>
+
+    <update id="updateReceiver">
+        update HRM_XTGL_STCSSZGLB
+        <set>
+           value=#{receiver}
+        </set>
+        where lower(key) = 'receiver'
+    </update>
+	<!-- 20140425 add end -->
+</mapper>

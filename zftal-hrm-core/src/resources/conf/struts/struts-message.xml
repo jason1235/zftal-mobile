@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN" "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="message" namespace="/message" extends="configuration">
+	  <!-- 消息 -->
+	  <action name="message_*" class="messageAction" method="{1}" >
+	  	 <result name="data" type="json">
+	  	 	<param name="root">data</param>
+	  	 	<param name="excludeNullProperties">true</param>
+	  	 	<param name="excludeProperties">result..*.content</param>
+	  	 </result>
+	  	 <result name="info">/WEB-INF/pages/hrm/message/message/message_info.jsp</result>
+	  	 <result name="page">/WEB-INF/pages/hrm/message/message/message_page.jsp</result>
+	  </action>
+	  
+	  <action name="messageSend_*" class="messageSendAction" method="{1}" >
+	  	 <result name="info">/WEB-INF/pages/hrm/message/message/messageSend_info.jsp</result>
+	  	 <result name="page">/WEB-INF/pages/hrm/message/message/messageSend_page.jsp</result>
+	  	 <result name="input">/WEB-INF/pages/hrm/message/message/messageSend_input.jsp</result>
+	  </action>
+	  
+	  <action name="messageSetup_*" class="messageSetupAction" method="{1}" >
+	  	 <result name="add">/WEB-INF/pages/hrm/message/message/messageSetup_add.jsp</result>
+	  	 <result name="edit">/WEB-INF/pages/hrm/message/message/messageSetup_add.jsp</result>
+	  	 <result name="list">/WEB-INF/pages/hrm/message/message/messageSetup_list.jsp</result>
+	  </action>
+	  
+	  <action name="notice_*" class="noticeAction" method="{1}" >
+	  	 <result name="input">/WEB-INF/pages/hrm/message/notice/notice_input.jsp</result>
+	  	 <result name="page">/WEB-INF/pages/hrm/message/notice/notice_page.jsp</result>
+	  	 <result name="saveSuccess">/WEB-INF/pages/hrm/message/notice/success.jsp</result>
+	  </action>
+	  
+	  <action name="noticeView_*" class="noticeViewAction" method="{1}" >
+	  	 <result name="data" type="json">
+	  	 	<param name="root">data</param>
+	  	 	<param name="excludeNullProperties">true</param>
+	  	 	<param name="excludeProperties">result..*.content,result..*.remark</param>
+	  	 </result>
+	  	 <result name="page">/WEB-INF/pages/hrm/message/notice/noticeView_page.jsp</result>
+	  	 <result name="info">/WEB-INF/pages/hrm/message/notice/noticeView_info.jsp</result>
+	  </action>
+	  
+	  <action name="file_*" class="fileDownAction" method="{1}" >
+	  	 <result name="input">/WEB-INF/pages/hrm/message/download/filedown_input.jsp</result>
+	  	 <result name="page">/WEB-INF/pages/hrm/message/download/filedown_page.jsp</result>
+	  	 <result name="success">/WEB-INF/pages/hrm/message/download/filedown_success.jsp</result>
+	  	 <result name="viewPage">/WEB-INF/pages/hrm/message/download/filedown_viewpage.jsp</result>
+	  </action>
+	  
+	  <action name="allot_*" class="messageAllotAction" method="{1}" >
+         <result name="page">/WEB-INF/pages/hrm/message/allot/messageallot_page.jsp</result>
+         <result name="personList">/WEB-INF/pages/hrm/message/allot/messageallot_personList.jsp</result>
+         <result name="roleList">/WEB-INF/pages/hrm/message/allot/messageallot_roleList.jsp</result>
+      </action>
+	</package>
+</struts>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.summary.roster.dao.daointerface.IRosterColumnDao" >
+	
+	<resultMap type="com.zfsoft.hrm.summary.roster.entity.RosterColumn" id="rosterColumnMap">
+		<result property="rosterId" column="mcbh"/>
+		<result property="columnId" column="zdbh"/>
+		<result property="order" column="sx"/>
+		<result property="classId" column="classId"/>
+		<result property="sort" column="px"/>
+	</resultMap>
+	
+	<!-- 插入单条信息 -->
+	<insert id="insert">
+		insert into HRM_TJFX_HMCZDB (mcbh,zdbh,classid)
+		values(#{rosterId},#{columnId},#{classId})
+	</insert>
+    
+    <select id="getById" resultMap="rosterColumnMap">
+    	select 
+			*
+		from HRM_TJFX_HMCZDB hmczd
+		where hmczd.mcbh = #{rosterId} and hmczd.zdbh = #{columnId}
+    </select>
+	
+	<select id="getList" resultMap="rosterColumnMap">
+		select 
+			*
+		from HRM_TJFX_HMCZDB hmczd inner join xxsxysjb sx on hmczd.zdbh=sx.sxbh
+		where mcbh = #{rosterId}
+		order by to_number(sx) asc
+	</select>
+	
+	<delete id="delete">
+		delete from HRM_TJFX_HMCZDB where mcbh = #{rosterId} and zdbh = #{columnId}
+	</delete>
+	
+	<update id="update">
+		update HRM_TJFX_HMCZDB set sx=#{order},px=#{sort} where mcbh = #{rosterId} and zdbh = #{columnId}
+	</update>
+</mapper>

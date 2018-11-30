@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IBjdmDao" >
+
+	<!-- 查询班级列表 无分页-->
+	<select id="getModelList" parameterType="BjdmModel" resultType="BjdmModel">
+	    SELECT 
+	    	BJDM_ID, BJDM, BJMC,ZYDM_ID,BMDM_ID,NJDM_ID,XQDM_ID,
+	    	JBNY,BZRGH_ID,BZXH_ID,FDYH_ID,ZXRS,BZ
+	    FROM 
+	      	ZFTAL_XTGL_BJDMB
+	</select>
+    
+</mapper>

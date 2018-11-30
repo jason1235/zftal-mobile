@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.IYhjsfwDao" >
+	<!-- 查询用户部门信息 -->
+	<select id="getModelList" parameterType="YhjsfwModel" resultType="YhjsfwModel">
+		select yh_id,js_id,sjfwz_id from zftal_xtgl_yhsjfwb where yh_id = #{yh_id} and js_id = #{js_id}
+	</select>
+    
+	<!-- 测试拦截学生家庭表 -->
+	<select id="queryXsjtbByScope" parameterType="hashMap" resultType="hashMap">
+		select zymc from 
+			select * from Xsjtb xsjtb 
+		where 
+			{xsjtb.xh in func("zftal_xtgl_xsjbxxb";"xh";"bmdm_id_ssxy,zydm_id_sszy,bjdm_id_ssbj,njdm_id_ssnj";"bmdm_id,zydm_id,bjdm_id,njdm_id")} and fqxm=’zsf’ group by zydm_id
+	</select>
+	
+    <!-- 保存用户角色数据范围 -->
+    <insert id="zjYhjsfw" parameterType="hashMap">
+		<![CDATA[
+			declare
+				var_seq varchar2(32);
+				v_s     number;
+			begin
+				select count(*)
+				  into v_s
+				  from zftal_xtgl_sjfwzb a, zftal_xtgl_yhsjfwb b
+				 where a.sjfwz_id = b.sjfwz_id
+				   and b.js_id = #{js_id}
+				   and b.yh_id = #{yh_id}
+				   and a.sjfwzmc = #{sjfwzmc}
+				   and a.sjfwztj = #{sjfwztj};
+				if(v_s=0) then				
+					select zftal_seq_sjfwzb.nextval into var_seq from dual;
+					insert into 
+							zftal_xtgl_sjfwzb (sjfwz_id,sjfwztj,sjfwzmc) 
+							values
+								(var_seq,#{sjfwztj},#{sjfwzmc});
+				
+				    insert into zftal_xtgl_yhsjfwb 
+	    	   			(yhsjfwb_id,yh_id,js_id,sjfwz_id,sfqy) 
+	    			values 
+	    	   			(zftal_seq_yhsjdxb.nextval,#{yh_id},#{js_id},var_seq,'1');
+	    	   	end if;
+		    end;
+		]]>    	   
+    </insert>
+	
+    <!-- 删除数据范围组 -->
+    <delete id="scSjfwz" parameterType="YhjsfwModel"
+		flushCache="false" statementType="PREPARED" timeout="20000">
+				delete	from 
+					zftal_xtgl_sjfwzb a
+				where exists (select 1
+						          from zftal_xtgl_yhsjfwb b
+						          where a.sjfwz_id = b.sjfwz_id
+						           and b.yh_id = #{yh_id}
+						           and b.js_id = #{js_id}
+						           <if test="lists!=null">
+							           and 
+							    	 <foreach collection="lists" item="item" index="index" open="(" close=")"
+											separator=" OR">
+										   a.sjfwztj = #{item} 
+									</foreach> 				   		           
+						           </if>
+							  )
+    </delete>
+    	
+    
+     <!-- 删除用户角色数据范围 -->
+    <delete id="scYhjsfw" parameterType="YhjsfwModel" flushCache="false" statementType="PREPARED" timeout="20000">
+		 delete 
+		  from zftal_xtgl_yhsjfwb a
+		 where 
+		 	a.yh_id = #{yh_id} and a.js_id = #{js_id} and 
+		 	a.sjfwz_id not in
+		       (select b.sjfwz_id
+		          from zftal_xtgl_sjfwzb b, zftal_xtgl_yhsjfwb c
+		         where c.yh_id = #{yh_id}
+		           and c.js_id = #{js_id}
+		           and c.sjfwz_id = b.sjfwz_id)
+    </delete>
+    
+    
+	<!-- 查询用户角色数据范围信息 -->
+	<select id="cxSjfwYh" parameterType="hashMap" resultType="YhjsfwModel">
+		select 
+			a.sjfwz_id, a.sjfwztj,a.sjfwzmc, b.yh_id, b.js_id
+  		from 
+  			zftal_xtgl_sjfwzb a, zftal_xtgl_yhsjfwb b
+ 		where 
+ 			a.sjfwz_id = b.sjfwz_id 
+    		<if test="yh_id != null and yh_id != ''">
+    			and b.yh_id = #{yh_id}
+    		</if> 			
+    		<if test="js_id != null and js_id != ''">
+    			and b.js_id = #{js_id}
+    		</if> 
+	</select>
+	
+	<!-- 根据用户角色,删除数据范围组记录 -->
+	<delete id="scSjfwzYhJs" parameterType="YhjsfwModel">
+		delete zftal_xtgl_sjfwzb
+		 where sjfwz_id in (select sjfwz_id
+		          from zftal_xtgl_yhsjfwb where 1=1 
+	    		<if test="yh_id != null and yh_id != ''">
+	    			and yh_id = #{yh_id}
+	    		</if> 
+	    		<if test="js_id != null and js_id != ''">
+	    			and js_id = #{js_id}
+	    		</if> 
+		         )
+	</delete>
+    
+	<!-- 根据用户角色,删除用户数据范围记录 -->
+	<delete id="scSjfwYhJs" parameterType="YhjsfwModel">
+		delete zftal_xtgl_yhsjfwb where 1=1 
+	     <if test="yh_id != null and yh_id != ''">
+	    	 and yh_id=#{yh_id}
+	     </if> 
+	     <if test="js_id != null and js_id != ''">
+	    	 and js_id = #{js_id}
+	     </if> 
+	</delete>
+    
+</mapper>

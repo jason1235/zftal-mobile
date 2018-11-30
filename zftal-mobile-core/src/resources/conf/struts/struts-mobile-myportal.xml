@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN" "struts-2.1.dtd" >
+<struts>
+	<package name="myportal" namespace="/myportal" extends="configuration" >
+		
+		<action name="myportal_*" class="myPortalAction" method="{1}">
+			<result name="list">/WEB-INF/pages/mobile/myPortal/myportal_list.jsp</result>
+			<result name="edit">/WEB-INF/pages/mobile/myPortal/myportal_edit.jsp</result>
+			<result name="tslb">/WEB-INF/pages/mobile/myPortal/myportal_tslb.jsp</result>
+		</action>
+		
+		<action name="portalReRo_*" class="portalRelativeRoleAction" method="{1}">
+			<result name="list">/WEB-INF/pages/mobile/myPortal/PortalRelativeRole_list.jsp</result>
+		</action>
+	</package>
+	
+</struts>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.hrm.baseinfo.infoclass.dao.daointerface.IInfoPropertyViewDao">
+
+	<resultMap id="InfoPropertyViewMap" type="com.zfsoft.hrm.baseinfo.infoclass.entities.InfoPropertyView">
+		<result column="classid" property="classId"/>
+		<result column="propertyid" property="propertyId"/>
+		<result column="gh" property="username"/>
+	</resultMap>
+	
+	<sql id="where">
+		<where>
+		<if test="classId != null and classId != ''">
+		 and classid = #{classId}
+		</if>
+		<if test="username == null or username == ''">
+		 and gh is null
+		</if>
+		<if test="username != null and username != ''">
+		 and gh = #{username}
+		</if>
+		</where>
+	</sql>
+	
+	<insert id="insert">
+		insert into XXSXZSPZB(
+			classid,propertyid,gh
+		) values(
+			#{classId},#{propertyId},#{username}
+		)
+	</insert>
+	
+	<delete id="deleteBatch">
+		delete from XXSXZSPZB 
+		<include refid="where" />
+	</delete>
+	
+	<select id="getList" resultMap="InfoPropertyViewMap">
+		select *
+		from XXSXZSPZB
+		<include refid="where" />
+	</select>
+	
+</mapper>

@@ -1,0 +1,838 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.manoeuvre.manoeuvreInfo.dao.daointerface.IManoeuvreDao">
+	<resultMap id="ManoeuvreInfoRM" type="com.zfsoft.hrm.manoeuvre.manoeuvreInfo.entities.ManoeuvreInfo">
+		<result property="guid" column="XXDM" /> 
+		<result property="staffid" column="SQR" /> 
+		<result property="applyTime" column="SQSJ" /> 
+		<result property="currentOrg" column="YBM" /> 
+		<result property="planOrg" column="DRBM" /> 
+		<result property="currentPost" column="YGW" /> 
+		<result property="currentPostType" column="YGWLB" /> 
+		<result property="planPost" column="XGW" /> 
+		<result property="planPostType" column="XGWLB" /> 
+		<result property="manoeuvreType" column="DPLB" /> 
+		<result property="reason" column="DPYY" /> 
+		<result property="createdByHR" column="SFRSCCJ" /> 
+		<result property="beenDeclared" column="SFYTJ" /> 
+		<result property="finishAudit" column="SFWCSH" /> 
+		<result property="auditResult" column="SHJG" /> 
+		<result property="executeStatus" column="DPZT" />
+		<result property="excuteTime" column="DPZXSJ" />
+		<result property="remark" column="BZ" />  
+		<result property="lastModifyTime" column="ZHXGSJ" />  
+		<result property="currentNodeId" column="HJDM" />
+		<association property="currentNode" column="HJDM" select="com.zfsoft.hrm.manoeuvre.configInfo.dao.daointerface.ITaskNodeDao.findById"/>
+	</resultMap>
+	
+	<resultMap  extends="ManoeuvreInfoRM" id="ManoeuvreInfoRMOther" type="com.zfsoft.hrm.manoeuvre.manoeuvreInfo.entities.ManoeuvreInfo">
+	    <result property="formationType" column="BZLB" /> 
+		<result property="changeTime" column="BGSJ" /> 
+		<result property="oldFormationType" column="QBZLB" /> 
+	</resultMap>
+	
+	<sql id="prefix">
+		<![CDATA[
+			XXDM,   
+			HJDM,  
+			SQR,    
+			SQSJ,   
+			SFWCSH, 
+			SHJG,   
+			DPZT,   
+			YBM,    
+			YGWLB,
+			YGW,  
+			DRBM,    
+			XGWLB,
+			XGW,  
+			DPYY, 
+			SFYTJ,  
+			SFRSCCJ,
+			DPZXSJ, 
+			BZ,
+			ZHXGSJ,
+			DPLB,
+			BZLB,
+			BGSJ,
+			QBZLB,
+			DDLX
+		]]>
+	</sql>
+	
+	<sql id="suffix">
+		<where>
+		
+			and SQR = GH
+			
+			<if test="express != null and express !=''">
+                ${express}
+            </if>
+			
+			<if test="guid != null and guid !=''">
+				and XXDM=#{guId}
+			</if>	
+			
+			<if test="currentNode != null and currentNode.nid !=null and currentNode.nid !=''">
+				and HJDM=#{currentNode.nid}
+			</if> 
+			
+			<if test="wideStaffid and staffid != null and staffid !=''">
+				and SQR like '%'||#{staffid}||'%'
+			</if>
+			
+			<if test="!wideStaffid and staffid != null and staffid !=''">
+				and SQR=#{staffid}
+			</if> 
+			
+			<if test="name != null and name != ''">
+				and XM like '%'||#{name}||'%'
+			</if>
+			
+			<if test="currentOrg != null and currentOrg != ''">
+				and YBM like #{currentOrg}||'%'
+			</if>
+			
+			<if test="planOrg != null and planOrg != ''">
+				and DRBM like #{planOrg}||'%'
+			</if> 
+			
+			<if test="currentPost != null and currentPost != ''">
+				and YGW=#{currentPost}
+			</if>
+			
+			<if test="planPost != null and planPost != ''">
+				and XGW=#{planPost}
+			</if>
+			
+			<if test="currentPostType != null and currentPostType != ''">
+				and YGWLB=#{currentPostType}
+			</if>
+			
+			<if test="planPostType != null and planPostType != ''">
+				and XGWLB=#{planPostType}
+			</if>
+			
+			<if test="manoeuvreType != null and manoeuvreType != ''">
+				and DPLB=#{manoeuvreType}
+			</if>
+			
+			<if test="applyTime != null">
+				and SQSJ=#{applyTime}
+			</if>
+			
+			<if test="applyTime == null and applyTimeMin != null">
+				<![CDATA[and SQSJ>=#{applyTimeMin}]]>
+			</if>
+			
+			<if test="applyTime == null and applyTimeMax != null">
+				<![CDATA[and SQSJ<=#{applyTimeMax}]]>
+			</if>
+			
+			<if test="excuteTime != null">
+				and DPZXSJ=#{excuteTime}
+			</if>
+			
+			<if test="excuteTime == null and excuteTimeMin != null">
+				<![CDATA[and DPZXSJ>=#{excuteTimeMin}]]>
+			</if>
+			
+			<if test="excuteTime == null and excuteTimeMax != null">
+				<![CDATA[and DPZXSJ<=#{excuteTimeMax}]]>
+			</if>
+			
+			<if test="lastModifyTime != null">
+				and ZHXGSJ=#{lastModifyTime}
+			</if>
+			
+			<if test="lastModifyTime == null and lastModifyTimeMin != null">
+				<![CDATA[and ZHXGSJ>=#{lastModifyTimeMin}]]>
+			</if>
+			
+			<if test="lastModifyTime == null and lastModifyTimeMax != null">
+				<![CDATA[and ZHXGSJ<=#{lastModifyTimeMax}]]>
+			</if>
+			
+			<if test="changeDateStart != null">
+				<![CDATA[and BGSJ>=#{changeDateStart}]]>
+			</if>
+			
+			<if test="changeDateEnd != null">
+				<![CDATA[ and BGSJ<=#{changeDateEnd}]]>
+			</if>
+			
+			<if test="oldFormationType != null and oldFormationType !=''">
+				 and QBZLB =#{oldFormationType}
+			</if>
+			
+			 <if test="formationType != null and formationType !=''">
+				 and BZLB =#{formationType}
+			</if>
+			<if test="reason != null and reason != ''">
+				and DPYY like '%'||#{reason}||'%'
+			</if>
+			
+			<if test="useCreatedByHR and createdByHR">
+				and SFRSCCJ='1'
+			</if>
+			
+			<if test="useCreatedByHR and !createdByHR">
+				and (SFRSCCJ='0' or SFRSCCJ is null)
+			</if>
+			
+			<if test="useBeenDeclared and beenDeclared">
+				and SFYTJ='1'
+			</if>
+			
+			<if test="useBeenDeclared and !beenDeclared">
+				and (SFYTJ='0' or SFYTJ is null)
+			</if>
+			
+			<if test="useFinishAudit and finishAudit">
+				and SFWCSH='1'
+			</if>
+			
+			<if test="useFinishAudit and !finishAudit">
+				and (SFWCSH='0' or SFWCSH is null)
+			</if>
+			
+			<if test="auditResult != null and auditResult !=''">
+				and SHJG=#{auditResult}
+			</if>
+			
+			<if test="auditResult == null or auditResult ==''">
+				<if test="auditResultList != null and auditResultList.size > 0">
+					and
+					<foreach collection="auditResultList" item="auditResult" index="index"  open="(" separator=" or " close=")">
+						SHJG=#{auditResult}
+					</foreach>
+				</if> 
+			</if>
+			
+			<if test="executeStatus != null and executeStatus !=''">
+				and DPZT=#{executeStatus}
+			</if> 
+			
+			<if test="executeStatus == null or executeStatus ==''">
+				<if test="executeStatusList != null and executeStatusList.size > 0">
+					and
+					<foreach collection="executeStatusList" item="executeStatus" index="index"  open="(" separator=" or " close=")">
+						DPZT=#{executeStatus}
+					</foreach>
+				</if> 
+			</if>
+			
+			<if test="remark != null and remark !=''">
+				and BZ like '%'||#{remark}||'%'
+			</if>
+			
+			<if test="auditConfigurationList != null and auditConfigurationList.size > 0">
+				and
+				<foreach collection="auditConfigurationList" item="auditConfiguration" index="index"  open="(" separator=" or " close=")">
+					<if test="auditConfiguration != null and auditConfiguration.taskNode != null and auditConfiguration.taskNode.nid != null and auditConfiguration.taskNode.nid != ''">
+						<if test="auditConfiguration.auditConfigOrgList != null and auditConfiguration.auditConfigOrgList.size > 0">
+							(
+								HJDM=#{auditConfiguration.taskNode.nid} 
+								and
+								<foreach collection="auditConfiguration.auditConfigOrgList" item="auditConfigOrgInfo" index="index"  open="(" separator=" or " close=")">
+									<if test="auditConfiguration.extensionType == 0">
+										DRBM=#{auditConfigOrgInfo.oid}
+									</if>  
+									
+									<if test="auditConfiguration.extensionType == 1">
+										YBM=#{auditConfigOrgInfo.oid}
+									</if> 
+									
+									<if test="auditConfiguration.extensionType == 2">
+										1=1
+									</if> 
+								</foreach>
+							) 
+						</if>
+						<if test="auditConfiguration.auditConfigOrgList == null or auditConfiguration.auditConfigOrgList.size == 0">
+							1=2
+						</if>
+					</if>
+					
+					<if test="auditConfiguration == null or auditConfiguration.taskNode == null or auditConfiguration.taskNode.nid == null or auditConfiguration.taskNode.nid == ''">
+						1=2
+					</if>
+				</foreach>
+			</if> 
+			
+		</where>
+		
+		<if test="orderStr != null and orderStr != ''">
+			order by ${orderStr}
+		</if> 
+		
+	</sql>
+	
+	<select id="findList" resultMap="ManoeuvreInfoRM">
+		select <include refid="prefix"/> 
+		from HRM_RYDP_RYDPXXB
+		<include refid="suffix"/>
+	</select>
+	
+	<select id="findById" resultMap="ManoeuvreInfoRMOther">
+		select <include refid="prefix"/> 
+		from HRM_RYDP_RYDPXXB
+		where XXDM = #{guid}	
+	</select>
+	
+	<select id="findPagingList" resultMap="ManoeuvreInfoRMOther">
+		 
+		select <include refid="prefix" /> 
+		from (
+			select <include refid="prefix" />,rownum rn 
+			from (
+				select <include refid="prefix" />
+				from HRM_RYDP_RYDPXXB,OVERALL
+				<include refid="suffix" /> 
+			)
+		) 
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow}
+		]]>
+	</select>
+	
+	<select id="findPagingCount" resultType="int">
+		select count(1)
+		from HRM_RYDP_RYDPXXB,OVERALL
+		<include refid="suffix" />
+	</select>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+		  	select sys_guid() from dual
+		</selectKey>
+		
+		insert into HRM_RYDP_RYDPXXB (
+		
+			XXDM
+			
+			,SFYTJ
+			
+			,SFWCSH
+			
+			,ZHXGSJ
+			
+			,SFRSCCJ
+		
+			<if test="currentNode != null and currentNode.nid !=null and currentNode.nid !=''">
+				,HJDM
+			</if> 
+			
+			<if test="staffid != null and staffid !=''">
+				,SQR
+			</if> 
+			
+			<if test="currentOrg != null and currentOrg != ''">
+				,YBM
+			</if>
+			
+			<if test="planOrg != null and planOrg != ''">
+				,DRBM
+			</if>
+			
+			<if test="currentPost != null and currentPost != ''">
+				,YGW
+			</if>
+			
+			<if test="planPost != null and planPost != ''">
+				,XGW
+			</if>
+			
+			<if test="currentPostType != null and currentPostType != ''">
+				,YGWLB
+			</if>
+			
+			<if test="planPostType != null and planPostType != ''">
+				,XGWLB
+			</if>
+			
+			<if test="manoeuvreType != null and manoeuvreType != ''">
+				,DPLB
+			</if>
+			
+			<if test="applyTime != null">
+				,SQSJ
+			</if>
+			
+			<if test="excuteTime != null">
+				,DPZXSJ
+			</if>
+			
+			<if test="reason != null and reason != ''">
+				,DPYY
+			</if>
+			
+			<if test="auditResult != null and auditResult !=''">
+				,SHJG
+			</if>
+			
+			<if test="executeStatus != null and executeStatus !=''">
+				,DPZT
+			</if> 
+			
+			<if test="remark != null and remark !=''">
+				,BZ
+			</if>
+			
+			<if test="formationType != null and formationType !=''">
+				,BZLB
+			</if>
+			
+			<if test="changeTime != null and changeTime !=''">
+				,BGSJ
+			</if>
+		    <if test="oldFormationType != null and oldFormationType !=''">
+				,QBZLB
+			</if>
+		    <if test="ddlx != null and ddlx !=''">
+				,ddlx
+			</if>
+			
+		) values (
+		
+			#{guid}
+			
+			<if test="beenDeclared">
+				,'1'
+			</if>
+			<if test="!beenDeclared">
+				,'0'
+			</if>
+			
+			<if test="finishAudit">
+				,'1'
+			</if>
+			<if test="!finishAudit">
+				,'0'
+			</if>
+			
+			,sysdate
+			
+			<if test="createdByHR">
+				,'1'
+			</if>
+			
+			<if test="!createdByHR">
+				,'0'
+			</if>
+			
+			<if test="currentNode != null and currentNode.nid !=null and currentNode.nid !=''">
+				,#{currentNode.nid}
+			</if> 
+			
+			<if test="staffid != null and staffid !=''">
+				,#{staffid}
+			</if> 
+			
+			<if test="currentOrg != null and currentOrg != ''">
+				,#{currentOrg}
+			</if>
+			
+			<if test="planOrg != null and planOrg != ''">
+				,#{planOrg}
+			</if>
+			
+			<if test="currentPost != null and currentPost != ''">
+				,#{currentPost}
+			</if>
+			
+			<if test="planPost != null and planPost != ''">
+				,#{planPost}
+			</if>
+			
+			<if test="currentPostType != null and currentPostType != ''">
+				,#{currentPostType}
+			</if>
+			
+			<if test="planPostType != null and planPostType != ''">
+				,#{planPostType}
+			</if>
+			
+			<if test="manoeuvreType != null and manoeuvreType != ''">
+				,#{manoeuvreType}
+			</if>
+			
+			<if test="applyTime != null">
+				,#{applyTime}
+			</if>
+			
+			<if test="excuteTime != null">
+				,#{excuteTime}
+			</if>
+			
+			<if test="reason != null and reason != ''">
+				,#{reason}
+			</if>
+			
+			<if test="auditResult != null and auditResult !=''">
+				,#{auditResult}
+			</if>
+			
+			<if test="executeStatus != null and executeStatus !=''">
+				,#{executeStatus}
+			</if> 
+			
+			<if test="remark != null and remark !=''">
+				,#{remark}
+			</if>
+			
+			<if test="formationType != null and formationType !=''">
+				,#{formationType}
+			</if>
+			
+			<if test="changeTime != null and changeTime !=''">
+				,#{changeTime}
+			</if>
+			
+			<if test="oldFormationType != null and oldFormationType !=''">
+				,#{oldFormationType}
+			</if>
+			<if test="ddlx != null and ddlx !=''">
+				,#{ddlx}
+			</if>
+		)
+		  
+	</insert>
+	
+	<insert id="save" useGeneratedKeys="true" keyProperty="guid">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+		  	select sys_guid() from dual
+		</selectKey>
+		
+		insert into HRM_RYDP_RYDPXXB (
+		
+			XXDM
+			
+			,SFYTJ
+			
+			,SFWCSH
+			
+			,ZHXGSJ
+			
+			,SFRSCCJ
+		
+			<if test="currentNode != null and currentNode.nid !=null and currentNode.nid !=''">
+				,HJDM
+			</if> 
+			
+			<if test="staffid != null and staffid !=''">
+				,SQR
+			</if> 
+			
+			<if test="currentOrg != null and currentOrg != ''">
+				,YBM
+			</if>
+			
+			<if test="planOrg != null and planOrg != ''">
+				,DRBM
+			</if>
+			
+			<if test="currentPost != null and currentPost != ''">
+				,YGW
+			</if>
+			
+			<if test="planPost != null and planPost != ''">
+				,XGW
+			</if>
+			
+			<if test="currentPostType != null and currentPostType != ''">
+				,YGWLB
+			</if>
+			
+			<if test="planPostType != null and planPostType != ''">
+				,XGWLB
+			</if>
+			
+			<if test="manoeuvreType != null and manoeuvreType != ''">
+				,DPLB
+			</if>
+			
+			<if test="applyTime != null">
+				,SQSJ
+			</if>
+			
+			<if test="excuteTime != null">
+				,DPZXSJ
+			</if>
+			
+			<if test="reason != null and reason != ''">
+				,DPYY
+			</if>
+			
+			<if test="auditResult != null and auditResult !=''">
+				,SHJG
+			</if>
+			
+			<if test="executeStatus != null and executeStatus !=''">
+				,DPZT
+			</if> 
+			
+			<if test="remark != null and remark !=''">
+				,BZ
+			</if>
+			
+			<if test="formationType != null and formationType !=''">
+				,BZLB
+			</if>
+			
+			<if test="changeTime != null and changeTime !=''">
+				,BGSJ
+			</if>
+		    <if test="oldFormationType != null and oldFormationType !=''">
+				,QBZLB
+			</if>
+		    <if test="ddlx != null and ddlx !=''">
+				,ddlx
+			</if>
+			
+		) values (
+		
+			#{guid}
+			
+			<if test="beenDeclared">
+				,'1'
+			</if>
+			<if test="!beenDeclared">
+				,'0'
+			</if>
+			
+			<if test="finishAudit">
+				,'1'
+			</if>
+			<if test="!finishAudit">
+				,'0'
+			</if>
+			
+			,sysdate
+			
+			<if test="createdByHR">
+				,'1'
+			</if>
+			
+			<if test="!createdByHR">
+				,'0'
+			</if>
+			
+			<if test="currentNode != null and currentNode.nid !=null and currentNode.nid !=''">
+				,#{currentNode.nid}
+			</if> 
+			
+			<if test="staffid != null and staffid !=''">
+				,#{staffid}
+			</if> 
+			
+			<if test="currentOrg != null and currentOrg != ''">
+				,#{currentOrg}
+			</if>
+			
+			<if test="planOrg != null and planOrg != ''">
+				,#{planOrg}
+			</if>
+			
+			<if test="currentPost != null and currentPost != ''">
+				,#{currentPost}
+			</if>
+			
+			<if test="planPost != null and planPost != ''">
+				,#{planPost}
+			</if>
+			
+			<if test="currentPostType != null and currentPostType != ''">
+				,#{currentPostType}
+			</if>
+			
+			<if test="planPostType != null and planPostType != ''">
+				,#{planPostType}
+			</if>
+			
+			<if test="manoeuvreType != null and manoeuvreType != ''">
+				,#{manoeuvreType}
+			</if>
+			
+			<if test="applyTime != null">
+				,#{applyTime}
+			</if>
+			
+			<if test="excuteTime != null">
+				,#{excuteTime}
+			</if>
+			
+			<if test="reason != null and reason != ''">
+				,#{reason}
+			</if>
+			
+			<if test="auditResult != null and auditResult !=''">
+				,#{auditResult}
+			</if>
+			
+			<if test="executeStatus != null and executeStatus !=''">
+				,#{executeStatus}
+			</if> 
+			
+			<if test="remark != null and remark !=''">
+				,#{remark}
+			</if>
+			
+			<if test="formationType != null and formationType !=''">
+				,#{formationType}
+			</if>
+			
+			<if test="changeTime != null and changeTime !=''">
+				,#{changeTime}
+			</if>
+			
+			<if test="oldFormationType != null and oldFormationType !=''">
+				,#{oldFormationType}
+			</if>
+			<if test="ddlx != null and ddlx !=''">
+				,#{ddlx}
+			</if>
+		)
+		  
+	</insert>
+	
+	<update id="update">
+		update HRM_RYDP_RYDPXXB
+		<set>		
+			
+			<if test="currentNode != null and currentNode.nid !=null and currentNode.nid !=''">
+				HJDM=#{currentNode.nid},
+			</if> 
+			
+			<if test="staffid != null and staffid !=''">
+				SQR=#{staffid},
+			</if> 
+			
+			<if test="currentOrg != null and currentOrg != ''">
+				YBM=#{currentOrg},
+			</if>
+			
+			<if test="planOrg != null and planOrg != ''">
+				DRBM=#{planOrg},
+			</if>
+			
+			<if test="currentPost != null and currentPost != ''">
+				YGW=#{currentPost},
+			</if>
+			
+			<if test="planPost != null and planPost != ''">
+				XGW=#{planPost},
+			</if>
+			
+			<if test="currentPostType != null and currentPostType != ''">
+				YGWLB=#{currentPostType},
+			</if>
+			
+			<if test="planPostType != null and planPostType != ''">
+				XGWLB=#{planPostType},
+			</if>
+			
+			<if test="manoeuvreType != null and manoeuvreType != ''">
+				DPLB=#{manoeuvreType},
+			</if>
+			
+			<if test="applyTime != null">
+				SQSJ=#{applyTime},
+			</if>
+			
+			<if test="excuteTime != null">
+				DPZXSJ=#{excuteTime},
+			</if>
+			
+			<if test="reason != null">
+				DPYY=#{reason},
+			</if>
+			
+			<if test="createdByHR">
+				SFRSCCJ='1',
+			</if>
+			
+			<if test="!createdByHR">
+				SFRSCCJ='0',
+			</if>
+			
+			<if test="beenDeclared">
+				SFYTJ='1',
+			</if>
+			
+			<if test="!beenDeclared">
+				SFYTJ='0',
+			</if>
+			
+			<if test="finishAudit">
+				SFWCSH='1',
+			</if>
+			
+			<if test="!finishAudit">
+				SFWCSH='0',
+			</if>
+			
+			<if test="auditResult != null and auditResult !=''">
+				SHJG=#{auditResult},
+			</if>
+			
+			<if test="executeStatus != null and executeStatus !=''">
+				DPZT=#{executeStatus},
+			</if> 
+			
+			<if test="remark != null">
+				BZ=#{remark},
+			</if>
+			
+			<if test="formationType != null">
+				BZLB=#{formationType},
+			</if>
+			
+			<if test="changeTime != null">
+				BGSJ=#{changeTime},
+			</if>
+			
+			<if test="oldFormationType != null">
+				QBZLB=#{oldFormationType},
+			</if>
+			<if test="ddlx != null and ddlx != '' ">
+				ddlx=#{ddlx},
+			</if>
+			
+			ZHXGSJ=sysdate,
+			
+		</set>
+		
+		where XXDM=#{guid}
+		
+	</update>
+	
+	<update id="updateTask">
+		update HRM_RYDP_RYDPXXB set
+		<if test="currentNode == null or currentNode.nid == null or currentNode.nid == ''">
+			    HJDM = null
+		</if>
+		
+		<if test="currentNode != null and currentNode.nid != null and currentNode.nid != ''">
+			    HJDM = #{currentNode.nid}
+		</if>
+		
+		where XXDM = #{guid} 
+	</update> 
+	
+	<delete id="delete"> 
+		<![CDATA[
+			delete from HRM_RYDP_RYDPXXB where XXDM = #{guid}
+		]]>
+	</delete>
+	
+	<update id="updateForNodeChange">
+		update HRM_RYDP_RYDPXXB t set t.hjdm=#{0} where (t.sfwcsh='0' or t.sfwcsh is null) and t.hjdm=#{1}
+	</update>
+	
+	<select id="existByNode" resultType="int">
+		select count(1) from HRM_RYDP_RYDPXXB t where (t.sfwcsh='0' or t.sfwcsh is null) and t.hjdm=#{nid}
+	</select>
+</mapper>		

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zfsoft.dao.daointerface.ISjtbDao" >
+
+	<insert id="sjtb" parameterType="map">
+		
+		<![CDATA[
+			DECLARE
+				VAR_SEQ_SJFWZB VARCHAR2(32);
+				VAR_SEQ_YHSJFWB VARCHAR2(32);
+			BEGIN
+				SELECT ZFTAL_SEQ_SJFWZB.NEXTVAL INTO VAR_SEQ_SJFWZB FROM DUAL;
+				SELECT ZFTAL_SEQ_YHSJFWB.NEXTVAL INTO VAR_SEQ_YHSJFWB FROM DUAL;
+				
+				insert into zftal_xtgl_yhb(ZGH,XM,MM,LXDH,DZYX,SFQY,SJLY)values(#{zgh},#{xm},#{mm},#{lxdh},#{dzyx},#{sfqy},#{sjly});
+				 
+			    insert into zftal_xtgl_sjfwzb(sjfwz_id,sjfwzmc,sjfwztj) values(VAR_SEQ_SJFWZB,#{bmmc},'BMDM_ID='||#{bmdm_id}});
+			    
+			    insert into zftal_xtgl_yhsjfwb(yhsjfwb_id,yh_id,sjfwz_id,sfqy) values(VAR_SEQ_YHSJFWB,#{zgh},VAR_SEQ_SJFWZB,'0');
+			END;
+		]]>	
+	</insert>
+	
+	
+</mapper>

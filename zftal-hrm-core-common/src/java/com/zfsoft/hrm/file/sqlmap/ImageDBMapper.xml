@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+		
+<mapper namespace="com.zfsoft.hrm.file.dao.daointerface.IImageDBDao">
+
+	<resultMap id="imageDB" type="com.zfsoft.hrm.file.entity.ImageDB">
+		<id property="guid" column="WJCCBBH"/>
+		<result property="fileName" column="WJBT"/> 
+		<result property="fileContent" column="WJNR"/>
+		<result property="path" column="WJLJ"/>
+		<result property="fileSize" column="WJDX"/>
+		<result property="uploadTime" column="SCRQ"/>
+		<result property="suffixs" column="HZM"/>
+		<result property="opUser" column="CZR"/>
+	</resultMap>
+	
+	<insert id="insert" useGeneratedKeys="true" keyProperty="guid">
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="guid">
+			<![CDATA[
+			select SYS_GUID() GUID from DUAL
+			]]>
+		</selectKey>
+		insert into hrm_xtgl_zpb(
+							WJCCBBH,
+							WJBT,
+							<if test="fileContent!=null">WJNR,</if>
+							<if test="path!=null">WJLJ,</if>
+							<if test="opUser !=null">CZR,</if> 
+							SCRQ,
+							WJDX,
+							HZM) 
+				   values(
+							#{guid},
+							#{fileName}, 
+							<if test="fileContent!=null">#{fileContent}, </if>
+							<if test="path!=null">#{path},</if> 
+							<if test="opUser !=null">#{opUser},</if> 
+							#{uploadTime}, 
+							#{fileSize}, 
+							#{suffixs})
+	</insert>
+	
+	<update id="update">
+		update hrm_xtgl_zpb set
+			<if test="fileName != null">WJBT = #{fileName},</if>
+			<if test="fileContent != null">WJNR = #{fileContent},</if>
+			<if test="path != null">WJLJ = #{path},</if>
+			<if test="fileSize != null">WJDX = #{fileSize},</if>
+			<if test="opUser !=null">CZR=#{opUser},</if> 
+			<if test="uploadTime != null">SCRQ = #{uploadTime},</if>
+			<if test="suffixs != null">HZM = #{suffixs}</if>
+		where WJCCBBH = #{guid}
+	</update>
+	
+	<delete id="delete">
+		<![CDATA[
+			delete from hrm_xtgl_zpb where WJCCBBH = #{guid}
+		]]>
+	</delete>
+	<select id="findById" resultMap="imageDB">
+		SELECT WJNR,WJDX,WJCCBBH,WJBT,WJLJ,SCRQ,HZM,CZR
+		from hrm_xtgl_zpb 
+		where WJCCBBH=#{fileDBId}
+	</select>
+</mapper>

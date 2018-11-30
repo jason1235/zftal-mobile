@@ -1,0 +1,389 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zfsoft.mobile.market.dao.MarketDao">
+
+
+	<select id="selectMarketType" resultType="com.zfsoft.mobile.market.entity.MarketType">
+		select t.* from M_MARKET_TYPE t
+	</select>
+	
+	<select id="selectMarketCampus" resultType="com.zfsoft.mobile.market.entity.MarketCampus">
+		select * from M_MARKET_CAMPUS t
+	</select>
+
+
+	<insert id="addMarket" parameterType="com.zfsoft.mobile.market.entity.Market">
+		INSERT INTO 
+				M_MARKET(
+					id,	
+					title,
+					content,
+					pic,
+					price,
+					type,
+					tel,
+					createuserid,
+					createtime,
+					campus,
+					status,
+					oldprice,
+					qnum
+				)
+			VALUES(
+				#{id,jdbcType=VARCHAR}, 
+				#{title,jdbcType=VARCHAR},          
+				#{content,jdbcType=VARCHAR},
+				#{pic,jdbcType=VARCHAR},
+				#{price,jdbcType=FLOAT},
+				#{type,jdbcType=VARCHAR},
+				#{tel,jdbcType=VARCHAR},
+				#{createUserId,jdbcType=VARCHAR},
+				#{createTime,jdbcType=VARCHAR},
+				#{campus,jdbcType=VARCHAR},
+				#{status,jdbcType=VARCHAR},
+				#{oldPrice,jdbcType=FLOAT},
+				#{qNum,jdbcType=VARCHAR}
+			)
+		  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		  </selectKey>	
+	</insert>
+	
+	<select id="selectMarketList" parameterType="com.zfsoft.mobile.market.entity.MarketQuery" resultType="com.zfsoft.mobile.market.entity.Market">
+		select *
+		  from (select a.*, rownum rn
+		          from (select t.*,t1.name as campusName
+		                  from M_MARKET t
+		                  left join m_market_campus t1 on t.campus = t1.id
+		                 where 1=1 
+		                <if test="title != null and title != ''">
+		                   and t.title like '%'||#{title}||'%'
+		                </if>
+		                <if test="type != null and type != ''">
+		                   and t.type = #{type}
+		                </if>
+		                <if test="campus != null and campus != ''">
+		                   and t.campus = #{campus}
+		                </if>
+		                <if test="createUserId != null and createUserId != '' and coll != 1">
+		                   and t.createUserId = #{createUserId}
+		                </if>
+		                <if test="createUserId == null or createUserId == '' ">
+		                   and t.status = 0
+		                </if>
+		                <if test="status != null and status != ''">
+		                   and t.status = #{status}
+		                </if>
+		                <if test="createUserId != null and createUserId != '' and coll == 1 ">
+		                   and t.id in (select b.marketid from M_MARKET_COLL b where b.userid = #{createUserId})
+		                </if>
+		                 ) a
+		                 <if test="sort == 0">
+		                   order by a.createtime desc
+		                 </if>
+		                 <if test="sort == 1">
+		                   order by a.price desc
+		                 </if>
+		                 <if test="sort == 2">
+		                   order by a.price 
+		                 </if>
+		                 )
+		<![CDATA[                 
+		 where rn >= #{startRow}
+		   and rn <= #{endRow}
+		]]>	
+	</select>
+	
+	<select id="getClassListCount" parameterType="com.zfsoft.mobile.market.entity.MarketQuery" resultType="java.lang.Integer">
+		select count(1) from M_MARKET t
+             where 1=1 
+            <if test="title != null and title != ''">
+               and t.title like '%'||#{title}||'%'
+            </if>
+            <if test="type != null and type != ''">
+               and t.type = #{type}
+            </if>
+            <if test="campus != null and campus != ''">
+               and t.campus = #{campus}
+            </if>
+            <if test="createUserId != null and createUserId != ''">
+               and t.createUserId = #{createUserId}
+            </if>
+            <if test="createUserId == null or createUserId == ''">
+               and status = 0
+            </if>
+            <if test="status != null and status != ''">
+               and t.status = #{status}
+            </if>
+            <if test="createUserId != null and createUserId != '' and coll != null and coll != ''">
+               and t.id in (select b.marketid from M_MARKET_COLL b where b.userid = #{createUserId})
+            </if>
+	</select>
+	
+	<select id="getMarketById" resultType="com.zfsoft.mobile.market.entity.Market">
+		select t.*,t1.name as campusName ,t2.xm as username   from M_MARKET t 
+			left join m_market_campus t1 on t.campus = t1.id
+			left join zftal_xtgl_yhb t2 on t.createuserid = t2.zgh
+				where t.id =#{id}
+	</select>
+	
+	<select id="getIsCollByUserId" resultType="java.lang.Integer">
+		select count(1) from M_MARKET_COLL t where t.userid = #{username} and t.marketId =#{marketId}
+	</select>
+	
+	<insert id="addMarketColl">
+		INSERT INTO 
+				M_MARKET_COLL(
+					id,	
+					userid,
+					marketid,
+					createtime
+				)
+			VALUES(
+				#{id,jdbcType=VARCHAR}, 
+				#{userId,jdbcType=VARCHAR},          
+				#{marketId,jdbcType=VARCHAR},
+				#{createTime,jdbcType=VARCHAR}
+			)
+		  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		  </selectKey>	
+	</insert>
+	
+	<select id="delMarketColl">
+		delete from M_MARKET_COLL t where t.userid = #{userId} and t.marketid = #{marketId}
+	</select>
+	
+	<update id="updateMarket" parameterType="com.zfsoft.mobile.market.entity.Market">
+		update M_MARKET
+		 <set>
+		 	<if test="title != '' and title != null">
+		 		title=#{title},
+		 	</if>
+		 	<if test='content != "" and content != null'>
+		 		content=#{content},
+		 	</if>
+		 	<if test='pic != "" and pic != null'>
+		 		pic=#{pic},
+		 	</if>
+		 	<if test='price != "" and price != null'>
+		 		price=#{price},
+		 	</if>
+		 	<if test='type != "" and type != null'>
+		 		type=#{type},
+		 	</if>
+		 	<if test='tel != "" and tel != null'>
+		 		tel=#{tel},
+		 	</if>
+		 	<if test='createUserId != "" and createUserId != null'>
+		 		createuserid=#{createUserId},
+		 	</if>
+		 	<if test='createTime != "" and createTime != null'>
+		 		createtime=#{createTime},
+		 	</if>
+		 	<if test='campus != "" and campus != null'>
+		 		campus=#{campus},
+		 	</if>
+		 	<if test='status != "" and status != null'>
+		 		status=#{status},
+		 	</if>
+		 	<if test='oldPrice != "" and oldPrice != null'>
+		 		oldprice=#{oldPrice},
+		 	</if>
+		 	<if test='qNum != "" and qNum != null'>
+		 		qnum=#{qNum},
+		 	</if>
+		 </set>
+		   where id = #{id}
+	</update>
+	
+	<select id="delMarket">
+		delete from M_MARKET t where t.id =#{id}
+	</select>
+
+	<insert id="addMarketComment" parameterType="com.zfsoft.mobile.market.entity.MarketComment">
+		INSERT INTO 
+				M_MARKET_COMMENT(
+					id,	
+					marketid,
+					content,
+					createuserid,
+					commentid,
+					createtime
+				)
+			VALUES(
+				#{id,jdbcType=VARCHAR}, 
+				#{marketId,jdbcType=VARCHAR},          
+				#{content,jdbcType=VARCHAR},
+				#{createUserId,jdbcType=VARCHAR},
+				#{commentId,jdbcType=VARCHAR},
+				#{createTime,jdbcType=VARCHAR}
+			)
+		  <selectKey resultType="java.lang.String" order="BEFORE" keyProperty="id">
+			<![CDATA[
+			select SYS_GUID() id from DUAL
+			]]>
+		  </selectKey>	
+	</insert>
+	
+	<select id="getCommentList" resultType="com.zfsoft.mobile.market.entity.MarketComment">
+		select * from M_MARKET_COMMENT t where t.marketid = #{marketId}
+		<if test='commentId != "" and commentId != null'>
+		 	and t.commentid =#{commentId}
+		</if>
+		<if test='commentId == "" or commentId == null'>
+		 	 and t.commentid is null
+		</if>
+	</select>
+	
+	<select id="getUserNameById" resultType="java.lang.String">
+		select t.xm from ZFTAL_XTGL_YHB t where t.zgh = #{userId}
+	</select>
+	
+	<select id="selectHtMatketList" parameterType="com.zfsoft.mobile.market.entity.MarketQuery" resultType="com.zfsoft.mobile.market.entity.Market">
+	SELECT *
+  	FROM (SELECT b.*,rownum rn
+          FROM (
+		select t.*,t1.name as campusName ,t2.xm as username 
+               from M_MARKET t
+               left join m_market_campus t1 on t.campus = t1.id
+                left join zftal_xtgl_yhb t2 on t.createuserid = t2.zgh
+               <if test='title != "" and title != null'>
+		 		where t.title like '%||#{title}||%'
+		 		</if>
+               ) b)
+               <![CDATA[
+ 				WHERE RN >=#{startRow}  AND RN <=#{endRow} 
+			   ]]>	
+	</select>
+	
+	<select id="countHtMatketList" parameterType="com.zfsoft.mobile.market.entity.MarketQuery"  resultType="java.lang.Integer">
+		select count(1)   from M_MARKET t
+               <if test='title != "" and title != null'>
+		 		where t.title like '%||#{title}||%'
+		 		</if>
+	</select>
+	
+	<select id="countHtMatketTypeList" parameterType="com.zfsoft.mobile.market.entity.MarketTypeQuery"  resultType="java.lang.Integer">
+		select count(1)   from M_MARKET_TYPE t
+               <if test='name != "" and name != null'>
+		 		where t.name like '%||#{name}||%'
+		 		</if>
+	</select>
+	
+	
+	<select id="selectHtMatketTypeList" parameterType="com.zfsoft.mobile.market.entity.MarketTypeQuery" resultType="com.zfsoft.mobile.market.entity.MarketTypeQuery">
+		SELECT *
+	  	FROM (SELECT b.*,rownum rn
+	          FROM (
+			select t.*
+	               from M_MARKET_TYPE t
+	               <if test='name != "" and name != null'>
+			 		where t.name like '%||#{name}||%'
+			 		</if>
+	               ) b)
+	               <![CDATA[
+	 				WHERE RN >=#{startRow}  AND RN <=#{endRow} 
+				   ]]>	
+	</select>
+	
+	
+	
+	
+	<select id="selectHtCommentList" parameterType="com.zfsoft.mobile.market.entity.MarketCommentQuery" resultType="com.zfsoft.mobile.market.entity.MarketComment">
+	SELECT *
+  	FROM (SELECT b.*,rownum rn
+          FROM (
+		select t.*,t2.xm as userName 
+               from M_MARKET_COMMENT t
+               left join zftal_xtgl_yhb t2 on t.createuserid = t2.zgh
+                where t.marketid = #{marketId}
+               ) b)
+               <![CDATA[
+ 				WHERE RN >=#{startRow}  AND RN <=#{endRow} 
+			   ]]>	
+	</select>
+	
+	<select id="countHtCommentList" parameterType="com.zfsoft.mobile.market.entity.MarketCommentQuery"  resultType="java.lang.Integer">
+		select count(1) from M_MARKET_COMMENT t where t.marketid = #{marketId}
+	</select>
+	
+	<select id="delMarketComment">
+		delete from M_MARKET_COMMENT t where t.id =#{id}
+	</select>
+	
+	
+	<select id="getMarketTypeById" parameterType="String" resultType="com.zfsoft.mobile.market.entity.MarketType">
+		select t.* from M_MARKET_TYPE t where id = #{id}
+	</select>
+	
+	
+	<update id="updateMarketType" parameterType="com.zfsoft.mobile.market.entity.MarketType">
+		update M_MARKET_TYPE t set name = #{name} where id = #{id}
+	</update>
+	
+	
+	<insert id="saveMarketType" parameterType="com.zfsoft.mobile.market.entity.MarketType">
+		insert into M_MARKET_TYPE (id,name) (select sys_guid(),#{name} from dual)
+	</insert>
+	
+	
+	<delete id="htDelType" parameterType="String">
+		delete from M_MARKET_TYPE t where id = #{id}
+	</delete>
+	
+	
+	
+	<select id="countHtMatketCampusList" parameterType="com.zfsoft.mobile.market.entity.MarketCampus"  resultType="java.lang.Integer">
+		select count(1)   from m_Market_Campus t
+               <if test='name != "" and name != null'>
+		 		where t.name like '%||#{name}||%'
+		 		</if>
+	</select>
+	
+	
+	<select id="selectHtMatketCampusList" parameterType="com.zfsoft.mobile.market.entity.MarketCampus" resultType="com.zfsoft.mobile.market.entity.MarketCampus">
+		SELECT *
+	  	FROM (SELECT b.*,rownum rn
+	          FROM (
+			select t.*
+	               from m_Market_Campus t
+	               <if test='name != "" and name != null'>
+			 		where t.name like '%||#{name}||%'
+			 		</if>
+	               ) b)
+	               <![CDATA[
+	 				WHERE RN >=#{startRow}  AND RN <=#{endRow} 
+				   ]]>	
+	</select>
+	
+	
+	<select id="getMarketCampusById" parameterType="String" resultType="com.zfsoft.mobile.market.entity.MarketCampus">
+		select t.* from m_Market_Campus t where id = #{id}
+	</select>
+	
+	
+	<update id="updateMarketCampus" parameterType="com.zfsoft.mobile.market.entity.MarketCampus">
+		update m_Market_Campus t set name = #{name} where id = #{id}
+	</update>
+	
+	
+	<insert id="saveMarketCampus" parameterType="com.zfsoft.mobile.market.entity.MarketCampus">
+		insert into m_Market_Campus (id,name) (select sys_guid(),#{name} from dual)
+	</insert>
+	
+	
+	<delete id="htDelCampus" parameterType="String">
+		delete from m_Market_Campus t where id = #{id}
+	</delete>
+	
+	
+	
+	
+	
+
+</mapper>

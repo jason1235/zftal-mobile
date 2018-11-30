@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.zfsoft.mobile.webcasts.dao.IWebcastsDao">
+
+	<resultMap type="com.zfsoft.mobile.webcasts.entity.WebcastsEntity" id="webcastMap">
+	   <result property="webcastId" 	column="WEBCASTID" />
+	   <result property="userid" 		column="USERID"/>
+	   <result property="anchorName" 	column="ANCHORNAME"/>
+	   <result property="roomName"      column="ROOMNAME"/>
+	   <result property="piccon" 	    column="PICCON"/>
+	   <result property="picPath"		column="PICPATH"/> 
+	   <result property="isactive" 		column="ISACTIVE"/>
+	   <result property="screenMode" 	column="SCREENMODE"/>
+	   <result property="status"		column="STATUS"/>
+	   <result property="dropNum"		column="DROPNUM"/>
+	   <result property="description"	column="DESCRIPTION"/>
+	   <result property="createTime" 	column="CREATETIME"/>
+	   <result property="updateTime"	column="UPDATETIME"/>
+	</resultMap>
+
+	<sql id="where">
+	   <where>
+	       <if test="webcastId!=null and webcastId!=''">
+		    	and m.webcastid = #{webcastId}
+		   </if>
+		   <if test="anchorName!=null and anchorName!=''">
+		    	and m.anchorname like '%'||#{anchorName}||'%'
+		   </if>
+		   <if test="isactive!=null and isactive!=''">
+		   		and m.isactive = #{isactive}
+		   </if>
+		   <if test="status!=null and status!=''">
+		   		and m.status = #{status}
+		   </if>
+	   </where>
+	</sql>
+	
+	<select id="getPageCount" resultType="int">
+		select count(*) from 
+		(select * from M_WEBCASTS m
+			<include refid="where" /> ) a
+	</select>
+	
+	<!-- 获取分页列表信息 -->
+	<select id="getPageList" resultMap="webcastMap">
+		select * from (
+			select m.*,u.xm as username,rownum rn 
+			from M_WEBCASTS m 
+			left join zftal_xtgl_yhb u on u.zgh=m.userid
+			<include refid="where" /> 
+			order by  m.isactive desc,m.createtime desc 
+		)
+		<![CDATA[
+			where rn>=#{startRow} and rn<=#{endRow} 
+		]]>	
+	</select>
+	
+	<select id="findById" resultMap="webcastMap">
+		select t1.* from M_WEBCASTS t1
+		<where>
+			t1.webcastid = #{webcastId}
+		</where>
+	</select>
+	
+	<select id="getWebcastsByUserid" resultMap="webcastMap">
+		select t1.* from M_WEBCASTS t1
+		<where>
+			t1.userid = #{userid} and t1.isactive = '1'
+		</where>
+	</select>
+	
+	<insert id="insert" >
+		<![CDATA[
+			INSERT INTO 
+				M_WEBCASTS(
+					webcastid,
+					userid,
+					anchorname,
+					roomname,
+					piccon,
+					picpath,
+					isactive,
+					status,
+					dropnum,
+					description,
+					createtime
+				)
+			VALUES(
+				#{webcastId},
+				#{userid},
+				#{anchorName,jdbcType=VARCHAR},
+				#{roomName,jdbcType=VARCHAR},
+				#{piccon,jdbcType=VARCHAR},
+				#{picPath,jdbcType=VARCHAR},
+				'1',
+				'0',         
+				#{dropNum},
+				#{description,jdbcType=VARCHAR},
+			    sysdate
+			)
+		]]>
+		<selectKey resultType="java.lang.String" order="BEFORE" keyProperty="webcastId">
+			<![CDATA[
+			select SYS_GUID() webcastId from DUAL
+			]]>
+		</selectKey>
+	</insert>
+	
+	<update id="update">
+		update M_WEBCASTS
+		 <set>
+		  userid=#{userid},
+		  roomname=#{roomName,jdbcType=VARCHAR},
+		  <if test="piccon!=null and piccon!=''">
+		     piccon=#{piccon,jdbcType=VARCHAR},
+		  </if>
+		  <if test="picPath!=null and picPath!=''">
+		     picpath=#{picPath,jdbcType=VARCHAR},
+		  </if>
+		  updatetime=sysdate
+		 </set>
+		 where webcastid = #{webcastId}
+	</update>
+	
+	<!--<update id="updateStatus" resultType="int">
+	--><update id="updateStatus">
+		update M_WEBCASTS
+		 <set>		 
+		 updatetime=sysdate,
+		  status = #{status},
+		  screenmode = #{screenMode}
+		 </set>
+		 where webcastid = #{webcastId}
+	</update>
+	
+	<!--<update id="updateDropNum" resultType="int">
+	--><update id="updateDropNum">
+		update M_WEBCASTS
+		 <set>		 
+		  dropnum=#{dropnum}
+		 </set>
+		 where webcastid = #{webcastId}
+	</update>
+	
+	<update id="webcastsControl">
+		update M_WEBCASTS
+		<set>
+			<if test='isactive == "1"'>
+				isactive = '1'
+			</if>
+			<if test='isactive == "0"'>
+				isactive = '0'
+			</if>
+		</set> 
+		  where webcastid = #{webcastId}
+	</update>
+	
+	<delete id="deleteWebcasts">
+		delete from  M_WEBCASTS
+		<where>
+		 webcastid = #{webcastId}
+		</where>
+	</delete>
+
+</mapper>
