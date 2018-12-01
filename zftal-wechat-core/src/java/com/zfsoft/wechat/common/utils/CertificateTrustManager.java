@@ -31,5 +31,4 @@ public class CertificateTrustManager implements X509TrustManager {
         // TODO Auto-generated method stub
         return null;
     }
-
 }

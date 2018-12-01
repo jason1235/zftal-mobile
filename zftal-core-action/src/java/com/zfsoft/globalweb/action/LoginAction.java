@@ -1,3 +1,4 @@
+
 package com.zfsoft.globalweb.action;
 
 
@@ -74,10 +75,7 @@ public class LoginAction extends BaseAction implements ModelDriven<LoginModel> {
     private IYhglService yhglService;
     private IJsglService jsglService;
     private LoginRecordModelQuery query = new LoginRecordModelQuery();
-
     private BaseLog baseLog = LogEngineImpl.getInstance();
-
-
 
     public void initialize(){
         //TODO 做一些初始化操作（比如从缓存里读取一些信息），每个方法都调用
@@ -179,6 +177,8 @@ public class LoginAction extends BaseAction implements ModelDriven<LoginModel> {
          HttpSession session = getSession();
          Integer logincount = setLogincountSession(session);
          String yzm = (String) session.getAttribute("yzm");
+         
+         
 //         yzm="1234";
          if (yzm.equalsIgnoreCase(model.getYzm())||logincount<=3) {
              try {

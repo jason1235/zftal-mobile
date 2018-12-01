@@ -81,7 +81,13 @@ public interface ILoginDao extends BaseDao<LoginModel>{
 	* 返回类型 LoginModel 
 	* @throws
 	 */
-//	public LoginModel viewYhxx(LoginModel model);
+	public LoginModel viewYhxx(LoginModel model);
+	
+	/**
+	 * 方法名：getErrNum
+	 * 方法描述:获取输错次数
+	 */
+	public String getErrNum(String userName);
 	
 	/**
 	 * 
@@ -92,7 +98,7 @@ public interface ILoginDao extends BaseDao<LoginModel>{
 	* 返回类型 void 
 	* @throws
 	 */
-	//public void updateYhxx(LoginModel model);
+    public void updateYhxx(LoginModel model);
 	
 	/**
 	 * 
@@ -142,4 +148,6 @@ public interface ILoginDao extends BaseDao<LoginModel>{
 	public int deleteLoginRecord(LoginRecordModelQuery loginRecordModel);
 
 	public YhglModel getUserByDeviceid(String deviceId);
+
+	public int updateErrNum(String userName);
 }

@@ -271,8 +271,6 @@
 							and t.userid in (select b.zgh from zftal_xtgl_yhb b where b.xm like '%'||#{name}||'%')
 						</if>
 		                 
-		                 order by t.createtime desc
-		                 
 		                 ) a)
 		<![CDATA[                 
 		 where rn >= #{startRow}

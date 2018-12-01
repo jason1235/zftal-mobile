@@ -51,7 +51,7 @@ import com.zfsoft.util.base.StringUtil;
  * <p>
  * Company: zfsoft.com
  * </p>
- * 
+ *
  * @since Oct 22, 2012 1:50:55 PM
  * @author huangzhaoxia
  * @version 1.0
@@ -62,12 +62,12 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	private static Logger logger = Logger.getLogger(EmailInformationXMLService.class);
 	private final String infromation=Config.getString("mobile.infromation");
 
-	
+
 	/**
 	 * 根据【是否阅办】获取待办列表
 	 * @param yhm 用户名
 	 * @param sfyb 是否阅办 (0 否 1 是)
-	 * @param start 
+	 * @param start
 	 * @param size
 	 * @param sign
 	 * @return
@@ -84,7 +84,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -98,10 +98,11 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		return str;
 	}
 
-	
+
 	/**
 	 * 邮件收件箱列表
 	 */
+	@Override
 	public String getMailListByType(String yhm, String type, String start,
 			String size, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
@@ -112,13 +113,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getMailListByType(yhm, type,
 				Integer.valueOf(start), Integer.valueOf(size), sign);
@@ -128,7 +129,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 邮件收件箱列表
 	 */
@@ -144,12 +145,12 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
 			cond  		= CodeUtil.decode(cond, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getMailListByTypeAndCond(yhm, type,
 				Integer.valueOf(start), Integer.valueOf(size),sign, cond);
@@ -159,12 +160,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
-	
+
+
 
 	/**
 	 * 获取邮件详情
 	 */
+	@Override
 	public String getMailInfoById(String yhm, String eid, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
@@ -172,13 +174,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			eid  		= CodeUtil.decode(eid, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getMailInfoById(yhm, eid, sign);
 		if(infromation.equals("0")){
@@ -187,7 +189,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+	@Override
 	public String checkPassword(String yhm,String flowPassword,String sign,String apptoken){
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
@@ -195,12 +197,12 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  			= CodeUtil.decode(yhm, apptoken);
 			flowPassword  	= CodeUtil.decode(flowPassword, apptoken);
 			sign  			= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().checkPassword(yhm, flowPassword, sign);
 		if(infromation.equals("0")){
@@ -209,10 +211,11 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 流程任务执行
 	 */
+	@Override
 	public String excuTaskForFlow(String yhm, String id,String taskId, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
@@ -221,12 +224,12 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			id  		= CodeUtil.decode(id, apptoken);
 			taskId  	= CodeUtil.decode(taskId, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().excuTaskForFlow(yhm, id, taskId, sign);
 		if(infromation.equals("0")){
@@ -235,10 +238,11 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 删除邮件
 	 */
+	@Override
 	public String deleteMailByID(String yhm, String eid, String type,
 			String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
@@ -248,13 +252,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			eid  		= CodeUtil.decode(eid, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
 			type  		= CodeUtil.decode(type, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().deleteMailByID(yhm, eid, type,
 				sign);
@@ -268,6 +272,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * 标记已读
 	 */
+	@Override
 	public String updateMailByID(String yhm, String eid, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
@@ -275,13 +280,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			eid  		= CodeUtil.decode(eid, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().updateMailByID(yhm, eid, sign);
 		if(infromation.equals("0")){
@@ -290,34 +295,36 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 对oa过来的信息进行xml解析判断
-	 * @throws DocumentException 
+	 * @throws DocumentException
 	 */
 	public boolean containErrorCode(String xml) throws DocumentException{
 		Document document = DocumentHelper.parseText(xml);
-        Element elementTemplate = document.getRootElement();  
-        Element ResultInfo = (Element)elementTemplate.selectSingleNode("//ResultInfo"); 
-        Element code = (Element)elementTemplate.selectSingleNode("//code"); 
+        Element elementTemplate = document.getRootElement();
+        Element ResultInfo = (Element)elementTemplate.selectSingleNode("//ResultInfo");
+        Element code = (Element)elementTemplate.selectSingleNode("//code");
 
 		if(ResultInfo != null && code != null){
 			String errorCode = elementTemplate.elementText("code");
 			if(errorCode != null && errorCode.equals("201"))
 				return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	/**
 	 * 写信、回复、全部回复、转发
 	 */
+	@Override
 	public String sendMail(String yjid, String yhm, String fsrxm, String sjrxm,
 			String sjrdm, String csrxm, String csrdm, String title,
 			String content, String type, String sign,String apptoken) {
-		if(!ApptokenUtils.compare(yhm, apptoken))
+		if(!ApptokenUtils.compare(yhm, apptoken)) {
 			return "app_token error";
+		}
 		try {
 			yjid  		= CodeUtil.decode(yjid, apptoken);
 			yhm  		= CodeUtil.decode(yhm, apptoken);
@@ -330,13 +337,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			content  	= CodeUtil.decode(content, apptoken);
 			type  		= CodeUtil.decode(type, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().sendMail(yjid, yhm, fsrxm,
 				sjrxm, sjrdm, csrxm, csrdm, title, content, type, sign);
@@ -345,7 +352,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 					+"csrdm="+csrdm+"title="+title+"content="+content+"type="+type+"sign="+sign);
 			logger.error("调用sendMail写信、回复、全部回复、转发返回为："+str);
 		}
-		
+
 		/*try {
 			if(containErrorCode(str)){
 				WSPushMsg msg =new WSPushMsg();
@@ -365,13 +372,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			    Map<String, String> map = new HashMap<String, String>();
 			    map.put("func_type", "302");
 			    msg.setExtras(map);
-			    
+
 				String appType = SubSystemHolder.getPropertiesValue("appType");
 				appType = StringUtil.isEmpty(appType) ? "YDXY" : appType;
 				msg.setAppType(appType);
 				logger.error("sendMail Iwspushservice,infomationis , appType :" + msg.getAppType()+",content:"+ msg.getTsnr());
 				//msg.setExtras(new HashMap<String, String>());
-				
+
 				JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
 				factory.setServiceClass(IWSPushServicePortType.class);
 				factory.setAddress(WebServiceConf.SERVICE_PUSHMOBILESERVICE);//接口地址
@@ -379,36 +386,37 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 				factory.getOutInterceptors().add(new LoggingOutInterceptor());
 
 				IWSPushServicePortType service = (IWSPushServicePortType) factory.create();
-				
+
 				String str2 =service.push(JSONObject.fromObject(msg).toString(), Encrypt.encrypt(JSONObject.fromObject(msg)+"zfsoft_ydxy"));
-				
-				
+
+
 			}
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}*/
-		
-		
-		
+
+
+
 		return str;
 	}
 
 	/**
 	 * 获取收件人、抄送人根结构
 	 */
+	@Override
 	public String getFirstDepInfo(String yhm, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getFirstDepInfo(yhm, sign);
 		if(infromation.equals("0")){
@@ -417,10 +425,11 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 获取子级收件人、抄送人根结构
 	 */
+	@Override
 	public String getDepAndUserByDepNum(String yhm, String depnum,
 			String depname, String sum, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
@@ -431,14 +440,14 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			depname  	= CodeUtil.decode(depname, apptoken);
 			sum  		= CodeUtil.decode(sum, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getDepAndUserByDepNum(yhm,
 				depnum, depname, sum, sign);
@@ -452,6 +461,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * 搜索联系人
 	 */
+	@Override
 	public String getDepAndUserInfoForSearch(String yhm, String name,
 			String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
@@ -460,12 +470,12 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			name  		= CodeUtil.decode(name, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
-		
+		}
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getDepAndUserInfoForSearch(yhm,
 				name, sign);
@@ -475,23 +485,24 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 获取新邮件消息
 	 */
+	@Override
 	public String getNewMailCount(String yhm, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
-		
-		
+		}
+
+
 		String str=null;
 		str =WebServiceUtil.createServiceOa().getNewMailCount(yhm, sign);
 		if(infromation.equals("0")){
@@ -500,10 +511,11 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 保存到草稿箱
 	 */
+	@Override
 	public String saveToDraft(String yjid, String yhm, String fsrxm,
 			String sjrxm, String sjrdm, String csrxm, String csrdm,
 			String title, String content, String sign,String apptoken) {
@@ -520,13 +532,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			title  		= CodeUtil.decode(title, apptoken);
 			content  	= CodeUtil.decode(content, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().saveToDraft(yjid, yhm, fsrxm,
 				sjrxm, sjrdm, csrxm, csrdm, title, content, sign);
@@ -537,10 +549,11 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 获取草稿邮件
 	 */
+	@Override
 	public String getDraftInfoById(String yhm, String yjid, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
@@ -548,13 +561,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			yjid  		= CodeUtil.decode(yjid, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getDraftInfoById(yhm, yjid,
 				sign);
@@ -568,6 +581,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * 获取通讯录详情
 	 */
+	@Override
 	public String getAddressInfo(String yhm, String yhid, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
@@ -575,13 +589,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			yhid  		= CodeUtil.decode(yhid, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getAddressInfo(yhm, yhid, sign);
 		if(infromation.equals("0")){
@@ -594,6 +608,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * 待办事宜列表
 	 */
+	@Override
 	public String getTodoTaskList(String yhm, String start, String size,
 			String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
@@ -603,13 +618,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getTodoTaskList(yhm,
 				Integer.valueOf(start), Integer.valueOf(size), sign);
@@ -619,10 +634,11 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 添加办公日程
 	 */
+	@Override
 	public String addSchedule(String yhm, String zt, String date,
 			String starttime, String endtime, String content, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
@@ -635,13 +651,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			endtime  	= CodeUtil.decode(endtime, apptoken);
 			content  	= CodeUtil.decode(content, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().addSchedule(yhm, zt, date,
 				starttime, endtime, content, sign);
@@ -656,19 +672,20 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * 办公日程共享人列表详情
 	 */
+	@Override
 	public String getSharePerson(String yhm, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getSharePerson(yhm, sign);
 		if(infromation.equals("0")){
@@ -677,10 +694,11 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 通知公告列表获取
 	 */
+	@Override
 	public String getNoticeList(String yhm, String type,String start, String size,
 			String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
@@ -691,13 +709,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		if(start.equals("0")){
 			start="1";
 		}
@@ -711,13 +729,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			factory.getOutInterceptors().add(new LoggingOutInterceptor());
 
 			IWSSerServicePortType service = (IWSSerServicePortType) factory.create();
-			
+
 			str =service.getNoticeList(yhm, type, start, size);
 		}else{
 			str=WebServiceUtil.createServiceOa().getNoticeList(yhm,type,
 					Integer.valueOf(start), Integer.valueOf(size), sign);
 		}
-		
+
 		if(infromation.equals("0")){
 			logger.error("调用getNoticeList通知公告列表获取："+"yhm="+yhm+"type="+type+"start="+start+"size="+size+"sign="+sign);
 			logger.error("调用getNoticeList通知公告列表获取返回为："+str);
@@ -727,6 +745,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * 获取通讯录列表
 	 */
+	@Override
 	public String getAddressList(String yhm, String updatetime, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
@@ -734,13 +753,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			updatetime  = CodeUtil.decode(updatetime, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getAddressList(yhm, updatetime,
 				sign);
@@ -750,10 +769,11 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 删除办公日程
 	 */
+	@Override
 	public String deleteSchedule(String yhm, String id, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
@@ -761,13 +781,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().deleteSchedule(yhm, id, sign);
 		if(infromation.equals("0")){
@@ -780,6 +800,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * 办公日程列表详情
 	 */
+	@Override
 	public String getScheduleList(String yhm, String yhid, String start,
 			String size, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
@@ -790,13 +811,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getScheduleList(yhm, yhid,
 				Integer.valueOf(start), Integer.valueOf(size), sign);
@@ -809,6 +830,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * 办公日程详情
 	 */
+	@Override
 	public String getScheduleInfo(String yhm, String id, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
@@ -816,13 +838,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getScheduleInfo(yhm, id, sign);
 		if(infromation.equals("0")){
@@ -831,10 +853,11 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 我的会议、全体会议列表获取
 	 */
+	@Override
 	public String getNewConferenceList(String yhm, String type, String start,
 			String size, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
@@ -845,13 +868,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str =WebServiceUtil.createServiceOa().getNewConferenceList(yhm, type,
 				Integer.valueOf(start), Integer.valueOf(size), sign);
@@ -864,6 +887,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * 获取我的会议、全体会议详情
 	 */
+	@Override
 	public String getConferenceInfo(String yhm, String id, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
@@ -871,13 +895,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa()
 		.getConferenceInfo(yhm, id, sign);
@@ -891,6 +915,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * 通知公告详情
 	 */
+	@Override
 	public String getNoticeInfo(String yhm, String id, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
@@ -898,13 +923,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		String isXiBei = Config.getString("isxibei");
 		if(!StringUtil.isEmpty(isXiBei) && isXiBei.equals("yes")){
@@ -915,32 +940,32 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			factory.getOutInterceptors().add(new LoggingOutInterceptor());
 
 			IWSSerServicePortType service = (IWSSerServicePortType) factory.create();
-			
+
 			str =service.getNoticeInfo(id);
 		}else{
 			str=WebServiceUtil.createServiceOa().getNoticeInfo(yhm, id, sign);
-			
+
 		}
-		
+
 		if(infromation.equals("0")){
 			logger.error("调用getConferenceInfo通知公告详情："+"yhm="+yhm+"id="+id+"sign="+sign);
 			logger.error("调用getConferenceInfo通知公告详情返回为："+str);
 		}
 		return str;
 	}
-
+	@Override
 	public String getSignKey(String key,String apptoken) {
 		if(!ApptokenUtils.compare(apptoken))
 			return "app_token error";
 		try {
 			key  		= CodeUtil.decode(key, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str =WebServiceUtil.createServiceOa().getSignKey(key);
 		if(infromation.equals("0")){
@@ -953,19 +978,20 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * OA登入
 	 */
+	@Override
 	public String checkLogin(String yhm, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().checkLogin(yhm, sign);
 		if(infromation.equals("0")){
@@ -979,18 +1005,19 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	 * OA附件下载
 	 */
 	@SuppressWarnings("unchecked")
+	@Override
 	public String getFileModel(String id,String apptoken) {
 		if(!ApptokenUtils.compare(apptoken))
 			return "app_token error";
 		try {
 			id  		= CodeUtil.decode(id, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
-		
-		
+		}
+
+
 		String zfxml = "";
 		File f = new File(this.getClass().getResource("/").getPath());
 		String url = f.getPath().split("WEB-INF")[0] + "upload//";
@@ -1042,6 +1069,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * 待办事宜提交
 	 */
+	@Override
 	public String doSubmitFlow(String yhm, String id, String nextid,
 			String nextuser, String comment, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
@@ -1053,14 +1081,14 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			nextuser  	= CodeUtil.decode(nextuser, apptoken);
 			comment  	= CodeUtil.decode(comment, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().doSubmitFlow(yhm, id, nextid,
 				nextuser, comment, sign);
@@ -1074,6 +1102,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * 待办事宜详情
 	 */
+	@Override
 	public String getTableInfo(String yhm, String id, String tablename,
 			String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
@@ -1083,14 +1112,14 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			id  		= CodeUtil.decode(id, apptoken);
 			tablename  	= CodeUtil.decode(tablename, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str =WebServiceUtil.createServiceOa().getTableInfo(yhm, id,
 				tablename, sign);
@@ -1104,6 +1133,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	/**
 	 * 待办事宜提交认证
 	 */
+	@Override
 	public String doSubmitBefore(String yhm, String id, String sign,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
@@ -1111,14 +1141,14 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().doSubmitBefore(yhm, id, sign);
 		if(infromation.equals("0")){
@@ -1147,14 +1177,14 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			ftfs  		= CodeUtil.decode(ftfs, apptoken);
 			zid  		= CodeUtil.decode(zid, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().doSubmitFlowone(yhm, id,
 				nextid, nextuser, comment, tablename, ftzd, ftfs, zid, sign);
@@ -1163,7 +1193,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 					+"tablename="+tablename+"ftzd="+ftzd+"ftfs="+ftfs+"zid="+zid+"sign="+sign);
 			logger.error("调用doSubmitFlowNew待办事宜提交新方法返回为："+str);
 		}
-		
+
 		/*try {
 			if(containErrorCode(str) && !StringUtil.isEmpty(nextuser)){
 				WSPushMsg msg =new WSPushMsg();
@@ -1184,7 +1214,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 				Map<String, String> map = new HashMap<String, String>();
 			    map.put("func_type", "306");
 			    msg.setExtras(map);
-				
+
 				JaxWsProxyFactoryBean factory = new JaxWsProxyFactoryBean();
 				factory.setServiceClass(IWSPushServicePortType.class);
 				factory.setAddress(WebServiceConf.SERVICE_PUSHMOBILESERVICE);//接口地址
@@ -1192,18 +1222,18 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 				factory.getOutInterceptors().add(new LoggingOutInterceptor());
 
 				IWSPushServicePortType service = (IWSPushServicePortType) factory.create();
-				
+
 				String str2 =service.push(JSONObject.fromObject(msg).toString(), Encrypt.encrypt(JSONObject.fromObject(msg)+"zfsoft_ydxy"));
-				
-				
+
+
 			}
 		} catch (DocumentException e) {
 			e.printStackTrace();
 		}*/
-		
+
 		return str;
 	}
-	
+
 	/**
 	 * 获取待办事宜详情
 	 * @param yhm
@@ -1218,17 +1248,17 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getFlowInfo(yhm, id, sign);
-		
+
 		if(infromation.equals("0")){
 			logger.error("调用getFlowInfo获取待办事宜详情："+"yhm="+yhm+"id="+id+"sign="+sign);
 			logger.error("调用getFlowInfo获取待办事宜详情返回为："+str);
@@ -1252,14 +1282,14 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		// TODO 获取用户权限
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getSendInfo(yhm, sign);
@@ -1286,14 +1316,14 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		// TODO 公告类别
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getNoticType(yhm, sign);
@@ -1322,14 +1352,14 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		// TODO 检测待办事宜是否可以退回
 		String str=null;
 		str=WebServiceUtil.createServiceOa().doBackBefore(yhm, id, sign);
@@ -1350,7 +1380,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 	 *
 	 * @since 2014-12-16 下午02:35:29
 	 * @author yangz
-	 */ 
+	 */
 	@Override
 	public String getdoBackFlow(String yhm, String id, String comment,
 			String sign,String apptoken) {
@@ -1361,8 +1391,8 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			id  		= CodeUtil.decode(id, apptoken);
 			comment  	= CodeUtil.decode(comment, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -1399,14 +1429,14 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  	= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		int start1=Integer.valueOf(start);
 		int size1=Integer.valueOf(size);
@@ -1437,14 +1467,14 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getMeetNoticeInfo(yhm, id, sign);
 		if(infromation.equals("0")){
@@ -1471,14 +1501,14 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getLdcyyjbList(yhm,sign);
 		if(infromation.equals("0")){
@@ -1510,14 +1540,14 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getDoneTaskList(yhm,
 				Integer.valueOf(start), Integer.valueOf(size), sign);
@@ -1527,7 +1557,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * <p>Description: 获取办结事宜列表</p>
 	 * @param yhm
@@ -1546,14 +1576,14 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
-			
+
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getSoluteTaskList(yhm,
 				Integer.valueOf(start), Integer.valueOf(size), sign);
@@ -1575,13 +1605,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			id  		= CodeUtil.decode(id, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
 			type  		= CodeUtil.decode(type, apptoken);
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().updateMailXbByID(yhm, id, type,
 				sign);
@@ -1601,7 +1631,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1629,7 +1659,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1659,7 +1689,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1689,7 +1719,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1718,7 +1748,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			rznr  		= CodeUtil.decode(rznr, apptoken);
 			rq  		= CodeUtil.decode(rq, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1727,7 +1757,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		String result = "";
 		// 调用WebService
-		
+
 		result=WebServiceUtil.createServiceOa().saveGzrzb(yhm, rznr, rq, sign);
 		if(infromation.equals("0")){
 			logger.error("移动端新增工作日志返回为："+result);
@@ -1748,7 +1778,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1763,8 +1793,8 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return result;
 	}
-	
-	
+
+
 	public String getMessageText(String xml){
 		Document document = null;
 		try {
@@ -1773,10 +1803,10 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			logger.error("移动端ldap认证及ＯＡ认证： err:");
 			logger.error(e, e.fillInStackTrace());
 		}
-        Element elementTemplate = document.getRootElement();  
-        Element ResultInfo = (Element)elementTemplate.selectSingleNode("//ResultInfo"); 
-        Element code = (Element)elementTemplate.selectSingleNode("//code"); 
-        Element message = (Element)elementTemplate.selectSingleNode("//message"); 
+        Element elementTemplate = document.getRootElement();
+        Element ResultInfo = (Element)elementTemplate.selectSingleNode("//ResultInfo");
+        Element code = (Element)elementTemplate.selectSingleNode("//code");
+        Element message = (Element)elementTemplate.selectSingleNode("//message");
 
 		if(ResultInfo != null && code != null){
 			String errorCode = elementTemplate.elementText("code");
@@ -1786,7 +1816,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 				return null;
 		}
 		return null;
-		
+
 	}
 
 
@@ -1809,25 +1839,25 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		if(infromation.equals("0")){
 			logger.error("移动端ldap认证及ＯＡ认证返回为："+result);
 		}
-		
+
 		String username = getMessageText(result);
-		
+
 		if(!StringUtil.isEmpty(username)){
 			if(infromation.equals("0")){
 				logger.error("获取登陆接口：");
 			}
-			
-			
-			JaxWsProxyFactoryBean bean = new JaxWsProxyFactoryBean();  
-	        bean.setServiceClass(IWSSerService.class);  
-	        bean.setAddress(WebServiceConf.SERVICE_NEWMOBILESERVICE);  
-	        IWSSerService helloWorldService = (IWSSerService)bean.create();  
-	        result = helloWorldService.login(username, pw, "WYNn2rNOtkuMGGlPrFSaMB0rQoBUmssS",null);  
-			
+
+
+			JaxWsProxyFactoryBean bean = new JaxWsProxyFactoryBean();
+	        bean.setServiceClass(IWSSerService.class);
+	        bean.setAddress(WebServiceConf.SERVICE_NEWMOBILESERVICE);
+	        IWSSerService helloWorldService = (IWSSerService)bean.create();
+	        result = helloWorldService.login(username, pw, "WYNn2rNOtkuMGGlPrFSaMB0rQoBUmssS",null);
+
 			if(infromation.equals("0")){
 			logger.error("登陆接口返回为："+result);
 			}
-			
+
 //			JaxWsProxyFactoryBean factory1 = new JaxWsProxyFactoryBean();
 //			factory1.setServiceClass(IWSSerServicePortType.class);
 //			factory1.setAddress(WebServiceConf.SERVICE_NEWMOBILESERVICE);//接口地址
@@ -1835,13 +1865,13 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 //			factory1.getOutInterceptors().add(new LoggingOutInterceptor());
 //
 //			IWSSerServicePortType service1 = (IWSSerServicePortType) factory1.create();
-//			
+//
 //			result =service1.login(username, pw, "WYNn2rNOtkuMGGlPrFSaMB0rQoBUmssS");
-//			
+//
 //			if(infromation.equals("0")){
 //				logger.error("登陆接口返回为："+result);
 //			}
-			
+
 		}
 		return result;
 	}
@@ -1860,7 +1890,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1889,7 +1919,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			kssj  		= CodeUtil.decode(kssj, apptoken);
 			jssj  		= CodeUtil.decode(jssj, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1901,9 +1931,9 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			logger.error("调用getLdhyhdList获取领导会议安排列表："+str);
 		}
 		return str;
-	
+
 	}
-	
+
 	@Override
 	public String confirmWjcy(String yhm,String id,String nr,String sign,String apptoken){
 		if(!ApptokenUtils.compare(yhm, apptoken))
@@ -1914,7 +1944,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			if(nr==null||"".equals(nr)){
 				nr = "内容为空！";
 			}else{
-				nr = CodeUtil.decode(nr,apptoken);				
+				nr = CodeUtil.decode(nr,apptoken);
 			}
 			sign = CodeUtil.decode(sign,apptoken);
 		} catch (Exception e) {
@@ -1924,7 +1954,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		IOaMobileService ims =  mxs.getOaMobileServiceImplPort();
 		String result = ims.confirmWjcy(yhm, id, nr, sign);
 		return result;*/
-		
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().confirmWjcy(yhm, id, nr, sign);
 		if(infromation.equals("0")){
@@ -1945,7 +1975,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1973,7 +2003,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -1999,7 +2029,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			eid  		= CodeUtil.decode(eid, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2026,7 +2056,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start  		= CodeUtil.decode(start, apptoken);
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2052,7 +2082,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			eid  		= CodeUtil.decode(eid, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2078,7 +2108,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2090,7 +2120,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	public static void main(String[] args) {
 		String result = "";
 		// 调用WebService
@@ -2112,7 +2142,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2138,7 +2168,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			zfdx  		= CodeUtil.decode(zfdx, apptoken);
 			yxqx  		= CodeUtil.decode(yxqx, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -2150,8 +2180,8 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
-	
+
+
 	/**
 	 * <p>Description:确认会议是否出席</p>
 	 * @param yhm 当前登录的用户名
@@ -2188,7 +2218,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * <p>Description:获取会议通知列表</p>
 	 * @param yhm 当前登录的用户名
@@ -2221,7 +2251,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		}
 		return str;
 	}
-	
+
 	/**
 	 * <p>Description:附件上传</p>
 	 * @param yhm 当前登录的用户名(加密)
@@ -2253,8 +2283,8 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}*/
-		
-		
+
+
 		String str=null;
 		str = WebServiceUtil.createServiceOa().fjUploadByType(yhm, "", file.getName(), "mail", file, sign);
 		if(infromation.equals("0")){
@@ -2277,12 +2307,12 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			size  		= CodeUtil.decode(size, apptoken);
 			sign  		= CodeUtil.decode(sign, apptoken);
 			cond  		= CodeUtil.decode(cond, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getMailListByTypeAndCond(yhm, "4",
 				Integer.valueOf(start), Integer.valueOf(size),sign, cond);
@@ -2306,8 +2336,8 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().doBackBeforeByReturnNode(yhm, id, sign);
 		if(infromation.equals("0")){
@@ -2334,8 +2364,8 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().doBackFlowByReturnNode(yhm, id, returnNode, returnSfsfh, comment, sign);
 		if(infromation.equals("0")){
@@ -2360,8 +2390,8 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-		
+
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getCurrentSectionFiled(yhm, id, tableName, zid, sign);
 		if(infromation.equals("0")){
@@ -2377,7 +2407,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			String tableName, String paramJson, String sign, String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
-		
+
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
@@ -2387,7 +2417,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().updateCurrentSectionFiled(yhm, id, tableName, paramJson, sign);
 		if(infromation.equals("0")){
@@ -2404,7 +2434,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			String ftfs, String zid, String sign, String sffsdx,String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
-		
+
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
@@ -2417,11 +2447,11 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			zid  	    = CodeUtil.decode(zid, apptoken);
 			sign  	    = CodeUtil.decode(sign, apptoken);
 			sffsdx  	    = CodeUtil.decode(sffsdx, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().doSubmitFlowoneNew(yhm, id, nextid, nextuser, comment, tablename, ftzd, ftfs, zid, sign, sffsdx);
 		if(infromation.equals("0")){
@@ -2437,7 +2467,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
-		
+
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			type  		= CodeUtil.decode(type, apptoken);
@@ -2445,11 +2475,11 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start = CodeUtil.decode(start, apptoken);
 			size  	    = CodeUtil.decode(size, apptoken);
 			sign  	    = CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getConferenceNoticeListAndCond(yhm, type, check, Integer.valueOf(start), Integer.valueOf(size), sign);
 		if(infromation.equals("0")){
@@ -2464,7 +2494,7 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			String start, String size, String sign, String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
-		
+
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			type  		= CodeUtil.decode(type, apptoken);
@@ -2472,11 +2502,11 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			start = CodeUtil.decode(start, apptoken);
 			size  	    = CodeUtil.decode(size, apptoken);
 			sign  	    = CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getNoticeListAndCond(yhm, type, check, Integer.valueOf(start), Integer.valueOf(size), sign);
 		if(infromation.equals("0")){
@@ -2491,18 +2521,18 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			String size, String sign, String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
-		
+
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			type  		= CodeUtil.decode(type, apptoken);
 			start = CodeUtil.decode(start, apptoken);
 			size  	    = CodeUtil.decode(size, apptoken);
 			sign  	    = CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getFfwjList(yhm, type, Integer.valueOf(start), Integer.valueOf(size), sign);
 		if(infromation.equals("0")){
@@ -2517,17 +2547,17 @@ public class EmailInformationXMLService implements IEmailInformationXMLService {
 			String apptoken) {
 		if(!ApptokenUtils.compare(yhm, apptoken))
 			return "app_token error";
-		
+
 		try {
 			yhm  		= CodeUtil.decode(yhm, apptoken);
 			id  		= CodeUtil.decode(id, apptoken);
 			type  		= CodeUtil.decode(type, apptoken);
 			sign  	    = CodeUtil.decode(sign, apptoken);
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		String str=null;
 		str=WebServiceUtil.createServiceOa().getZxgwInfoById(yhm, id, type, sign);
 		if(infromation.equals("0")){

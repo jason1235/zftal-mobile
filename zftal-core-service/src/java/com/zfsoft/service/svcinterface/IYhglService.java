@@ -191,8 +191,5 @@ public interface IYhglService extends BaseService<YhglModel> {
 
 	public YhxxbModel getYhxxModel(YhxxbModel yhModel);
 
-	public boolean jbyh(YhglModel model);
-
-	
 	//public List<YhxxbModel> getYhxxbPagedListByMap(Map<String, Object> params);
 }

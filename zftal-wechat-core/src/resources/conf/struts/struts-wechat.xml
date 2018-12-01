@@ -51,7 +51,6 @@
       <result name="login">/WEB-INF/pages/wechat/login/login_page.jsp</result>
       <result name="gotoReLoad">/WEB-INF/pages/wechat/login/login_gotoReLoad.jsp</result>
     </action>
-  
   	<action name="menu_*" class="qqMenuAction" method="{1}" >
       <result name="list">/WEB-INF/pages/qq/menu/menu_list.jsp</result>
     </action>

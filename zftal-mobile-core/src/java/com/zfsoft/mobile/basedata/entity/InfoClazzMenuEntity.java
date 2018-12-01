@@ -3,7 +3,7 @@ package com.zfsoft.mobile.basedata.entity;
 import java.util.ArrayList;
 import java.util.List;
 
-//import com.sun.xml.internal.xsom.impl.scd.Iterators.Map;
+import com.sun.xml.internal.xsom.impl.scd.Iterators.Map;
 
 public class InfoClazzMenuEntity {
 

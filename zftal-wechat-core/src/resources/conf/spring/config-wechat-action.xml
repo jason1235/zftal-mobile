@@ -13,7 +13,6 @@
     <bean id="wechatLoginAction" class="com.zfsoft.wechat.login.action.WeChatLoginAction" scope="prototype">
       <property name="wechatLoginService" ref="wechatLoginService"/>
       <property name="weChatBsnsService" ref="weChatBsnsService"/>
-      
     </bean>
     
     <bean id="wechatMenuAction" class="com.zfsoft.wechat.menu.action.WeChatMenuAction" scope="prototype">

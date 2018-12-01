@@ -1,0 +1,13 @@
+[INFO ] 2016-09-28 15:16:13,363 com.zfsoft.wechat.common.utils.WeChatCommonUtil     - httpsRequest START
+[INFO ] 2016-09-28 15:16:13,365 com.zfsoft.wechat.common.utils.WeChatCommonUtil     - ####REQUEST_URL: http://10.71.33.72:8088/zftal-mobile/oauth2/authorize/authorize_libraryAdd?access_token=1de9061ab1527b129914c228af0699cc
+[ERROR] 2016-09-28 15:16:13,433 com.zfsoft.wechat.common.utils.WeChatCommonUtil     - https request error:{}
+java.lang.ClassCastException: sun.net.www.protocol.http.HttpURLConnection cannot be cast to javax.net.ssl.HttpsURLConnection
+	at com.zfsoft.wechat.common.utils.WeChatCommonUtil.httpsRequest(WeChatCommonUtil.java:50)
+	at com.zfsoft.wechat.common.utils.WeChatCommonUtil.main(WeChatCommonUtil.java:105)
+[INFO ] 2016-09-28 15:19:07,806 com.zfsoft.wechat.common.utils.WeChatCommonUtil     - httpsRequest START
+[INFO ] 2016-09-28 15:19:07,807 com.zfsoft.wechat.common.utils.WeChatCommonUtil     - ####REQUEST_URL: http://10.71.33.72:8088/zftal-mobile/oauth2/authorize/authorize_libraryAdd?access_token=1de9061ab1527b129914c228af0699cc
+[ERROR] 2016-09-28 15:19:07,843 com.zfsoft.wechat.common.utils.WeChatCommonUtil     - https request error:{}
+java.net.ProtocolException: Invalid HTTP method: post
+	at java.net.HttpURLConnection.setRequestMethod(HttpURLConnection.java:339)
+	at com.zfsoft.wechat.common.utils.WeChatCommonUtil.httpRequest(WeChatCommonUtil.java:119)
+	at com.zfsoft.wechat.common.utils.WeChatCommonUtil.main(WeChatCommonUtil.java:168)

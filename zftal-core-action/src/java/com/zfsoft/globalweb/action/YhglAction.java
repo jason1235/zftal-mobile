@@ -327,28 +327,6 @@ public class YhglAction extends BaseAction implements ModelDriven<YhglModel> {
 		
 	}
 	
-	public void jbyh(){
-		Map<String,Object> result = new HashMap<String,Object>();
-		HttpServletResponse response = ServletActionContext.getResponse();
-		response.setContentType("text/html");
-		response.setCharacterEncoding("utf-8");
-		PrintWriter out = null;
-		try {
-			out = response.getWriter();
-			boolean flag = yhglService.jbyh(model);
-			if(flag){
-				result.put("status","success");
-				result.put("msg","解绑用户成功");
-			}else{
-				result.put("status","fail");
-				result.put("msg","解绑用户失败");
-			}
-		}catch(Exception e){
-			e.printStackTrace();
-		} 
-		out.write(JSONObject.fromObject(result).toString());
-	}
-	
 	
 	public String bdsbh(){
 		

@@ -5,6 +5,7 @@ import java.io.InputStream;
 
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.apache.log4j.Logger;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
@@ -333,7 +334,6 @@ public class MobileLoginXMLService implements IMobileLoginXMLService{
 	public String Login(String userName, String passWord, String strKey,String status) {
 		// TODO Auto-generated method stub
 		
-		
 		String str=null;
 		if(infromation.equals("0")){
 			logger.error("获取登陆接口："+"userName="+"\n"+userName+"passWord="+"\n"+passWord+"strKey="+"\n"+strKey);
@@ -343,13 +343,11 @@ public class MobileLoginXMLService implements IMobileLoginXMLService{
 //		factory.setAddress(WebServiceConf.SERVICE_NEWMOBILESERVICE);//接口地址
 //		factory.getInInterceptors().add(new LoggingInInterceptor());
 //		factory.getOutInterceptors().add(new LoggingOutInterceptor());
-//
 //		IWSSerServicePortType service = (IWSSerServicePortType) factory.create();
-//		
 //		str =service.login(userName, passWord, strKey);
 		
 		JaxWsProxyFactoryBean bean = new JaxWsProxyFactoryBean();  
-        bean.setServiceClass(IWSSerService.class);  
+        bean.setServiceClass(IWSSerService.class);
         bean.setAddress(WebServiceConf.SERVICE_NEWMOBILESERVICE);  
         IWSSerService helloWorldService = (IWSSerService)bean.create();  
         str = helloWorldService.login(userName, passWord,"WYNn2rNOtkuMGGlPrFSaMB0rQoBUmssS",status);  

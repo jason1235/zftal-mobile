@@ -74,6 +74,7 @@ import com.util.WebServiceUtil;
 import com.zfsoft.common.log.User;
 import com.zfsoft.common.spring.SpringHolder;
 import com.zfsoft.common.system.BaseHolder;
+import com.zfsoft.dao.daointerface.ILoginDao;
 import com.zfsoft.dao.entities.LoginModel;
 import com.zfsoft.dao.entities.YhglModel;
 import com.zfsoft.dao.entities.YhxxbModel;
@@ -223,6 +224,9 @@ public class WSSerServiceImpl implements IWSSerService {
     private IModuleService moduleService;
     private IInterfaceManagerService interfaceManagerService;
     private ILoginService loginService;
+   
+
+	private ILoginDao loginDao;
     private IBusinessService businessService;
     private IMyPortalService myPortalService;
     private INewsConfigService newsConfigService;
@@ -245,9 +249,16 @@ public class WSSerServiceImpl implements IWSSerService {
 	private IReportFixService reportFixService;
 	private IVoteService voteService;
 	private IYhglService yhglService;
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	private User user;
 	
-
-
 	
 	public IYhglService getYhglService() {
 		return yhglService;
@@ -399,6 +410,13 @@ public class WSSerServiceImpl implements IWSSerService {
 		return loginService;
 	}
 
+	 public ILoginDao getLoginDao() {
+			return loginDao;
+		}
+
+		public void setLoginDao(ILoginDao loginDao) {
+			this.loginDao = loginDao;
+		}
 	public void setLoginService(ILoginService loginService) {
 		this.loginService = loginService;
 	}
@@ -1487,7 +1505,6 @@ public class WSSerServiceImpl implements IWSSerService {
             	sb.append("<picPath>" + news.getRemotelogourl() + "</picPath>");
             	sb.append("<blogopath><![CDATA[" + news.getRemotelogourl() + "]]></blogopath>");
             }else{
-            	
             	sb.append("<logopath>");
             	if(!StringUtil.isEmpty(news.getPicId()) && !StringUtil.isEmpty(news.getPicUrl())){
             		String[] picIds = news.getPicId().split(",");
@@ -1501,8 +1518,7 @@ public class WSSerServiceImpl implements IWSSerService {
             				check = mobileCommonService.checkImage(picUrls[i], picIds[i]);
             			} catch (IOException e) {
             				e.printStackTrace();
-            			}finally{
-            				
+            			}finally{	
             			}
             			if(check)
             				sb.append("<logo><![CDATA[" + url + picUrls[i] + "]]></logo>");
@@ -1921,25 +1937,35 @@ public class WSSerServiceImpl implements IWSSerService {
 						return sb.toString();
 					}
 				}}
+			        String errNum= "";
 					boolean canLogin = false;
 					try {
+						errNum= loginDao.getErrNum(userName);
+						if(Integer.valueOf(errNum)>3){
+							sb.append("<ResultInfo><code>404</code><message>该用户已被锁定！</message></ResultInfo>");
+							return sb.toString();
+						}
 						canLogin = containErrorCode(zfxml);
 					} catch (DocumentException e) {
 						e.printStackTrace();
 					}
 					if(canLogin){
+						String a = (Integer.valueOf(errNum) + 1) + "";
+						loginDao.updateErrNum(userName);
+
 						sb.append("<ResultInfo><code>404</code><message>帐号或密码不正确！</message></ResultInfo>");
 						return sb.toString();
 					}else{
 						try {
+							String a = (Integer.valueOf(errNum) + 1) + "";
+							loginDao.updateErrNum(userName);
 							map = getMapValue(zfxml);//获取ca认证返回过来的值
 						} catch (DocumentException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 					}
-				
-				
+					
 				//System.out.println("--------setMm(null)---------");
 				if(!StringUtil.isEmpty(Config.getString("webservice.host.mh")) || 
 						!StringUtil.isEmpty(Config.getString("qymm"))){
@@ -1987,12 +2013,21 @@ public class WSSerServiceImpl implements IWSSerService {
 				loginService.updateStrKey(yhglModel);
 				
 				
-				
 				if (user != null) {
+//					if(!StringUtil.isEmpty(user.getErrNum()) && !user.getErrNum().equals("10")){
+//						sb.append("<ResultInfo><code>404</code><message>帐号已被锁定！</message></ResultInfo>");
+//						return sb.toString();
+//					}
 					if(!StringUtil.isEmpty(user.getSfqy()) && !user.getSfqy().equals("1")){
 						sb.append("<ResultInfo><code>404</code><message>帐号没有被启用！</message></ResultInfo>");
 						return sb.toString();
 					}
+					
+					if(!StringUtil.isEmpty(user.getErrNum()) && Integer.valueOf(user.getErrNum())>=10){
+						sb.append("<ResultInfo><code>404</code><message>帐号已被锁定！</message></ResultInfo>");
+						return sb.toString();
+					}
+					
 					String dqxnxq = "";
 					String loginXML = "";
 					if(!StringUtil.isEmpty(Config.getString("webservice.host.jw"))){

@@ -577,6 +577,11 @@ public class CommonHttp {
 							e.printStackTrace();
 						}
 					}
+					
+					
+					
+					
+					
 				}
 				logger.error("--------setMm(null)---------");
 				if(!StringUtil.isEmpty(Config.getString("webservice.host.mh")) || 
@@ -614,6 +619,14 @@ public class CommonHttp {
 						ResultEntity result = new ResultEntity<LoginEntity>(0, "用户没有被启用！", new LoginEntity());
 						return gson.toJson(result);
 					}
+					
+//					if(!StringUtil.isEmpty(user.getErrNum()) && Integer.valueOf(user.getErrNum())>=10){
+//						ResultEntity result = new ResultEntity<LoginEntity>(0, "用户被锁定！", new LoginEntity());
+//						return gson.toJson(result);
+//					}
+					
+					
+					
 					String dqxnxq = "";
 					String loginXML = "";
 					if(!StringUtil.isEmpty(Config.getString("webservice.host.jw"))){

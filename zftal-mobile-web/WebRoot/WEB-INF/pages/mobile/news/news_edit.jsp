@@ -199,13 +199,16 @@
             //});
 			
 			$("#save_btn").click(function(){
-			console.log("*********************");
+			
 				//var title=$("#form_edit").find("input[name='query.title']").val();
 				var title = $("#titleInput");
 				var source=$("#form_edit").find("input[name='query.source']").val();
 				var author=$("#form_edit").find("input[name='query.author']").val();
+				var newsTime=$("#form_edit").find("input[name='query.newsTime']").val();
 				var intro=$("#form_edit").find("input[name='query.intro']").val();
 				var ca = $("#catalog").val();
+				var reg =/^((?:19|20)\d\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/;
+                var regExp = new RegExp(reg);
 				
 				if(!isPic && title != null && title.val()==''){
 					errorAlert("请填写标题");
@@ -222,7 +225,18 @@
 					//errorAlert("请填写作者");
 					//return false;
 				}
-
+	
+				if(newsTime==''||newsTime==undefined||newsTime==null){
+					errorAlert("请填写时间");
+					window.parent.scroll(0,0);
+					return false;
+				}
+				else if(
+                !regExp.test(newsTime)){
+				errorAlert("日期格式不正确，正确格式为：2018-11-07");	
+				return false;
+                }else{
+				}
 				if(intro==''){
 					//errorAlert("请填写简介");
 					//return false;
@@ -343,8 +357,7 @@
             <table width="100%"  border="0" class="formlist" cellpadding="0" cellspacing="0" id="beanview">
                 
                 <tbody>
-                    <tr id="titleTr">
-                        
+                    <tr id="titleTr"> 
                         <th style="width:15%">
                             <span class="red">*</span>标题
                         </th>
@@ -372,8 +385,8 @@
                     </tr>
                     
                     <tr>
-                        <th>
-                            <span class="red"></span>时间
+                        <th style="width:15%">
+                            <span class="red">*</span>时间
                         </th>
                         <td>
                         <input type="text" name="query.newsTime" maxlength="50" placeholder="例如：2018-09-09" class="form-control" value="${model.newsTime }" />

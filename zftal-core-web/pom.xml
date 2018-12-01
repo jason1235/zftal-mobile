@@ -36,7 +36,6 @@
                 <configuration>
                     <webappDirectory>WebRoot</webappDirectory>
                     <warSourceDirectory>zftal-core-web</warSourceDirectory>
-                    <version>2.5</version>
                 </configuration>
             </plugin>
         </plugins>

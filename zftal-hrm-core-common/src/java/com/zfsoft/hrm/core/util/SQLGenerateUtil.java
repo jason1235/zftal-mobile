@@ -5,7 +5,7 @@ import java.util.Date;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 
-//import sun.tools.tree.StringExpression;
+import sun.tools.tree.StringExpression;
 
 import com.zfsoft.orcus.lang.TimeUtil;
 

@@ -6,7 +6,7 @@
     <!-- <cache type="org.mybatis.caches.memcached.MemcachedCache" /> -->
 	<!--通过用户名密码获取教师信息  -->
     <select id="getTeaxx" parameterType="LoginModel" resultType="hashmap">
-       select yh.zgh as ZGH,yh.xm as XM,yh.scdljsdm as scdljsdm,yh.sfqy as sfqy,yh.rylx as rylx,yh.deviceid as DEVICEID,yh.grade as GRADE
+       select yh.zgh as ZGH,yh.xm as XM,yh.scdljsdm as scdljsdm,yh.sfqy as sfqy,yh.err_num as errNum,yh.rylx as rylx,yh.deviceid as DEVICEID,yh.grade as GRADE
       <!-- ,yh.deviceid as DEVICEID,yh.grade as GRADE -->
 	               from zftal_xtgl_yhb yh 
 	               <where>
@@ -20,10 +20,20 @@
 			    	</where>	                       
     </select>
     
+    <select id="getErrNum" parameterType="String" resultType="String">
+        select yh.err_num from zftal_xtgl_yhb yh
+        where yh.zgh=#{yhm}
+    </select>
+    
+     <update id="updateErrNum" parameterType="String">
+        update zftal_xtgl_yhb yh set yh.err_num = (to_number(yh.err_num) +1)
+        where yh.zgh=#{yhm}
+    </update>
+    
     <!-- 通过用户名密码获取学生信息(语句需调整) -->
     <select id="getStuxx" parameterType="LoginModel" resultType="hashmap">
-    	select xx.xh,xx.xm,bm.bmdm_id,bm.bmmc
-	        from zftal_xtgl_xsmmb mm,zftal_xtgl_xsxxb xx,zftal_xtgl_bjdmb bj,zftal_xtgl_zydmb zy,zftal_xtgl_bmdmb bm
+    	select xx.xh,xx.xm,bm.bmdm_id,bm.bmmc,yh.err_num as errNum
+	        from zftal_xtgl_xsmmb mm,zftal_xtgl_xsxxb xx,zftal_xtgl_bjdmb bj,zftal_xtgl_zydmb zy,zftal_xtgl_bmdmb bm,zftal_xtgl_yhb yh
     	<where>
     		mm.xh=xx.xh and xx.bjdm_id=bj.bjdm_id and bj.zydm_id=zy.zydm_id and zy.bmdm_id_lsbm=bm.bmdm_id
     		<if test="yhm!=null">
@@ -34,6 +44,7 @@
     		</if>
     	</where>
     </select>
+    
     
     <!-- 例 -->
     <sql id="columnSql">
@@ -87,6 +98,9 @@
     		<if test="errlogin != null">
                 dlsbxx = #{errlogin},
             </if>
+            <if test="errNum != null">
+    			err_num = #{errNum},
+    		</if>
     	</set>
     	where zgh = #{zgh}
     </update>
@@ -207,7 +221,5 @@
 	<select id="getUserByDeviceidAndRylx" resultType="com.zfsoft.dao.entities.YhglModel">
     	select * from zftal_xtgl_yhb t where t.deviceid = #{deviceId} and rylx = #{lx}
     </select>
-	
-	
-	
+
 </mapper>

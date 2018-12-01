@@ -20,5 +20,4 @@
         delete from wx_yhbdb where bindid =#{bindId,jdbcType=VARCHAR} 
         or yhm =#{yhm,jdbcType=VARCHAR}
     </delete>
-
 </mapper>

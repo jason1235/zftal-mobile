@@ -26,6 +26,7 @@ public class User implements Serializable {
 	private String yhlx; //用户类型：student（学生）-teacher（老师）
 	private String bmdm_id; //部门代码
 	private String bmmc; //部门名称
+	private String errNum;//输错次数
 	//老师账户特别信息
 	private String gwjbdm; //岗位级别
 	private String gwjbmc; //级别名称
@@ -33,7 +34,7 @@ public class User implements Serializable {
 	private String fsJb;//附属级别[1]主用户:被附属,[0]副用户:附属于	
 	private List<String> jsdms; //角色列表
 	private String sfqy;//是否启用
-	
+
 	private String scdljsdm;//上次登陆角色代码
 	private List<Role> allRoles; //用户拥有的角色
 	
@@ -167,6 +168,13 @@ public class User implements Serializable {
 	}
 	public void setSfqy(String sfqy) {
 		this.sfqy = sfqy;
+	}	
+	public String getErrNum() {
+		return errNum;
+	}
+
+	public void setErrNum(String errNum) {
+		this.errNum = errNum;
 	}
 
 	public String getDeviceId() {

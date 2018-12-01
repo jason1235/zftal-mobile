@@ -429,7 +429,7 @@ public interface IMobileLoginXMLService {
 	public String Login(
 			@WebParam(name="userName") String userName,
 			@WebParam(name="passWord") String passWord,
-			@WebParam(name="strKey") String strKey,
+ 			@WebParam(name="strKey") String strKey,
 			@WebParam(name = "status")String status
 			);
 

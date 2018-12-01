@@ -5,6 +5,7 @@ import java.util.List;
 import com.zfsoft.dao.annotation.MyBatisBean;
 import com.zfsoft.dao.annotation.SQLField;
 import com.zfsoft.dao.annotation.Table;
+import com.zfsoft.hrm.dybillgrade.enums.GradeBusinessEnums;
 import com.zfsoft.util.jaxb.JaxbUtil;
 
 /**
@@ -52,7 +53,7 @@ public class SpBillGradeConfig  extends MyBatisBean{
 	
 	public String getBusinessCodeText() {
 		try{
-			return com.zfsoft.hrm.dybillgrade.enums.GradeBusinessEnums.valueOf(businessCode).getText();
+			return GradeBusinessEnums.valueOf(businessCode).getText();
 		}catch (Exception e) {
 			return "";
 		}
