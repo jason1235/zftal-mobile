@@ -35,9 +35,32 @@
 		<axis2.version>1.6.2</axis2.version>
 	</properties>
 	<dependencies>
-		<dependency>
+		<!--<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>zftal-core-manage</artifactId>
+		</dependency>-->
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>zftal-hrm-core</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>zftal-hrm-core-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>zftal-core-common</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>zftal-core-util</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 
 		<dependency>
@@ -345,127 +368,125 @@
 			<artifactId>axis2-transport-local</artifactId>
 			<version>${axis2.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>com.zfsoft</groupId>
+			<artifactId>zftal-middleware-core</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 
 
-
-
-
-
-
-
-
-
-        <!--
+		<!--
         <dependency>
-			<groupId>org.apache.axis</groupId>
-			<artifactId>axis</artifactId>
-			<version>${axis.version}</version>
-		</dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis</artifactId>
+            <version>${axis.version}</version>
+        </dependency>
         <dependency>
-			<groupId>org.apache.axis</groupId>
-			<artifactId>axis-jaxrpc</artifactId>
-			<version>${axis.version}</version>
-		</dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis-jaxrpc</artifactId>
+            <version>${axis.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>org.apache.axis</groupId>
-			<artifactId>axis-ant</artifactId>
-			<version>${axis.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis-ant</artifactId>
+            <version>${axis.version}</version>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
-			<version>1.4</version>
-		</dependency>
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.4</version>
+        </dependency>
 
-		<dependency>
-			<groupId>commons-configuration</groupId>
-			<artifactId>commons-configuration</artifactId>
-			<version>1.10</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>xerces</groupId>
-			<artifactId>xercesImpl</artifactId>
-			<version>2.2.1</version>
-		</dependency>
-
-
-		<dependency>
-			<groupId>org.apache.cxf</groupId>
-			<artifactId>apache-cxf</artifactId>
-			<version>2.3.3</version>
-		</dependency>
-
-		 <dependency>
-			<groupId>org.apache.bcel</groupId>
-			<artifactId>bcel</artifactId>
-			<version>5.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.neethi</groupId>
-			<artifactId>neethi</artifactId>
-			<version>2.0.4</version>
-		</dependency>
-
-		<dependency>
-			<groupId>wsdl4j</groupId>
-			<artifactId>wsdl4j</artifactId>
-			<version>1.6.2</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.codehaus.xfire</groupId>
-			<artifactId>xfire-core</artifactId>
-			<version>${xfire.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.codehaus.xfire</groupId>
-			<artifactId>xfire-aegis</artifactId>
-			<version>${xfire.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.codehaus.xfire</groupId>
-			<artifactId>xfire-annotations</artifactId>
-			<version>${xfire.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.codehaus.xfire</groupId>
-			<artifactId>xfire-java5</artifactId>
-			<version>${xfire.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.codehaus.xfire</groupId>
-			<artifactId>xfire-jaxb2</artifactId>
-			<version>${xfire.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.codehaus.xfire</groupId>
-			<artifactId>xfire-spring</artifactId>
-			<version>${xfire.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.codehaus.xfire</groupId>
-			<artifactId>xfire-xmlbeans</artifactId>
-			<version>${xfire.version}</version>
-		</dependency>
+        <dependency>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.10</version>
+        </dependency>
 
 
         <dependency>
-			<groupId>xfire</groupId>
-			<artifactId>xfire-jsr181-api</artifactId>
-			<version>1.0-M1</version>
-		</dependency>
-		-->
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>apache-cxf</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+
+         <dependency>
+            <groupId>org.apache.bcel</groupId>
+            <artifactId>bcel</artifactId>
+            <version>5.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.neethi</groupId>
+            <artifactId>neethi</artifactId>
+            <version>2.0.4</version>
+        </dependency>
+
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.xfire</groupId>
+            <artifactId>xfire-core</artifactId>
+            <version>${xfire.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.xfire</groupId>
+            <artifactId>xfire-aegis</artifactId>
+            <version>${xfire.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.xfire</groupId>
+            <artifactId>xfire-annotations</artifactId>
+            <version>${xfire.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.xfire</groupId>
+            <artifactId>xfire-java5</artifactId>
+            <version>${xfire.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.xfire</groupId>
+            <artifactId>xfire-jaxb2</artifactId>
+            <version>${xfire.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.xfire</groupId>
+            <artifactId>xfire-spring</artifactId>
+            <version>${xfire.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.xfire</groupId>
+            <artifactId>xfire-xmlbeans</artifactId>
+            <version>${xfire.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>xfire</groupId>
+            <artifactId>xfire-jsr181-api</artifactId>
+            <version>1.0-M1</version>
+        </dependency>
+        -->
 
 
 

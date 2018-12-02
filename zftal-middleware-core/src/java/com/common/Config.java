@@ -2,7 +2,6 @@ package com.common;
 
 
 
-import org.apache.commons.configuration.PropertiesConfiguration;
 
 /**
  * 读取配置文件信息类
@@ -29,8 +28,8 @@ public class Config {
 		}
 
 	}
-	
-	
+
+
 	protected static String getConfigFile(){
 		return DEFAULT_CONF_FILE;
 	}
