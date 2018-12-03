@@ -17,12 +17,12 @@ import com.zfsoft.framework.util.Constants;
 import com.zfsoft.sjzx.common.util.StringUtil;
 
 /**
- * @description£º¹¤¾ßÀà
+ * @descriptionï¼šå·¥å…·ç±»
  * @author dingsj
  */
 public class Tool {
-	
-	/**×Ö·û¼¯£¬ÓÃ»§ÖĞÎÄ×ªÆ´Òô*/
+
+	/**å­—ç¬¦é›†ï¼Œç”¨æˆ·ä¸­æ–‡è½¬æ‹¼éŸ³*/
 	private static String strChineseFirstPY = "YDYQSXMWZSSXJBYMGCCZQPSSQBYCDSCDQLDYLYBSSJGYZZJJFKCCLZDHWDWZJLJPFYYNWJJTMYHZWZHFLZPPQHGSCYYYNJQYXXGJ"
 			+ "HHSDSJNKKTMOMLCRXYPSNQSECCQZGGLLYJLMYZZSECYKYYHQWJSSGGYXYZYJWWKDJHYCHMYXJTLXJYQBYXZLDWRDJRWYSRLDZJPC"
 			+ "BZJJBRCFTLECZSTZFXXZHTRQHYBDLYCZSSYMMRFMYQZPWWJJYFCRWFDFZQPYDDWYXKYJAWJFFXYPSFTZYHHYZYSWCJYXSCLCXXWZ"
@@ -233,15 +233,15 @@ public class Tool {
 			+ "CYZYXYQMYQYLTDCYYYZAZZCYMZYDLZFFFMMYCQZWZZMABTBYZTDMNZZGGDFTYPCGQYTTSSFFWFDTZQSSYSTWXJHXYTSXXYLBYQHW"
 			+ "WKXHZXWZNNZZJZJJQJCCCHYYXBZXZCYZTLLCQXYNJYCYYCYNZZQYYYEWYCZDCJYCCHYJLBTZYYCQWMPWPYMLGKDLDLGKQQBGYCHJ"
 			+ "XY";
-	
+
 	private static Log log = LogFactory.getLog(Tool.class);
 
 	public static String sta_yhbh = "zf_zf123456";
 	public static String CSH_MM = "ZFsoft_123";
 
 	/**
-	 * »ñÈ¡32Î»guid
-	 * 
+	 * è·å–32ä½guid
+	 *
 	 * @return
 	 */
 	public static String get32bitsGuid() {
@@ -252,7 +252,7 @@ public class Tool {
 	}
 
 	/**
-	 * @description£º»ñÈ¡Ò»¸öID
+	 * @descriptionï¼šè·å–ä¸€ä¸ªID
 	 * @return
 	 * @author dingsj
 	 */
@@ -268,7 +268,7 @@ public class Tool {
 	}
 
 	/**
-	 * @description£º»ñÈ¡Ö¸¶¨¸ñÊ½µÄÏµÍ³Ê±¼ä
+	 * @descriptionï¼šè·å–æŒ‡å®šæ ¼å¼çš„ç³»ç»Ÿæ—¶é—´
 	 * @return
 	 * @author dingsj
 	 */
@@ -279,7 +279,7 @@ public class Tool {
 	}
 
 	/**
-	 * @description£º»ñÈ¡µ±Ç°µ±Ç°ÈÕÆÚÊ±¼ä
+	 * @descriptionï¼šè·å–å½“å‰å½“å‰æ—¥æœŸæ—¶é—´
 	 * @return
 	 * @author dingsj
 	 * @date 2014-11-26
@@ -291,11 +291,11 @@ public class Tool {
 	}
 
 	/**
-	 * @description£º½«¸ø¶¨µÄ×Ö·û´®ÀàĞÍµÄÊ±¼ä×ª»»³ÉÖ¸¶¨¸ñÊ½µÄÊ±¼ä
+	 * @descriptionï¼šå°†ç»™å®šçš„å­—ç¬¦ä¸²ç±»å‹çš„æ—¶é—´è½¬æ¢æˆæŒ‡å®šæ ¼å¼çš„æ—¶é—´
 	 * @param date
-	 *            Òª×ª»»µÄÊ±¼ä
+	 *            è¦è½¬æ¢çš„æ—¶é—´
 	 * @param format
-	 *            Ö¸¶¨µÄ¸ñÊ½
+	 *            æŒ‡å®šçš„æ ¼å¼
 	 * @return String
 	 * @author dingsj
 	 */
@@ -314,7 +314,7 @@ public class Tool {
 	}
 
 	/**
-	 * @description£º»ñÈ¡µ±Ç°ÈÕÆÚ£¬·µ»ØÊı¾İ¿âDateÀàĞÍ
+	 * @descriptionï¼šè·å–å½“å‰æ—¥æœŸï¼Œè¿”å›æ•°æ®åº“Dateç±»å‹
 	 * @return String
 	 * @author dingsj
 	 */
@@ -323,11 +323,11 @@ public class Tool {
 	}
 
 	/**
-	 * @description£º½«¸ø¶¨µÄ×Ö·û´®ÀàĞÍµÄÊ±¼ä×ª»»³ÉÊı¾İ¿âÀàĞÍµÄÊ±¼ä
+	 * @descriptionï¼šå°†ç»™å®šçš„å­—ç¬¦ä¸²ç±»å‹çš„æ—¶é—´è½¬æ¢æˆæ•°æ®åº“ç±»å‹çš„æ—¶é—´
 	 * @param date
-	 *            Òª×ª»»µÄÊ±¼ä
+	 *            è¦è½¬æ¢çš„æ—¶é—´
 	 * @param format
-	 *            Ö¸¶¨µÄ¸ñÊ½
+	 *            æŒ‡å®šçš„æ ¼å¼
 	 * @return String
 	 * @author dingsj
 	 */
@@ -348,9 +348,9 @@ public class Tool {
 	}
 
 	/**
-	 * @description£ºappKeyÉú³É²ßÂÔ
+	 * @descriptionï¼šappKeyç”Ÿæˆç­–ç•¥
 	 * @param count
-	 *            µ±ÌìÉêÇë¼ÇÂ¼ÌõÊı(0:µ±ÌìÃ»ÓĞÉêÇë¼ÇÂ¼)
+	 *            å½“å¤©ç”³è¯·è®°å½•æ¡æ•°(0:å½“å¤©æ²¡æœ‰ç”³è¯·è®°å½•)
 	 * @return
 	 * @author dingsj
 	 */
@@ -362,16 +362,16 @@ public class Tool {
 			temp = temp + (char) intValue;
 		}
 
-		/* µ±ÌìÃ»ÓĞÉêÇë¼ÇÂ¼ */
+		/* å½“å¤©æ²¡æœ‰ç”³è¯·è®°å½• */
 		if (count <= 0) {
 			return currentDate + temp + parseKey(1);
-		} else {/* µ±ÌìÓĞÉêÇë¼ÇÂ¼ */
+		} else {/* å½“å¤©æœ‰ç”³è¯·è®°å½• */
 			return currentDate + temp + parseKey(++count);
 		}
 	}
 
 	/**
-	 * @description£º½«appKeyÖĞµÄÊı¾İ×ª»»³É×ÖÄ¸
+	 * @descriptionï¼šå°†appKeyä¸­çš„æ•°æ®è½¬æ¢æˆå­—æ¯
 	 * @return
 	 * @author dingsj
 	 * @date 2015-1-8
@@ -390,12 +390,12 @@ public class Tool {
 	}
 
 	/**
-	 * @description£º´¦ÀíappkeyµÄºóÈıÎ»£¬²»×ãÈıÎ»µÄÓÃ0²¹³ä
+	 * @descriptionï¼šå¤„ç†appkeyçš„åä¸‰ä½ï¼Œä¸è¶³ä¸‰ä½çš„ç”¨0è¡¥å……
 	 * @param key
 	 * @return
 	 */
 	private static String parseKey(int key) {
-		/* ´¦ÀíappkeyµÄºóÈıÎ»£¬²»×ãÈıÎ»µÄÓÃ0²¹³ä */
+		/* å¤„ç†appkeyçš„åä¸‰ä½ï¼Œä¸è¶³ä¸‰ä½çš„ç”¨0è¡¥å…… */
 		if (key < 10) {
 			return "00" + key;
 		} else if (key < 100) {
@@ -406,8 +406,8 @@ public class Tool {
 	}
 
 	/**
-	 * ÅĞ¶Ï×Ö·û´®pÊÇ·ñÎª¿Õ
-	 * 
+	 * åˆ¤æ–­å­—ç¬¦ä¸²pæ˜¯å¦ä¸ºç©º
+	 *
 	 * @param p
 	 * @return
 	 */
@@ -420,8 +420,8 @@ public class Tool {
 	}
 
 	/**
-	 * Êä³ö¶ÔÏó
-	 * 
+	 * è¾“å‡ºå¯¹è±¡
+	 *
 	 * @param p
 	 * @return
 	 */
@@ -430,13 +430,13 @@ public class Tool {
 	}
 
 	/**
-	 * 
-	 * ¹¦ÄÜÃèÊö£º½«List×ª»»³É¶şÎ¬Êı×é ·µ»ØÒ»¸ö¶şÎ¬Êı×é ·½·¨Ãû:listToArray ·ÃÎÊÀà:Tool
-	 * 
+	 *
+	 * åŠŸèƒ½æè¿°ï¼šå°†Listè½¬æ¢æˆäºŒç»´æ•°ç»„ è¿”å›ä¸€ä¸ªäºŒç»´æ•°ç»„ æ–¹æ³•å:listToArray è®¿é—®ç±»:Tool
+	 *
 	 * @param datalist
 	 * @param txt
 	 * @return String[][]
-	 * 
+	 *
 	 */
 	public static String[][] listToArray(List<HashMap<String, String>> datalist, String[] txt) {
 		String[][] data;
@@ -457,13 +457,13 @@ public class Tool {
 	}
 
 	/**
-	 * 
-	 * ¹¦ÄÜÃèÊö£º½«List×ª»»³ÉÒ»Î¬Êı×é ·µ»ØÒ»¸öÒ»Î¬Êı×é ·½·¨Ãû:listToArray ·ÃÎÊÀà:Tool
-	 * 
+	 *
+	 * åŠŸèƒ½æè¿°ï¼šå°†Listè½¬æ¢æˆä¸€ç»´æ•°ç»„ è¿”å›ä¸€ä¸ªä¸€ç»´æ•°ç»„ æ–¹æ³•å:listToArray è®¿é—®ç±»:Tool
+	 *
 	 * @param datalist
 	 * @param txt
 	 * @return String[]
-	 * 
+	 *
 	 */
 	public static String[] listToArray(List<HashMap<String, String>> datalist, String txt) {
 		if (datalist == null || datalist.size() == 0) {
@@ -485,12 +485,12 @@ public class Tool {
 	}
 
 	/**
-	 * ×ª»»×Ö¶ÎÀàĞÍ
-	 * 
+	 * è½¬æ¢å­—æ®µç±»å‹
+	 *
 	 * @param lx
-	 *            ÀàĞÍ
+	 *            ç±»å‹
 	 * @param cd
-	 *            ³¤¶È
+	 *            é•¿åº¦
 	 * @return
 	 */
 	public static String getTranslx(String lx, String cd) {
@@ -527,7 +527,7 @@ public class Tool {
 
 
 	/**
-	 * @description£º½«doubleµÄÊıÖµ×ª»»³É°Ù·Ö±ÈÏÔÊ¾
+	 * @descriptionï¼šå°†doubleçš„æ•°å€¼è½¬æ¢æˆç™¾åˆ†æ¯”æ˜¾ç¤º
 	 * @param num
 	 * @return
 	 * @author dingsj
@@ -541,10 +541,10 @@ public class Tool {
 	}
 
 	/**
-	 * »ñÈ¡ÀàĞÍ¼ò³Æ
-	 * 
+	 * è·å–ç±»å‹ç®€ç§°
+	 *
 	 * @param lx
-	 *            ÀàĞÍ
+	 *            ç±»å‹
 	 * @return
 	 */
 	public static String getLxjc(String lx) {
@@ -575,9 +575,9 @@ public class Tool {
 	public static void main(String[] args) {
 
 	}
-	
+
 	/**
-	 * ´¦ÀíStringÀàĞÍ×Ö·û´®£¬Ìæ»»ÖÆ±í·ûµÈ\n,\t,\rµÈ
+	 * å¤„ç†Stringç±»å‹å­—ç¬¦ä¸²ï¼Œæ›¿æ¢åˆ¶è¡¨ç¬¦ç­‰\n,\t,\rç­‰
 	 * @param arg
 	 * @return
 	 * @author dingsj
@@ -589,9 +589,9 @@ public class Tool {
 		arg = arg.replace("\r", "");
 		return arg;
 	}
-	
+
 	/**
-	 * ×ª»»ºº×ÖºÍĞ¡Ğ´×ÖÄ¸Îª´óĞ´×ÖÄ¸£¬×¨ÓÃ×ÖÄ¸²éÑ¯»òºº×Ö²éÑ¯
+	 * è½¬æ¢æ±‰å­—å’Œå°å†™å­—æ¯ä¸ºå¤§å†™å­—æ¯ï¼Œä¸“ç”¨å­—æ¯æŸ¥è¯¢æˆ–æ±‰å­—æŸ¥è¯¢
 	 * @param strText
 	 * @return
 	 * @author dingsj
@@ -604,7 +604,7 @@ public class Tool {
 		StringBuffer myStr = new StringBuffer();
 		for (char vChar : strText.toCharArray()) {
 
-			// ÈôÊÇ×ÖÄ¸ÔòÖ±½ÓÊä³ö
+			// è‹¥æ˜¯å­—æ¯åˆ™ç›´æ¥è¾“å‡º
 			if ((vChar >= 'a' && vChar <= 'z') || (vChar >= 'A' && vChar <= 'Z'))
 				myStr.append(Character.toUpperCase(vChar));
 			else {
@@ -615,9 +615,9 @@ public class Tool {
 		}// foreach
 		return myStr.toString();
 	}
-	
+
 	/**
-	 * ¼ìÑéÊÇ·ñÊÇÊı¾İ
+	 * æ£€éªŒæ˜¯å¦æ˜¯æ•°æ®
 	 * @param arg
 	 * @return
 	 * @author dingsj
@@ -628,9 +628,9 @@ public class Tool {
 		Matcher m = p.matcher(arg);
 		return m.matches();
 	}
-	
+
 	/**
-	 * ½âÃÜ×Ö·û´®£¬Èç¹û²»ÄÜ½âÃÜ¾Í·µ»Ø²»ÄÜ½âÃÜµÄ×Ö·û´®
+	 * è§£å¯†å­—ç¬¦ä¸²ï¼Œå¦‚æœä¸èƒ½è§£å¯†å°±è¿”å›ä¸èƒ½è§£å¯†çš„å­—ç¬¦ä¸²
 	 * @param arg
 	 * @return
 	 */

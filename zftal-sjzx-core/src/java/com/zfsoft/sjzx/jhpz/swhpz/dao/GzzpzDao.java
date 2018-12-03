@@ -26,156 +26,156 @@ public interface GzzpzDao{
     public void deleteGzzpz(Gzzpz gzzpz);
 
     public PageList<Gzzpz> getPagingInfo(Gzzpz gzzpz);
-    
+
     /**
-     * ²éÑ¯ËùÓĞµÄÅäÖÃÀàĞÍ
-     * <p>ETLÅäÖÃ</p>
-     * <p>WEBserverÅäÖÃ</p>
+     * æŸ¥è¯¢æ‰€æœ‰çš„é…ç½®ç±»å‹
+     * <p>ETLé…ç½®</p>
+     * <p>WEBserveré…ç½®</p>
      * @return
      * @
      */
     @SuppressWarnings("unchecked")
-	public List getAllPzlx();
-    
+    public List getAllPzlx();
+
     /**
-     * »ñÈ¡ÊÂÎñ»¯ÅäÖÃµÄËùÓĞ¹¤×÷×éĞÅÏ¢
+     * è·å–äº‹åŠ¡åŒ–é…ç½®çš„æ‰€æœ‰å·¥ä½œç»„ä¿¡æ¯
      * @return
      * @
      */
     public List<Gzzpz> getAllGzz();
-    
+
     /**
-     * »ñÈ¡ËùÓĞµÄÊı¾İ½»»»ÅäÖÃÏî,×÷ÎªÊÂÎñ»¯ÅäÖÃµÄ×éÔªËØ
+     * è·å–æ‰€æœ‰çš„æ•°æ®äº¤æ¢é…ç½®é¡¹,ä½œä¸ºäº‹åŠ¡åŒ–é…ç½®çš„ç»„å…ƒç´ 
      * @return
      */
     public List<Sjjhpzb> getAllSjjhpzList();
-    
+
     public List<Sjjhpzb> getAllSjjhpz(String searchKey);
-    
+
     /**
-     * »ñÈ¡ËùÓĞµÄÓ¦ÓÃ·şÎñÆ÷ÅäÖÃÏî
+     * è·å–æ‰€æœ‰çš„åº”ç”¨æœåŠ¡å™¨é…ç½®é¡¹
      * @return
      * @
      */
     public List<Yyfwq> getAllYyfwq();
-    
+
     /**
-     * »ñÈ¡ËùÓĞµÄ¶¨Ê±Æ÷ÀàĞÍĞÅÏ¢
+     * è·å–æ‰€æœ‰çš„å®šæ—¶å™¨ç±»å‹ä¿¡æ¯
      * @return
      * @
      */
     public List<Dsqlx> getAllDsqlx();
-    
+
     /**
-     * ¸ù¾İ¹¤×÷×éÃû³Æ»ñÈ¡¹¤×÷×é±àºÅ
+     * æ ¹æ®å·¥ä½œç»„åç§°è·å–å·¥ä½œç»„ç¼–å·
      * @param gzzmc
      * @return
      * @
      */
     public int getGzzbh(String gzzmc);
-    
+
     /**
-     * »ñÈ¡ËùÓĞµÄÊ±¼äµ¥Î»
+     * è·å–æ‰€æœ‰çš„æ—¶é—´å•ä½
      * @return
      * @
      */
     public List<Sjdwb> getAllSjdw();
-    
+
     /**
-     * ¸üĞÂ¶¨Ê±Æ÷×´Ì¬
+     * æ›´æ–°å®šæ—¶å™¨çŠ¶æ€
      * @param dsqpzb
      * @return
      */
     public void updateDsqzt(Dsqpzb dsqpzb);
-    
+
     /**
-     * ¸ù¾İ¹¤×÷×é±àºÅ»ñÈ¡ËùÓĞµÄ¹¤×÷×éÔªËØ
+     * æ ¹æ®å·¥ä½œç»„ç¼–å·è·å–æ‰€æœ‰çš„å·¥ä½œç»„å…ƒç´ 
      * @param gzzbh
      * @return
      */
     public List<Gzzys> getGzzys(int gzzbh);
-    
+
     /**
-     * ¸ù¾İ¶ÔÏóÁ÷Ë®ºÅ»ñÈ¡¶ÔÓ¦ËùÓĞµÄ¶¨Ê±Æ÷ĞÅÏ¢
+     * æ ¹æ®å¯¹è±¡æµæ°´å·è·å–å¯¹åº”æ‰€æœ‰çš„å®šæ—¶å™¨ä¿¡æ¯
      * @param dxlsh
      * @return
      */
     public List<GzzDsq> getDsqpz(int dxlsh);
-    
+
     /**
-     * »ñÈ¡Ä£ºı²éÑ¯Ò³µÄĞÅÏ¢
+     * è·å–æ¨¡ç³ŠæŸ¥è¯¢é¡µçš„ä¿¡æ¯
      * @param gzzpz
      * @return
      */
-    //public PageList getSearchPagingInfo(Gzzpz gzzpz);//jobÖĞÔİÊ±Ã»ÓĞÓÃµ½£¬ÏÈ²»¹Ü
-    
+    //public PageList getSearchPagingInfo(Gzzpz gzzpz);//jobä¸­æš‚æ—¶æ²¡æœ‰ç”¨åˆ°ï¼Œå…ˆä¸ç®¡
+
     /**
-     * »ñÈ¡ĞÂµÄ¹¤×÷×é±àºÅ,×÷ÎªĞÂ²åÈëµÄ¹¤×÷×é±àºÅ
+     * è·å–æ–°çš„å·¥ä½œç»„ç¼–å·,ä½œä¸ºæ–°æ’å…¥çš„å·¥ä½œç»„ç¼–å·
      * @return
      * @
      */
     public int getGzzbhNextval();
-    
+
     /**
-     * »ñÈ¡ĞÂµÄ¶¨Ê±Æ÷ĞòºÅ£¬×÷ÎªĞÂ²åÈë¶¨Ê±Æ÷ÏîµÄ¶¨Ê±Æ÷ĞòºÅ
+     * è·å–æ–°çš„å®šæ—¶å™¨åºå·ï¼Œä½œä¸ºæ–°æ’å…¥å®šæ—¶å™¨é¡¹çš„å®šæ—¶å™¨åºå·
      * @return
      * @
      */
-    //public Object getDsqxh();//ºÃÏñÃ»ÓĞÓÃµ½£¬by zhangxu
-    
+    //public Object getDsqxh();//å¥½åƒæ²¡æœ‰ç”¨åˆ°ï¼Œby zhangxu
+
     /**
-     * ²åÈë¶¨Ê±Æ÷ÅäÖÃÏî
+     * æ’å…¥å®šæ—¶å™¨é…ç½®é¡¹
      * @return
      * @
      */
-    public void insertDsq(Dsqpzb dsqpzb);//Êı¾İÖĞĞÄÖĞÓĞ·µ»ØintÖµ£¬Îªµ±Ç°ĞòÁĞÖµ
-    
+    public void insertDsq(Dsqpzb dsqpzb);//æ•°æ®ä¸­å¿ƒä¸­æœ‰è¿”å›intå€¼ï¼Œä¸ºå½“å‰åºåˆ—å€¼
+
     /**
-     * ĞŞ¸Ä¸üĞÂ¹¤×÷×éÅäÖÃÏîĞÅÏ¢
+     * ä¿®æ”¹æ›´æ–°å·¥ä½œç»„é…ç½®é¡¹ä¿¡æ¯
      * @param gzzpz
      * @return
      * @
      */
     public void updateGzz(Gzzpz gzzpz);
-    
+
     /**
-     * ¸ù¾İ¶ÔÏóÁ÷Ë®ºÅ»ñÈ¡ËùÓĞ¸Ã¶ÔÏóÁ÷Ë®ºÃ¶ÔÓ¦µÄ¶¨Ê±Æ÷×´Ì¬
+     * æ ¹æ®å¯¹è±¡æµæ°´å·è·å–æ‰€æœ‰è¯¥å¯¹è±¡æµæ°´å¥½å¯¹åº”çš„å®šæ—¶å™¨çŠ¶æ€
      * @param dxlsh
      * @return
      * @
      */
     public List<String> getAllDsqzt(int dxlsh);
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
     /**
-     * »ñÈ¡ÊÂÎñ»¯ÅäÖÃµÄÈÕÖ¾·ÖÒ³ĞÅÏ¢
+     * è·å–äº‹åŠ¡åŒ–é…ç½®çš„æ—¥å¿—åˆ†é¡µä¿¡æ¯
      * @param gzzLog
      * @return
      */
     //public PageList<GzzLog> getGzzLogPagingInfo(GzzLog gzzLog);
-    
+
     /**
-     * ¸ù¾İÈÕÖ¾IDÀ´»ñÈ¡Ò»ÌõÈÕÖ¾µÄÏêÏ¸ĞÅÏ¢
+     * æ ¹æ®æ—¥å¿—IDæ¥è·å–ä¸€æ¡æ—¥å¿—çš„è¯¦ç»†ä¿¡æ¯
      * @param logid
      * @return
      */
     public Object getLogXqByLogid(Integer logid);
-    
+
     /**
-     * ¸ù¾İ¶¨Ê±Æ÷ĞòºÅ»ñÈ¡¶¨Ê±Æ÷×´Ì¬
+     * æ ¹æ®å®šæ—¶å™¨åºå·è·å–å®šæ—¶å™¨çŠ¶æ€
      * @param dsqxh
      * @return
      * @
      */
     public String getDsqztByDsqxh(int dsqxh);
-    
+
     /**
-     * »ñÈ¡¹¤×÷×éµÄ×ÜÊı
+     * è·å–å·¥ä½œç»„çš„æ€»æ•°
      * @return
      */
     public int getGzzTotalCount();

@@ -1,6 +1,5 @@
 package com.zfsoft.mobile.services.action;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -19,7 +18,7 @@ import net.sf.json.JSONArray;
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.ServletActionContext;
 
-import com.common.Config;
+//import com.common.Config;
 import com.zfsoft.common.factory.SessionFactory;
 import com.zfsoft.common.system.BaseHolder;
 import com.zfsoft.dao.entities.userStatictisEntity;
@@ -53,29 +52,29 @@ import com.zfsoft.util.base.StringUtil;
 public class ServiceManagerAction extends HrmAction {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 8375700429926574273L;
 
 	private String op;
-	
+
 	private IServiceManagerService serviceManagerService;
-	
+
 	private IBusinessService businessService;
-	
+
 	private ServiceManager model = new ServiceManager();
-	
+
 	private ServiceManagerQuery query = new ServiceManagerQuery();
 	private VisitsServiceEntity visitsQuery = new VisitsServiceEntity();
-	
+
 	private INewsService newsService;
-	
+
 
 	private String[] id;
-	
+
 	private IMobileCommonService mobileCommonService;
-	
-	
+
+
 	public VisitsServiceEntity getVisitsQuery() {
 		return visitsQuery;
 	}
@@ -87,7 +86,7 @@ public class ServiceManagerAction extends HrmAction {
 	public INewsService getNewsService() {
 		return newsService;
 	}
-	
+
 	public void setNewsService(INewsService newsService) {
 		this.newsService = newsService;
 	}
@@ -98,8 +97,8 @@ public class ServiceManagerAction extends HrmAction {
 	public void setMobileCommonService(IMobileCommonService mobileCommonService) {
 		this.mobileCommonService = mobileCommonService;
 	}
-	
-	
+
+
 	public String visitsServiceStatistic(){
 		HttpServletRequest request = ServletActionContext.getRequest();
 		try {
@@ -118,11 +117,11 @@ public class ServiceManagerAction extends HrmAction {
     	Date startDate = startcal.getTime();
     	Date endDate = endcal.getTime();
     	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    	String enddateTemp = StringUtil.isEmpty(visitsQuery.getEndDate()) ? 
+    	String enddateTemp = StringUtil.isEmpty(visitsQuery.getEndDate()) ?
     			formatter.format(endDate) : visitsQuery.getEndDate();
-        String startdateTemp = StringUtil.isEmpty(visitsQuery.getStartDate()) ? 
+        String startdateTemp = StringUtil.isEmpty(visitsQuery.getStartDate()) ?
         		formatter.format(startDate) : visitsQuery.getStartDate();
-		
+
 		//获取统计访问量，包括累计访问量和日均访问量
 		//visitsQuery.setToPage(query.getToPage());
 		visitsQuery.setPerPageSize(10);
@@ -133,7 +132,7 @@ public class ServiceManagerAction extends HrmAction {
 		getValueStack().set("statisticList", statisticList);
 		int size = visitsQuery.getPerPageSize()*(visitsQuery.getToPage()-1);
 		getValueStack().set("total", size);
-		
+
 		//获取排行前10的访问服务
 		VisitsServiceEntity topQuery = new VisitsServiceEntity();
 		topQuery.setToPage(1);
@@ -144,7 +143,7 @@ public class ServiceManagerAction extends HrmAction {
 		topQuery.setFwmc(visitsQuery.getFwmc());
 		PageList<VisitsServiceEntity> topList = serviceManagerService.getAllVSStatis(topQuery);
 		getValueStack().set("topList", JSONUtils.obj2json(topList));
-		
+
 		try {
 			SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
 			long to = df.parse(enddateTemp).getTime();
@@ -155,19 +154,20 @@ public class ServiceManagerAction extends HrmAction {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		String isPortal = Config.getString("isPortal");
-		getValueStack().set("isPortal", isPortal);
-		
+		//马靖暂时注释
+//		String isPortal = Config.getString("isPortal");
+//		getValueStack().set("isPortal", isPortal);
+
 		return "visitsServiceStatistic";
 	}
-	
+
 	/**
 	 * 获取各个模块访问统计
 	 * @return
 	 */
 	public String getVisitsByFwbm(){
 		try {
-			
+
 			HttpServletRequest request = ServletActionContext.getRequest();
 			Date date = new Date();
 	    	Calendar endcal = Calendar.getInstance();
@@ -175,15 +175,15 @@ public class ServiceManagerAction extends HrmAction {
 	    	Calendar startcal = Calendar.getInstance();
 	    	startcal.setTime(date);
 	    	startcal.add(Calendar.MONTH, -1);
-	    	
+
 	    	Date startDate = startcal.getTime();
 	    	Date endDate = endcal.getTime();
 	    	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-	    	String enddateTemp = StringUtil.isEmpty(request.getParameter("enddate")) ? 
+	    	String enddateTemp = StringUtil.isEmpty(request.getParameter("enddate")) ?
 	    			formatter.format(endDate) : request.getParameter("enddate");
-	        String startdateTemp = StringUtil.isEmpty(request.getParameter("startdate")) ? 
+	        String startdateTemp = StringUtil.isEmpty(request.getParameter("startdate")) ?
 	        		formatter.format(startDate) : request.getParameter("startdate");
-	    	
+
     		List<List<String>> actualTotalList = new ArrayList<List<String>>();
 			List<AppServiceEntity> fwbmList = serviceManagerService.getAllFwbm();
 			List<String> fwbmmcList = new ArrayList<String>();
@@ -194,17 +194,17 @@ public class ServiceManagerAction extends HrmAction {
 				fwbmmcList.add(fwbmEntity.getFwmc());
 				fwbmVisitEntity entity = new fwbmVisitEntity();
 				entity.setFwbm(fwbmEntity.getFwbm());
-				
+
 		    	entity.setStartdate(startdateTemp);
 		    	entity.setEnddate(enddateTemp);
 		    	List<fwbmVisitEntity> visitsList = serviceManagerService.getVisitsByFwbm(entity);
-		    	Map<String, String> map = new HashMap<String, String>();  
-				  for(fwbmVisitEntity visit : visitsList){  
-		  		   if(visit==null){  
-		  		    continue;  
-		  		   }  
-		  		   map.put(visit.getDatetime(), visit.getVisits());  
-				  } 
+		    	Map<String, String> map = new HashMap<String, String>();
+				  for(fwbmVisitEntity visit : visitsList){
+		  		   if(visit==null){
+		  		    continue;
+		  		   }
+		  		   map.put(visit.getDatetime(), visit.getVisits());
+				  }
 				actualList = new ArrayList<String>();
 				dayList= new ArrayList<String>();
 		  		Date enddate = df.parse(entity.getEnddate());
@@ -232,7 +232,7 @@ public class ServiceManagerAction extends HrmAction {
 		  		}
 		  		actualTotalList.add(actualList);
 			}
-	  		
+
 	  		getValueStack().set("fwbmmcList", JSONUtils.obj2json(fwbmmcList));
 	  		getValueStack().set("actualTotalList", JSONUtils.obj2json(actualTotalList));
 	  		getValueStack().set("dayJson", JSONUtils.obj2json(dayList));
@@ -243,57 +243,57 @@ public class ServiceManagerAction extends HrmAction {
 			}
 			return "fwbmVisits";
 		}
-	
+
 	/*public String getReVisitsByFwbm(){
 		try {
-		
+
 		HttpServletRequest request = ServletActionContext.getRequest();
 		String queryFwbm = StringUtil.isEmpty(request.getParameter("fwbm")) ? FwbmEnum.FWBM_TZGG.getKey() : request.getParameter("fwbm");
 		getValueStack().set("queryFwbm", queryFwbm);
 		fwbmVisitEntity entity = new fwbmVisitEntity();
 		entity.setFwbm(queryFwbm);
-		
+
 		Date date = new Date();
     	Calendar endcal = Calendar.getInstance();
     	endcal.setTime(date);
     	Calendar startcal = Calendar.getInstance();
     	startcal.setTime(date);
     	startcal.add(Calendar.MONTH, -1);
-    	
+
     	Date startDate = startcal.getTime();
     	Date endDate = endcal.getTime();
     	SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-    	String enddateTemp = StringUtil.isEmpty(request.getParameter("enddate")) ? 
+    	String enddateTemp = StringUtil.isEmpty(request.getParameter("enddate")) ?
     			formatter.format(endDate) : request.getParameter("enddate");
-        String startdateTemp = StringUtil.isEmpty(request.getParameter("startdate")) ? 
+        String startdateTemp = StringUtil.isEmpty(request.getParameter("startdate")) ?
         		formatter.format(startDate) : request.getParameter("startdate");
-    	
-    	String enddateTemp = StringUtil.isEmpty(request.getParameter("enddate")) ? 
+
+    	String enddateTemp = StringUtil.isEmpty(request.getParameter("enddate")) ?
     							DateFormat.getDateInstance().format(endcal.getTime()) : request.getParameter("enddate");
-    	String startdateTemp = StringUtil.isEmpty(request.getParameter("startdate")) ? 
+    	String startdateTemp = StringUtil.isEmpty(request.getParameter("startdate")) ?
     							DateFormat.getDateInstance().format(startcal.getTime()) : request.getParameter("startdate");
-    	
+
     	entity.setStartdate(startdateTemp);
     	entity.setEnddate(enddateTemp);
-		
-		
+
+
 		//entity.setStartdate(request.getParameter("startdate"));
 		//entity.setEnddate(request.getParameter("enddate"));
 		List<fwbmVisitEntity> visitsList = serviceManagerService.getVisitsByFwbm(entity);
-		Map<String, String> map = new HashMap<String, String>();  
-		  for(fwbmVisitEntity visit : visitsList){  
-  		   if(visit==null){  
-  		    continue;  
-  		   }  
-  		   map.put(visit.getDatetime(), visit.getVisits());  
-		  } 
+		Map<String, String> map = new HashMap<String, String>();
+		  for(fwbmVisitEntity visit : visitsList){
+  		   if(visit==null){
+  		    continue;
+  		   }
+  		   map.put(visit.getDatetime(), visit.getVisits());
+		  }
 	    List<String> actualList = new ArrayList<String>();
   		List<String> cumulateList = new ArrayList<String>();
   		List<String> dayList = new ArrayList<String>();
   		DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
   		Date enddate = df.parse(entity.getEnddate());
   		Date tempdate = (new SimpleDateFormat("yyyy-MM-dd")).parse(entity.getStartdate());
-  		
+
   		int countInstalls = 0;
   		while(tempdate.getTime() <= enddate.getTime()){
   			String actualInstalls = "";
@@ -340,24 +340,24 @@ public class ServiceManagerAction extends HrmAction {
 		BusinessQuery ydhtQuery = new BusinessQuery();
 		ydhtQuery.setProcode("999");
 		businessService.getYdht(ydhtQuery);
-		
+
 		getValueStack().set("YewuList", businessService.getList(businessQuery));
 		getValueStack().set("ServiceTypeList", ServiceTypeEnum.values());
 		getValueStack().set("ServiceSourceList", ServiceSourceEnum.values());
 		return "list";
 	}
-	
+
     /**
      * getProcode
      * @return
      */
     public String getProcode() {
         String procodebm = businessService.getProcodeBm(model.getClassSsywxt());
-        
+
         getValueStack().set(DATA, procodebm);
         return DATA;
     }
-	
+
 	public String toAdd(){
 		getValueStack().set("fwbmList", FwbmEnum.values());
 		BusinessQuery businessQuery = new BusinessQuery();
@@ -367,22 +367,22 @@ public class ServiceManagerAction extends HrmAction {
 		getValueStack().set("ServiceTypeList", ServiceTypeEnum.values());
 		String imageHtml = ImageTagHtml.getImageHtml("fwtbid", Type.IMAGE, 256, 90, 90, model.getClassFwtbid(), true);
         getValueStack().set("imageHtml", imageHtml);
-        
+
         String fileHtml = ImageTagHtml.getFileHtml("fileid", Type.FILE,"apk", 200, 180, 150,model.getFileId());
         getValueStack().set("fileHtml", fileHtml);
 		op = "add";
-		
+
 		ArrayList<String> iconList = FileUntils.getImagesPathList(null,null);
 		getValueStack().set("iconList", iconList);
 		ArrayList<String> fileNameList = FileUntils.getImagesNameList(null,null);
 		getValueStack().set("fileNameList", fileNameList);
-		
+
 		List<AppServiceEntity> AppFwList = serviceManagerService.getFwdyxt();
 		getValueStack().set("AppFwList", JSONArray.fromObject(AppFwList));
-		
+
 		return "edit";
 	}
-	
+
 	private String getImageHost() {
 		String url = BaseHolder.getPropertiesValue("suploadPath");
 		if (url == null) {
@@ -394,7 +394,7 @@ public class ServiceManagerAction extends HrmAction {
         }
 		return url;
 	}
-	
+
 	public String getImages(){
 		HttpServletRequest request = ServletActionContext.getRequest();
 		String keyWord = request.getParameter("keyWord");
@@ -403,7 +403,7 @@ public class ServiceManagerAction extends HrmAction {
 		//getValueStack().set("iconList", JSONArray.fromObject(iconList));
 		ArrayList<String> fileNameList = FileUntils.getImagesNameList(null,keyWord);
 		//getValueStack().set("fileNameList", JSONArray.fromObject(fileNameList));
-		
+
 		StringBuilder imageHtml = new StringBuilder();
 		if(iconList != null && iconList.size() > 0){
 			for (int i = 0; i < iconList.size(); i++) {
@@ -415,16 +415,16 @@ public class ServiceManagerAction extends HrmAction {
 				}
 				imageHtml.append("/>"+fileNameList.get(i)+"</h5></li>");
 			}
-			
+
 		}
-		
+
 		Map<String, Object> data = new HashMap<String, Object>();
         data.put("success", true);
         data.put("imageHtml", imageHtml.toString());
         getValueStack().set(DATA, data);
 		return DATA;
 	}
-	
+
 	public String toModify(){
 		getValueStack().set("fwbmList", FwbmEnum.values());
 		query.setClassDeleted("0");
@@ -437,7 +437,7 @@ public class ServiceManagerAction extends HrmAction {
 		getValueStack().set("ServiceTypeList", ServiceTypeEnum.values());
 		String imageHtml = ImageTagHtml.getImageHtml("fwtbid", Type.IMAGE, 256, 90, 90, model.getClassFwtbid(), true);
         getValueStack().set("imageHtml", imageHtml);
-        
+
         String fileHtml = ImageTagHtml.getFileHtml("fileid", Type.FILE,"apk", 200, 150, 150,model.getFileId());
         getValueStack().set("fileHtml", fileHtml);
 		op = "modify";
@@ -454,7 +454,7 @@ public class ServiceManagerAction extends HrmAction {
 		getValueStack().set("AppFwList", JSONArray.fromObject(AppFwList));
 		return "edit";
 	}
-	
+
 	public String save() throws Exception{
 		HttpServletRequest request = ServletActionContext.getRequest();
 		//下面这段逻辑是判断是否服务编码需要自动输入或者还是编辑状态进来的就不修改服务编码
@@ -467,11 +467,11 @@ public class ServiceManagerAction extends HrmAction {
 				model.setClassFwbm(code);
 			}
 		}
-		
+
 		if(!StringUtils.isEmpty(model.getClassSsywxt())){
 			model.setClassSsywxt(model.getClassSsywxt().trim());
 		}
-		
+
 		if(model.getIscommon().equals("1")){
 			BusinessQuery businessQuery = new BusinessQuery();
 			businessQuery.setClassId(model.getClassSsywxt());
@@ -481,7 +481,7 @@ public class ServiceManagerAction extends HrmAction {
 				getValueStack().set(DATA, getMessage());
 				return DATA;
 			}
-			
+
 			if(model.getClassFwlx().equals("WEB_SERVICE") && model.getClassFwlj().indexOf("${uid}") != -1){
 				this.setErrorMessage("公众服务为web服务时，服务i地址不能包含用户信息，请仔细检查");
 				getValueStack().set(DATA, getMessage());
@@ -492,7 +492,7 @@ public class ServiceManagerAction extends HrmAction {
 				return DATA;
 			}
 		}
-		
+
 		String iconmethod = getRequest().getParameter("uploadMethod");
 		String fwtbdz;
 		if(iconmethod.equals("fromsomewhere")){//系统中选择的时候
@@ -501,37 +501,37 @@ public class ServiceManagerAction extends HrmAction {
 		}else{//自已上传的时候
 			model.setClassFwtbid(getRequest().getParameter("fwtbid"));
 			fwtbdz = mobileCommonService.getMinUploadImagePath(model.getClassFwtbid());
-			
+
 		}
-		
+
 		String fileid = getRequest().getParameter("fileid");
 		model.setFileId(fileid);
-		
+
 		model.setClassFwtbdz(fwtbdz);
-		
+
 		String showway = request.getParameter("showway");
 		showway = !StringUtils.isEmpty(showway) ? showway : "";
 		model.setClassShowway(showway);
-		
+
 		//String fwtbdz = mobileCommonService.getUploadImagePath(model.getClassFwtbid());
 		if(model.getClassId() == null){
 			model.setClassFwly(ServiceSourceEnum.CUSTOM_SOURCE.getKey());
 			String result = serviceManagerService.check(model);
 			if(result.equals("success")){
-				
+
 				BusinessQuery businessQuery = new BusinessQuery();
 				businessQuery.setClassId(model.getClassSsywxt());
-				
+
 				//Business businessEntity = businessService.getList(businessQuery).get(0);
 				Business businessEntity = new Business();
 				List<Business> businessList = businessService.getBusinessList(businessQuery);
-				
+
 				if( businessList!=null && businessList.size()>0 ){
 					businessEntity = businessList.get(0);
 				}
- 				
+
 				model.setClassFbzt(businessEntity.getClassSyzt()==null?"":businessEntity.getClassSyzt());
-				
+
 				serviceManagerService.insert(model);
 				this.setSuccessMessage("成功插入数据！");
 				getValueStack().set(DATA, getMessage());
@@ -553,15 +553,15 @@ public class ServiceManagerAction extends HrmAction {
 				newsQuery.setSource(newsModel.getSource());
 				newsService.doSave(newsQuery);
 			}
-			
+
 			this.setSuccessMessage("成功更新数据！");
 			getValueStack().set(DATA, getMessage());
 		}
-	    
+
 		return DATA;
 	}
-	
-	
+
+
 	public String recommend(){
 		Map<String, Object> param = new HashMap<String, Object>();
         List<String> tids = new ArrayList<String>();
@@ -575,7 +575,7 @@ public class ServiceManagerAction extends HrmAction {
 		this.getValueStack().set("data", this.getMessage());
 		return DATA;
 	}
-	
+
 	public String unrecommend(){
 		Map<String, Object> param = new HashMap<String, Object>();
         List<String> tids = new ArrayList<String>();
@@ -589,7 +589,7 @@ public class ServiceManagerAction extends HrmAction {
 		this.getValueStack().set("data", this.getMessage());
 		return DATA;
 	}
-	
+
 	public String remove(){
 		Map<String, Object> param = new HashMap<String, Object>();
         List<String> tids = new ArrayList<String>();
@@ -615,27 +615,27 @@ public class ServiceManagerAction extends HrmAction {
         param.put("yhid", SessionFactory.getUser().getYhm());
         param.put("ids", tids);
         serviceManagerService.remove(param);
-        
+
 		//serviceManagerService.remove(model);
 		this.setSuccessMessage("删除成功！");
 		this.getValueStack().set("data", this.getMessage());
 		return DATA;
 	}
-	
+
 	public String up() throws Exception{
 		serviceManagerService.up(model);
 		this.setSuccessMessage("操作成功！");
 		getValueStack().set(DATA, getMessage());
 		return DATA;
 	}
-	
+
     public String down() throws Exception{
     	serviceManagerService.down(model);
 		this.setSuccessMessage("操作成功！");
 		getValueStack().set(DATA, getMessage());
 		return DATA;
 	}
-    
+
     /**
 	 * 保存修改后的索引顺序Action
 	 * @return
@@ -661,10 +661,10 @@ public class ServiceManagerAction extends HrmAction {
 				e.printStackTrace();
 			}
 		}
-		
+
 		return list();
 	}
-    
+
     public String changeShow(){
     	HttpServletRequest request = ServletActionContext.getRequest();
 		String showway = request.getParameter("showway").trim();
@@ -673,12 +673,12 @@ public class ServiceManagerAction extends HrmAction {
 		serviceModel.setClassId(classId);
 		serviceModel.setClassShowway(showway);
 		serviceManagerService.changeShow(serviceModel);
-		
+
     	this.setSuccessMessage("操作成功！");
 		getValueStack().set(DATA, getMessage());
 		return DATA;
     }
-	
+
 	public String fabu(){
 		Map<String, Object> param = new HashMap<String, Object>();
         List<String> tids = new ArrayList<String>();
@@ -693,7 +693,7 @@ public class ServiceManagerAction extends HrmAction {
 		getValueStack().set(DATA, getMessage());
 		return DATA;
 	}
-	
+
 	public String quxiao(){
 		Map<String, Object> param = new HashMap<String, Object>();
         List<String> tids = new ArrayList<String>();
@@ -716,7 +716,7 @@ public class ServiceManagerAction extends HrmAction {
 	public IServiceManagerService getServiceManagerService() {
 		return serviceManagerService;
 	}
-	
+
 
 	public void setOp(String op) {
 		this.op = op;
@@ -726,7 +726,7 @@ public class ServiceManagerAction extends HrmAction {
 		return op;
 	}
 
-	
+
 
 	public ServiceManagerQuery getQuery() {
 		return query;

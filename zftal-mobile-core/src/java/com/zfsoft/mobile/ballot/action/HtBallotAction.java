@@ -30,49 +30,50 @@ import com.zfsoft.mobile.common.utils.ImageTagHtml;
 import com.zfsoft.mobile.servlet.appCenterHttp.action.AppCenterHttpAction;
 import com.zfsoft.mobile.servlet.entity.ListEntity;
 import com.zfsoft.mobile.servlet.entity.ResultEntity;
-import com.zfsoft.untils.CodeUtil;
+//马靖暂时注释
+//import com.zfsoft.untils.CodeUtil;
 
 //文艺投票后台
 public class HtBallotAction extends HrmAction{
 
 	private static Logger logger = Logger.getLogger(AppCenterHttpAction.class);
-	
+
 	private BallotService ballotService;
-	
+
 	private BallotDetailService ballotDetailService;
 
-	
+
 	private BallotQuery ballotQuery = new BallotQuery();
-	
+
 	private Ballot ballot = new Ballot();
-	
+
 	private BallotDetailQuery ballotDetailQuery = new BallotDetailQuery();
-	
+
 	private BallotDetail ballotDetail = new BallotDetail();
-	
+
 	//ballot的id
 	private String id = "";
-	
+
 	//ballotDetail的id
 	private String detailId = "";
-	
+
 	private String op = "add";
-	
+
 	private String name = "";
-	
+
 	private IMobileCommonService mobileCommonService;
-	
+
 	//投票活动列表
 	public String htballotList(){
-		
+
 		List<Ballot> list = ballotService.selectBallotList(ballotQuery);
-		
+
 		this.getValueStack().set("list", list);
-			
+
 		return "list";
-		
+
 	}
-	
+
 	//投票修改
 	public String updateBallot(){
 		op = "modify";
@@ -80,31 +81,31 @@ public class HtBallotAction extends HrmAction{
 		this.getValueStack().set("ballot", ballot);
 		String baseImgPath = ImageTagHtml.getImageHtml("baseImgPath", Type.IMAGE, 256, 120, 90, ballot.getBaseImgName(), true);
         getValueStack().set("baseImgPath", baseImgPath);
-        
+
         String bigImgPath = ImageTagHtml.getImageHtml("bigImgPath", Type.IMAGE, 256, 2, 1, ballot.getBigImgName(), true);
         getValueStack().set("bigImgPath", bigImgPath);
 		return "edit";
 	}
-	
+
 	//投票删除
 	public String deleteBallot(){
-		
+
 		ballotService.deleteBallot(id);
-		
+
 		this.setSuccessMessage("操作成功");
 		this.getValueStack().set("data", this.getMessage());
 		return "data";
 	}
-	
+
 	//投票启用禁用
 	public String enable(){
-		
+
 		ballotService.updateBallot(ballot);
 		this.setSuccessMessage("操作成功");
 		this.getValueStack().set("data", this.getMessage());
 		return "data";
 	}
-	
+
 	//去新增页面
 	public String toAdd(){
 		String baseImgPath = ImageTagHtml.getImageHtml("baseImgPath", Type.IMAGE, 10*1024, 120, 90, null, true);
@@ -113,7 +114,7 @@ public class HtBallotAction extends HrmAction{
         getValueStack().set("bigImgPath", bigImgPath);
         return "edit";
 	}
-	
+
 	//新增投票
 	public String addBallot(){
 		HttpServletRequest request = ServletActionContext.getRequest();
@@ -127,14 +128,14 @@ public class HtBallotAction extends HrmAction{
 			return "data";
 		}
 		//System.out.println(request.getSession().getServletContext().getRealPath("/"));
-		//File file = new File(request.getSession().getServletContext().getRealPath(File.separator) + baseImgPath); 
+		//File file = new File(request.getSession().getServletContext().getRealPath(File.separator) + baseImgPath);
 		//System.out.println(file.getName());
 		//下载图片保存至数据库
 		CommonUtils commonUtils = new CommonUtils();
 		byte[] baseImg = commonUtils.getBytes(request.getSession().getServletContext().getRealPath(File.separator) + baseImgPath);
 		byte[] bigImg =  commonUtils.getBytes(request.getSession().getServletContext().getRealPath(File.separator) + bigImgPath);
-		
-		
+
+
 		ballot.setBaseImg(baseImg);
 		ballot.setBaseImgPath(baseImgPath);
 		ballot.setBaseImgName(getRequest().getParameter("baseImgPath"));
@@ -153,18 +154,18 @@ public class HtBallotAction extends HrmAction{
 		this.getValueStack().set("data", this.getMessage());
 		return "data";
 	}
-	
-	
+
+
 	public String ballotDetailList(){
-		
+
 		List<BallotDetail> list = ballotDetailService.selectByBallotId(ballotDetailQuery);
-		
+
 		this.getValueStack().set("list", list);
 		this.getValueStack().set("ballotId", ballotDetailQuery.getBallotId());
-			
+
 		return "detailList";
 	}
-	
+
 	//去新增候选页面
 	public String toAddDetail(){
 		String baseImgPath = ImageTagHtml.getImageHtml("baseImgPath", Type.IMAGE, 10*1024, 90, 90, null, true);
@@ -172,7 +173,7 @@ public class HtBallotAction extends HrmAction{
         this.getValueStack().set("ballotId", id);
         return "editDetail";
 	}
-	
+
 	//去候选修改
 	public String updateBallotDetail(){
 		op = "modify";
@@ -183,7 +184,7 @@ public class HtBallotAction extends HrmAction{
         this.getValueStack().set("ballotId", ballotDetail.getBallotId());
 		return "editDetail";
 	}
-	
+
 	//新增候选人
 	public String saveBallotDetail(){
 		HttpServletRequest request = ServletActionContext.getRequest();
@@ -195,8 +196,10 @@ public class HtBallotAction extends HrmAction{
 			return "data";
 		}
 		CommonUtils commonUtils = new CommonUtils();
-		byte[] baseImg = commonUtils.getBytes(request.getSession().getServletContext().getRealPath(File.separator) + baseImgPath);
-		
+		byte[] baseImg = {};
+		//马靖暂时注释
+//		byte[] baseImg = commonUtils.getBytes(request.getSession().getServletContext().getRealPath(File.separator) + baseImgPath);
+
 		ballotDetail.setBaseImg(baseImg);
 		ballotDetail.setBaseImgPath(baseImgPath);
 		ballotDetail.setBaseImgName(getRequest().getParameter("baseImgPath"));
@@ -205,41 +208,41 @@ public class HtBallotAction extends HrmAction{
 		}else {
 			ballotDetailService.createBallolDetail(ballotDetail);
 		}
-		
-		
+
+
 		this.setSuccessMessage("操作成功");
 		this.getValueStack().set("data", this.getMessage());
 		return "data";
 	}
-	
+
 	//删除候选人
 	public String deleteBallotDetail(){
-		
+
 		ballotDetailService.deleteBallotDetail(detailId);
 		this.setSuccessMessage("操作成功");
 		this.getValueStack().set("data", this.getMessage());
 		return "data";
 	}
-	
-	
+
+
 	//徐州工业角色信息服务
 	public String setjsxx(){
-		
+
 		ballotDetailService.setjsxx();
 		this.setSuccessMessage("操作成功");
 		this.getValueStack().set("data", this.getMessage());
 		return "data";
 	}
-	
-	
-	
-	
+
+
+
+
 	/*====================================================================================*/
-	
+
 	public BallotService getBallotService() {
 		return ballotService;
 	}
-	
+
 	public void setBallotService(BallotService ballotService) {
 		this.ballotService = ballotService;
 	}
@@ -315,7 +318,7 @@ public class HtBallotAction extends HrmAction{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 
 	public IMobileCommonService getMobileCommonService() {
 		return mobileCommonService;
@@ -332,7 +335,7 @@ public class HtBallotAction extends HrmAction{
 	public void setBallotDetailQuery(BallotDetailQuery ballotDetailQuery) {
 		this.ballotDetailQuery = ballotDetailQuery;
 	}
-	
-	
-	
+
+
+
 }

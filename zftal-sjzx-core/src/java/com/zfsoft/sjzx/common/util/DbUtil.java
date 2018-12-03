@@ -38,8 +38,8 @@ public class DbUtil {
 	private static final Logger log = LoggerFactory.getLogger(DbUtil.class);
 
 	/**
-	 * ×°ÅäÊı¾İ¿âÏà¹ØĞÅÏ¢
-	 * 
+	 * è£…é…æ•°æ®åº“ç›¸å…³ä¿¡æ¯
+	 *
 	 * @param poolName
 	 * @param accessType
 	 * @param dbType
@@ -51,8 +51,8 @@ public class DbUtil {
 	 * @return
 	 */
 	public static DatabaseMeta getPoolMeta(String poolName, String accessType,
-			String dbType, String serviceName, String host, String port,
-			String user, String pwd) {
+										   String dbType, String serviceName, String host, String port,
+										   String user, String pwd) {
 		DatabaseMeta meta = new DatabaseMeta();
 		meta.setName(poolName);
 		meta.setDBName(serviceName);
@@ -66,8 +66,8 @@ public class DbUtil {
 	}
 
 	/**
-	 * Çå¿Õ»º´æ
-	 * 
+	 * æ¸…ç©ºç¼“å­˜
+	 *
 	 * @param databaseMeta
 	 */
 	public final static void clearDBCache(DatabaseMeta databaseMeta) {
@@ -79,8 +79,8 @@ public class DbUtil {
 	}
 
 	/**
-	 * »ñÈ¡Ö÷¼ü×Ö¶Î
-	 * 
+	 * è·å–ä¸»é”®å­—æ®µ
+	 *
 	 * @param meta
 	 * @param bmc
 	 * @return
@@ -131,10 +131,10 @@ public class DbUtil {
 			db.connect();
 			db.openQuery(sql);
 			success = true;
-			msg = "²âÊÔ³É¹¦";
+			msg = "æµ‹è¯•æˆåŠŸ";
 		} catch (KettleDatabaseException e1) {
 			success = false;
-			msg = "²âÊÔÊ§°Ü£º" + e1.getMessage();
+			msg = "æµ‹è¯•å¤±è´¥ï¼š" + e1.getMessage();
 			log.debug(msg);
 		} finally {
 			db.disconnect();
@@ -145,8 +145,8 @@ public class DbUtil {
 	}
 
 	/**
-	 * »ñÈ¡ORACLEµÄ±í×Ö¶ÎµÄ×¢ÊÍ
-	 * 
+	 * è·å–ORACLEçš„è¡¨å­—æ®µçš„æ³¨é‡Š
+	 *
 	 * @param meta
 	 * @param bmc
 	 * @return
@@ -210,14 +210,14 @@ public class DbUtil {
 	}
 
 	/**
-	 * »ñÈ¡sqlÓï¾äµÄ×Ö¶ÎÊôĞÔ
-	 * 
+	 * è·å–sqlè¯­å¥çš„å­—æ®µå±æ€§
+	 *
 	 * @param meta
-	 *            Êı¾İ¿âÅäÖÃĞÅÏ¢
+	 *            æ•°æ®åº“é…ç½®ä¿¡æ¯
 	 * @param sql
-	 *            ±í»òÕßÓï¾ä
+	 *            è¡¨æˆ–è€…è¯­å¥
 	 * @param isTable
-	 *            ÊÇ·ñ±í
+	 *            æ˜¯å¦è¡¨
 	 * @return
 	 */
 	public static List<Map<String, String>> getSQLTableFields(
@@ -236,27 +236,27 @@ public class DbUtil {
 			for (int i = 0, len = rmi.size(); i < len; i++) {
 				map = new HashMap<String, String>();
 				ValueMetaInterface vm = rmi.getValueMeta(i);
-				// ZDM VARCHAR2(20) Y ×Ö¶ÎÃû
+				// ZDM VARCHAR2(20) Y å­—æ®µå
 				String zdm = vm.getName().toUpperCase();
 				map.put("COLUMN_NAME", zdm);
 				map.put("TYPE", String.valueOf(vm.getType()));
 				map.put("TRIMTYPE", String.valueOf(vm.getTrimType()));
-				// ZDLXMS VARCHAR2(20) Y ×Ö¶ÎÀàĞÍÃèÊö
+				// ZDLXMS VARCHAR2(20) Y å­—æ®µç±»å‹æè¿°
 				map.put("TYPEDESC", vm.getTypeDesc());
-				// ZDCD NUMBER(6) Y ×Ö¶Î³¤¶È
+				// ZDCD NUMBER(6) Y å­—æ®µé•¿åº¦
 				map.put("LENGTH", String.valueOf(vm.getLength()));
 				map.put("ORIGIN", vm.getOrigin());
 				map.put("ORIGINALCOLUMNTYPE",
 						String.valueOf(vm.getOriginalColumnType()));
-				// ZDLX VARCHAR2(20) Y ×Ö¶ÎÀàĞÍ
+				// ZDLX VARCHAR2(20) Y å­—æ®µç±»å‹
 				map.put("ORIGINALCOLUMNTYPENAME",
 						vm.getOriginalColumnTypeName());
 				map.put("ORIGINALPRECISION",
 						String.valueOf(vm.getOriginalPrecision()));
 				map.put("ORIGINALSCALE", String.valueOf(vm.getOriginalScale()));
-				// ZDJD NUMBER(6) Y ×Ö¶Î¾«¶È
+				// ZDJD NUMBER(6) Y å­—æ®µç²¾åº¦
 				map.put("PRECISION", String.valueOf(vm.getPrecision()));
-				// SFWK NUMBER(1) Y ÊÇ·ñÎª¿Õ
+				// SFWK NUMBER(1) Y æ˜¯å¦ä¸ºç©º
 				map.put("NULLABLE", String.valueOf(vm.isOriginalNullable()));
 				list.add(map);
 			}
@@ -273,7 +273,7 @@ public class DbUtil {
 	}
 
 	public static List<Map<String, String>> getDBTableFields(DatabaseMeta meta,
-			String bmc) {
+															 String bmc) {
 		DbUtil.clearDBCache(meta);
 		List<Map<String, String>> list = new ArrayList<Map<String, String>>();
 		Map<String, String> commmap = getDBTableFieldComments(meta, bmc);
@@ -288,25 +288,25 @@ public class DbUtil {
 				ValueMetaInterface vm = rmi.getValueMeta(i);
 				/*
 				 * System.out.println("getType ="+vm.getType());; //ZDLXMS
-				 * VARCHAR2(20) Y ×Ö¶ÎÀàĞÍÃèÊö
+				 * VARCHAR2(20) Y å­—æ®µç±»å‹æè¿°
 				 * System.out.println("getTypeDesc ="+vm.getTypeDesc());;
 				 * System.out.println("getTrimType ="+vm.getTrimType());;
 				 * System.
 				 * out.println("getOriginalColumnType ="+vm.getOriginalColumnType
-				 * ());; //ZDCD NUMBER(6) Y ×Ö¶Î³¤¶È
+				 * ());; //ZDCD NUMBER(6) Y å­—æ®µé•¿åº¦
 				 * System.out.println("getLength ="+vm.getLength()); //ZDM
-				 * VARCHAR2(20) Y ×Ö¶ÎÃû
+				 * VARCHAR2(20) Y å­—æ®µå
 				 * System.out.println("getName ="+vm.getName());;
 				 * System.out.println("getOrigin ="+vm.getOrigin());; //ZDLX
-				 * VARCHAR2(20) Y ×Ö¶ÎÀàĞÍ
+				 * VARCHAR2(20) Y å­—æ®µç±»å‹
 				 * System.out.println("getOriginalColumnTypeName ="
 				 * +vm.getOriginalColumnTypeName());
 				 * System.out.println("getOriginalPrecision ="
 				 * +vm.getOriginalPrecision());;
 				 * System.out.println("getOriginalScale ="
-				 * +vm.getOriginalScale());; //ZDJD NUMBER(6) Y ×Ö¶Î¾«¶È
+				 * +vm.getOriginalScale());; //ZDJD NUMBER(6) Y å­—æ®µç²¾åº¦
 				 * System.out.println("getPrecision ="+vm.getPrecision());;
-				 * //SFWK NUMBER(1) Y ÊÇ·ñÎª¿Õ
+				 * //SFWK NUMBER(1) Y æ˜¯å¦ä¸ºç©º
 				 * System.out.println("isOriginalNullable ="
 				 * +vm.isOriginalNullable());; System.out.println(
 				 * "----------------------------------------------");
@@ -335,7 +335,7 @@ public class DbUtil {
 	}
 
 	public static List<Map<String, String>> getDBTables(DatabaseMeta meta,
-			String bm, Page page) {
+														String bm, Page page) {
 		DbUtil.clearDBCache(meta);
 		Database db = new Database(meta);
 		ResultSet rs = null;
@@ -364,9 +364,9 @@ public class DbUtil {
 					;
 					if (meta.isFetchSizeSupported()
 							&& (sel_stmt.getMaxRows() > 0
-									|| meta.getDatabaseType() == DatabaseMeta.TYPE_DATABASE_POSTGRES || (meta
-									.getDatabaseType() == DatabaseMeta.TYPE_DATABASE_MYSQL && meta
-									.isStreamingResults()))) {
+							|| meta.getDatabaseType() == DatabaseMeta.TYPE_DATABASE_POSTGRES || (meta
+							.getDatabaseType() == DatabaseMeta.TYPE_DATABASE_MYSQL && meta
+							.isStreamingResults()))) {
 						int fs = Const.FETCH_SIZE <= sel_stmt.getMaxRows() ? sel_stmt
 								.getMaxRows() : Const.FETCH_SIZE;
 						if (meta.getDatabaseType() == DatabaseMeta.TYPE_DATABASE_MYSQL
@@ -406,10 +406,10 @@ public class DbUtil {
 				rs.last();
 				int totRowCount = rs.getRow();
 				if (totRowCount > 0) {
-					// ¼ÇËã×ÜÒ³Êı
+					// è®°ç®—æ€»é¡µæ•°
 					int PageCount = (totRowCount + pageSize - 1) / pageSize;
 					page.setPageCount(PageCount);
-					// µ÷Õû´ıÏÔÊ¾µÄÒ³Âë
+					// è°ƒæ•´å¾…æ˜¾ç¤ºçš„é¡µç 
 					if (pager > PageCount)
 						pager = PageCount;
 
@@ -425,8 +425,8 @@ public class DbUtil {
 							String schema = rs.getString("TABLE_SCHEM");
 							if (Const.isEmpty(schema))
 								schema = rs.getString("TABLE_CAT"); // retry for
-																	// the
-																	// catalog.
+							// the
+							// catalog.
 							schemaTable = meta.getQuotedSchemaTableCombination(
 									schema, table);
 						} else {
@@ -478,8 +478,8 @@ public class DbUtil {
 	}
 
 	/**
-	 * »ñÈ¡Ö¸¶¨Êı¾İ¿âµÄËùÓĞ±í
-	 * 
+	 * è·å–æŒ‡å®šæ•°æ®åº“çš„æ‰€æœ‰è¡¨
+	 *
 	 * @param databaseMeta
 	 * @return
 	 */
@@ -529,8 +529,8 @@ public class DbUtil {
 	}
 
 	/**
-	 * »ñÈ¡Ö¸¶¨Êı¾İ¿âµÄËùÓĞÊÓÍ¼
-	 * 
+	 * è·å–æŒ‡å®šæ•°æ®åº“çš„æ‰€æœ‰è§†å›¾
+	 *
 	 * @param databaseMeta
 	 * @return
 	 */
@@ -580,8 +580,8 @@ public class DbUtil {
 	}
 
 	/**
-	 * »ñÈ¡Ö¸¶¨±íÖĞµÄÊôĞÔÖµ
-	 * 
+	 * è·å–æŒ‡å®šè¡¨ä¸­çš„å±æ€§å€¼
+	 *
 	 * @param databaseMeta
 	 * @return
 	 */
@@ -634,17 +634,17 @@ public class DbUtil {
 
 	/**
 	 * <p>
-	 * ÅĞ¶ÏÊÇ·ñ¹ıÂË×Ö¶Î
+	 * åˆ¤æ–­æ˜¯å¦è¿‡æ»¤å­—æ®µ
 	 * </p>
-	 * 
+	 *
 	 * @param wpc
 	 * @return
 	 */
 	private static boolean isFilterFields(WsjhParamsConfig wpc) {
 		if (!Tool.isNull(wpc.getCszd())
 				&& (wpc.getCszd().equals("PAGE")
-						|| wpc.getCszd().equals("PAGESIZE") || wpc.getCszd()
-						.equals("SIGN")))
+				|| wpc.getCszd().equals("PAGESIZE") || wpc.getCszd()
+				.equals("SIGN")))
 			return true;
 		return false;
 	}
@@ -672,7 +672,7 @@ public class DbUtil {
 	}
 
 	public static String[] getTableFields(String tablename,
-			DatabaseMeta databaseMeta) {
+										  DatabaseMeta databaseMeta) {
 		Database db = new Database(databaseMeta);
 		try {
 			db.connect();
@@ -691,7 +691,7 @@ public class DbUtil {
 	}
 
 	public static String getIsNotNullFields(String tablename,
-			DatabaseMeta databaseMeta) {
+											DatabaseMeta databaseMeta) {
 		Database db = new Database(databaseMeta);
 		try {
 			db.connect();
@@ -716,15 +716,15 @@ public class DbUtil {
 	}
 
 	/**
-	 * »ñÈ¡±íµÄ×Ö¶ÎÃû
-	 * 
+	 * è·å–è¡¨çš„å­—æ®µå
+	 *
 	 * @param tablename
 	 * @param databaseMeta
 	 * @param flag
 	 * @return
 	 */
 	public static String[] getTableFields(String tablename,
-			DatabaseMeta databaseMeta, String tableType) {
+										  DatabaseMeta databaseMeta, String tableType) {
 		Database db = new Database(databaseMeta);
 		try {
 			db.connect();
@@ -750,15 +750,15 @@ public class DbUtil {
 	}
 
 	/**
-	 * »ñÈ¡±íµÄ×Ö¶ÎÃûºÍ×Ö¶ÎÀàĞÍ
-	 * 
+	 * è·å–è¡¨çš„å­—æ®µåå’Œå­—æ®µç±»å‹
+	 *
 	 * @param tablename
 	 * @param databaseMeta
 	 * @param flag
 	 * @return
 	 */
 	public static String[] getTableFieldsAndTypes(String tablename,
-			DatabaseMeta databaseMeta, String tableType) {
+												  DatabaseMeta databaseMeta, String tableType) {
 		if (Tool.isNull(tablename))
 			return null;
 		Database db = new Database(databaseMeta);
@@ -779,7 +779,7 @@ public class DbUtil {
 				field[i] = v.getName() + ":" + v.getTypeDesc() + ":"
 						+ v.getType() + ":" + v.getLength();
 			}
-			// ¶ÔÊı×éÄÚµÄÔªËØ½øĞĞÅÅĞò
+			// å¯¹æ•°ç»„å†…çš„å…ƒç´ è¿›è¡Œæ’åº
 			Arrays.sort(field);
 			return field;
 		} catch (KettleDatabaseException e) {
@@ -795,9 +795,9 @@ public class DbUtil {
 
 	/**
 	 * <p>
-	 * Ö´ĞĞ¸üĞÂÓï¾ä
+	 * æ‰§è¡Œæ›´æ–°è¯­å¥
 	 * </p>
-	 * 
+	 *
 	 * @param updateSQL
 	 */
 	public static void execUpdateSQL(DatabaseMeta databaseMeta, String updateSQL) {
@@ -826,7 +826,7 @@ public class DbUtil {
 	}
 
 	public static void batchUpdateSQL(DatabaseMeta databaseMeta,
-			List<String> updateSQLList) throws Exception {
+									  List<String> updateSQLList) throws Exception {
 		clearDBCache(databaseMeta);
 		Database database = new Database(databaseMeta);
 		try {
@@ -882,7 +882,7 @@ public class DbUtil {
 	}
 
 	public static String getSjcType(String sjc, String tablename,
-			DatabaseMeta databaseMeta) {
+									DatabaseMeta databaseMeta) {
 		String sql = "select DATA_TYPE from user_tab_cols where TABLE_NAME='"
 				+ tablename.toUpperCase() + "' and COLUMN_NAME='"
 				+ sjc.toUpperCase() + "' ";
@@ -923,7 +923,7 @@ public class DbUtil {
 				while (rs.next()) {
 					list.add(rs.getString(1));
 				}
-			}else if("mysql".equalsIgnoreCase((databaseMeta.getDatabaseTypeDesc()))){/*Ôö¼ÓÁËmysqlµÄÅĞ¶Ï    dingsj  2015-05-12*/
+			}else if("mysql".equalsIgnoreCase((databaseMeta.getDatabaseTypeDesc()))){/*å¢åŠ äº†mysqlçš„åˆ¤æ–­    dingsj  2015-05-12*/
 				rs = database.openQuery("select table_name,table_comment from information_schema.tables where table_schema='"+databaseMeta.getDatabaseName()+"'");
 				while (rs.next()) {
 					String comments = rs.getString(2);
@@ -965,7 +965,7 @@ public class DbUtil {
 	}
 
 	public static List getDBColumnAndComments(DatabaseMeta databaseMeta,
-			String tableName) {
+											  String tableName) {
 		clearDBCache(databaseMeta);
 		Database database = new Database(databaseMeta);
 		try {
@@ -982,7 +982,7 @@ public class DbUtil {
 					list.add(map);
 				}
 				rs.close();
-			}else if("mysql".equalsIgnoreCase((databaseMeta.getDatabaseTypeDesc()))){/*Ôö¼ÓÁËmysqlµÄÅĞ¶Ï    dingsj  2015-05-12*/
+			}else if("mysql".equalsIgnoreCase((databaseMeta.getDatabaseTypeDesc()))){/*å¢åŠ äº†mysqlçš„åˆ¤æ–­    dingsj  2015-05-12*/
 				rs = database.openQuery("select distinct t.COLUMN_NAME,IFNULL(t.COLUMN_COMMENT,t.COLUMN_NAME)COLUMN_COMMENT from information_schema.columns t where table_schema='"+databaseMeta.getDatabaseName()+"' "
 						+ "and table_name='"+tableName+"' order by t.COLUMN_NAME");
 				while (rs.next()) {
@@ -1023,7 +1023,7 @@ public class DbUtil {
 	}
 
 	public static List execQuerySQL(DatabaseMeta databaseMeta, String sql,
-			String[] objParams, RowMapper rowMapper) {
+									String[] objParams, RowMapper rowMapper) {
 		clearDBCache(databaseMeta);
 		Database database = new Database(databaseMeta);
 		List mapList = new ArrayList();
@@ -1058,7 +1058,7 @@ public class DbUtil {
 	}
 
 	public static List execQuerySQL(DatabaseMeta databaseMeta, String sql,
-			RowMapper rowMapper) {
+									RowMapper rowMapper) {
 		clearDBCache(databaseMeta);
 		Database database = new Database(databaseMeta);
 		List mapList = new ArrayList();
@@ -1140,8 +1140,8 @@ public class DbUtil {
 	}
 
 	/**
-	 * ÓÃÓÚODIÔ¤¾¯
-	 * 
+	 * ç”¨äºODIé¢„è­¦
+	 *
 	 * @param databaseMeta
 	 * @param param
 	 * @return
@@ -1222,7 +1222,7 @@ public class DbUtil {
 	}
 
 	public static List<Map> getTableData(String tableName,
-			DatabaseMeta databaseMeta, String[] fieldArr) {
+										 DatabaseMeta databaseMeta, String[] fieldArr) {
 
 		ResultSet rs = null;
 		List<Map> list = new ArrayList();
@@ -1260,7 +1260,7 @@ public class DbUtil {
 	}
 
 	public static PageList getTableDataPage(String tableName,
-			DatabaseMeta databaseMeta, String[] fieldArr, int toPage) {
+											DatabaseMeta databaseMeta, String[] fieldArr, int toPage) {
 
 		ResultSet rs = null;
 
@@ -1316,7 +1316,7 @@ public class DbUtil {
 	}
 
 	public static String getTableComment(String tableName,
-			DatabaseMeta databaseMeta) {
+										 DatabaseMeta databaseMeta) {
 		String table_comment = null;
 		ResultSet rs = null;
 		DbUtil.clearDBCache(databaseMeta);
