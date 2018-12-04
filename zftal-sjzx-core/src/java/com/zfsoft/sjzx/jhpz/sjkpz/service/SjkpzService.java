@@ -18,40 +18,40 @@ public interface SjkpzService{
     public void updateSjkpz(Sjkpz sjkpz);
 
     public void deleteSjkpz(Sjkpz sjkpz);
-    
+
     /**
-     * »ñÈ¡ËùÓĞµÄÊı¾İ¿âÀàĞÍĞÅÏ¢
+     * è·å–æ‰€æœ‰çš„æ•°æ®åº“ç±»å‹ä¿¡æ¯
      * @return
      */
     public List<Map<String,Object>> getSjklx();
 
     /**
-     * »ñµ½ËùÓĞµÄÊı¾İ¿âÁ¬½ÓÀàĞÍĞÅÏ¢
+     * è·åˆ°æ‰€æœ‰çš„æ•°æ®åº“è¿æ¥ç±»å‹ä¿¡æ¯
      * @return
      */
     public List<Map<String,Object>> getSjkljlx();
     /**
-     * »ñÈ¡ËùÓĞµÄÊı¾İ¿âÅäÖÃ
+     * è·å–æ‰€æœ‰çš„æ•°æ®åº“é…ç½®
      * @return
      */
     public List getSjkpz();
     /**
-     * »ñÈ¡ËùÓĞµÄÊÜ¼à¿ØµÄÊı¾İ¿âÅäÖÃ
+     * è·å–æ‰€æœ‰çš„å—ç›‘æ§çš„æ•°æ®åº“é…ç½®
      * @return
      */
     public List <SjkpzWrapper> getAllJKSjkpz();
-    
+
     public SjkpzWrapper getSjkpzDetail(String pzxh);
-    
+
     /**
-     * »ñÈ¡ºÍÒ»¸öÊı¾İ¿âÀàĞÍÏà¶ÔÓ¦µÄÁ¬½ÓÀàĞÍÅäÖÃ
+     * è·å–å’Œä¸€ä¸ªæ•°æ®åº“ç±»å‹ç›¸å¯¹åº”çš„è¿æ¥ç±»å‹é…ç½®
      * @param map
      * @return
      */
     public Map<String,Object> getSjklxAndLjlx(Map<String,Object> map);
-    
+
     /**
-     * ÅĞ¶ÏÊı¾İ¿â·şÎñÆ÷ÊÇ·ñ±»ÒıÓÃ
+     * åˆ¤æ–­æ•°æ®åº“æœåŠ¡å™¨æ˜¯å¦è¢«å¼•ç”¨
      * @param yyfwqlsh
      * @return
      */

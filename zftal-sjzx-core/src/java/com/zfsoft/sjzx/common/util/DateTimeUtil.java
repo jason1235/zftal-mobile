@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.zfsoft.sjzx.common.util;
 
@@ -15,14 +15,14 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 
 /**
- * ÈÕÆÚ´¦Àíutil
- * 
+ * æ—¥æœŸå¤„ç†util
+ *
  * hzmy-fms - DateTimeUtil.java
  *
  * com.hzmy.fms.common.util
  *
  * Copyright 2009 Hangzhou Port International Logistics Co.,ltd
- * All right reserved. 
+ * All right reserved.
  *
  * Created on 2009-4-19
  * @author jianghao
@@ -30,15 +30,15 @@ import org.apache.commons.lang.StringUtils;
 public class DateTimeUtil {
 	public final static int TIME_DAY_MILLISECOND = 86400000;
 	// /
-	// ¶¨ÒåÊ±¼äÈÕÆÚÏÔÊ¾¸ñÊ½
+	// å®šä¹‰æ—¶é—´æ—¥æœŸæ˜¾ç¤ºæ ¼å¼
 	// /
 	private final static String DATE_FORMAT = "yyyy-MM-dd";
 
-	private final static String DATE_FORMAT_CN = "yyyyÄêMMÔÂddÈÕ";
+	private final static String DATE_FORMAT_CN = "yyyyå¹´MMæœˆddæ—¥";
 
 	private final static String TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
 
-	private final static String TIME_FORMAT_CN = "yyyyÄêMMÔÂddÈÕ HH:mm:ss";
+	private final static String TIME_FORMAT_CN = "yyyyå¹´MMæœˆddæ—¥ HH:mm:ss";
 
 	private final static String MONTH_FORMAT = "yyyy-MM";
 
@@ -48,28 +48,28 @@ public class DateTimeUtil {
 	// HH:mm:ss.SSS";
 
 	/**
-	 * È¡µÃµ±Ç°ÏµÍ³Ê±¼ä£¬·µ»Øjava.util.DateÀàĞÍ
-	 * 
+	 * å–å¾—å½“å‰ç³»ç»Ÿæ—¶é—´ï¼Œè¿”å›java.util.Dateç±»å‹
+	 *
 	 * @see java.util.Date
-	 * @return java.util.Date ·µ»Ø·şÎñÆ÷µ±Ç°ÏµÍ³Ê±¼ä
+	 * @return java.util.Date è¿”å›æœåŠ¡å™¨å½“å‰ç³»ç»Ÿæ—¶é—´
 	 */
 	public static java.util.Date getCurrDate() {
 		return new java.util.Date();
 	}
 
 	/**
-	 * È¡µÃµ±Ç°ÏµÍ³Ê±¼ä´Á
-	 * 
+	 * å–å¾—å½“å‰ç³»ç»Ÿæ—¶é—´æˆ³
+	 *
 	 * @see java.sql.Timestamp
-	 * @return java.sql.Timestamp ÏµÍ³Ê±¼ä´Á
+	 * @return java.sql.Timestamp ç³»ç»Ÿæ—¶é—´æˆ³
 	 */
 	public static java.sql.Timestamp getCurrTimestamp() {
 		return new java.sql.Timestamp(System.currentTimeMillis());
 	}
 
 	/**
-	 * ½«2007-12-1±ä³É2007-12-01¡£½«2007-9-1±äÎª2007-09-01¡£
-	 * 
+	 * å°†2007-12-1å˜æˆ2007-12-01ã€‚å°†2007-9-1å˜ä¸º2007-09-01ã€‚
+	 *
 	 * @param date
 	 * @return
 	 */
@@ -93,8 +93,8 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * ´ÓÊ±¼ä´®ÖĞ»ñÈ¡Ğ¡Ê±Êı¡£
-	 * 
+	 * ä»æ—¶é—´ä¸²ä¸­è·å–å°æ—¶æ•°ã€‚
+	 *
 	 * @param timestr
 	 *            "2007-10-12 13:25:00"
 	 * @return
@@ -108,12 +108,12 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * ·µ»Øµ±Ç°Ê±¼äÊÇÉÏÎç»¹ÊÇÏÂÎç
-	 * 
+	 * è¿”å›å½“å‰æ—¶é—´æ˜¯ä¸Šåˆè¿˜æ˜¯ä¸‹åˆ
+	 *
 	 * @see Calendar.AM 0
 	 * @see Calendar.PM 1
 	 * @author lenghao
-	 * @createTime 2008-8-2 ÏÂÎç04:22:07
+	 * @createTime 2008-8-2 ä¸‹åˆ04:22:07
 	 * @return
 	 */
 	public static Integer getCurrDateAMorPM() {
@@ -122,86 +122,86 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÈÕÆÚ£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-15
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-15
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @see #getFormatDate(java.util.Date, String)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄÈÕÆÚ£¬Ä¬ÈÏ¸ñÊ½ÎªÎªyyyy-MM-dd£¬Èç2006-02-15
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œé»˜è®¤æ ¼å¼ä¸ºä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-15
 	 */
 	public static String getFormatDate(java.util.Date currDate) {
 		return getFormatDate(currDate, DATE_FORMAT);
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÈÕÆÚ£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-15
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-15
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @see #getFormatDate(java.util.Date)
-	 * @return Date ·µ»Ø¸ñÊ½»¯ºóµÄÈÕÆÚ£¬Ä¬ÈÏ¸ñÊ½ÎªÎªyyyy-MM-dd£¬Èç2006-02-15
+	 * @return Date è¿”å›æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œé»˜è®¤æ ¼å¼ä¸ºä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-15
 	 */
 	public static Date getFormatDateToDate(java.util.Date currDate) {
 		return getFormatDate(getFormatDate(currDate));
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÈÕÆÚ£¬¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ£¬Èç2006Äê02ÔÂ15ÈÕ
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œæ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ï¼Œå¦‚2006å¹´02æœˆ15æ—¥
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @see #getFormatDate(java.util.Date, String)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄÈÕÆÚ£¬Ä¬ÈÏ¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ£¬Èç2006Äê02ÔÂ15ÈÕ
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œé»˜è®¤æ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ï¼Œå¦‚2006å¹´02æœˆ15æ—¥
 	 */
 	public static String getFormatDate_CN(java.util.Date currDate) {
 		return getFormatDate(currDate, DATE_FORMAT_CN);
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÈÕÆÚ£¬¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ£¬Èç2006Äê02ÔÂ15ÈÕ
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œæ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ï¼Œå¦‚2006å¹´02æœˆ15æ—¥
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @see #getFormatDate_CN(String)
-	 * @return Date ·µ»Ø¸ñÊ½»¯ºóµÄÈÕÆÚ£¬Ä¬ÈÏ¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ£¬Èç2006Äê02ÔÂ15ÈÕ
+	 * @return Date è¿”å›æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œé»˜è®¤æ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ï¼Œå¦‚2006å¹´02æœˆ15æ—¥
 	 */
 	public static Date getFormatDateToDate_CN(java.util.Date currDate) {
 		return getFormatDate_CN(getFormatDate_CN(currDate));
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÈÕÆÚ£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-15
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-15
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @see #getFormatDate(String, String)
-	 * @return Date ·µ»Ø¸ñÊ½»¯ºóµÄÈÕÆÚ£¬Ä¬ÈÏ¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-15
+	 * @return Date è¿”å›æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œé»˜è®¤æ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-15
 	 */
 	public static Date getFormatDate(String currDate) {
 		return getFormatDate(currDate, DATE_FORMAT);
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÈÕÆÚ£¬¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ£¬Èç2006Äê02ÔÂ15ÈÕ
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œæ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ï¼Œå¦‚2006å¹´02æœˆ15æ—¥
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @see #getFormatDate(String, String)
-	 * @return ·µ»Ø¸ñÊ½»¯ºóµÄÈÕÆÚ£¬Ä¬ÈÏ¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ£¬Èç2006Äê02ÔÂ15ÈÕ
+	 * @return è¿”å›æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œé»˜è®¤æ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ï¼Œå¦‚2006å¹´02æœˆ15æ—¥
 	 */
 	public static Date getFormatDate_CN(String currDate) {
 		return getFormatDate(currDate, DATE_FORMAT_CN);
 	}
 
 	/**
-	 * ¸ù¾İ¸ñÊ½µÃµ½¸ñÊ½»¯ºóµÄÈÕÆÚ
-	 * 
+	 * æ ¹æ®æ ¼å¼å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¥æœŸ
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @param format
-	 *            ÈÕÆÚ¸ñÊ½£¬Èçyyyy-MM-dd
+	 *            æ—¥æœŸæ ¼å¼ï¼Œå¦‚yyyy-MM-dd
 	 * @see java.text.SimpleDateFormat#format(java.util.Date)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄÈÕÆÚ£¬¸ñÊ½ÓÉ²ÎÊı<code>format</code> ¶¨Òå£¬Èçyyyy-MM-dd£¬Èç2006-02-15
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œæ ¼å¼ç”±å‚æ•°<code>format</code> å®šä¹‰ï¼Œå¦‚yyyy-MM-ddï¼Œå¦‚2006-02-15
 	 */
 	public static String getFormatDate(java.util.Date currDate, String format) {
 		if (currDate == null) {
@@ -222,86 +222,86 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÊ±¼ä£¬¸ñÊ½Îªyyyy-MM-dd HH:mm:ss£¬Èç2006-02-15 15:23:45
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œæ ¼å¼ä¸ºyyyy-MM-dd HH:mm:ssï¼Œå¦‚2006-02-15 15:23:45
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÊ±¼ä
+	 *            è¦æ ¼å¼åŒ–çš„æ—¶é—´
 	 * @see #getFormatDateTime(java.util.Date, String)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄÊ±¼ä£¬Ä¬ÈÏ¸ñÊ½Îªyyyy-MM-dd HH:mm:ss£¬Èç2006-02-15 15:23:45
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œé»˜è®¤æ ¼å¼ä¸ºyyyy-MM-dd HH:mm:ssï¼Œå¦‚2006-02-15 15:23:45
 	 */
 	public static String getFormatDateTime(java.util.Date currDate) {
 		return getFormatDateTime(currDate, TIME_FORMAT);
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÊ±¼ä£¬¸ñÊ½Îªyyyy-MM-dd HH:mm:ss£¬Èç2006-02-15 15:23:45
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œæ ¼å¼ä¸ºyyyy-MM-dd HH:mm:ssï¼Œå¦‚2006-02-15 15:23:45
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»·µÄÊ±¼ä
+	 *            è¦æ ¼å¼ç¯çš„æ—¶é—´
 	 * @see #getFormatDateTime(String)
-	 * @return Date ·µ»Ø¸ñÊ½»¯ºóµÄÊ±¼ä£¬Ä¬ÈÏ¸ñÊ½Îªyyyy-MM-dd HH:mm:ss£¬Èç2006-02-15 15:23:45
+	 * @return Date è¿”å›æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œé»˜è®¤æ ¼å¼ä¸ºyyyy-MM-dd HH:mm:ssï¼Œå¦‚2006-02-15 15:23:45
 	 */
 	public static Date getFormatDateTimeToTime(java.util.Date currDate) {
 		return getFormatDateTime(getFormatDateTime(currDate));
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÊ±¼ä£¬¸ñÊ½Îªyyyy-MM-dd HH:mm:ss£¬Èç2006-02-15 15:23:45
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œæ ¼å¼ä¸ºyyyy-MM-dd HH:mm:ssï¼Œå¦‚2006-02-15 15:23:45
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÊ±¼ä
+	 *            è¦æ ¼å¼åŒ–çš„æ—¶é—´
 	 * @see #getFormatDateTime(String, String)
-	 * @return Date ·µ»Ø¸ñÊ½»¯ºóµÄÊ±¼ä£¬Ä¬ÈÏ¸ñÊ½Îªyyyy-MM-dd HH:mm:ss£¬Èç2006-02-15 15:23:45
+	 * @return Date è¿”å›æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œé»˜è®¤æ ¼å¼ä¸ºyyyy-MM-dd HH:mm:ssï¼Œå¦‚2006-02-15 15:23:45
 	 */
 	public static Date getFormatDateTime(String currDate) {
 		return getFormatDateTime(currDate, TIME_FORMAT);
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÊ±¼ä£¬¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ HH:mm:ss£¬Èç2006Äê02ÔÂ15ÈÕ 15:23:45
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œæ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ HH:mm:ssï¼Œå¦‚2006å¹´02æœˆ15æ—¥ 15:23:45
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÊ±¼ä
+	 *            è¦æ ¼å¼åŒ–çš„æ—¶é—´
 	 * @see #getFormatDateTime(java.util.Date, String)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄÊ±¼ä£¬Ä¬ÈÏ¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ HH:mm:ss£¬Èç2006Äê02ÔÂ15ÈÕ 15:23:45
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œé»˜è®¤æ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ HH:mm:ssï¼Œå¦‚2006å¹´02æœˆ15æ—¥ 15:23:45
 	 */
 	public static String getFormatDateTime_CN(java.util.Date currDate) {
 		return getFormatDateTime(currDate, TIME_FORMAT_CN);
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÊ±¼ä£¬¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ HH:mm:ss£¬Èç2006Äê02ÔÂ15ÈÕ 15:23:45
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œæ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ HH:mm:ssï¼Œå¦‚2006å¹´02æœˆ15æ—¥ 15:23:45
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÊ±¼ä
+	 *            è¦æ ¼å¼åŒ–çš„æ—¶é—´
 	 * @see #getFormatDateTime_CN(String)
-	 * @return Date ·µ»Ø¸ñÊ½»¯ºóµÄÊ±¼ä£¬Ä¬ÈÏ¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ HH:mm:ss£¬Èç2006Äê02ÔÂ15ÈÕ 15:23:45
+	 * @return Date è¿”å›æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œé»˜è®¤æ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ HH:mm:ssï¼Œå¦‚2006å¹´02æœˆ15æ—¥ 15:23:45
 	 */
 	public static Date getFormatDateTimeToTime_CN(java.util.Date currDate) {
 		return getFormatDateTime_CN(getFormatDateTime_CN(currDate));
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÊ±¼ä£¬¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ HH:mm:ss£¬Èç2006Äê02ÔÂ15ÈÕ 15:23:45
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œæ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ HH:mm:ssï¼Œå¦‚2006å¹´02æœˆ15æ—¥ 15:23:45
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÊ±¼ä
+	 *            è¦æ ¼å¼åŒ–çš„æ—¶é—´
 	 * @see #getFormatDateTime(String, String)
-	 * @return Date ·µ»Ø¸ñÊ½»¯ºóµÄÊ±¼ä£¬Ä¬ÈÏ¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ HH:mm:ss£¬Èç2006Äê02ÔÂ15ÈÕ 15:23:45
+	 * @return Date è¿”å›æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œé»˜è®¤æ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ HH:mm:ssï¼Œå¦‚2006å¹´02æœˆ15æ—¥ 15:23:45
 	 */
 	public static Date getFormatDateTime_CN(String currDate) {
 		return getFormatDateTime(currDate, TIME_FORMAT_CN);
 	}
 
 	/**
-	 * ¸ù¾İ¸ñÊ½µÃµ½¸ñÊ½»¯ºóµÄÊ±¼ä
-	 * 
+	 * æ ¹æ®æ ¼å¼å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¶é—´
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÊ±¼ä
+	 *            è¦æ ¼å¼åŒ–çš„æ—¶é—´
 	 * @param format
-	 *            Ê±¼ä¸ñÊ½£¬Èçyyyy-MM-dd HH:mm:ss
+	 *            æ—¶é—´æ ¼å¼ï¼Œå¦‚yyyy-MM-dd HH:mm:ss
 	 * @see java.text.SimpleDateFormat#format(java.util.Date)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄÊ±¼ä£¬¸ñÊ½ÓÉ²ÎÊı<code>format</code>¶¨Òå£¬Èçyyyy-MM-dd HH:mm:ss
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œæ ¼å¼ç”±å‚æ•°<code>format</code>å®šä¹‰ï¼Œå¦‚yyyy-MM-dd HH:mm:ss
 	 */
 	public static String getFormatDateTime(java.util.Date currDate, String format) {
 		if (currDate == null) {
@@ -322,14 +322,14 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * ¸ù¾İ¸ñÊ½µÃµ½¸ñÊ½»¯ºóµÄÈÕÆÚ
-	 * 
+	 * æ ¹æ®æ ¼å¼å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¥æœŸ
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @param format
-	 *            ÈÕÆÚ¸ñÊ½£¬Èçyyyy-MM-dd
+	 *            æ—¥æœŸæ ¼å¼ï¼Œå¦‚yyyy-MM-dd
 	 * @see java.text.SimpleDateFormat#parse(java.lang.String)
-	 * @return Date ·µ»Ø¸ñÊ½»¯ºóµÄÈÕÆÚ£¬¸ñÊ½ÓÉ²ÎÊı<code>format</code> ¶¨Òå£¬Èçyyyy-MM-dd£¬Èç2006-02-15
+	 * @return Date è¿”å›æ ¼å¼åŒ–åçš„æ—¥æœŸï¼Œæ ¼å¼ç”±å‚æ•°<code>format</code> å®šä¹‰ï¼Œå¦‚yyyy-MM-ddï¼Œå¦‚2006-02-15
 	 */
 	public static Date getFormatDate(String currDate, String format) {
 		if (currDate == null) {
@@ -350,14 +350,14 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * ¸ù¾İ¸ñÊ½µÃµ½¸ñÊ½»¯ºóµÄÊ±¼ä
-	 * 
+	 * æ ¹æ®æ ¼å¼å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¶é—´
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÊ±¼ä
+	 *            è¦æ ¼å¼åŒ–çš„æ—¶é—´
 	 * @param format
-	 *            Ê±¼ä¸ñÊ½£¬Èçyyyy-MM-dd HH:mm:ss
+	 *            æ—¶é—´æ ¼å¼ï¼Œå¦‚yyyy-MM-dd HH:mm:ss
 	 * @see java.text.SimpleDateFormat#parse(java.lang.String)
-	 * @return Date ·µ»Ø¸ñÊ½»¯ºóµÄÊ±¼ä£¬¸ñÊ½ÓÉ²ÎÊı<code>format</code>¶¨Òå£¬Èçyyyy-MM-dd HH:mm:ss
+	 * @return Date è¿”å›æ ¼å¼åŒ–åçš„æ—¶é—´ï¼Œæ ¼å¼ç”±å‚æ•°<code>format</code>å®šä¹‰ï¼Œå¦‚yyyy-MM-dd HH:mm:ss
 	 */
 	public static Date getFormatDateTime(String currDate, String format) {
 		if (currDate == null) {
@@ -378,7 +378,7 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * µÃµ½±¾ÈÕµÄÉÏÔÂÊ±¼ä Èç¹ûµ±ÈÕÎª2007-9-1,ÄÇÃ´»ñµÃ2007-8-1
+	 * å¾—åˆ°æœ¬æ—¥çš„ä¸Šæœˆæ—¶é—´ å¦‚æœå½“æ—¥ä¸º2007-9-1,é‚£ä¹ˆè·å¾—2007-8-1
 	 */
 	public static String getDateBeforeMonth() {
 		Calendar cal = Calendar.getInstance();
@@ -387,7 +387,7 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * µÃµ½±¾ÈÕµÄÇ°¼¸¸öÔÂÊ±¼ä Èç¹ûnumber=2µ±ÈÕÎª2007-9-1,ÄÇÃ´»ñµÃ2007-7-1
+	 * å¾—åˆ°æœ¬æ—¥çš„å‰å‡ ä¸ªæœˆæ—¶é—´ å¦‚æœnumber=2å½“æ—¥ä¸º2007-9-1,é‚£ä¹ˆè·å¾—2007-7-1
 	 */
 	public static String getDateBeforeMonth(int number) {
 		Calendar cal = Calendar.getInstance();
@@ -405,11 +405,11 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * »ñµÃÁ½¸öDateĞÍÈÕÆÚÖ®¼äÏà²îµÄÌìÊı£¨µÚ2¸ö¼õµÚ1¸ö£©
-	 * 
+	 * è·å¾—ä¸¤ä¸ªDateå‹æ—¥æœŸä¹‹é—´ç›¸å·®çš„å¤©æ•°ï¼ˆç¬¬2ä¸ªå‡ç¬¬1ä¸ªï¼‰
+	 *
 	 * @param Date
 	 *            first, Date second
-	 * @return int Ïà²îµÄÌìÊı
+	 * @return int ç›¸å·®çš„å¤©æ•°
 	 */
 	public static int getDaysBetweenDates(Date first, Date second) {
 		Date d1 = getFormatDateTime(getFormatDate(first), DATE_FORMAT);
@@ -421,11 +421,11 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * »ñµÃÁ½¸öStringĞÍÈÕÆÚÖ®¼äÏà²îµÄÌìÊı£¨µÚ2¸ö¼õµÚ1¸ö£©
-	 * 
+	 * è·å¾—ä¸¤ä¸ªStringå‹æ—¥æœŸä¹‹é—´ç›¸å·®çš„å¤©æ•°ï¼ˆç¬¬2ä¸ªå‡ç¬¬1ä¸ªï¼‰
+	 *
 	 * @param String
 	 *            first, String second
-	 * @return int Ïà²îµÄÌìÊı
+	 * @return int ç›¸å·®çš„å¤©æ•°
 	 */
 	public static int getDaysBetweenDates(String first, String second) {
 		Date d1 = getFormatDateTime(first, DATE_FORMAT);
@@ -438,10 +438,10 @@ public class DateTimeUtil {
 
 	/**
 	 * @author lenghao
-	 * @createTime 2008-8-5 ÏÂÎç01:57:09
+	 * @createTime 2008-8-5 ä¸‹åˆ01:57:09
 	 * @param first
 	 * @param second
-	 * @return »ñÈ¡Á½¸öDateÖ®¼äµÄÌìÊıµÄÁĞ±í
+	 * @return è·å–ä¸¤ä¸ªDateä¹‹é—´çš„å¤©æ•°çš„åˆ—è¡¨
 	 */
 	public static List<Date> getDaysListBetweenDates(Date first, Date second) {
 		List<Date> dateList = new ArrayList<Date>();
@@ -458,9 +458,9 @@ public class DateTimeUtil {
 	}
 
 	/**
-		 *
-		 *
-		 */
+	 *
+	 *
+	 */
 	public static String getDateBeforeDay() {
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_YEAR, -1);
@@ -468,52 +468,52 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄµ±Ç°ÏµÍ³ÈÕÆÚ£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-15
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„å½“å‰ç³»ç»Ÿæ—¥æœŸï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-15
+	 *
 	 * @see #getFormatDate(java.util.Date)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄµ±Ç°·şÎñÆ÷ÏµÍ³ÈÕÆÚ£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-15
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„å½“å‰æœåŠ¡å™¨ç³»ç»Ÿæ—¥æœŸï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-15
 	 */
 	public static String getCurrDateStr() {
 		return getFormatDate(getCurrDate());
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄµ±Ç°ÏµÍ³Ê±¼ä£¬¸ñÊ½Îªyyyy-MM-dd HH:mm:ss£¬Èç2006-02-15 15:23:45
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„å½“å‰ç³»ç»Ÿæ—¶é—´ï¼Œæ ¼å¼ä¸ºyyyy-MM-dd HH:mm:ssï¼Œå¦‚2006-02-15 15:23:45
+	 *
 	 * @see #getFormatDateTime(java.util.Date)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄµ±Ç°·şÎñÆ÷ÏµÍ³Ê±¼ä£¬¸ñÊ½Îªyyyy-MM-dd HH:mm:ss£¬Èç2006-02-15 15:23:45
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„å½“å‰æœåŠ¡å™¨ç³»ç»Ÿæ—¶é—´ï¼Œæ ¼å¼ä¸ºyyyy-MM-dd HH:mm:ssï¼Œå¦‚2006-02-15 15:23:45
 	 */
 	public static String getCurrDateTimeStr() {
 		return getFormatDateTime(getCurrDate());
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄµ±Ç°ÏµÍ³ÈÕÆÚ£¬¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ£¬Èç2006Äê02ÔÂ15ÈÕ
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„å½“å‰ç³»ç»Ÿæ—¥æœŸï¼Œæ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ï¼Œå¦‚2006å¹´02æœˆ15æ—¥
+	 *
 	 * @see #getFormatDate(java.util.Date, String)
-	 * @return String ·µ»Øµ±Ç°·şÎñÆ÷ÏµÍ³ÈÕÆÚ£¬¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ£¬Èç2006Äê02ÔÂ15ÈÕ
+	 * @return String è¿”å›å½“å‰æœåŠ¡å™¨ç³»ç»Ÿæ—¥æœŸï¼Œæ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ï¼Œå¦‚2006å¹´02æœˆ15æ—¥
 	 */
 	public static String getCurrDateStr_CN() {
 		return getFormatDate(getCurrDate(), DATE_FORMAT_CN);
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄµ±Ç°ÏµÍ³Ê±¼ä£¬¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ HH:mm:ss£¬Èç2006Äê02ÔÂ15ÈÕ 15:23:45
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„å½“å‰ç³»ç»Ÿæ—¶é—´ï¼Œæ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ HH:mm:ssï¼Œå¦‚2006å¹´02æœˆ15æ—¥ 15:23:45
+	 *
 	 * @see #getFormatDateTime(java.util.Date, String)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄµ±Ç°·şÎñÆ÷ÏµÍ³Ê±¼ä£¬¸ñÊ½ÎªyyyyÄêMMÔÂddÈÕ HH:mm:ss£¬Èç2006Äê02ÔÂ15ÈÕ 15:23:45
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„å½“å‰æœåŠ¡å™¨ç³»ç»Ÿæ—¶é—´ï¼Œæ ¼å¼ä¸ºyyyyå¹´MMæœˆddæ—¥ HH:mm:ssï¼Œå¦‚2006å¹´02æœˆ15æ—¥ 15:23:45
 	 */
 	public static String getCurrDateTimeStr_CN() {
 		return getFormatDateTime(getCurrDate(), TIME_FORMAT_CN);
 	}
 
 	/**
-	 * µÃµ½ÏµÍ³µ±Ç°ÈÕÆÚµÄÇ°»òÕßºó¼¸Ìì
-	 * 
+	 * å¾—åˆ°ç³»ç»Ÿå½“å‰æ—¥æœŸçš„å‰æˆ–è€…åå‡ å¤©
+	 *
 	 * @param iDate
-	 *            Èç¹ûÒª»ñµÃÇ°¼¸ÌìÈÕÆÚ£¬¸Ã²ÎÊıÎª¸ºÊı£» Èç¹ûÒª»ñµÃºó¼¸ÌìÈÕÆÚ£¬¸Ã²ÎÊıÎªÕıÊı
+	 *            å¦‚æœè¦è·å¾—å‰å‡ å¤©æ—¥æœŸï¼Œè¯¥å‚æ•°ä¸ºè´Ÿæ•°ï¼› å¦‚æœè¦è·å¾—åå‡ å¤©æ—¥æœŸï¼Œè¯¥å‚æ•°ä¸ºæ­£æ•°
 	 * @see java.util.Calendar#add(int, int)
-	 * @return Date ·µ»ØÏµÍ³µ±Ç°ÈÕÆÚµÄÇ°»òÕßºó¼¸Ìì
+	 * @return Date è¿”å›ç³»ç»Ÿå½“å‰æ—¥æœŸçš„å‰æˆ–è€…åå‡ å¤©
 	 */
 	public static Date getDateBeforeOrAfter(int iDate) {
 		Calendar cal = Calendar.getInstance();
@@ -522,12 +522,12 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * µÃµ½ÈÕÆÚµÄÇ°»òÕßºó¼¸Ìì
-	 * 
+	 * å¾—åˆ°æ—¥æœŸçš„å‰æˆ–è€…åå‡ å¤©
+	 *
 	 * @param iDate
-	 *            Èç¹ûÒª»ñµÃÇ°¼¸ÌìÈÕÆÚ£¬¸Ã²ÎÊıÎª¸ºÊı£» Èç¹ûÒª»ñµÃºó¼¸ÌìÈÕÆÚ£¬¸Ã²ÎÊıÎªÕıÊı
+	 *            å¦‚æœè¦è·å¾—å‰å‡ å¤©æ—¥æœŸï¼Œè¯¥å‚æ•°ä¸ºè´Ÿæ•°ï¼› å¦‚æœè¦è·å¾—åå‡ å¤©æ—¥æœŸï¼Œè¯¥å‚æ•°ä¸ºæ­£æ•°
 	 * @see java.util.Calendar#add(int, int)
-	 * @return Date ·µ»Ø²ÎÊı<code>curDate</code>¶¨ÒåÈÕÆÚµÄÇ°»òÕßºó¼¸Ìì
+	 * @return Date è¿”å›å‚æ•°<code>curDate</code>å®šä¹‰æ—¥æœŸçš„å‰æˆ–è€…åå‡ å¤©
 	 */
 	public static Date getDateBeforeOrAfter(Date curDate, int iDate) {
 		Calendar cal = Calendar.getInstance();
@@ -537,37 +537,37 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÔÂ·İ£¬¸ñÊ½Îªyyyy-MM£¬Èç2006-02
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æœˆä»½ï¼Œæ ¼å¼ä¸ºyyyy-MMï¼Œå¦‚2006-02
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @see #getFormatDate(java.util.Date, String)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄÔÂ·İ£¬¸ñÊ½Îªyyyy-MM£¬Èç2006-02
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„æœˆä»½ï¼Œæ ¼å¼ä¸ºyyyy-MMï¼Œå¦‚2006-02
 	 */
 	public static String getFormatMonth(java.util.Date currDate) {
 		return getFormatDate(currDate, MONTH_FORMAT);
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÈÕ£¬¸ñÊ½ÎªyyyyMMdd£¬Èç20060210
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„æ—¥ï¼Œæ ¼å¼ä¸ºyyyyMMddï¼Œå¦‚20060210
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @see #getFormatDate(java.util.Date, String)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄÈÕ£¬¸ñÊ½ÎªyyyyMMdd£¬Èç20060210
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„æ—¥ï¼Œæ ¼å¼ä¸ºyyyyMMddï¼Œå¦‚20060210
 	 */
 	public static String getFormatDay(java.util.Date currDate) {
 		return getFormatDate(currDate, DAY_FORMAT);
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄµ±ÔÂµÚÒ»Ìì£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-01
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„å½“æœˆç¬¬ä¸€å¤©ï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-01
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @see java.util.Calendar#getMinimum(int)
 	 * @see #getFormatDate(java.util.Date, String)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄµ±ÔÂµÚÒ»Ìì£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-01
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„å½“æœˆç¬¬ä¸€å¤©ï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-01
 	 */
 	public static String getFirstDayOfMonth() {
 		Calendar cal = Calendar.getInstance();
@@ -577,13 +577,13 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄÏÂÔÂµÚÒ»Ìì£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-01
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„ä¸‹æœˆç¬¬ä¸€å¤©ï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-01
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @see java.util.Calendar#getMinimum(int)
 	 * @see #getFormatDate(java.util.Date, String)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄÏÂÔÂµÚÒ»Ìì£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-01
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„ä¸‹æœˆç¬¬ä¸€å¤©ï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-01
 	 */
 	public static String getFirstDayOfNextMonth() {
 		Calendar cal = Calendar.getInstance();
@@ -594,13 +594,13 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄµ±ÔÂµÚÒ»Ìì£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-01
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„å½“æœˆç¬¬ä¸€å¤©ï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-01
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @see java.util.Calendar#getMinimum(int)
 	 * @see #getFormatDate(java.util.Date, String)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄµ±ÔÂµÚÒ»Ìì£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-01
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„å½“æœˆç¬¬ä¸€å¤©ï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-01
 	 */
 	public static String getFirstDayOfMonth(Date currDate) {
 		Calendar cal = Calendar.getInstance();
@@ -611,13 +611,13 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄµ±ÔÂ×îºóÒ»Ìì£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-28
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„å½“æœˆæœ€åä¸€å¤©ï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-28
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @see java.util.Calendar#getMinimum(int)
 	 * @see #getFormatDate(java.util.Date, String)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄµ±ÔÂ×îºóÒ»Ìì£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-28
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„å½“æœˆæœ€åä¸€å¤©ï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-28
 	 */
 	public static String getLastDayOfMonth(Date currDate) {
 		Calendar cal = Calendar.getInstance();
@@ -628,13 +628,13 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * µÃµ½¸ñÊ½»¯ºóµÄµ±ÔÂ×îºóÒ»Ìì£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-28
-	 * 
+	 * å¾—åˆ°æ ¼å¼åŒ–åçš„å½“æœˆæœ€åä¸€å¤©ï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-28
+	 *
 	 * @param currDate
-	 *            Òª¸ñÊ½»¯µÄÈÕÆÚ
+	 *            è¦æ ¼å¼åŒ–çš„æ—¥æœŸ
 	 * @see java.util.Calendar#getMinimum(int)
 	 * @see #getFormatDate(java.util.Date, String)
-	 * @return String ·µ»Ø¸ñÊ½»¯ºóµÄµ±ÔÂ×îºóÒ»Ìì£¬¸ñÊ½Îªyyyy-MM-dd£¬Èç2006-02-28
+	 * @return String è¿”å›æ ¼å¼åŒ–åçš„å½“æœˆæœ€åä¸€å¤©ï¼Œæ ¼å¼ä¸ºyyyy-MM-ddï¼Œå¦‚2006-02-28
 	 */
 	public static String getLastDayOfMonth() {
 		Calendar cal = Calendar.getInstance();
@@ -644,12 +644,12 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * µÃµ½ÈÕÆÚµÄÇ°»òÕßºó¼¸Ğ¡Ê±
-	 * 
+	 * å¾—åˆ°æ—¥æœŸçš„å‰æˆ–è€…åå‡ å°æ—¶
+	 *
 	 * @param iHour
-	 *            Èç¹ûÒª»ñµÃÇ°¼¸Ğ¡Ê±ÈÕÆÚ£¬¸Ã²ÎÊıÎª¸ºÊı£» Èç¹ûÒª»ñµÃºó¼¸Ğ¡Ê±ÈÕÆÚ£¬¸Ã²ÎÊıÎªÕıÊı
+	 *            å¦‚æœè¦è·å¾—å‰å‡ å°æ—¶æ—¥æœŸï¼Œè¯¥å‚æ•°ä¸ºè´Ÿæ•°ï¼› å¦‚æœè¦è·å¾—åå‡ å°æ—¶æ—¥æœŸï¼Œè¯¥å‚æ•°ä¸ºæ­£æ•°
 	 * @see java.util.Calendar#add(int, int)
-	 * @return Date ·µ»Ø²ÎÊı<code>curDate</code>¶¨ÒåÈÕÆÚµÄÇ°»òÕßºó¼¸Ğ¡Ê±
+	 * @return Date è¿”å›å‚æ•°<code>curDate</code>å®šä¹‰æ—¥æœŸçš„å‰æˆ–è€…åå‡ å°æ—¶
 	 */
 	public static Date getDateBeforeOrAfterHours(Date curDate, int iHour) {
 		Calendar cal = Calendar.getInstance();
@@ -659,8 +659,8 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * ÅĞ¶ÏÈÕÆÚÊÇ·ñÔÚµ±Ç°ÖÜÄÚ
-	 * 
+	 * åˆ¤æ–­æ—¥æœŸæ˜¯å¦åœ¨å½“å‰å‘¨å†…
+	 *
 	 * @param curDate
 	 * @param compareDate
 	 * @return
@@ -688,7 +688,7 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * Ê±¼ä²éÑ¯Ê±,½áÊøÊ±¼äµÄ 23:59:59
+	 * æ—¶é—´æŸ¥è¯¢æ—¶,ç»“æŸæ—¶é—´çš„ 23:59:59
 	 */
 	public static String addDateEndfix(String datestring) {
 		if ((datestring == null) || datestring.equals("")) {
@@ -698,10 +698,10 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * ·µ»Ø¸ñÊ½»¯µÄÈÕÆÚ
-	 * 
+	 * è¿”å›æ ¼å¼åŒ–çš„æ—¥æœŸ
+	 *
 	 * @param datePre
-	 *            ¸ñÊ½"yyyy-MM-dd 23:59:59";
+	 *            æ ¼å¼"yyyy-MM-dd 23:59:59";
 	 * @return
 	 */
 	public static Date getFormatDateEndfix(String dateStr) {
@@ -710,10 +710,10 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * ·µ»Ø¸ñÊ½»¯µÄÈÕÆÚ
-	 * 
+	 * è¿”å›æ ¼å¼åŒ–çš„æ—¥æœŸ
+	 *
 	 * @param datePre
-	 *            ¸ñÊ½"yyyy-MM-dd HH:mm:ss";
+	 *            æ ¼å¼"yyyy-MM-dd HH:mm:ss";
 	 * @return
 	 */
 	public static Date formatEndTime(String datePre) {
@@ -723,7 +723,7 @@ public class DateTimeUtil {
 		return getFormatDateTime(dateStr);
 	}
 
-	// date1¼ÓÉÏcompdayÌìÊıÒÔºóµÄÈÕÆÚÓëµ±Ç°Ê±¼ä±È½Ï£¬Èç¹û´óÓÚµ±Ç°Ê±¼ä·µ»Øtrue£¬·ñÔòfalse
+	// date1åŠ ä¸Šcompdayå¤©æ•°ä»¥åçš„æ—¥æœŸä¸å½“å‰æ—¶é—´æ¯”è¾ƒï¼Œå¦‚æœå¤§äºå½“å‰æ—¶é—´è¿”å›trueï¼Œå¦åˆ™false
 	public static Boolean compareDay(Date date1, int compday) {
 		if (date1 == null)
 			return false;
@@ -736,13 +736,13 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * ½øĞĞÊ±¶Î¸ñÊ½×ª»»£¬¶ÔÓÚÊäÈëµÄ48Î»µÄ01´®£¬½«½øĞĞÈçÏÂ²Ù×÷£º <li>
-	 * 1.ÏÈ½«ÊäÈëÖĞÃ¿¸ö0±ä³ÉÁ½¸ö0£¬Ã¿¸ö1±ä³É2¸ö1£¬ĞÎ³ÉÒ»¸ö96Î»µÄ¶ş½øÖÆ´®¡£</li> <li>
-	 * 2.½«ÉÏÊöµÄ96Î»µÄ¶ş½øÖÆ´®·Ö³É3×é£¬Ã¿×é32Î»¡£</li> <li>3.½«Ã¿¸ö32Î»µÄ¶ş½øÖÆ´®×ª»»³ÉÒ»¸ö8Î»µÄ16½øÖÆ´®¡£</li> <li>4.½«3¸ö8Î»µÄ16½øÖÆ´®ºÏ²¢³ÉÒ»¸ö´®£¬ÖĞ¼äÒÔ","·Ö¸î¡£</li>
-	 * 
+	 * è¿›è¡Œæ—¶æ®µæ ¼å¼è½¬æ¢ï¼Œå¯¹äºè¾“å…¥çš„48ä½çš„01ä¸²ï¼Œå°†è¿›è¡Œå¦‚ä¸‹æ“ä½œï¼š <li>
+	 * 1.å…ˆå°†è¾“å…¥ä¸­æ¯ä¸ª0å˜æˆä¸¤ä¸ª0ï¼Œæ¯ä¸ª1å˜æˆ2ä¸ª1ï¼Œå½¢æˆä¸€ä¸ª96ä½çš„äºŒè¿›åˆ¶ä¸²ã€‚</li> <li>
+	 * 2.å°†ä¸Šè¿°çš„96ä½çš„äºŒè¿›åˆ¶ä¸²åˆ†æˆ3ç»„ï¼Œæ¯ç»„32ä½ã€‚</li> <li>3.å°†æ¯ä¸ª32ä½çš„äºŒè¿›åˆ¶ä¸²è½¬æ¢æˆä¸€ä¸ª8ä½çš„16è¿›åˆ¶ä¸²ã€‚</li> <li>4.å°†3ä¸ª8ä½çš„16è¿›åˆ¶ä¸²åˆå¹¶æˆä¸€ä¸ªä¸²ï¼Œä¸­é—´ä»¥","åˆ†å‰²ã€‚</li>
+	 *
 	 * @param timespan
-	 *            Ò»¸ö48Î»µÄ¶ş½øÖÆ´®£¬Èç£º"011111111011111111111111111111111111111111111110"
-	 * @return Ò»¸ö16½øÖÆ´®£¬Ã¿Î»¼äÒÔ","·Ö¸î¡£Èç£º"3fffcfff,ffffffff,fffffffc"
+	 *            ä¸€ä¸ª48ä½çš„äºŒè¿›åˆ¶ä¸²ï¼Œå¦‚ï¼š"011111111011111111111111111111111111111111111110"
+	 * @return ä¸€ä¸ª16è¿›åˆ¶ä¸²ï¼Œæ¯ä½é—´ä»¥","åˆ†å‰²ã€‚å¦‚ï¼š"3fffcfff,ffffffff,fffffffc"
 	 */
 	public static String convertBinaryTime2Hex(String timespan) {
 		if (timespan == null || timespan.equals("")) {
@@ -777,11 +777,11 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * ½øĞĞÊ±¶Î¸ñÊ½×ª»»£¬½«ÊäÈëµÄ26Î»µÄ2½øÖÆ´®×ª»»³É48Î»µÄ¶ş½øÖÆ´®¡£
-	 * 
+	 * è¿›è¡Œæ—¶æ®µæ ¼å¼è½¬æ¢ï¼Œå°†è¾“å…¥çš„26ä½çš„2è¿›åˆ¶ä¸²è½¬æ¢æˆ48ä½çš„äºŒè¿›åˆ¶ä¸²ã€‚
+	 *
 	 * @param timespan
-	 *            Ò»¸ö16½øÖÆ´®£¬Ã¿Î»¼äÒÔ","·Ö¸î¡£Èç£º"3fffcfff,ffffffff,fffffffc"
-	 * @return Ò»¸ö48Î»µÄ¶ş½øÖÆ´®£¬Èç£º"011111111011111111111111111111111111111111111110"
+	 *            ä¸€ä¸ª16è¿›åˆ¶ä¸²ï¼Œæ¯ä½é—´ä»¥","åˆ†å‰²ã€‚å¦‚ï¼š"3fffcfff,ffffffff,fffffffc"
+	 * @return ä¸€ä¸ª48ä½çš„äºŒè¿›åˆ¶ä¸²ï¼Œå¦‚ï¼š"011111111011111111111111111111111111111111111110"
 	 */
 	public static String convertHexTime2Binary(String timespan) {
 		if (timespan == null || timespan.equals("")) {
@@ -810,11 +810,11 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * ½øĞĞÊ±¶Î¸ñÊ½×ª»»£¬½«ÊäÈëµÄ32Î»µÄ10½øÖÆ´®×ª»»³É48Î»µÄ¶ş½øÖÆ´®¡£
-	 * 
+	 * è¿›è¡Œæ—¶æ®µæ ¼å¼è½¬æ¢ï¼Œå°†è¾“å…¥çš„32ä½çš„10è¿›åˆ¶ä¸²è½¬æ¢æˆ48ä½çš„äºŒè¿›åˆ¶ä¸²ã€‚
+	 *
 	 * @param timespan
-	 *            Ò»¸ö16½øÖÆ´®£¬Ã¿Î»¼äÒÔ","·Ö¸î¡£Èç£º"1234567890,1234567890,1234567890c"
-	 * @return Ò»¸ö48Î»µÄ¶ş½øÖÆ´®£¬Èç£º"011111111011111111111111111111111111111111111110"
+	 *            ä¸€ä¸ª16è¿›åˆ¶ä¸²ï¼Œæ¯ä½é—´ä»¥","åˆ†å‰²ã€‚å¦‚ï¼š"1234567890,1234567890,1234567890c"
+	 * @return ä¸€ä¸ª48ä½çš„äºŒè¿›åˆ¶ä¸²ï¼Œå¦‚ï¼š"011111111011111111111111111111111111111111111110"
 	 */
 	public static String convertDecTime2Binary(String timespan) {
 		if (timespan == null || timespan.equals("")) {
@@ -843,13 +843,13 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * ½øĞĞÊ±¶Î¸ñÊ½×ª»»£¬¶ÔÓÚÊäÈëµÄ48Î»µÄ01´®£¬½«½øĞĞÈçÏÂ²Ù×÷£º <li>
-	 * 1.ÏÈ½«ÊäÈëÖĞÃ¿¸ö0±ä³ÉÁ½¸ö0£¬Ã¿¸ö1±ä³É2¸ö1£¬ĞÎ³ÉÒ»¸ö96Î»µÄ¶ş½øÖÆ´®¡£</li> <li>
-	 * 2.½«ÉÏÊöµÄ96Î»µÄ¶ş½øÖÆ´®·Ö³É3×é£¬Ã¿×é32Î»¡£</li> <li>3.½«Ã¿¸ö32Î»µÄ¶ş½øÖÆ´®×ª»»³ÉÒ»¸ö10Î»µÄ10½øÖÆ´®¡£</li> <li>4.½«3¸ö8Î»µÄ16½øÖÆ´®ºÏ²¢³ÉÒ»¸ö´®£¬ÖĞ¼äÒÔ","·Ö¸î¡£</li>
-	 * 
+	 * è¿›è¡Œæ—¶æ®µæ ¼å¼è½¬æ¢ï¼Œå¯¹äºè¾“å…¥çš„48ä½çš„01ä¸²ï¼Œå°†è¿›è¡Œå¦‚ä¸‹æ“ä½œï¼š <li>
+	 * 1.å…ˆå°†è¾“å…¥ä¸­æ¯ä¸ª0å˜æˆä¸¤ä¸ª0ï¼Œæ¯ä¸ª1å˜æˆ2ä¸ª1ï¼Œå½¢æˆä¸€ä¸ª96ä½çš„äºŒè¿›åˆ¶ä¸²ã€‚</li> <li>
+	 * 2.å°†ä¸Šè¿°çš„96ä½çš„äºŒè¿›åˆ¶ä¸²åˆ†æˆ3ç»„ï¼Œæ¯ç»„32ä½ã€‚</li> <li>3.å°†æ¯ä¸ª32ä½çš„äºŒè¿›åˆ¶ä¸²è½¬æ¢æˆä¸€ä¸ª10ä½çš„10è¿›åˆ¶ä¸²ã€‚</li> <li>4.å°†3ä¸ª8ä½çš„16è¿›åˆ¶ä¸²åˆå¹¶æˆä¸€ä¸ªä¸²ï¼Œä¸­é—´ä»¥","åˆ†å‰²ã€‚</li>
+	 *
 	 * @param timespan
-	 *            Ò»¸ö48Î»µÄ¶ş½øÖÆ´®£¬Èç£º"011111111011111111111111111111111111111111111110"
-	 * @return Ò»¸ö16½øÖÆ´®£¬Ã¿Î»¼äÒÔ","·Ö¸î¡£Èç£º"1234567890,1234567890,1234567890"
+	 *            ä¸€ä¸ª48ä½çš„äºŒè¿›åˆ¶ä¸²ï¼Œå¦‚ï¼š"011111111011111111111111111111111111111111111110"
+	 * @return ä¸€ä¸ª16è¿›åˆ¶ä¸²ï¼Œæ¯ä½é—´ä»¥","åˆ†å‰²ã€‚å¦‚ï¼š"1234567890,1234567890,1234567890"
 	 */
 	public static String convertBinaryTime2Dec(String timespan) {
 		if (timespan == null || timespan.equals("")) {
@@ -884,8 +884,8 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * ¼ÆËãÖ¸¶¨ÈÕÆÚ+addMonthÔÂ+15ºÅ ·µ»Ø¸ñÊ½"2008-02-15"
-	 * 
+	 * è®¡ç®—æŒ‡å®šæ—¥æœŸ+addMonthæœˆ+15å· è¿”å›æ ¼å¼"2008-02-15"
+	 *
 	 * @param date
 	 * @param addMonth
 	 * @param monthDay
@@ -900,8 +900,8 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * »ñµÃÒÔ½ñÌìÎªµ¥Î»Èô¸ÉÌìÒÔÇ°»òÒÔºóµÄÈÕÆÚµÄ±ê×¼¸ñÊ½"Wed Feb 20 00:00:00 CST 2008"£¬ÊÇ0µã0·Ö0Ãë¡£
-	 * 
+	 * è·å¾—ä»¥ä»Šå¤©ä¸ºå•ä½è‹¥å¹²å¤©ä»¥å‰æˆ–ä»¥åçš„æ—¥æœŸçš„æ ‡å‡†æ ¼å¼"Wed Feb 20 00:00:00 CST 2008"ï¼Œæ˜¯0ç‚¹0åˆ†0ç§’ã€‚
+	 *
 	 * @param idx
 	 * @return
 	 */
@@ -910,8 +910,8 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * »ñµÃ¸ø¶¨Ê±¼äÈô¸ÉÃëÒÔÇ°»òÒÔºóµÄÈÕÆÚµÄ±ê×¼¸ñÊ½¡£
-	 * 
+	 * è·å¾—ç»™å®šæ—¶é—´è‹¥å¹²ç§’ä»¥å‰æˆ–ä»¥åçš„æ—¥æœŸçš„æ ‡å‡†æ ¼å¼ã€‚
+	 *
 	 * @param curDate
 	 * @param seconds
 	 * @return curDate
@@ -923,8 +923,8 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * »ñµÃ¸ø¶¨ÈÕÆÚµ±Ìì23µã59·Ö59ÃëµÄ±ê×¼¸ñÊ½¡£
-	 * 
+	 * è·å¾—ç»™å®šæ—¥æœŸå½“å¤©23ç‚¹59åˆ†59ç§’çš„æ ‡å‡†æ ¼å¼ã€‚
+	 *
 	 * @param curDate
 	 * @return curDate
 	 */
@@ -942,12 +942,12 @@ public class DateTimeUtil {
 	private static final Object[] Date = null;
 
 	/**
-	 * alahan add 20050825 »ñÈ¡´«ÈëÊ±¼äÏà²îµÄÈÕÆÚ
-	 * 
+	 * alahan add 20050825 è·å–ä¼ å…¥æ—¶é—´ç›¸å·®çš„æ—¥æœŸ
+	 *
 	 * @param dt
-	 *            ´«ÈëÈÕÆÚ£¬¿ÉÒÔÎª¿Õ
+	 *            ä¼ å…¥æ—¥æœŸï¼Œå¯ä»¥ä¸ºç©º
 	 * @param diff
-	 *            ĞèÒª»ñÈ¡Ïà¸ôdiffÌìµÄÈÕÆÚ Èç¹ûÎªÕıÔòÈ¡ÒÔºóµÄÈÕÆÚ£¬·ñÔòÊ±¼äÍùÇ°ÍÆ
+	 *            éœ€è¦è·å–ç›¸éš”diffå¤©çš„æ—¥æœŸ å¦‚æœä¸ºæ­£åˆ™å–ä»¥åçš„æ—¥æœŸï¼Œå¦åˆ™æ—¶é—´å¾€å‰æ¨
 	 * @return
 	 */
 	public static String getDiffStringDate(Date dt, int diff) {
@@ -965,7 +965,7 @@ public class DateTimeUtil {
 
 	/**
 	 * yyyy-MM-dd
-	 * 
+	 *
 	 * @param date
 	 * @return
 	 */
@@ -983,14 +983,14 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * È¡µÃ¶à¸öÈÕÆÚÖĞ¼ä¸ôµÄ×î´óÌìÊı
-	 * 
+	 * å–å¾—å¤šä¸ªæ—¥æœŸä¸­é—´éš”çš„æœ€å¤§å¤©æ•°
+	 *
 	 * @author Alvise
 	 * @param startDateAndEndDate
 	 * @return
 	 */
 	public static int maxContinuousDays(Date[][] startDateAndEndDate) {
-		// Ã°ÅİÅÅĞò
+		// å†’æ³¡æ’åº
 		for (int i = 0; i < startDateAndEndDate.length - 1; i++) {
 			for (int j = 0; j < startDateAndEndDate.length - i - 1; j++) {
 				if (DateTimeUtil.getDaysBetweenDates(startDateAndEndDate[j + 1][0], startDateAndEndDate[j][0]) > 0) {
@@ -1012,7 +1012,7 @@ public class DateTimeUtil {
 		// System.out.println(
 		// "===========================================");
 
-		// ºÏ²¢Á¬ĞøµÄÊ±¼ä¶Î
+		// åˆå¹¶è¿ç»­çš„æ—¶é—´æ®µ
 		int j = 0;
 		Date[][] startDateAndEndDateNew = new Date[startDateAndEndDate.length][2];
 		for (int i = 0; i < startDateAndEndDateNew.length; i++) {
@@ -1041,7 +1041,7 @@ public class DateTimeUtil {
 		// + DateTimeUtil.getFormatDate(startDateAndEndDateNew[i][1]));
 		// }
 
-		// Ñ¡Ôñ·¨ÅÅĞò
+		// é€‰æ‹©æ³•æ’åº
 		int maxDays = 0;
 		for (int i = 0; i < startDateAndEndDateNew.length - 1; i++) {
 			Date curEndDate = startDateAndEndDateNew[i][1];
@@ -1059,8 +1059,8 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * È¡µÃ¶à¸öÈÕÆÚÖĞ¼ä¸ôµÄ×î´óÌìÊı,ÕâÀïµÄ²ÎÊıÊÇÓÃ ","ºÍ";"·Ö¸îµÄ×Ö·û×Ö·û´®ÀıÈç "2008-08-03,2008-08-04;"
-	 * 
+	 * å–å¾—å¤šä¸ªæ—¥æœŸä¸­é—´éš”çš„æœ€å¤§å¤©æ•°,è¿™é‡Œçš„å‚æ•°æ˜¯ç”¨ ","å’Œ";"åˆ†å‰²çš„å­—ç¬¦å­—ç¬¦ä¸²ä¾‹å¦‚ "2008-08-03,2008-08-04;"
+	 *
 	 * @author Alvise
 	 * @param startDateAndEndDate
 	 * @return
@@ -1080,13 +1080,13 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * ÅĞ¶ÏÊ±¼ä¶Î1ºÍÊ±¼ä¶Î2ÊÇ·ñÓĞ½»¼¯
-	 * 
+	 * åˆ¤æ–­æ—¶é—´æ®µ1å’Œæ—¶é—´æ®µ2æ˜¯å¦æœ‰äº¤é›†
+	 *
 	 * @param begintimeOne
 	 * @param endtimeOne
 	 * @param begintimeTwo
 	 * @param endtimeTwo
-	 * @return true:ÓĞ½»¼¯,false:Ã»ÓĞ½»¼¯
+	 * @return true:æœ‰äº¤é›†,false:æ²¡æœ‰äº¤é›†
 	 */
 	public static boolean isConfilct(String begintimeOne, String endtimeOne, String begintimeTwo, String endtimeTwo) {
 		Date beginOne = getFormatDate(begintimeOne);
@@ -1101,13 +1101,13 @@ public class DateTimeUtil {
 	}
 
 	/**
-	 * È¡µÃ×îÔç¿É¹ºÂòÊ±¼ä
-	 * 
+	 * å–å¾—æœ€æ—©å¯è´­ä¹°æ—¶é—´
+	 *
 	 * @param busytimes
-	 *            ±»¹ºÂòÊ±¼ä,¸ñÊ½Îª2008-08-06,2008-08-06;2008-08-9,2008-08-12;2008-08-14,2008-08-22;2008-09-04,2008-09-04
+	 *            è¢«è´­ä¹°æ—¶é—´,æ ¼å¼ä¸º2008-08-06,2008-08-06;2008-08-9,2008-08-12;2008-08-14,2008-08-22;2008-09-04,2008-09-04
 	 * @param days
-	 *            ¹ºÂòÊ±³¤
-	 * @return ×î¸ß¿É¹ºÂòÊ±¼ä
+	 *            è´­ä¹°æ—¶é•¿
+	 * @return æœ€é«˜å¯è´­ä¹°æ—¶é—´
 	 */
 	public static String getCansellTime(String busytimes, int days) {
 		Map<String, Integer> dayMap = new HashMap<String, Integer>();

@@ -86,12 +86,12 @@ public class DBEncrypt implements FactoryBean {
 		return s;
 	}
 	/**
-	 * <p>ÑéÖ¤ÃÜÔ¿ÊÇ·ñÕýÈ·</p>
+	 * <p>ï¿½ï¿½Ö¤ï¿½ï¿½Ô¿ï¿½Ç·ï¿½ï¿½ï¿½È·</p>
 	 * @param sign
 	 * @return
 	 */
-	public static boolean isEncrypt(String sign) {	
-		String meskey="zfsoft_sjzx_webservice";//Ä¬ÈÏmesKey 
+	public static boolean isEncrypt(String sign) {
+		String meskey="zfsoft_sjzx_webservice";//Ä¬ï¿½ï¿½mesKey
 		String signKey = eCode(meskey);
 		if(!Tool.isNull(signKey)&&!Tool.isNull(sign)){
 			if(signKey.equals(sign))return true;
@@ -106,4 +106,4 @@ public class DBEncrypt implements FactoryBean {
     	System.out.println(p.dCode("OXjBbsdJao4=".getBytes()));
     	System.out.println(p.dCode("6eoRbG6AJWQ=".getBytes()));
     }
-}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+}

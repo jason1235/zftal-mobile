@@ -1,22 +1,22 @@
 package com.zfsoft.sjzx.jhpz.wspz.model;
 /**
- * <p>WebService ½»»»×Ö¶ÎÅäÖÃ±í</p>
+ * <p>WebService äº¤æ¢å­—æ®µé…ç½®è¡¨</p>
  * @author wangjian
  *
  */
 public class WsjhdzConfig {
 
-	private Integer  zdpzxh;//×Ö¶ÎÅäÖÃ±àºÅ	
-	private String   mbzd;   //Ä¿±ê×Ö¶Î
+	private Integer  zdpzxh;//å­—æ®µé…ç½®ç¼–å·
+	private String   mbzd;   //ç›®æ ‡å­—æ®µ
 	private Integer  jhpzxh;
-	private String   sfzj;//ÊÇ·ñÖ÷¼ü
-	private Integer  mbzdsjlx;//Ä¿±ê×Ö¶ÎÊı¾İÀàĞÍ
-	private String   sfgx;//ÊÇ·ñ¸üĞÂ
-	private String   jhmc;  //½»»»ÅäÖÃÃû³Æ
-	private String   fhbl;//·µ»Ø±äÁ¿
-	private Integer jhlx;//½»»»ÀàĞÍ
-	
-	
+	private String   sfzj;//æ˜¯å¦ä¸»é”®
+	private Integer  mbzdsjlx;//ç›®æ ‡å­—æ®µæ•°æ®ç±»å‹
+	private String   sfgx;//æ˜¯å¦æ›´æ–°
+	private String   jhmc;  //äº¤æ¢é…ç½®åç§°
+	private String   fhbl;//è¿”å›å˜é‡
+	private Integer jhlx;//äº¤æ¢ç±»å‹
+
+
 	public Integer getJhlx() {
 		return jhlx;
 	}
@@ -35,7 +35,7 @@ public class WsjhdzConfig {
 	public void setZdpzxh(Integer zdpzxh) {
 		this.zdpzxh = zdpzxh;
 	}
-	
+
 	public String getMbzd() {
 		return mbzd;
 	}
@@ -54,7 +54,7 @@ public class WsjhdzConfig {
 	public void setSfzj(String sfzj) {
 		this.sfzj = sfzj;
 	}
-	
+
 	public Integer getMbzdsjlx() {
 		return mbzdsjlx;
 	}
@@ -73,6 +73,6 @@ public class WsjhdzConfig {
 	public void setJhmc(String jhmc) {
 		this.jhmc = jhmc;
 	}
-	
-	
+
+
 }

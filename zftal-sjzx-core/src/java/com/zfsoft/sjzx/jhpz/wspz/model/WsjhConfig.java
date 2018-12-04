@@ -6,37 +6,37 @@ import com.zfsoft.framework.page.BaseDataObject;
 
 /**
  * <p>
- * WebService ½»»»ÅäÖÃ±í
+ * WebService äº¤æ¢é…ç½®è¡¨
  * </p>
- * 
+ *
  * @author wangjian
- * 
+ *
  */
 public class WsjhConfig extends BaseQuery{
 
 	private static final long serialVersionUID = 5428261547765194428L;
 
-	private String wsjhmc;//WebService½»»»ÅäÖÃÃû³Æ
-	private Integer wsjhxh;//WebService ½»»»ÅäÖÃ±àºÅ
-	private String url;//µØÖ·
-	private String namespace;//ÃüÃû¿Õ¼ä
-	private String operate;//²Ù×÷·½·¨
-	private String isdzq="·ñ";//ÊÇ·ñ¶¨Ê±
-	private String wsjhds;//Ä¿µÄÊı¾İ¿â
-	private String wsjhb;//Ä¿µÄ±í	
-	private String wsjhzcb;//´«²ÎÊı¾İ±í
-	private String  xgsj;//ĞŞ¸ÄÊ±¼ä
-	private String fhbl;//·µ»Ø±äÁ¿ 
-	private String params;//·½·¨²ÎÊı
-	private int issjc;//ÆôÓÃÊ±¼ä´Á
-	private String  sjcz;//Ê±¼ä´Á¶ÔÓ¦µÄ±äÁ¿
-	private int istype;//·µ»ØÀàĞÍ0JSON 1XML 2Object(2´ı¶¨)
-	private String  gys;//¸ùÔªËØ
-	private String  zys;//×ÓÔªËØ
-	private int oflag=0;//²åÈë²Ù×÷±êÖ¾(1ÊÇ,0·ñ)
-	private int type;//ÀàĞÍ1WebService ½»»»ÅäÖÃ2 WebService±¨ËÍÅäÖÃ
-	private int plbs=0;//ÅúÁ¿±¨ËÍ
-	
+	private String wsjhmc;//WebServiceäº¤æ¢é…ç½®åç§°
+	private Integer wsjhxh;//WebService äº¤æ¢é…ç½®ç¼–å·
+	private String url;//åœ°å€
+	private String namespace;//å‘½åç©ºé—´
+	private String operate;//æ“ä½œæ–¹æ³•
+	private String isdzq="å¦";//æ˜¯å¦å®šæ—¶
+	private String wsjhds;//ç›®çš„æ•°æ®åº“
+	private String wsjhb;//ç›®çš„è¡¨
+	private String wsjhzcb;//ä¼ å‚æ•°æ®è¡¨
+	private String  xgsj;//ä¿®æ”¹æ—¶é—´
+	private String fhbl;//è¿”å›å˜é‡
+	private String params;//æ–¹æ³•å‚æ•°
+	private int issjc;//å¯ç”¨æ—¶é—´æˆ³
+	private String  sjcz;//æ—¶é—´æˆ³å¯¹åº”çš„å˜é‡
+	private int istype;//è¿”å›ç±»å‹0JSON 1XML 2Object(2å¾…å®š)
+	private String  gys;//æ ¹å…ƒç´ 
+	private String  zys;//å­å…ƒç´ 
+	private int oflag=0;//æ’å…¥æ“ä½œæ ‡å¿—(1æ˜¯,0å¦)
+	private int type;//ç±»å‹1WebService äº¤æ¢é…ç½®2 WebServiceæŠ¥é€é…ç½®
+	private int plbs=0;//æ‰¹é‡æŠ¥é€
+
 
 	public int getOflag() {
 		return oflag;

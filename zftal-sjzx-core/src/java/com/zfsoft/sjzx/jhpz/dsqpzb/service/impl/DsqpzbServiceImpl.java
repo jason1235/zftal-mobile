@@ -20,27 +20,27 @@ import com.zfsoft.sjzx.jhpz.wspz.model.WsjhConfig;
 
 public class DsqpzbServiceImpl implements DsqpzbService{
 
-    private DsqpzbDao dsqpzbDao;
+	private DsqpzbDao dsqpzbDao;
 
-    private GzzpzDao gzzpzDao;
-    
-    private TransactionTemplate transactionTemplate;
-    
-    public Dsqpzb getDsqpzb(Dsqpzb dsqpzb){
+	private GzzpzDao gzzpzDao;
 
-        return this.dsqpzbDao.getDsqpzb(dsqpzb).get(0);
-    }
+	private TransactionTemplate transactionTemplate;
 
-    public Object insertDsqpzb(Dsqpzb dsqpzb){
-    	this.dsqpzbDao.insertDsqpzb(dsqpzb);
-    	return this.dsqpzbDao.getInsertDsqpzb();
+	public Dsqpzb getDsqpzb(Dsqpzb dsqpzb){
 
-        //return this.dsqpzbDao.insertDsqpzb(dsqpzb);
-    }
+		return this.dsqpzbDao.getDsqpzb(dsqpzb).get(0);
+	}
 
-    public Object updateDsqpzb(final Dsqpzb dsqpzb){
+	public Object insertDsqpzb(Dsqpzb dsqpzb){
+		this.dsqpzbDao.insertDsqpzb(dsqpzb);
+		return this.dsqpzbDao.getInsertDsqpzb();
 
-    	return this.transactionTemplate.execute(new TransactionCallback<Object>(){
+		//return this.dsqpzbDao.insertDsqpzb(dsqpzb);
+	}
+
+	public Object updateDsqpzb(final Dsqpzb dsqpzb){
+
+		return this.transactionTemplate.execute(new TransactionCallback<Object>(){
 			public Object doInTransaction(TransactionStatus ts) {
 				Object object = null;
 				try{
@@ -50,7 +50,7 @@ public class DsqpzbServiceImpl implements DsqpzbService{
 					gzzpz.setXgr(dsqpzb.getXgr());
 					gzzpzDao.updateGzz(gzzpz);
 					dsqpzbDao.updateDsqpzb(dsqpzb);
-					object = "∂® ±∆˜≈‰÷√±Ì–ﬁ∏ƒ≥…π¶";
+					object = "ÂÆöÊó∂Âô®ÈÖçÁΩÆË°®‰øÆÊîπÊàêÂäü";
 				}catch(Exception e){
 					e.printStackTrace();
 					ts.setRollbackOnly();
@@ -58,12 +58,12 @@ public class DsqpzbServiceImpl implements DsqpzbService{
 				}
 				return object;
 			}
-    	});
-    }
+		});
+	}
 
-    public Object deleteDsqpzb(final Dsqpzb dsqpzb){
+	public Object deleteDsqpzb(final Dsqpzb dsqpzb){
 
-    	return this.transactionTemplate.execute(new TransactionCallback<Object>(){
+		return this.transactionTemplate.execute(new TransactionCallback<Object>(){
 			public Object doInTransaction(TransactionStatus ts) {
 				Object object = null;
 				try{
@@ -73,7 +73,7 @@ public class DsqpzbServiceImpl implements DsqpzbService{
 					gzzpz.setXgr(dsqpzb.getXgr());
 					gzzpzDao.updateGzz(gzzpz);
 					dsqpzbDao.deleteDsqpzb(dsqpzb);
-					object = "∂® ±∆˜…æ≥˝≥…π¶";
+					object = "ÂÆöÊó∂Âô®Âà†Èô§ÊàêÂäü";
 				}catch(Exception e){
 					e.printStackTrace();
 					ts.setRollbackOnly();
@@ -81,16 +81,16 @@ public class DsqpzbServiceImpl implements DsqpzbService{
 				}
 				return object;
 			}
-    	});
-    }
-    public Object deleteDsqpzb1(final Dsqpzb dsqpzb){
+		});
+	}
+	public Object deleteDsqpzb1(final Dsqpzb dsqpzb){
 
-    	return this.transactionTemplate.execute(new TransactionCallback<Object>(){
+		return this.transactionTemplate.execute(new TransactionCallback<Object>(){
 			public Object doInTransaction(TransactionStatus ts) {
 				Object object = null;
 				try{
 					dsqpzbDao.deleteDsqpzb(dsqpzb);
-					object = "∂® ±∆˜…æ≥˝≥…π¶";
+					object = "ÂÆöÊó∂Âô®Âà†Èô§ÊàêÂäü";
 				}catch(Exception e){
 					e.printStackTrace();
 					ts.setRollbackOnly();
@@ -98,21 +98,21 @@ public class DsqpzbServiceImpl implements DsqpzbService{
 				}
 				return object;
 			}
-    	});
-    }
-    public Object deleteDsqpzbEtl(Dsqpzb dsqpzb){
-    	dsqpzbDao.deleteDsqpzb(dsqpzb);
-    	return  "∂® ±∆˜…æ≥˝≥…π¶";
-    }
-    public PageList<Dsqpzb> getPagingInfo(Dsqpzb dsqpzb){
-    	PageList<Dsqpzb> pageList = new PageList<Dsqpzb>();
+		});
+	}
+	public Object deleteDsqpzbEtl(Dsqpzb dsqpzb){
+		dsqpzbDao.deleteDsqpzb(dsqpzb);
+		return  "ÂÆöÊó∂Âô®Âà†Èô§ÊàêÂäü";
+	}
+	public PageList<Dsqpzb> getPagingInfo(Dsqpzb dsqpzb){
+		PageList<Dsqpzb> pageList = new PageList<Dsqpzb>();
 		Paginator paginator = new Paginator();
 		if(dsqpzb!=null){
 			paginator.setItemsPerPage(dsqpzb.getPerPageSize());
 			paginator.setPage((Integer)dsqpzb.getToPage());
 			paginator.setItems(dsqpzbDao.getDsqpzbListCount(dsqpzb));
 			pageList.setPaginator(paginator);
-			
+
 			if(paginator.getBeginIndex() <= paginator.getItems()){
 				dsqpzb.setStartRow(paginator.getBeginIndex());
 				dsqpzb.setEndRow(paginator.getEndIndex());
@@ -122,13 +122,13 @@ public class DsqpzbServiceImpl implements DsqpzbService{
 		}
 		return pageList;
 
-        //return this.dsqpzbDao.getPagingInfo(dsqpzb);
-    }
+		//return this.dsqpzbDao.getPagingInfo(dsqpzb);
+	}
 
-    public void setDsqpzbDao(DsqpzbDao dsqpzbDao){
+	public void setDsqpzbDao(DsqpzbDao dsqpzbDao){
 
-        this.dsqpzbDao = dsqpzbDao;
-    }
+		this.dsqpzbDao = dsqpzbDao;
+	}
 
 	public Object saveDsqpzbBatch(List<Dsqpzb> list){
 		for(Dsqpzb dsqpzb : list){
@@ -141,31 +141,31 @@ public class DsqpzbServiceImpl implements DsqpzbService{
 	public List<DsqpzbWrapper> getRunSet(int jhpzxh) {
 		return this.dsqpzbDao.getRunSet(jhpzxh);
 	}
-	
+
 	public List<DsqpzbWrapper> getRunSetBywjbh(int wjbh) {
 		return this.dsqpzbDao.getRunSetBywjbh(wjbh);
 	}
-	
+
 	public void deleteDsqpzbByDxlsh(Dsqpzb dsqpzb){
-		 this.dsqpzbDao.deleteDsqpzbByDxlsh(dsqpzb);
+		this.dsqpzbDao.deleteDsqpzbByDxlsh(dsqpzb);
 	}
 
 	/*public int getDsqxh() {
 		return this.dsqpzbDao.getDsqxh();
 	}*/
-	
+
 	public Object updataDsqpzStatus(Dsqpzb dsqpzb){
-		 this.dsqpzbDao.updataDsqpzStatus(dsqpzb);
-		 return dsqpzb.getDsqzt();
+		this.dsqpzbDao.updataDsqpzStatus(dsqpzb);
+		return dsqpzb.getDsqzt();
 	}
-	
+
 	public int getDsqpzbByZt(Dsqpzb dsqpzb){
 		return this.dsqpzbDao.getDsqpzbByZt(dsqpzb);
 	}
 
 	public Object closeDsq(Dsqpzb dsqpzb) {
 		this.dsqpzbDao.closeDsq(dsqpzb);
-		return "∏¸–¬∂® ±∆˜◊¥Ã¨≥…π¶";
+		return "Êõ¥Êñ∞ÂÆöÊó∂Âô®Áä∂ÊÄÅÊàêÂäü";
 	}
 
 	/**
@@ -186,11 +186,11 @@ public class DsqpzbServiceImpl implements DsqpzbService{
 	 * <p>Description: </p>
 	 * @return
 	 *
-	 * @since 2012-12-12 …œŒÁ10:20:53
+	 * @since 2012-12-12 ‰∏äÂçà10:20:53
 	 * @author liuchaoyong
 	 */
 	public List<Dsqpzb> getRunTasks() {
-	
+
 		return this.dsqpzbDao.getRunTasks();
 	}
 
@@ -200,19 +200,19 @@ public class DsqpzbServiceImpl implements DsqpzbService{
 	}
 
 	/*public PageList getRunTasksPagingInfo(Dsqpzb dsqpzb) {
-		
+
 		 return this.dsqpzbDao.getRunTasksPagingInfo(dsqpzb);
 	}*/
 
 	public Object updateDsqpzb1(final Dsqpzb dsqpzb) {
 
 
-    	return this.transactionTemplate.execute(new TransactionCallback<Object>(){
+		return this.transactionTemplate.execute(new TransactionCallback<Object>(){
 			public Object doInTransaction(TransactionStatus ts) {
 				Object object = null;
 				try{
 					dsqpzbDao.updateDsqpzb(dsqpzb);
-					object = "∂® ±∆˜≈‰÷√±Ì–ﬁ∏ƒ≥…π¶";
+					object = "ÂÆöÊó∂Âô®ÈÖçÁΩÆË°®‰øÆÊîπÊàêÂäü";
 				}catch(Exception e){
 					e.printStackTrace();
 					ts.setRollbackOnly();
@@ -220,22 +220,22 @@ public class DsqpzbServiceImpl implements DsqpzbService{
 				}
 				return object;
 			}
-    	});
-    
+		});
+
 	}
 
 	public List getRunSetBydsqxh(int dsqxh) {
-		
+
 		return this.dsqpzbDao.getRunSetBydsqxh(dsqxh);
 	}
 
 	public List<Dsqpzb> getXtjkSjjhrzb() {
-		
+
 		return this.dsqpzbDao.getXtjkSjjhrzb();
 	}
 
 	public int updateDsqpzbIsjk(Dsqpzb dsqpzb) {
-		
+
 		this.dsqpzbDao.updateDsqpzbIsjk(dsqpzb);
 		return 1;
 	}

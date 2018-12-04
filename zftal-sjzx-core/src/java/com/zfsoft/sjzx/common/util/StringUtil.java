@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.zfsoft.sjzx.common.util;
 
@@ -10,23 +10,23 @@ import java.util.regex.Pattern;
 
 /**
  * @author cuitongxin
- * ÓÃÀ´´¦Àí×Ö·û´®²Ù×÷µÄ³£ÓÃ¹¤¾ßÀà
+ * ç”¨æ¥å¤„ç†å­—ç¬¦ä¸²æ“ä½œçš„å¸¸ç”¨å·¥å…·ç±»
  */
 public class StringUtil {
 
 	/**
-	 * °ÑÒ»¸ö×Ö·û´®°´ÕÕ²ğ·Ö·ûºÅ²ğ·Ö³ÉÒ»¸öÊı×é²¢·µ»Ø
-	 * @param original Ô­´®¼´ĞèÒª±»²ğ·ÖµÄ×Ö·û´®
-	 * @param regex ²ğ·Ö·ûºÅ,¼´ĞèÒªÓÃµ½´Ë·ûºÅÈ¥²ğ·ÖÔ­´®original.
-	 * @return ·µ»Ø²ğ·ÖºóµÄ×Ö·ûÊı×é,Èç¹û²ğ·ÖÊ§°ÜÔò·µ»Ønull
+	 * æŠŠä¸€ä¸ªå­—ç¬¦ä¸²æŒ‰ç…§æ‹†åˆ†ç¬¦å·æ‹†åˆ†æˆä¸€ä¸ªæ•°ç»„å¹¶è¿”å›
+	 * @param original åŸä¸²å³éœ€è¦è¢«æ‹†åˆ†çš„å­—ç¬¦ä¸²
+	 * @param regex æ‹†åˆ†ç¬¦å·,å³éœ€è¦ç”¨åˆ°æ­¤ç¬¦å·å»æ‹†åˆ†åŸä¸²original.
+	 * @return è¿”å›æ‹†åˆ†åçš„å­—ç¬¦æ•°ç»„,å¦‚æœæ‹†åˆ†å¤±è´¥åˆ™è¿”å›null
 	 */
 	public static String[] split(String original,String regex){
-		
+
 		return original.split(regex);
 	}
-	
+
 	/**
-	 * ÅĞ¶Ï×Ö·û´®ÊÇ·ñÊÇ¿ÕÖµ,Èç¹ûÊÇÔò·µ»Øtrue£¬Èç¹û²»ÊÇÔò·µ»Øfalse
+	 * åˆ¤æ–­å­—ç¬¦ä¸²æ˜¯å¦æ˜¯ç©ºå€¼,å¦‚æœæ˜¯åˆ™è¿”å›trueï¼Œå¦‚æœä¸æ˜¯åˆ™è¿”å›false
 	 * @param original
 	 * @return
 	 */
@@ -38,193 +38,193 @@ public class StringUtil {
 		return false;
 
 	}
-	/** 
-     * URL¼ì²é<br> 
-     * <br> 
-     * @param pInput     Òª¼ì²éµÄ×Ö·û´®<br> 
-     * @return boolean   ·µ»Ø¼ì²é½á¹û<br> 
-     * ^(https|http|www|ftp|)?(://)?(\\w+(-\\w+)*)(\\.(\\w+(-\\w+)*))*((:\\d+)?)(/(\\w+(-\\w+)*))*(\\.?(\\w)*)(\\?)?(((\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*(\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*)*(\\w*)*)$
-     */ 
-	public static boolean isUrl (String pInput) { 
-        if(pInput == null){ 
-            return false; 
-        } 
-        String regEx = "^(http|https|ftp)//://([a-zA-Z0-9//.//-]+(//:[a-zA-" 
-            + "Z0-9//.&%//$//-]+)*@)?((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{" 
-            + "2}|[1-9]{1}[0-9]{1}|[1-9])//.(25[0-5]|2[0-4][0-9]|[0-1]{1}" 
-            + "[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)//.(25[0-5]|2[0-4][0-9]|" 
-            + "[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)//.(25[0-5]|2[0-" 
-            + "4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0" 
-            + "-9//-]+//.)*[a-zA-Z0-9//-]+//.[a-zA-Z]{2,4})(//:[0-9]+)?(/" 
-            + "[^/][a-zA-Z0-9//.//,//?//'///////+&%//$//=~_//-@]*)*$"; 
-        Pattern p = Pattern.compile(regEx); 
-        Matcher matcher = p.matcher(pInput); 
-        return matcher.matches(); 
-    }
-	
-	 public static String join(Object[] array)
-	  {
-	    return join(array, null);
-	  }
+	/**
+	 * URLæ£€æŸ¥<br>
+	 * <br>
+	 * @param pInput     è¦æ£€æŸ¥çš„å­—ç¬¦ä¸²<br>
+	 * @return boolean   è¿”å›æ£€æŸ¥ç»“æœ<br>
+	 * ^(https|http|www|ftp|)?(://)?(\\w+(-\\w+)*)(\\.(\\w+(-\\w+)*))*((:\\d+)?)(/(\\w+(-\\w+)*))*(\\.?(\\w)*)(\\?)?(((\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*(\\w*%)*(\\w*\\?)*(\\w*:)*(\\w*\\+)*(\\w*\\.)*(\\w*&)*(\\w*-)*(\\w*=)*)*(\\w*)*)$
+	 */
+	public static boolean isUrl (String pInput) {
+		if(pInput == null){
+			return false;
+		}
+		String regEx = "^(http|https|ftp)//://([a-zA-Z0-9//.//-]+(//:[a-zA-"
+				+ "Z0-9//.&%//$//-]+)*@)?((25[0-5]|2[0-4][0-9]|[0-1]{1}[0-9]{"
+				+ "2}|[1-9]{1}[0-9]{1}|[1-9])//.(25[0-5]|2[0-4][0-9]|[0-1]{1}"
+				+ "[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)//.(25[0-5]|2[0-4][0-9]|"
+				+ "[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[1-9]|0)//.(25[0-5]|2[0-"
+				+ "4][0-9]|[0-1]{1}[0-9]{2}|[1-9]{1}[0-9]{1}|[0-9])|([a-zA-Z0"
+				+ "-9//-]+//.)*[a-zA-Z0-9//-]+//.[a-zA-Z]{2,4})(//:[0-9]+)?(/"
+				+ "[^/][a-zA-Z0-9//.//,//?//'///////+&%//$//=~_//-@]*)*$";
+		Pattern p = Pattern.compile(regEx);
+		Matcher matcher = p.matcher(pInput);
+		return matcher.matches();
+	}
 
-	  public static String join(Object[] array, char separator)
-	  {
-	    if (array == null) {
-	      return null;
-	    }
+	public static String join(Object[] array)
+	{
+		return join(array, null);
+	}
 
-	    return join(array, separator, 0, array.length);
-	  }
+	public static String join(Object[] array, char separator)
+	{
+		if (array == null) {
+			return null;
+		}
 
-	  public static String join(Object[] array, char separator, int startIndex, int endIndex)
-	  {
-	    if (array == null) {
-	      return null;
-	    }
-	    int bufSize = endIndex - startIndex;
-	    if (bufSize <= 0) {
-	      return "";
-	    }
+		return join(array, separator, 0, array.length);
+	}
 
-	    bufSize *= ((array[startIndex] == null ? 16 : array[startIndex].toString().length()) + 1);
-	    StringBuilder buf = new StringBuilder(bufSize);
+	public static String join(Object[] array, char separator, int startIndex, int endIndex)
+	{
+		if (array == null) {
+			return null;
+		}
+		int bufSize = endIndex - startIndex;
+		if (bufSize <= 0) {
+			return "";
+		}
 
-	    for (int i = startIndex; i < endIndex; i++) {
-	      if (i > startIndex) {
-	        buf.append(separator);
-	      }
-	      if (array[i] != null) {
-	        buf.append(array[i]);
-	      }
-	    }
-	    return buf.toString();
-	  }
+		bufSize *= ((array[startIndex] == null ? 16 : array[startIndex].toString().length()) + 1);
+		StringBuilder buf = new StringBuilder(bufSize);
 
-	  public static String join(Object[] array, String separator)
-	  {
-	    if (array == null) {
-	      return null;
-	    }
-	    return join(array, separator, 0, array.length);
-	  }
+		for (int i = startIndex; i < endIndex; i++) {
+			if (i > startIndex) {
+				buf.append(separator);
+			}
+			if (array[i] != null) {
+				buf.append(array[i]);
+			}
+		}
+		return buf.toString();
+	}
 
-	  public static String join(Object[] array, String separator, int startIndex, int endIndex)
-	  {
-	    if (array == null) {
-	      return null;
-	    }
-	    if (separator == null) {
-	      separator = "";
-	    }
+	public static String join(Object[] array, String separator)
+	{
+		if (array == null) {
+			return null;
+		}
+		return join(array, separator, 0, array.length);
+	}
 
-	    int bufSize = endIndex - startIndex;
-	    if (bufSize <= 0) {
-	      return "";
-	    }
+	public static String join(Object[] array, String separator, int startIndex, int endIndex)
+	{
+		if (array == null) {
+			return null;
+		}
+		if (separator == null) {
+			separator = "";
+		}
 
-	    bufSize *= ((array[startIndex] == null ? 16 : array[startIndex].toString().length()) + separator.length());
+		int bufSize = endIndex - startIndex;
+		if (bufSize <= 0) {
+			return "";
+		}
 
-	    StringBuilder buf = new StringBuilder(bufSize);
+		bufSize *= ((array[startIndex] == null ? 16 : array[startIndex].toString().length()) + separator.length());
 
-	    for (int i = startIndex; i < endIndex; i++) {
-	      if (i > startIndex) {
-	        buf.append(separator);
-	      }
-	      if (array[i] != null) {
-	        buf.append(array[i]);
-	      }
-	    }
-	    return buf.toString();
-	  }
-	  public static String toString(Object obj)
-	  {
-	    return obj == null ? "" : obj.toString();
-	  }
-	  public static String join(Iterator iterator, char separator)
-	  {
-	    if (iterator == null) {
-	      return null;
-	    }
-	    if (!iterator.hasNext()) {
-	      return "";
-	    }
-	    Object first = iterator.next();
-	    if (!iterator.hasNext()) {
-	      return toString(first);
-	    }
+		StringBuilder buf = new StringBuilder(bufSize);
 
-	    StringBuilder buf = new StringBuilder(256);
-	    if (first != null) {
-	      buf.append(first);
-	    }
+		for (int i = startIndex; i < endIndex; i++) {
+			if (i > startIndex) {
+				buf.append(separator);
+			}
+			if (array[i] != null) {
+				buf.append(array[i]);
+			}
+		}
+		return buf.toString();
+	}
+	public static String toString(Object obj)
+	{
+		return obj == null ? "" : obj.toString();
+	}
+	public static String join(Iterator iterator, char separator)
+	{
+		if (iterator == null) {
+			return null;
+		}
+		if (!iterator.hasNext()) {
+			return "";
+		}
+		Object first = iterator.next();
+		if (!iterator.hasNext()) {
+			return toString(first);
+		}
 
-	    while (iterator.hasNext()) {
-	      buf.append(separator);
-	      Object obj = iterator.next();
-	      if (obj != null) {
-	        buf.append(obj);
-	      }
-	    }
+		StringBuilder buf = new StringBuilder(256);
+		if (first != null) {
+			buf.append(first);
+		}
 
-	    return buf.toString();
-	  }
+		while (iterator.hasNext()) {
+			buf.append(separator);
+			Object obj = iterator.next();
+			if (obj != null) {
+				buf.append(obj);
+			}
+		}
 
-	  public static String join(Iterator iterator, String separator)
-	  {
-	    if (iterator == null) {
-	      return null;
-	    }
-	    if (!iterator.hasNext()) {
-	      return "";
-	    }
-	    Object first = iterator.next();
-	    if (!iterator.hasNext()) {
-	      return toString(first);
-	    }
+		return buf.toString();
+	}
 
-	    StringBuilder buf = new StringBuilder(256);
-	    if (first != null) {
-	      buf.append(first);
-	    }
+	public static String join(Iterator iterator, String separator)
+	{
+		if (iterator == null) {
+			return null;
+		}
+		if (!iterator.hasNext()) {
+			return "";
+		}
+		Object first = iterator.next();
+		if (!iterator.hasNext()) {
+			return toString(first);
+		}
 
-	    while (iterator.hasNext()) {
-	      if (separator != null) {
-	        buf.append(separator);
-	      }
-	      Object obj = iterator.next();
-	      if (obj != null) {
-	        buf.append(obj);
-	      }
-	    }
-	    return buf.toString();
-	  }
+		StringBuilder buf = new StringBuilder(256);
+		if (first != null) {
+			buf.append(first);
+		}
 
-	  public static String join(Collection collection, char separator)
-	  {
-	    if (collection == null) {
-	      return null;
-	    }
-	    return join(collection.iterator(), separator);
-	  }
+		while (iterator.hasNext()) {
+			if (separator != null) {
+				buf.append(separator);
+			}
+			Object obj = iterator.next();
+			if (obj != null) {
+				buf.append(obj);
+			}
+		}
+		return buf.toString();
+	}
 
-	  public static String join(Collection collection, String separator)
-	  {
-	    if (collection == null) {
-	      return null;
-	    }
-	    return join(collection.iterator(), separator);
-	  }
-	
+	public static String join(Collection collection, char separator)
+	{
+		if (collection == null) {
+			return null;
+		}
+		return join(collection.iterator(), separator);
+	}
 
-	  public static String substringBeforeLast(String str, String separator)
-	  {
-	    if (str==null || separator==null) {
-	      return str;
-	    }
-	    int pos = str.lastIndexOf(separator);
-	    if (pos == -1) {
-	      return str;
-	    }
-	    return str.substring(0, pos);
-	  }
+	public static String join(Collection collection, String separator)
+	{
+		if (collection == null) {
+			return null;
+		}
+		return join(collection.iterator(), separator);
+	}
+
+
+	public static String substringBeforeLast(String str, String separator)
+	{
+		if (str==null || separator==null) {
+			return str;
+		}
+		int pos = str.lastIndexOf(separator);
+		if (pos == -1) {
+			return str;
+		}
+		return str.substring(0, pos);
+	}
 }

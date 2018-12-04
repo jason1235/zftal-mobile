@@ -21,119 +21,119 @@ import com.zfsoft.sjzx.jhpz.wspz.model.WsjhdzConfig;
 
 public interface WsjhConfigService {
 	/**
-	 * <p>¸ù¾İWebService½»»»ÅäÖÃÖ÷¼ü²éÑ¯½»»»ÅäÖÃĞÅÏ¢</p>
+	 * <p>æ ¹æ®WebServiceäº¤æ¢é…ç½®ä¸»é”®æŸ¥è¯¢äº¤æ¢é…ç½®ä¿¡æ¯</p>
 	 * @param wsjhConfig
 	 * @return
 	 * @throws DataAccessException
 	 */
 	public WsjhConfig getWsjhConfig(WsjhConfig wsjhConfig)
 			throws DataAccessException;
-    /**
-     * <p>²åÈëWebService½»»»ÅäÖÃĞÅÏ¢</p>
-     * @param wsjhConfig
-     * @throws DataAccessException
-     */
+	/**
+	 * <p>æ’å…¥WebServiceäº¤æ¢é…ç½®ä¿¡æ¯</p>
+	 * @param wsjhConfig
+	 * @throws DataAccessException
+	 */
 	public void insertWsjhConfig(WsjhConfig wsjhConfig)
 			throws DataAccessException;
-    /**
-     * <p>¸üĞÂWebService½»»»ÅäÖÃĞÅÏ¢</p>
-     * @param wsjhConfig
-     * @return
-     * @throws DataAccessException
-     */
+	/**
+	 * <p>æ›´æ–°WebServiceäº¤æ¢é…ç½®ä¿¡æ¯</p>
+	 * @param wsjhConfig
+	 * @return
+	 * @throws DataAccessException
+	 */
 	public void updateWsjhConfig(WsjhConfig wsjhConfig)
 			throws DataAccessException;
-    /**
-     * <p>É¾³ıWebService½»»»ÅäÖÃĞÅÏ¢</p>
-     * @param wsjhConfig
-     * @throws DataAccessException
-     */
+	/**
+	 * <p>åˆ é™¤WebServiceäº¤æ¢é…ç½®ä¿¡æ¯</p>
+	 * @param wsjhConfig
+	 * @throws DataAccessException
+	 */
 	public void deleteWsjhConfig(WsjhConfig wsjhConfig)
 			throws DataAccessException;
-    /**
-     * <p>»ñÈ¡º¬ÓĞ·ÖÒ³µÄWebService½»»»ÅäÖÃ¼¯ºÏ</p>
-     * @param dataObject
-     * @return
-     * @throws DataAccessException
-     */
+	/**
+	 * <p>è·å–å«æœ‰åˆ†é¡µçš„WebServiceäº¤æ¢é…ç½®é›†åˆ</p>
+	 * @param dataObject
+	 * @return
+	 * @throws DataAccessException
+	 */
 	public PageList<WsjhConfig> getPagingInfo(WsjhConfig wsjhconfig);
 
 	/**
-	 * <p>»ñÈ¡Êı¾İÀàĞÍ</p>
+	 * <p>è·å–æ•°æ®ç±»å‹</p>
 	 * @return
 	 * @throws DataAccessException
 	 */
 	public List<Sjlx> getSjlx();
 
 	/**
-	 * <p>¸ù¾İWebService½»»»ÅäÖÃÃû³Æ É¾³ıWebService×Ö¶ÎÅäÖÃ±í</p>
+	 * <p>æ ¹æ®WebServiceäº¤æ¢é…ç½®åç§° åˆ é™¤WebServiceå­—æ®µé…ç½®è¡¨</p>
 	 * @param wdc
 	 */
 	public void deleteWsjhdzConfig(WsjhdzConfig wdc)throws DataAccessException;
 
 	/**
-	 * <p>ÅúÁ¿²åÈëWebService ½»»»×Ö¶ÎÅäÖÃ±í</p>
+	 * <p>æ‰¹é‡æ’å…¥WebService äº¤æ¢å­—æ®µé…ç½®è¡¨</p>
 	 * @param list
 	 * @param wdc
 	 */
 	public void batchInsert(List<WsjhdzConfig> list, WsjhdzConfig wdc) throws SQLException;
 	/**
-	 * <p>»ñÈ¡¶¨Ê±Æ÷ÀàĞÍ</p>
+	 * <p>è·å–å®šæ—¶å™¨ç±»å‹</p>
 	 * @return
 	 */
 	public List<Dsqlx> getDsqlx();
 	/**
-	 * <p>²åÈëWebService ½»»»¶¨Ê±Æ÷ÄÚÈİ</p>
+	 * <p>æ’å…¥WebService äº¤æ¢å®šæ—¶å™¨å†…å®¹</p>
 	 * @param wdc
 	 * @return
 	 */
 	public String insertWsjhDsqConfig(WsjhDsqConfig wdc);
 	/**
-	 * <p>É¾³ıWebService ½»»»¶¨Ê±Æ÷</p>
+	 * <p>åˆ é™¤WebService äº¤æ¢å®šæ—¶å™¨</p>
 	 * @param wdc
 	 * @return
 	 */
 	public void deleteWsjhDsqConfig(WsjhDsqConfig wdc);
 	/**
-	 * <p>Æô¶¯/Í£Ö¹WebService ½»»»¶¨Ê±Æ÷</p>
+	 * <p>å¯åŠ¨/åœæ­¢WebService äº¤æ¢å®šæ—¶å™¨</p>
 	 * @param wdc
 	 * @return
 	 */
 	public void updataWsjhDsqConfig(WsjhDsqConfig wdc);
 	/**
-	 * <p>¸ù¾İ½»»»ÅäÖÃÃû³Æ »ñÈ¡½»»»½á¹û¶ÔÕÕÅäÖÃ±í</p>
+	 * <p>æ ¹æ®äº¤æ¢é…ç½®åç§° è·å–äº¤æ¢ç»“æœå¯¹ç…§é…ç½®è¡¨</p>
 	 * @param wdc
 	 * @return
 	 */
 	public List<WsjhdzConfig> getWsjhdzConfigList(WsjhdzConfig wdc);
-	
-	
+
+
 	/**
-	 * <P>²åÈëWebService ½»»»²ÎÊıÊµÌå</p>
+	 * <P>æ’å…¥WebService äº¤æ¢å‚æ•°å®ä½“</p>
 	 * @param wpc
 	 */
 	public void insertWsjhParamsConfig(WsjhParamsConfig wpc);
-	
+
 	/**
-	 * <p>¸ù¾İWebService ½»»»ÅäÖÃÃû³Æ »ñÈ¡WebService½»»»²ÎÊı</p>
+	 * <p>æ ¹æ®WebService äº¤æ¢é…ç½®åç§° è·å–WebServiceäº¤æ¢å‚æ•°</p>
 	 * @param wpc
 	 * @return
 	 */
 	public List<WsjhParamsConfig> getWsjhParamsConfigList(WsjhParamsConfig wpc);
 	/**
-	 * <p>ÅúÁ¿²åÈëWebService½»»»²ÎÊıÄÚÈİ</p>
+	 * <p>æ‰¹é‡æ’å…¥WebServiceäº¤æ¢å‚æ•°å†…å®¹</p>
 	 * @param list
 	 * @param wsjhmc
 	 */
 	public void batchInsertWsjhParamsConfig(List<WsjhParamsConfig> list, WsjhParamsConfig wpc) throws SQLException;
 	/**
-	 * <p>¸ù¾İWebService½»»»Ãû³ÆÉ¾³ı²ÎÊı</p>
+	 * <p>æ ¹æ®WebServiceäº¤æ¢åç§°åˆ é™¤å‚æ•°</p>
 	 * @param wpc
 	 */
 	public void deleteWsjhParamsConfig(WsjhParamsConfig wpc);
-	
+
 	/**
-	 * <p>¸ù¾İ·µ»Ø½á¹û¼°WebService ½»»»½á¹û×Ö¶ÎÅäÖÃ»ñÈ¡¶ÔÓ¦µÄ½á¹û¼¯</p>
+	 * <p>æ ¹æ®è¿”å›ç»“æœåŠWebService äº¤æ¢ç»“æœå­—æ®µé…ç½®è·å–å¯¹åº”çš„ç»“æœé›†</p>
 	 * @param results
 	 * @param wcList
 	 * @param isType
@@ -142,14 +142,14 @@ public interface WsjhConfigService {
 	 */
 	public List<List<WsjhResult>> getWsjhResultAll(Object[] results,	List<WsjhdzConfig> wcList,Integer isType,String zys)throws DocumentException;
 	/**
-	 * <p>¸ù¾İWebService ½»»»½á¹ûÉú³É¸üĞÂSQLÓï¾ä</p>
+	 * <p>æ ¹æ®WebService äº¤æ¢ç»“æœç”Ÿæˆæ›´æ–°SQLè¯­å¥</p>
 	 * @param wrList
 	 * @param tablename
 	 * @return
 	 */
 	public String getUpdateSQLAll(List<WsjhResult> wrList,String tablename);
 	/**
-	 * <p>»ñÈ¡Ò»Ìõ WebService ½»»»½á¹û¼¯</p>
+	 * <p>è·å–ä¸€æ¡ WebService äº¤æ¢ç»“æœé›†</p>
 	 * @param results
 	 * @param wcList
 	 * @return
@@ -157,41 +157,41 @@ public interface WsjhConfigService {
 	public List<WsjhResult> getWsjhResult(Object[] results,	List<WsjhdzConfig> wcList)throws DocumentException;
 
 	/**
-	 * <p>Ê±¼äÀàĞÍ</p>
+	 * <p>æ—¶é—´ç±»å‹</p>
 	 * @return
 	 */
 	public List<Sjdwb> getSjdw();
 	/**
-	 * <p>¸ù¾İ½»»»ÅäÖÃÃû³Æ»ñÈ¡¶ÔÓ¦µÄ¶¨Ê±Æ÷</p>
+	 * <p>æ ¹æ®äº¤æ¢é…ç½®åç§°è·å–å¯¹åº”çš„å®šæ—¶å™¨</p>
 	 * @param wdc
 	 * @return
 	 */
 	public List<WsjhDsqConfig> getWsjhDsqConfig(WsjhDsqConfig wdc);
 	/**
-	 * <p>»ñÈ¡ÈÕÖ¾¼ÇÂ¼</p>
+	 * <p>è·å–æ—¥å¿—è®°å½•</p>
 	 * @param wsjhrzb
 	 * @return
 	 */
 	public PageList<WsjhRzb> getPagingInfoByWsjhrzb(WsjhRzb wsjhrzb);
-	
+
 	/**
-	 * <p>²åÈëÈÕÖ¾¼ÇÂ¼</p>
+	 * <p>æ’å…¥æ—¥å¿—è®°å½•</p>
 	 * @param wsjhrzb
 	 */
 	public Integer insertWsjhrzb(WsjhRzb wsjhrzb);
 	/**
-	 * <p>¸ù¾İÈÕÖ¾¼ÇÂ¼Ö÷¼ü»ñÈ¡´íÎóÈÕÖ¾</p>
+	 * <p>æ ¹æ®æ—¥å¿—è®°å½•ä¸»é”®è·å–é”™è¯¯æ—¥å¿—</p>
 	 * @param wsjhrzb
 	 * @return
 	 */
 	public String getLogs(WsjhRzb wsjhrzb);
 	/**
-	 * <p>»ñÈ¡WebService ¶¨Ê±Æ÷ÅäÖÃ</p>
+	 * <p>è·å–WebService å®šæ—¶å™¨é…ç½®</p>
 	 * @return
 	 */
 	public List<WsjhDsqConfig> getRunTasks();
 	/**
-	 * <P>Ö´ĞĞWebService ½»»»ÅäÖÃ²¢·µ»Ø</P>
+	 * <P>æ‰§è¡ŒWebService äº¤æ¢é…ç½®å¹¶è¿”å›</P>
 	 * @param wpcList
 	 * @param wcList
 	 * @param wsjhConfig
@@ -199,19 +199,19 @@ public interface WsjhConfigService {
 	 */
 	public String getMessage(List<WsjhParamsConfig> wpcList,List<WsjhdzConfig> wcList, WsjhConfig wsjhConfig)throws AxisFault, DocumentException;
 	/**
-	 * <p>ÅúÁ¿¸üĞÂ·½·¨²ÎÊı</p>
+	 * <p>æ‰¹é‡æ›´æ–°æ–¹æ³•å‚æ•°</p>
 	 * @param list
 	 */
 	public void batchUpdateWsjhParamsConfig(List<WsjhParamsConfig> list)throws SQLException;
 	/**
-	 * <p>WebService ±¨ËÍÅäÖÃ²¢·µ»ØÏûÏ¢</p>
+	 * <p>WebService æŠ¥é€é…ç½®å¹¶è¿”å›æ¶ˆæ¯</p>
 	 * @param wsjhConfig
 	 * @param wpcList
 	 * @return
 	 */
 	public String getMessageByWsbs(WsjhConfig wsjhConfig,	List<WsjhParamsConfig> wpcList);
-	
+
 	public void deleteWsjhDsqConfigByJhmc(WsjhDsqConfig wdc);
-	
+
 
 }

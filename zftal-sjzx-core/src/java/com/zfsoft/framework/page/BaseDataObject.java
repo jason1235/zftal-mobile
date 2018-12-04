@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.zfsoft.framework.page;
 
@@ -20,28 +20,28 @@ public class BaseDataObject implements Serializable {
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	// ÅÅĞò×Ö¶Î¼°·½Ê½ Èç£º "order asc"
+
+	// æ’åºå­—æ®µåŠæ–¹å¼ å¦‚ï¼š "order asc"
 	private String orderStr;
 
-	// µ±Ç°Ò³Âë
+	// å½“å‰é¡µç 
 	private int toPage = 1;
 
-	// Ã¿Ò³ÏÔÊ¾¼ÇÂ¼Êı
+	// æ¯é¡µæ˜¾ç¤ºè®°å½•æ•°
 	private int perPageSize = 10;
 
-	// ²éÑ¯³öµÄÊı¾İ×ÜÊı
+	// æŸ¥è¯¢å‡ºçš„æ•°æ®æ€»æ•°
 	private int totalItem = 0;
 
-	// ÆğÊ¼¼ÇÂ¼
+	// èµ·å§‹è®°å½•
 	private int startRow = 0;
 
-	// ½ØÖ¹¼ÇÂ¼
+	// æˆªæ­¢è®°å½•
 	private int endRow = 0;
 
 	/**
-	 * ÅĞ¶Ïµ±Ç°Ò³ÊÇ·ñÎªµÚÒ»Ò³
-	 * 
+	 * åˆ¤æ–­å½“å‰é¡µæ˜¯å¦ä¸ºç¬¬ä¸€é¡µ
+	 *
 	 * @return boolean
 	 */
 	public boolean isFirstPage() {
@@ -51,11 +51,11 @@ public class BaseDataObject implements Serializable {
 	public Paginator toPaginator(){
 		Paginator paginator = new Paginator();
 		paginator.setItemsPerPage(getPerPageSize());
-        paginator.setPage(getToPage());
+		paginator.setPage(getToPage());
 
-        paginator.setItems(this.getTotalItem());
-        
-        return paginator;
+		paginator.setItems(this.getTotalItem());
+
+		return paginator;
 	}
 	public String getOrderStr() {
 		return orderStr;
@@ -98,9 +98,9 @@ public class BaseDataObject implements Serializable {
 	}
 
 	/**
-	 * µÃµ½ÉÏÒ»Ò³µÄÒ³Êı
-	 * 
-	 * @return Èç¹ûµ±Ç°Ò³Ã»ÓĞÉÏÒ»Ò³£¬·µ»Ø1
+	 * å¾—åˆ°ä¸Šä¸€é¡µçš„é¡µæ•°
+	 *
+	 * @return å¦‚æœå½“å‰é¡µæ²¡æœ‰ä¸Šä¸€é¡µï¼Œè¿”å›1
 	 */
 	public int getPreviousPage() {
 		int back = toPage - 1;
@@ -113,8 +113,8 @@ public class BaseDataObject implements Serializable {
 	}
 
 	/**
-	 * ÅĞ¶Ïµ±Ç°Ò³ÊÇ·ñÎª×îºóÒ»Ò³
-	 * 
+	 * åˆ¤æ–­å½“å‰é¡µæ˜¯å¦ä¸ºæœ€åä¸€é¡µ
+	 *
 	 * @return boolean
 	 */
 	public boolean isLastPage() {
@@ -122,9 +122,9 @@ public class BaseDataObject implements Serializable {
 	}
 
 	/**
-	 * µÃµ½ÏÂÒ»Ò³µÄÒ³Êı
-	 * 
-	 * @return int Èç¹ûµ±Ç°Ò²Ã»ÓĞÏÂÒ»Ò³£¬·µ»Ø×ÜÒ³Êı
+	 * å¾—åˆ°ä¸‹ä¸€é¡µçš„é¡µæ•°
+	 *
+	 * @return int å¦‚æœå½“å‰ä¹Ÿæ²¡æœ‰ä¸‹ä¸€é¡µï¼Œè¿”å›æ€»é¡µæ•°
 	 */
 	public int getNextPage() {
 		int back = toPage + 1;
@@ -137,8 +137,8 @@ public class BaseDataObject implements Serializable {
 	}
 
 	/**
-	 * µÃµ½ÒªÏÔÊ¾µÄ×ÜÒ³Êı
-	 * 
+	 * å¾—åˆ°è¦æ˜¾ç¤ºçš„æ€»é¡µæ•°
+	 *
 	 * @return int
 	 */
 	public int getTotalPage() {
@@ -156,8 +156,8 @@ public class BaseDataObject implements Serializable {
 	}
 
 	/**
-	 * µÃµ½Òª¼ìË÷µÄ½áÊøĞĞÊı
-	 * 
+	 * å¾—åˆ°è¦æ£€ç´¢çš„ç»“æŸè¡Œæ•°
+	 *
 	 * @return Returns the endRow.
 	 */
 	protected String getSQLBlurValue(String value) {
@@ -177,7 +177,7 @@ public class BaseDataObject implements Serializable {
 	}
 
 	/**
-	 * Ê±¼ä²éÑ¯Ê±,½áÊøÊ±¼äµÄ 23:59:59
+	 * æ—¶é—´æŸ¥è¯¢æ—¶,ç»“æŸæ—¶é—´çš„ 23:59:59
 	 */
 	protected String addDateEndPostfix(String datestring) {
 		if ((datestring == null) || datestring.equals("")) {
@@ -204,7 +204,7 @@ public class BaseDataObject implements Serializable {
 	}
 
 	/**
-	 * Ê±¼ä²éÑ¯Ê±£¬¿ªÊ¼Ê±¼äµÄ 00:00:00
+	 * æ—¶é—´æŸ¥è¯¢æ—¶ï¼Œå¼€å§‹æ—¶é—´çš„ 00:00:00
 	 */
 	protected String addDateStartPostfix(String datestring) {
 		if ((datestring == null) || datestring.equals("")) {
@@ -215,10 +215,10 @@ public class BaseDataObject implements Serializable {
 	}
 
 	/**
-	 * ÑéÖ¤toPageÒ³ÊıÊÇ·ñºÏ·¨
-	 * 
+	 * éªŒè¯toPageé¡µæ•°æ˜¯å¦åˆæ³•
+	 *
 	 * @param toPage
-	 * @return ÑéÖ¤ºóµÄtoPageÒ³Êı
+	 * @return éªŒè¯åçš„toPageé¡µæ•°
 	 */
 	public int validateToPage(int toPage) {
 		int pageNum = toPage;
@@ -230,10 +230,10 @@ public class BaseDataObject implements Serializable {
 	}
 
 	/**
-	 * ¹¹½¨PageInfo¶ÔÏóÊı¾İ
-	 * 
-	 * @param rundataÖĞµÄparams
-	 * @param ×Ü¼ÇÂ¼Êı
+	 * æ„å»ºPageInfoå¯¹è±¡æ•°æ®
+	 *
+	 * @param rundataä¸­çš„params
+	 * @param æ€»è®°å½•æ•°
 	 */
 	public void buildPageInfo(Map params) {
 		String pageSize = (String) params.get("perPageSize");
@@ -258,7 +258,7 @@ public class BaseDataObject implements Serializable {
 	}
 
 	/**
-	 * ¹¹½¨PageInfo¶ÔÏóÊı¾İ¡£ PageInfoµÄÊµÏÖÀà×¨ÓÃ£¬Ö÷ÒªÊÇÑéÖ¤µ±Ç°Ò³ÊıµÄºÏ·¨ĞÔ
+	 * æ„å»ºPageInfoå¯¹è±¡æ•°æ®ã€‚ PageInfoçš„å®ç°ç±»ä¸“ç”¨ï¼Œä¸»è¦æ˜¯éªŒè¯å½“å‰é¡µæ•°çš„åˆæ³•æ€§
 	 */
 	public void validatePageInfo() {
 		setToPage(validateToPage(toPage));

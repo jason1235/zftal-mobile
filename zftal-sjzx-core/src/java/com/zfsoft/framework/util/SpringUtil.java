@@ -10,7 +10,7 @@ import org.springframework.web.context.WebApplicationContext;
  * <p>Copyright: Copyright (c) 2011</p>
  * <p>Company: zfsoft.com </p>
  *
- * @since 2012-12-11 ÏÂÎç4:20:29
+ * @since 2012-12-11 ä¸‹åˆ4:20:29
  * @author liuchaoyong
  * @version 1.0
  */
@@ -21,11 +21,11 @@ public class SpringUtil {
     private static final WebApplicationContext appContext = ContextLoader.getCurrentWebApplicationContext();
 
     /**
-     * »ñÈ¡ÊµÏÖÀà
+     * è·å–å®ç°ç±»
      *
-     * @param clazz ½Ó¿Úclass
-     * @param <C>   ½Ó¿ÚÀàĞÍ
-     * @return beanÊµÀı
+     * @param clazz æ¥å£class
+     * @param <C>   æ¥å£ç±»å‹
+     * @return beanå®ä¾‹
      */
     @SuppressWarnings("unchecked")
     public static <C> C getImpl(Class<C> clazz) {
@@ -47,10 +47,10 @@ public class SpringUtil {
     }
 
     /**
-     * ÍùspringÈİÆ÷ÖĞ×¢²ábean
+     * å¾€springå®¹å™¨ä¸­æ³¨å†Œbean
      *
      * @param id        bean id
-     * @param beanClass ×¢²áµÄbean Àà
+     * @param beanClass æ³¨å†Œçš„bean ç±»
      */
     public static void registerBean(String id, Class<?> beanClass) {
         BeanDefinitionRegistry registry = (BeanDefinitionRegistry) ((ConfigurableApplicationContext) appContext).getBeanFactory();
@@ -58,7 +58,7 @@ public class SpringUtil {
     }
 
     /**
-     * ÍùspringÈİÆ÷ÖĞ×¢²ábean id Îªbean µÄÀàÃûÊ××ÖÄ¸Ğ¡Ğ´
+     * å¾€springå®¹å™¨ä¸­æ³¨å†Œbean id ä¸ºbean çš„ç±»åé¦–å­—æ¯å°å†™
      *
      * @param beanClass
      */
@@ -68,7 +68,7 @@ public class SpringUtil {
     }
 
     /**
-     * ÅĞ¶ÏÈİÆ÷ÖĞÊÇ·ñ°üº¬Ä³¸öÀàµÄÊµÀı
+     * åˆ¤æ–­å®¹å™¨ä¸­æ˜¯å¦åŒ…å«æŸä¸ªç±»çš„å®ä¾‹
      *
      * @param beanClass
      * @return
@@ -78,7 +78,7 @@ public class SpringUtil {
     }
 
     /**
-     * ÅĞ¶ÏÈİÆ÷ÖĞÊÇ·ñ°üº¬Ä³¸öidÀàµÄÊµÀı
+     * åˆ¤æ–­å®¹å™¨ä¸­æ˜¯å¦åŒ…å«æŸä¸ªidç±»çš„å®ä¾‹
      *
      * @param id
      * @return
@@ -88,10 +88,10 @@ public class SpringUtil {
     }
 
     /**
-     * ½«×Ö·û´®Ê××ÖÄ¸Ğ¡Ğ´
+     * å°†å­—ç¬¦ä¸²é¦–å­—æ¯å°å†™
      *
-     * @param s ×Ö·û´®
-     * @return Ê××ÖÄ¸Ğ¡Ğ´ºóµÄĞÂ×Ö·û´®
+     * @param s å­—ç¬¦ä¸²
+     * @return é¦–å­—æ¯å°å†™åçš„æ–°å­—ç¬¦ä¸²
      */
     private static String lowerFirst(CharSequence s) {
         int len = s.length();

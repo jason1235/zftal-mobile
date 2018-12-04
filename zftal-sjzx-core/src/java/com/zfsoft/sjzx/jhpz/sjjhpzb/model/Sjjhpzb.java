@@ -2,9 +2,9 @@ package com.zfsoft.sjzx.jhpz.sjjhpzb.model;
 
 import com.zfsoft.framework.page.BaseDataObject;
 
-public class Sjjhpzb extends BaseDataObject { 
-	private static final long serialVersionUID = 7596360198200475115L;	
-	private Integer jhpzxh;
+public class Sjjhpzb extends BaseDataObject {
+    private static final long serialVersionUID = 7596360198200475115L;
+    private Integer jhpzxh;
     private String jhpzmc;
     private String cjsj;
     private String ysql;
@@ -25,46 +25,46 @@ public class Sjjhpzb extends BaseDataObject {
     private String sfplcr;
     private Integer rzblsj;
     private Integer sfqy;
-    private String sfssjh; // «∑Ò µ ±Ωªªª
-    private String ssjhlx; // µ ±Ωªªª¿‡–Õ
-    private String bzwzd;  //±Í÷æŒª◊÷∂Œ
-    private String sjczd;  // ±º‰¥¡◊÷∂Œ
-    private String yb;  //‘¥±Ì
-    private String dsqzt;//∂® ±∆˜◊¥Ã¨
-    
+    private String sfssjh; //ÊòØÂê¶ÂÆûÊó∂‰∫§Êç¢
+    private String ssjhlx; //ÂÆûÊó∂‰∫§Êç¢Á±ªÂûã
+    private String bzwzd;  //Ê†áÂøó‰ΩçÂ≠óÊÆµ
+    private String sjczd;  //Êó∂Èó¥Êà≥Â≠óÊÆµ
+    private String yb;  //Ê∫êË°®
+    private String dsqzt;//ÂÆöÊó∂Âô®Áä∂ÊÄÅ
+
     public String getDsqzt() {
-		return dsqzt;
-	}
+        return dsqzt;
+    }
 
-	public void setDsqzt(String dsqzt) {
-		this.dsqzt = dsqzt;
-	}
+    public void setDsqzt(String dsqzt) {
+        this.dsqzt = dsqzt;
+    }
 
-	public String getSfwqcr() {
-		return sfwqcr;
-	}
+    public String getSfwqcr() {
+        return sfwqcr;
+    }
 
-	public void setSfwqcr(String sfwqcr) {
-		this.sfwqcr = sfwqcr;
-	}
+    public void setSfwqcr(String sfwqcr) {
+        this.sfwqcr = sfwqcr;
+    }
 
-	public String getSfqkmdb() {
-		return sfqkmdb;
-	}
+    public String getSfqkmdb() {
+        return sfqkmdb;
+    }
 
-	public void setSfqkmdb(String sfqkmdb) {
-		this.sfqkmdb = sfqkmdb;
-	}
+    public void setSfqkmdb(String sfqkmdb) {
+        this.sfqkmdb = sfqkmdb;
+    }
 
-	public String getSfplcr() {
-		return sfplcr;
-	}
+    public String getSfplcr() {
+        return sfplcr;
+    }
 
-	public void setSfplcr(String sfplcr) {
-		this.sfplcr = sfplcr;
-	}
+    public void setSfplcr(String sfplcr) {
+        this.sfplcr = sfplcr;
+    }
 
-	public void setJhpzxh(Integer jhpzxh){
+    public void setJhpzxh(Integer jhpzxh){
         this.jhpzxh = jhpzxh;
     }
 
@@ -201,7 +201,7 @@ public class Sjjhpzb extends BaseDataObject {
     public String getXgr(){
         return this.xgr;
     }
-    
+
     public void setRzbjsl(Integer rzblsj){
         this.rzblsj = rzblsj;
     }
@@ -209,57 +209,57 @@ public class Sjjhpzb extends BaseDataObject {
     public Integer getRzblsj(){
         return this.rzblsj;
     }
-    
+
     public void setRzblsj(Integer rzblsj) {
-		this.rzblsj = rzblsj;
-	}
-    
-	public Integer getSfqy() {
-		return sfqy;
-	}
+        this.rzblsj = rzblsj;
+    }
 
-	public void setSfqy(Integer sfqy) {
-		this.sfqy = sfqy;
-	}
+    public Integer getSfqy() {
+        return sfqy;
+    }
 
-	public String getSfssjh() {
-		return sfssjh;
-	}
+    public void setSfqy(Integer sfqy) {
+        this.sfqy = sfqy;
+    }
 
-	public void setSfssjh(String sfssjh) {
-		this.sfssjh = sfssjh;
-	}
+    public String getSfssjh() {
+        return sfssjh;
+    }
 
-	public String getSsjhlx() {
-		return ssjhlx;
-	}
+    public void setSfssjh(String sfssjh) {
+        this.sfssjh = sfssjh;
+    }
 
-	public void setSsjhlx(String ssjhlx) {
-		this.ssjhlx = ssjhlx;
-	}
+    public String getSsjhlx() {
+        return ssjhlx;
+    }
 
-	public String getBzwzd() {
-		return bzwzd;
-	}
+    public void setSsjhlx(String ssjhlx) {
+        this.ssjhlx = ssjhlx;
+    }
 
-	public void setBzwzd(String bzwzd) {
-		this.bzwzd = bzwzd;
-	}
+    public String getBzwzd() {
+        return bzwzd;
+    }
 
-	public String getSjczd() {
-		return sjczd;
-	}
+    public void setBzwzd(String bzwzd) {
+        this.bzwzd = bzwzd;
+    }
 
-	public void setSjczd(String sjczd) {
-		this.sjczd = sjczd;
-	}
+    public String getSjczd() {
+        return sjczd;
+    }
 
-	public String getYb() {
-		return yb;
-	}
+    public void setSjczd(String sjczd) {
+        this.sjczd = sjczd;
+    }
 
-	public void setYb(String yb) {
-		this.yb = yb;
-	}
+    public String getYb() {
+        return yb;
+    }
+
+    public void setYb(String yb) {
+        this.yb = yb;
+    }
 
 }

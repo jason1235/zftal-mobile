@@ -6,52 +6,52 @@ public class Constants {
 	 * <p>Copyright: Copyright (c) 2011</p>
 	 * <p>Company: zfsoft.com </p>
 	 *
-	 * @since 2012-12-5 ÉÏÎç11:19:56
+	 * @since 2012-12-5 ä¸Šåˆ11:19:56
 	 * @author liuchaoyong
 	 * @version 1.0
 	 */
-	public static final String WJGL_WJLX_EXCEL = "EXCEL";// excel: ÎÄ¼şÀàĞÍ
-	public static final String WJGL_WJLX_TXT = "TXT";// txt: urlµØÖ·ÀàĞÍ
+	public static final String WJGL_WJLX_EXCEL = "EXCEL";// excel: æ–‡ä»¶ç±»å‹
+	public static final String WJGL_WJLX_TXT = "TXT";// txt: urlåœ°å€ç±»å‹
 	public static final String JOB_GROUP="JOBGROUP";
-	public static final String  XTMESSAGE_SJK_TYPE ="SJK" ;  //Êı¾İ¿â×´Ì¬ÏûÏ¢
-	public static final String  XTMESSAGE_YYFWQ_TYPE ="YYFWQ" ;  //½»»»·şÎñ×´Ì¬ÏûÏ¢
-	public static final String  XTMESSAGE_JHRZ_TYPE ="JHRZ" ;  //½»»»ÈÕÖ¾×´Ì¬ÏûÏ¢
-	
-	//ĞÅÏ¢±ê×¼
-	public static final String  XXBZ_GJ ="GJ" ;  //¹ú¼ÒĞÅÏ¢±ê×¼
-	public static final String  XXBZ_XX ="XX" ;  //Ñ§Ğ£Ö´ĞĞ±ê×¼
-	public static final String  XXBZ_GJ_DM ="GJ_DM" ;  //¹ú¼ÒĞÅÏ¢±ê×¼--´úÂë¼¯
-	public static final String  XXBZ_XX_DM ="XX_DM" ;  //Ñ§Ğ£Ö´ĞĞ±ê×¼--´úÂë¼¯
-	public static final String  XXBZ_GJ_SJ ="GJ_SJ" ;  //¹ú¼ÒĞÅÏ¢±ê×¼--Êı¾İ¼¯
-	public static final String  XXBZ_XX_SJ ="XX_SJ" ;  //Ñ§Ğ£Ö´ĞĞ±ê×¼--Êı¾İ¼¯
+	public static final String  XTMESSAGE_SJK_TYPE ="SJK" ;  //æ•°æ®åº“çŠ¶æ€æ¶ˆæ¯
+	public static final String  XTMESSAGE_YYFWQ_TYPE ="YYFWQ" ;  //äº¤æ¢æœåŠ¡çŠ¶æ€æ¶ˆæ¯
+	public static final String  XTMESSAGE_JHRZ_TYPE ="JHRZ" ;  //äº¤æ¢æ—¥å¿—çŠ¶æ€æ¶ˆæ¯
+
+	//ä¿¡æ¯æ ‡å‡†
+	public static final String  XXBZ_GJ ="GJ" ;  //å›½å®¶ä¿¡æ¯æ ‡å‡†
+	public static final String  XXBZ_XX ="XX" ;  //å­¦æ ¡æ‰§è¡Œæ ‡å‡†
+	public static final String  XXBZ_GJ_DM ="GJ_DM" ;  //å›½å®¶ä¿¡æ¯æ ‡å‡†--ä»£ç é›†
+	public static final String  XXBZ_XX_DM ="XX_DM" ;  //å­¦æ ¡æ‰§è¡Œæ ‡å‡†--ä»£ç é›†
+	public static final String  XXBZ_GJ_SJ ="GJ_SJ" ;  //å›½å®¶ä¿¡æ¯æ ‡å‡†--æ•°æ®é›†
+	public static final String  XXBZ_XX_SJ ="XX_SJ" ;  //å­¦æ ¡æ‰§è¡Œæ ‡å‡†--æ•°æ®é›†
 	public static final String  XXBZ_TAB="TAB";
 	public static final String  XXBZ_TAB_COL="TAB_COL";
 	public static final String  XXBZ_TAB_DATA="TAB_DATA";
-	//tree·ç¸ñÔ¼¶¨
+	//treeé£æ ¼çº¦å®š
 	public static final String  TREE_FG_FLODER="folder";
 	public static final String  TREE_FG_FILE="file";
-	//tree×´Ì¬Ô¼¶¨
+	//treeçŠ¶æ€çº¦å®š
 	public static final String  TREE_ZT_CLOSED="closed";
 	public static final String  TREE_ZT_CLOSE="close";
 	public static final String  TREE_ZT_OPEN="open";
-	
-	
-	//ĞÅÏ¢±ê×¼ÔªÊı¾İ£­ÀàĞÍ
+
+
+	//ä¿¡æ¯æ ‡å‡†å…ƒæ•°æ®ï¼ç±»å‹
 	public static final String  YSJ_LX_C="C";
 	public static final String  YSJ_LX_N="N";
 	public static final String  YSJ_LX_M="M";
 	public static final String  YSJ_LX_B="B";
 	public static final String  YSJ_LX_T="T";
-	//ĞÅÏ¢±ê×¼ÔªÊı¾İ£­Ô¼Êø
+	//ä¿¡æ¯æ ‡å‡†å…ƒæ•°æ®ï¼çº¦æŸ
 	public static final String  YSJ_YS_M="M";
 	public static final String  YSJ_YS_O="O";
 
-	//ORACLEÊı¾İ¿â²»Í¬ÀàĞÍÖ¸¶¨
+	//ORACLEæ•°æ®åº“ä¸åŒç±»å‹æŒ‡å®š
 	public static final String  ORACLE_VARCHAR="VARCHAR2";
 	public static final String  ORACLE_NUMBER="NUMBER";
 	public static final String  ORACLE_BLOB="BLOB";
 	public static final String  ORACLE_CLOB="CLOB";
 	public static final String  ORACLE_DATE="DATE";
-	
-	
+
+
 }

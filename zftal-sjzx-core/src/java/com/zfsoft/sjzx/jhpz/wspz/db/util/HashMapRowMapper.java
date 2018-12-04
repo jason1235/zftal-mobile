@@ -18,8 +18,8 @@ public class HashMapRowMapper implements RowMapper {
 		int columnCount = meta.getColumnCount();
 		Map row = new HashMap();
 		for (int i = 1; i <= columnCount; i++) {
-			String colName = meta.getColumnName(i).toLowerCase(); // È¡µÃÁÐÃû£¬
-																	// ×ª»»³ÉÐ¡Ð´¡£
+			String colName = meta.getColumnName(i).toLowerCase(); // å–å¾—åˆ—åï¼Œ
+			// è½¬æ¢æˆå°å†™ã€‚
 			Object colValue = rs.getObject(i);
 			if(colValue==null){
 				colValue = "";

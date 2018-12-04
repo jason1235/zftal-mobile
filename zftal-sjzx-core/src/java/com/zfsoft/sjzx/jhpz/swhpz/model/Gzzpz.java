@@ -5,11 +5,11 @@ import com.zfsoft.framework.page.BaseDataObject;
 public class Gzzpz extends BaseDataObject {
 
     /**
-	 * 工作组对象序列化
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private Integer gzzbh;
+     * 宸ヤ綔缁勫璞″簭鍒楀寲
+     */
+    private static final long serialVersionUID = 1L;
+
+    private Integer gzzbh;
 
     public void setGzzbh(Integer gzzbh){
         this.gzzbh = gzzbh;
@@ -91,33 +91,33 @@ public class Gzzpz extends BaseDataObject {
 
     private String cjrXm;
 
-	/**
-	 * @return the cjrXm
-	 */
-	public String getCjrXm() {
-		return cjrXm;
-	}
+    /**
+     * @return the cjrXm
+     */
+    public String getCjrXm() {
+        return cjrXm;
+    }
 
-	/**
-	 * @param cjrXm the cjrXm to set
-	 */
-	public void setCjrXm(String cjrXm) {
-		this.cjrXm = cjrXm;
-	}
-	
-	private String xgrXm;
+    /**
+     * @param cjrXm the cjrXm to set
+     */
+    public void setCjrXm(String cjrXm) {
+        this.cjrXm = cjrXm;
+    }
 
-	/**
-	 * @return the xgrXm
-	 */
-	public String getXgrXm() {
-		return xgrXm;
-	}
+    private String xgrXm;
 
-	/**
-	 * @param xgrXm the xgrXm to set
-	 */
-	public void setXgrXm(String xgrXm) {
-		this.xgrXm = xgrXm;
-	}
+    /**
+     * @return the xgrXm
+     */
+    public String getXgrXm() {
+        return xgrXm;
+    }
+
+    /**
+     * @param xgrXm the xgrXm to set
+     */
+    public void setXgrXm(String xgrXm) {
+        this.xgrXm = xgrXm;
+    }
 }

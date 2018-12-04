@@ -22,14 +22,14 @@ import com.zfsoft.sjzx.jhpz.dsqpzb.service.DsqpzbService;
  * <p>
  * Company: zfsoft.com
  * </p>
- * 
- * @since 2012-12-11 ÏÂÎç4:01:40
+ *
+ * @since 2012-12-11 ä¸‹åˆ4:01:40
  * @author liuchaoyong
  * @version 1.0
  */
 public class JobStart implements Runnable {
 	private Scheduler scheduler = null;
-	
+
 	public Scheduler getScheduler() {
 		return scheduler;
 	}
@@ -37,12 +37,12 @@ public class JobStart implements Runnable {
 	public void setScheduler(Scheduler scheduler) {
 		this.scheduler = scheduler;
 	}
-	
+
 	public void run() {
 		try {
-			// Ë¯Ãß20Ãë
+			// ç¡çœ 20ç§’
 			Thread.sleep(20000);
-			// ¼ÓÔØÖ´ĞĞµÄµ÷¶È
+			// åŠ è½½æ‰§è¡Œçš„è°ƒåº¦
 			JobTriggerBean jtb = null;
 			DsqpzbService dsqpzbService = (DsqpzbService) SpringUtil
 					.getBean("dsqpzbService");
@@ -65,7 +65,7 @@ public class JobStart implements Runnable {
 						jd.setName(dsqxh + "e");
 						jd.setDsqpzb(dsq);
 						jd.setGroup(Constants.JOB_GROUP);
-						jd.setDescription("ºóÌ¨·şÎñ");
+						jd.setDescription("åå°æœåŠ¡");
 						jd.setJobClass(SimpleJob.class);
 						Trigger trigger = jtb.getTrigger();
 						trigger.setName(dsqxh + "e");

@@ -19,7 +19,7 @@ import com.zfsoft.sjzx.jhpz.sjkpz.model.SjkpzWrapper;
 import com.zfsoft.sjzx.jhpz.sjkpz.service.SjkpzService;
 
 /**
- * Êı¾İ¿âÅäÖÃÒµÎñ´¦Àí
+ * æ•°æ®åº“é…ç½®ä¸šåŠ¡å¤„ç†
  * @author cuitongxin
  *
  */
@@ -27,55 +27,55 @@ import com.zfsoft.sjzx.jhpz.sjkpz.service.SjkpzService;
 public class SjkpzServiceImpl implements SjkpzService{
 
 	private Logger log = Logger.getLogger(SjkpzServiceImpl.class);
-	
-    private SjkpzDao sjkpzDao;
 
-    //ÓÃÀ´»º´æÊı¾İ
-    private Cache cache;
-    
-    private List<Map<String,Object>> list ;
-    
-    @SuppressWarnings("unused")
+	private SjkpzDao sjkpzDao;
+
+	//ç”¨æ¥ç¼“å­˜æ•°æ®
+	private Cache cache;
+
+	private List<Map<String,Object>> list ;
+
+	@SuppressWarnings("unused")
 	private TransactionTemplate transactionTemplate;
 
-    public Object getSjkpz(Sjkpz sjkpz){
+	public Object getSjkpz(Sjkpz sjkpz){
 
-        return this.sjkpzDao.getSjkpzOne(sjkpz).get(0);
-    }
+		return this.sjkpzDao.getSjkpzOne(sjkpz).get(0);
+	}
 
-    public void insertSjkpz(Sjkpz sjkpz){
+	public void insertSjkpz(Sjkpz sjkpz){
 
-         this.sjkpzDao.insertSjkpz(sjkpz);
-    }
+		this.sjkpzDao.insertSjkpz(sjkpz);
+	}
 
-    /**
-     * ¸üĞÂÒ»ÌõÊı¾İ¿âÅäÖÃĞÅÏ¢,¼ÓÈëÊÂÎñ¿ØÖÆ
-     * @return
-     * @param final sjkpz
-     */
+	/**
+	 * æ›´æ–°ä¸€æ¡æ•°æ®åº“é…ç½®ä¿¡æ¯,åŠ å…¥äº‹åŠ¡æ§åˆ¶
+	 * @return
+	 * @param final sjkpz
+	 */
 	public void updateSjkpz(final Sjkpz sjkpz) {
 
 		sjkpzDao.updateSjkpz(sjkpz);
 	}
 
-    public void deleteSjkpz(Sjkpz sjkpz){
+	public void deleteSjkpz(Sjkpz sjkpz){
 
-        this.sjkpzDao.deleteSjkpz(sjkpz);
-    }
+		this.sjkpzDao.deleteSjkpz(sjkpz);
+	}
 
-    /**
-     * ²éÑ¯´øÓĞ·ÖÒ³ĞÅÏ¢µÄÊı¾İ¿âÅäÖÃĞÅÏ¢
-     */
-    public PageList<SjkpzWrapper> getPagingInfo(Sjkpz sjkpz){
-    	
-    	PageList<SjkpzWrapper> pageList = new PageList<SjkpzWrapper>();
+	/**
+	 * æŸ¥è¯¢å¸¦æœ‰åˆ†é¡µä¿¡æ¯çš„æ•°æ®åº“é…ç½®ä¿¡æ¯
+	 */
+	public PageList<SjkpzWrapper> getPagingInfo(Sjkpz sjkpz){
+
+		PageList<SjkpzWrapper> pageList = new PageList<SjkpzWrapper>();
 		Paginator paginator = new Paginator();
 		if(sjkpz!=null){
 			paginator.setItemsPerPage(sjkpz.getPerPageSize());
 			paginator.setPage((Integer)sjkpz.getToPage());
 			paginator.setItems(sjkpzDao.getPagingInfoCount(sjkpz));
 			pageList.setPaginator(paginator);
-			
+
 			if(paginator.getBeginIndex() <= paginator.getItems()){
 				sjkpz.setStartRow(paginator.getBeginIndex());
 				sjkpz.setEndRow(paginator.getEndIndex());
@@ -85,40 +85,40 @@ public class SjkpzServiceImpl implements SjkpzService{
 		}
 		return pageList;
 
-        //return this.sjkpzDao.getPagingInfo(sjkpz);
-    }
+		//return this.sjkpzDao.getPagingInfo(sjkpz);
+	}
 
-    /**
-     * »ñÈ¡ËùÓĞµÄÊı¾İ¿âÀàĞÍĞÅÏ¢
-     */
+	/**
+	 * è·å–æ‰€æœ‰çš„æ•°æ®åº“ç±»å‹ä¿¡æ¯
+	 */
 	public List<Map<String, Object>> getSjklx() {
-		
+
 		//return (List<Map<String, Object>>) this.sjkpzDao.getSjklxList();
 		this.initCache("sjklx");
 		return list;
 	}
 
 	/**
-	 * »ñÈ¡ËùÓĞµÄÊı¾İ¿âÁ¬½ÓÀàĞÍĞÅÏ¢
+	 * è·å–æ‰€æœ‰çš„æ•°æ®åº“è¿æ¥ç±»å‹ä¿¡æ¯
 	 */
 	public List<Map<String,Object>> getSjkljlx(){
-		
+
 		this.initCache("sjkljlx");
-		
+
 		return list;
 	}
-	
+
 	/**
-	 * ³õÊ¼»¯»º´æµÄÊı¾İ,°ÑĞèÒª²éÑ¯µÄÊı¾İÔÚµÚÒ»´Î²éÑ¯Ê±¾Í·ÅÔÚ»º´æÖĞ,ÏÂ´ÎÔÙ´Î²éÑ¯Ê±¿ÉÒÔÖ±½Ó´Ó»º´æÖĞ»ñÈ¡
+	 * åˆå§‹åŒ–ç¼“å­˜çš„æ•°æ®,æŠŠéœ€è¦æŸ¥è¯¢çš„æ•°æ®åœ¨ç¬¬ä¸€æ¬¡æŸ¥è¯¢æ—¶å°±æ”¾åœ¨ç¼“å­˜ä¸­,ä¸‹æ¬¡å†æ¬¡æŸ¥è¯¢æ—¶å¯ä»¥ç›´æ¥ä»ç¼“å­˜ä¸­è·å–
 	 */
 	private void initCache(String key){
-		
+
 		try{
-			
+
 			Element element = this.cache.get(key);
-			
+
 			if(element == null){
-				
+
 				if(key.equals("sjklx")){
 					element = new Element(key,(Serializable)this.sjkpzDao.getSjklxList());
 				}else {
@@ -126,35 +126,35 @@ public class SjkpzServiceImpl implements SjkpzService{
 				}
 				this.cache.put(element);
 			}
-			
+
 			list = (List<Map<String,Object>>)element.getValue();
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
-			log.error("Êı¾İ¶ÁÈ¡»º´æÊ±Ê§°Ü",e);
+			log.error("æ•°æ®è¯»å–ç¼“å­˜æ—¶å¤±è´¥",e);
 		}
-		
+
 	}
 
 	public Map<String, Object> getSjklxAndLjlx(Map<String, Object> map) {
 
 		return (Map<String, Object>)this.sjkpzDao.getSjklxAndLjlx(map);
 	}
-	
+
 	public boolean sjkfwqIfUsed(int pzxh) {
-		
+
 		int n = (Integer)this.sjkpzDao.sjkfwqIfUsed(pzxh);
-		
+
 		if(n>=1){
 			return true;
 		}
-		
+
 		return false;
 	}
-	
+
 	public void setSjkpzDao(SjkpzDao sjkpzDao){
 
-	    this.sjkpzDao = sjkpzDao;
+		this.sjkpzDao = sjkpzDao;
 	}
 
 	/**

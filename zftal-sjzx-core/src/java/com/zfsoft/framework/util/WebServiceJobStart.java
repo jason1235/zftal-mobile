@@ -16,7 +16,7 @@ import com.zfsoft.sjzx.jhpz.wspz.service.WsjhConfigService;
 
 public class WebServiceJobStart implements Runnable {
 	private Scheduler scheduler = null;
-	
+
 	public Scheduler getScheduler() {
 		return scheduler;
 	}
@@ -27,16 +27,16 @@ public class WebServiceJobStart implements Runnable {
 
 	public void run() {
 		try {
-			// Ë¯Ãß20Ãë
+			// ç¡çœ 20ç§’
 			Thread.sleep(20000);
-			// ¼ÓÔØÖ´ĞĞµÄµ÷¶È
+			// åŠ è½½æ‰§è¡Œçš„è°ƒåº¦
 			for (String triggerName : scheduler.getTriggerNames(Constants.JOB_GROUP)) {
 				scheduler.unscheduleJob(triggerName, Constants.JOB_GROUP);
 			}
 			for (String jobName: scheduler.getJobNames(Constants.JOB_GROUP)) {
 				scheduler.deleteJob(jobName, Constants.JOB_GROUP);
 			}
-			
+
 			JobTriggerBean jtb = null;
 			WsjhConfigService wsjhConfigService = (WsjhConfigService) SpringUtil
 					.getBean("wsjhConfigService");
@@ -61,13 +61,13 @@ public class WebServiceJobStart implements Runnable {
 						JobDataMap jobDataMap = jd.getJobDataMap();
 						jobDataMap.put("wdc", wdc);
 						jd.setGroup(Constants.JOB_GROUP);
-						jd.setDescription("ºóÌ¨·şÎñ");
+						jd.setDescription("åå°æœåŠ¡");
 						jd.setJobClass(WebServiceSimpleJob.class);
 						Trigger trigger = jtb.getTrigger();
 						if(trigger!=null){
 							trigger.setName(dsqxh + "e");
 							trigger.setGroup(Constants.JOB_GROUP);
-	                        
+
 							Calendar cal = jtb.getCalendar();
 							if (cal != null) {
 								scheduler.addCalendar(cal.getDescription(), cal,
