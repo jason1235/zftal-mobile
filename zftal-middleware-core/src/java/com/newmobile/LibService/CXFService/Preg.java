@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>preg complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>preg complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="preg">
  *   &lt;complexContent>
@@ -23,64 +23,64 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "preg", propOrder = {
-    "pregDate",
-    "pregEndDate"
+        "pregDate",
+        "pregEndDate"
 })
 public class Preg
-    extends PregOrRelegate
+        extends PregOrRelegate
 {
 
     protected String pregDate;
     protected String pregEndDate;
 
     /**
-     * »ñÈ¡pregDateÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–pregDateå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPregDate() {
         return pregDate;
     }
 
     /**
-     * ÉèÖÃpregDateÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®pregDateå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPregDate(String value) {
         this.pregDate = value;
     }
 
     /**
-     * »ñÈ¡pregEndDateÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–pregEndDateå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPregEndDate() {
         return pregEndDate;
     }
 
     /**
-     * ÉèÖÃpregEndDateÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®pregEndDateå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPregEndDate(String value) {
         this.pregEndDate = value;

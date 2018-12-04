@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>relegate complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>relegate complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="relegate">
  *   &lt;complexContent>
@@ -23,64 +23,64 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "relegate", propOrder = {
-    "relegateDate",
-    "relegateEndDate"
+        "relegateDate",
+        "relegateEndDate"
 })
 public class Relegate
-    extends PregOrRelegate
+        extends PregOrRelegate
 {
 
     protected String relegateDate;
     protected String relegateEndDate;
 
     /**
-     * »ñÈ¡relegateDateÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–relegateDateå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getRelegateDate() {
         return relegateDate;
     }
 
     /**
-     * ÉèÖÃrelegateDateÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®relegateDateå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setRelegateDate(String value) {
         this.relegateDate = value;
     }
 
     /**
-     * »ñÈ¡relegateEndDateÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–relegateEndDateå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getRelegateEndDate() {
         return relegateEndDate;
     }
 
     /**
-     * ÉèÖÃrelegateEndDateÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®relegateEndDateå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setRelegateEndDate(String value) {
         this.relegateEndDate = value;

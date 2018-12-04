@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>exceedFine1 complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>exceedFine1 complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="exceedFine1">
  *   &lt;complexContent>
@@ -32,22 +32,22 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "exceedFine1", propOrder = {
-    "arg0",
-    "arg1",
-    "arg2",
-    "arg3",
-    "arg4",
-    "arg5",
-    "arg6",
-    "arg7",
-    "arg8",
-    "arg9",
-    "arg10"
+        "arg0",
+        "arg1",
+        "arg2",
+        "arg3",
+        "arg4",
+        "arg5",
+        "arg6",
+        "arg7",
+        "arg8",
+        "arg9",
+        "arg10"
 })
 public class ExceedFine1 {
 
@@ -64,248 +64,248 @@ public class ExceedFine1 {
     protected int arg10;
 
     /**
-     * »ñÈ¡arg0ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg0å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg0() {
         return arg0;
     }
 
     /**
-     * ÉèÖÃarg0ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg0å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg0(String value) {
         this.arg0 = value;
     }
 
     /**
-     * »ñÈ¡arg1ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg1å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg1() {
         return arg1;
     }
 
     /**
-     * ÉèÖÃarg1ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg1å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg1(String value) {
         this.arg1 = value;
     }
 
     /**
-     * »ñÈ¡arg2ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg2å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg2() {
         return arg2;
     }
 
     /**
-     * ÉèÖÃarg2ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg2å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg2(String value) {
         this.arg2 = value;
     }
 
     /**
-     * »ñÈ¡arg3ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg3å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg3() {
         return arg3;
     }
 
     /**
-     * ÉèÖÃarg3ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg3å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg3(String value) {
         this.arg3 = value;
     }
 
     /**
-     * »ñÈ¡arg4ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg4å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg4() {
         return arg4;
     }
 
     /**
-     * ÉèÖÃarg4ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg4å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg4(String value) {
         this.arg4 = value;
     }
 
     /**
-     * »ñÈ¡arg5ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg5å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg5() {
         return arg5;
     }
 
     /**
-     * ÉèÖÃarg5ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg5å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg5(String value) {
         this.arg5 = value;
     }
 
     /**
-     * »ñÈ¡arg6ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg6å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg6() {
         return arg6;
     }
 
     /**
-     * ÉèÖÃarg6ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg6å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg6(String value) {
         this.arg6 = value;
     }
 
     /**
-     * »ñÈ¡arg7ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg7å±æ€§çš„å€¼ã€‚
+     *
      */
     public float getArg7() {
         return arg7;
     }
 
     /**
-     * ÉèÖÃarg7ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg7å±æ€§çš„å€¼ã€‚
+     *
      */
     public void setArg7(float value) {
         this.arg7 = value;
     }
 
     /**
-     * »ñÈ¡arg8ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg8å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg8() {
         return arg8;
     }
 
     /**
-     * ÉèÖÃarg8ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg8å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg8(String value) {
         this.arg8 = value;
     }
 
     /**
-     * »ñÈ¡arg9ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg9å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg9() {
         return arg9;
     }
 
     /**
-     * ÉèÖÃarg9ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg9å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg9(String value) {
         this.arg9 = value;
     }
 
     /**
-     * »ñÈ¡arg10ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg10å±æ€§çš„å€¼ã€‚
+     *
      */
     public int getArg10() {
         return arg10;
     }
 
     /**
-     * ÉèÖÃarg10ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg10å±æ€§çš„å€¼ã€‚
+     *
      */
     public void setArg10(int value) {
         this.arg10 = value;

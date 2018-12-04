@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>circ complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>circ complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="circ">
  *   &lt;complexContent>
@@ -34,24 +34,24 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "circ", propOrder = {
-    "attachment",
-    "author",
-    "barcode",
-    "certId",
-    "dueDay",
-    "lendDate",
-    "location",
-    "marcRecNo",
-    "name",
-    "price",
-    "propNo",
-    "renewTimes",
-    "title"
+        "attachment",
+        "author",
+        "barcode",
+        "certId",
+        "dueDay",
+        "lendDate",
+        "location",
+        "marcRecNo",
+        "name",
+        "price",
+        "propNo",
+        "renewTimes",
+        "title"
 })
 public class Circ {
 
@@ -70,296 +70,296 @@ public class Circ {
     protected String title;
 
     /**
-     * »ñÈ¡attachmentÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–attachmentå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getAttachment() {
         return attachment;
     }
 
     /**
-     * ÉèÖÃattachmentÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®attachmentå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setAttachment(String value) {
         this.attachment = value;
     }
 
     /**
-     * »ñÈ¡authorÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–authorå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getAuthor() {
         return author;
     }
 
     /**
-     * ÉèÖÃauthorÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®authorå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setAuthor(String value) {
         this.author = value;
     }
 
     /**
-     * »ñÈ¡barcodeÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–barcodeå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getBarcode() {
         return barcode;
     }
 
     /**
-     * ÉèÖÃbarcodeÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®barcodeå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setBarcode(String value) {
         this.barcode = value;
     }
 
     /**
-     * »ñÈ¡certIdÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–certIdå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCertId() {
         return certId;
     }
 
     /**
-     * ÉèÖÃcertIdÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®certIdå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCertId(String value) {
         this.certId = value;
     }
 
     /**
-     * »ñÈ¡dueDayÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–dueDayå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getDueDay() {
         return dueDay;
     }
 
     /**
-     * ÉèÖÃdueDayÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®dueDayå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setDueDay(String value) {
         this.dueDay = value;
     }
 
     /**
-     * »ñÈ¡lendDateÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–lendDateå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getLendDate() {
         return lendDate;
     }
 
     /**
-     * ÉèÖÃlendDateÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®lendDateå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setLendDate(String value) {
         this.lendDate = value;
     }
 
     /**
-     * »ñÈ¡locationÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–locationå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getLocation() {
         return location;
     }
 
     /**
-     * ÉèÖÃlocationÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®locationå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setLocation(String value) {
         this.location = value;
     }
 
     /**
-     * »ñÈ¡marcRecNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–marcRecNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getMarcRecNo() {
         return marcRecNo;
     }
 
     /**
-     * ÉèÖÃmarcRecNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®marcRecNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setMarcRecNo(String value) {
         this.marcRecNo = value;
     }
 
     /**
-     * »ñÈ¡nameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–nameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getName() {
         return name;
     }
 
     /**
-     * ÉèÖÃnameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®nameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setName(String value) {
         this.name = value;
     }
 
     /**
-     * »ñÈ¡priceÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–priceå±æ€§çš„å€¼ã€‚
+     *
      */
     public float getPrice() {
         return price;
     }
 
     /**
-     * ÉèÖÃpriceÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®priceå±æ€§çš„å€¼ã€‚
+     *
      */
     public void setPrice(float value) {
         this.price = value;
     }
 
     /**
-     * »ñÈ¡propNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–propNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPropNo() {
         return propNo;
     }
 
     /**
-     * ÉèÖÃpropNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®propNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPropNo(String value) {
         this.propNo = value;
     }
 
     /**
-     * »ñÈ¡renewTimesÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–renewTimeså±æ€§çš„å€¼ã€‚
+     *
      */
     public int getRenewTimes() {
         return renewTimes;
     }
 
     /**
-     * ÉèÖÃrenewTimesÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®renewTimeså±æ€§çš„å€¼ã€‚
+     *
      */
     public void setRenewTimes(int value) {
         this.renewTimes = value;
     }
 
     /**
-     * »ñÈ¡titleÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–titleå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * ÉèÖÃtitleÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®titleå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setTitle(String value) {
         this.title = value;

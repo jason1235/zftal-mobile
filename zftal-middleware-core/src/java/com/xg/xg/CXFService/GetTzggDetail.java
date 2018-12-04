@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>getTzggDetail complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>getTzggDetail complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="getTzggDetail">
  *   &lt;complexContent>
@@ -24,14 +24,14 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getTzggDetail", propOrder = {
-    "id",
-    "yhm",
-    "sign"
+        "id",
+        "yhm",
+        "sign"
 })
 public class GetTzggDetail {
 
@@ -40,72 +40,72 @@ public class GetTzggDetail {
     protected String sign;
 
     /**
-     * »ñÈ¡idÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–idå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getId() {
         return id;
     }
 
     /**
-     * ÉèÖÃidÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®idå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setId(String value) {
         this.id = value;
     }
 
     /**
-     * »ñÈ¡yhmÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–yhmå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getYhm() {
         return yhm;
     }
 
     /**
-     * ÉèÖÃyhmÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®yhmå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setYhm(String value) {
         this.yhm = value;
     }
 
     /**
-     * »ñÈ¡signÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–signå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getSign() {
         return sign;
     }
 
     /**
-     * ÉèÖÃsignÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®signå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setSign(String value) {
         this.sign = value;

@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>getFileList complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>getFileList complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="getFileList">
  *   &lt;complexContent>
@@ -25,15 +25,15 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getFileList", propOrder = {
-    "yhlx",
-    "num",
-    "yhm",
-    "sign"
+        "yhlx",
+        "num",
+        "yhm",
+        "sign"
 })
 public class GetFileList {
 
@@ -43,96 +43,96 @@ public class GetFileList {
     protected String sign;
 
     /**
-     * »ñÈ¡yhlxÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–yhlxå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getYhlx() {
         return yhlx;
     }
 
     /**
-     * ÉèÖÃyhlxÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®yhlxå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setYhlx(String value) {
         this.yhlx = value;
     }
 
     /**
-     * »ñÈ¡numÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–numå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link Integer }
-     *     
+     *
      */
     public Integer getNum() {
         return num;
     }
 
     /**
-     * ÉèÖÃnumÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®numå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link Integer }
-     *     
+     *
      */
     public void setNum(Integer value) {
         this.num = value;
     }
 
     /**
-     * »ñÈ¡yhmÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–yhmå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getYhm() {
         return yhm;
     }
 
     /**
-     * ÉèÖÃyhmÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®yhmå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setYhm(String value) {
         this.yhm = value;
     }
 
     /**
-     * »ñÈ¡signÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–signå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getSign() {
         return sign;
     }
 
     /**
-     * ÉèÖÃsignÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®signå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setSign(String value) {
         this.sign = value;

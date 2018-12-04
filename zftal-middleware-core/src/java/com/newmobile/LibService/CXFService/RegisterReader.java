@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>registerReader complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>registerReader complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="registerReader">
  *   &lt;complexContent>
@@ -50,40 +50,40 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "registerReader", propOrder = {
-    "arg0",
-    "arg1",
-    "arg2",
-    "arg3",
-    "arg4",
-    "arg5",
-    "arg6",
-    "arg7",
-    "arg8",
-    "arg9",
-    "arg10",
-    "arg11",
-    "arg12",
-    "arg13",
-    "arg14",
-    "arg15",
-    "arg16",
-    "arg17",
-    "arg18",
-    "arg19",
-    "arg20",
-    "arg21",
-    "arg22",
-    "arg23",
-    "arg24",
-    "arg25",
-    "arg26",
-    "arg27",
-    "arg28"
+        "arg0",
+        "arg1",
+        "arg2",
+        "arg3",
+        "arg4",
+        "arg5",
+        "arg6",
+        "arg7",
+        "arg8",
+        "arg9",
+        "arg10",
+        "arg11",
+        "arg12",
+        "arg13",
+        "arg14",
+        "arg15",
+        "arg16",
+        "arg17",
+        "arg18",
+        "arg19",
+        "arg20",
+        "arg21",
+        "arg22",
+        "arg23",
+        "arg24",
+        "arg25",
+        "arg26",
+        "arg27",
+        "arg28"
 })
 public class RegisterReader {
 
@@ -118,696 +118,696 @@ public class RegisterReader {
     protected String arg28;
 
     /**
-     * »ñÈ¡arg0ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg0å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg0() {
         return arg0;
     }
 
     /**
-     * ÉèÖÃarg0ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg0å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg0(String value) {
         this.arg0 = value;
     }
 
     /**
-     * »ñÈ¡arg1ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg1å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg1() {
         return arg1;
     }
 
     /**
-     * ÉèÖÃarg1ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg1å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg1(String value) {
         this.arg1 = value;
     }
 
     /**
-     * »ñÈ¡arg2ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg2å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg2() {
         return arg2;
     }
 
     /**
-     * ÉèÖÃarg2ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg2å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg2(String value) {
         this.arg2 = value;
     }
 
     /**
-     * »ñÈ¡arg3ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg3å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg3() {
         return arg3;
     }
 
     /**
-     * ÉèÖÃarg3ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg3å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg3(String value) {
         this.arg3 = value;
     }
 
     /**
-     * »ñÈ¡arg4ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg4å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg4() {
         return arg4;
     }
 
     /**
-     * ÉèÖÃarg4ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg4å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg4(String value) {
         this.arg4 = value;
     }
 
     /**
-     * »ñÈ¡arg5ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg5å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg5() {
         return arg5;
     }
 
     /**
-     * ÉèÖÃarg5ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg5å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg5(String value) {
         this.arg5 = value;
     }
 
     /**
-     * »ñÈ¡arg6ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg6å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg6() {
         return arg6;
     }
 
     /**
-     * ÉèÖÃarg6ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg6å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg6(String value) {
         this.arg6 = value;
     }
 
     /**
-     * »ñÈ¡arg7ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg7å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg7() {
         return arg7;
     }
 
     /**
-     * ÉèÖÃarg7ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg7å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg7(String value) {
         this.arg7 = value;
     }
 
     /**
-     * »ñÈ¡arg8ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg8å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg8() {
         return arg8;
     }
 
     /**
-     * ÉèÖÃarg8ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg8å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg8(String value) {
         this.arg8 = value;
     }
 
     /**
-     * »ñÈ¡arg9ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg9å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg9() {
         return arg9;
     }
 
     /**
-     * ÉèÖÃarg9ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg9å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg9(String value) {
         this.arg9 = value;
     }
 
     /**
-     * »ñÈ¡arg10ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg10å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg10() {
         return arg10;
     }
 
     /**
-     * ÉèÖÃarg10ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg10å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg10(String value) {
         this.arg10 = value;
     }
 
     /**
-     * »ñÈ¡arg11ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg11å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg11() {
         return arg11;
     }
 
     /**
-     * ÉèÖÃarg11ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg11å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg11(String value) {
         this.arg11 = value;
     }
 
     /**
-     * »ñÈ¡arg12ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg12å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg12() {
         return arg12;
     }
 
     /**
-     * ÉèÖÃarg12ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg12å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg12(String value) {
         this.arg12 = value;
     }
 
     /**
-     * »ñÈ¡arg13ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg13å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg13() {
         return arg13;
     }
 
     /**
-     * ÉèÖÃarg13ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg13å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg13(String value) {
         this.arg13 = value;
     }
 
     /**
-     * »ñÈ¡arg14ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg14å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg14() {
         return arg14;
     }
 
     /**
-     * ÉèÖÃarg14ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg14å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg14(String value) {
         this.arg14 = value;
     }
 
     /**
-     * »ñÈ¡arg15ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg15å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg15() {
         return arg15;
     }
 
     /**
-     * ÉèÖÃarg15ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg15å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg15(String value) {
         this.arg15 = value;
     }
 
     /**
-     * »ñÈ¡arg16ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg16å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg16() {
         return arg16;
     }
 
     /**
-     * ÉèÖÃarg16ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg16å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg16(String value) {
         this.arg16 = value;
     }
 
     /**
-     * »ñÈ¡arg17ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg17å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg17() {
         return arg17;
     }
 
     /**
-     * ÉèÖÃarg17ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg17å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg17(String value) {
         this.arg17 = value;
     }
 
     /**
-     * »ñÈ¡arg18ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg18å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg18() {
         return arg18;
     }
 
     /**
-     * ÉèÖÃarg18ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg18å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg18(String value) {
         this.arg18 = value;
     }
 
     /**
-     * »ñÈ¡arg19ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg19å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg19() {
         return arg19;
     }
 
     /**
-     * ÉèÖÃarg19ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg19å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg19(String value) {
         this.arg19 = value;
     }
 
     /**
-     * »ñÈ¡arg20ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg20å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg20() {
         return arg20;
     }
 
     /**
-     * ÉèÖÃarg20ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg20å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg20(String value) {
         this.arg20 = value;
     }
 
     /**
-     * »ñÈ¡arg21ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg21å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg21() {
         return arg21;
     }
 
     /**
-     * ÉèÖÃarg21ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg21å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg21(String value) {
         this.arg21 = value;
     }
 
     /**
-     * »ñÈ¡arg22ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg22å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg22() {
         return arg22;
     }
 
     /**
-     * ÉèÖÃarg22ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg22å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg22(String value) {
         this.arg22 = value;
     }
 
     /**
-     * »ñÈ¡arg23ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg23å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg23() {
         return arg23;
     }
 
     /**
-     * ÉèÖÃarg23ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg23å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg23(String value) {
         this.arg23 = value;
     }
 
     /**
-     * »ñÈ¡arg24ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg24å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg24() {
         return arg24;
     }
 
     /**
-     * ÉèÖÃarg24ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg24å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg24(String value) {
         this.arg24 = value;
     }
 
     /**
-     * »ñÈ¡arg25ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg25å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg25() {
         return arg25;
     }
 
     /**
-     * ÉèÖÃarg25ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg25å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg25(String value) {
         this.arg25 = value;
     }
 
     /**
-     * »ñÈ¡arg26ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg26å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg26() {
         return arg26;
     }
 
     /**
-     * ÉèÖÃarg26ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg26å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg26(String value) {
         this.arg26 = value;
     }
 
     /**
-     * »ñÈ¡arg27ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg27å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg27() {
         return arg27;
     }
 
     /**
-     * ÉèÖÃarg27ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg27å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg27(String value) {
         this.arg27 = value;
     }
 
     /**
-     * »ñÈ¡arg28ÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–arg28å±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getArg28() {
         return arg28;
     }
 
     /**
-     * ÉèÖÃarg28ÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®arg28å±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setArg28(String value) {
         this.arg28 = value;

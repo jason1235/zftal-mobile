@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>getLastNoticeList complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>getLastNoticeList complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="getLastNoticeList">
  *   &lt;complexContent>
@@ -27,17 +27,17 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getLastNoticeList", propOrder = {
-    "yhm",
-    "yhlx",
-    "type",
-    "num",
-    "sign",
-    "pageIndex"
+        "yhm",
+        "yhlx",
+        "type",
+        "num",
+        "sign",
+        "pageIndex"
 })
 public class GetLastNoticeList {
 
@@ -49,144 +49,144 @@ public class GetLastNoticeList {
     protected Integer pageIndex;
 
     /**
-     * »ñÈ¡yhmÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–yhmå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getYhm() {
         return yhm;
     }
 
     /**
-     * ÉèÖÃyhmÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®yhmå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setYhm(String value) {
         this.yhm = value;
     }
 
     /**
-     * »ñÈ¡yhlxÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–yhlxå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getYhlx() {
         return yhlx;
     }
 
     /**
-     * ÉèÖÃyhlxÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®yhlxå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setYhlx(String value) {
         this.yhlx = value;
     }
 
     /**
-     * »ñÈ¡typeÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–typeå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getType() {
         return type;
     }
 
     /**
-     * ÉèÖÃtypeÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®typeå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setType(String value) {
         this.type = value;
     }
 
     /**
-     * »ñÈ¡numÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–numå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link Integer }
-     *     
+     *
      */
     public Integer getNum() {
         return num;
     }
 
     /**
-     * ÉèÖÃnumÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®numå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link Integer }
-     *     
+     *
      */
     public void setNum(Integer value) {
         this.num = value;
     }
 
     /**
-     * »ñÈ¡signÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–signå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getSign() {
         return sign;
     }
 
     /**
-     * ÉèÖÃsignÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®signå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setSign(String value) {
         this.sign = value;
     }
 
     /**
-     * »ñÈ¡pageIndexÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–pageIndexå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link Integer }
-     *     
+     *
      */
     public Integer getPageIndex() {
         return pageIndex;
     }
 
     /**
-     * ÉèÖÃpageIndexÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®pageIndexå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link Integer }
-     *     
+     *
      */
     public void setPageIndex(Integer value) {
         this.pageIndex = value;

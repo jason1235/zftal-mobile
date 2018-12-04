@@ -35,19 +35,11 @@
 		<axis2.version>1.6.2</axis2.version>
 	</properties>
 	<dependencies>
-
-		<dependency>
-			<groupId>com.sun.xml.bind</groupId>
-			<artifactId>jaxb-xjc</artifactId>
-			<version>2.0.1</version>
-		</dependency>
-
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>zftal-core-util</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>zftal-hrm-core-common</artifactId>
@@ -55,10 +47,16 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.sun.xml.bind</groupId>
+			<artifactId>jaxb-xjc</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>zftal-hrm-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+
 
 		<dependency>
 			<groupId>${project.groupId}</groupId>
@@ -66,20 +64,12 @@
 			<version>${project.version}</version>
 		</dependency>
 
-
-
 		<dependency>
 			<groupId>commons-discovery</groupId>
 			<artifactId>commons-discovery</artifactId>
 			<version>0.4</version>
 		</dependency>
 
-		<!-- https://mvnrepository.com/artifact/org.apache.commons/commons-configuration2 -->
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-configuration2</artifactId>
-			<version>2.4</version>
-		</dependency>
 
 
 		<!-- CXF Dependencies -->
@@ -182,10 +172,6 @@
 		</dependency>
 		<!-- axis 1.4 jar end -->
 
-		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>configuration</artifactId>
-		</dependency>
 
 
 		<dependency>

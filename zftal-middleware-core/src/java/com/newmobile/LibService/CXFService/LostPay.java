@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>lostPay complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>lostPay complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="lostPay">
  *   &lt;complexContent>
@@ -31,21 +31,21 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "lostPay", propOrder = {
-    "barCode",
-    "billNo",
-    "bookAmt",
-    "certId",
-    "name",
-    "propNo",
-    "recoupType",
-    "servFee",
-    "techFee",
-    "title"
+        "barCode",
+        "billNo",
+        "bookAmt",
+        "certId",
+        "name",
+        "propNo",
+        "recoupType",
+        "servFee",
+        "techFee",
+        "title"
 })
 public class LostPay {
 
@@ -61,216 +61,216 @@ public class LostPay {
     protected String title;
 
     /**
-     * »ñÈ¡barCodeÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–barCodeå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getBarCode() {
         return barCode;
     }
 
     /**
-     * ÉèÖÃbarCodeÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®barCodeå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setBarCode(String value) {
         this.barCode = value;
     }
 
     /**
-     * »ñÈ¡billNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–billNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getBillNo() {
         return billNo;
     }
 
     /**
-     * ÉèÖÃbillNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®billNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setBillNo(String value) {
         this.billNo = value;
     }
 
     /**
-     * »ñÈ¡bookAmtÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–bookAmtå±æ€§çš„å€¼ã€‚
+     *
      */
     public float getBookAmt() {
         return bookAmt;
     }
 
     /**
-     * ÉèÖÃbookAmtÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®bookAmtå±æ€§çš„å€¼ã€‚
+     *
      */
     public void setBookAmt(float value) {
         this.bookAmt = value;
     }
 
     /**
-     * »ñÈ¡certIdÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–certIdå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCertId() {
         return certId;
     }
 
     /**
-     * ÉèÖÃcertIdÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®certIdå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCertId(String value) {
         this.certId = value;
     }
 
     /**
-     * »ñÈ¡nameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–nameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getName() {
         return name;
     }
 
     /**
-     * ÉèÖÃnameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®nameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setName(String value) {
         this.name = value;
     }
 
     /**
-     * »ñÈ¡propNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–propNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPropNo() {
         return propNo;
     }
 
     /**
-     * ÉèÖÃpropNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®propNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPropNo(String value) {
         this.propNo = value;
     }
 
     /**
-     * »ñÈ¡recoupTypeÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–recoupTypeå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getRecoupType() {
         return recoupType;
     }
 
     /**
-     * ÉèÖÃrecoupTypeÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®recoupTypeå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setRecoupType(String value) {
         this.recoupType = value;
     }
 
     /**
-     * »ñÈ¡servFeeÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–servFeeå±æ€§çš„å€¼ã€‚
+     *
      */
     public float getServFee() {
         return servFee;
     }
 
     /**
-     * ÉèÖÃservFeeÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®servFeeå±æ€§çš„å€¼ã€‚
+     *
      */
     public void setServFee(float value) {
         this.servFee = value;
     }
 
     /**
-     * »ñÈ¡techFeeÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–techFeeå±æ€§çš„å€¼ã€‚
+     *
      */
     public float getTechFee() {
         return techFee;
     }
 
     /**
-     * ÉèÖÃtechFeeÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®techFeeå±æ€§çš„å€¼ã€‚
+     *
      */
     public void setTechFee(float value) {
         this.techFee = value;
     }
 
     /**
-     * »ñÈ¡titleÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–titleå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * ÉèÖÃtitleÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®titleå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setTitle(String value) {
         this.title = value;

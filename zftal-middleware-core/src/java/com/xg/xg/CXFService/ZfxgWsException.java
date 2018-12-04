@@ -8,10 +8,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>ZfxgWsException complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>ZfxgWsException complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="ZfxgWsException">
  *   &lt;complexContent>
@@ -24,13 +24,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ZfxgWsException", propOrder = {
-    "message",
-    "code"
+        "message",
+        "code"
 })
 public class ZfxgWsException {
 
@@ -40,48 +40,48 @@ public class ZfxgWsException {
     protected Integer code;
 
     /**
-     * »ñÈ¡messageÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–messageå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getMessage() {
         return message;
     }
 
     /**
-     * ÉèÖÃmessageÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®messageå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setMessage(String value) {
         this.message = value;
     }
 
     /**
-     * »ñÈ¡codeÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–codeå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link Integer }
-     *     
+     *
      */
     public Integer getCode() {
         return code;
     }
 
     /**
-     * ÉèÖÃcodeÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®codeå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link Integer }
-     *     
+     *
      */
     public void setCode(Integer value) {
         this.code = value;

@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>checkRedrResult complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>checkRedrResult complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="checkRedrResult">
  *   &lt;complexContent>
@@ -23,13 +23,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "checkRedrResult", propOrder = {
-    "code",
-    "reader"
+        "code",
+        "reader"
 })
 public class CheckRedrResult {
 
@@ -37,40 +37,40 @@ public class CheckRedrResult {
     protected Reader reader;
 
     /**
-     * »ñÈ¡codeÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–codeå±æ€§çš„å€¼ã€‚
+     *
      */
     public int getCode() {
         return code;
     }
 
     /**
-     * ÉèÖÃcodeÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®codeå±æ€§çš„å€¼ã€‚
+     *
      */
     public void setCode(int value) {
         this.code = value;
     }
 
     /**
-     * »ñÈ¡readerÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–readerå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link Reader }
-     *     
+     *
      */
     public Reader getReader() {
         return reader;
     }
 
     /**
-     * ÉèÖÃreaderÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®readerå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link Reader }
-     *     
+     *
      */
     public void setReader(Reader value) {
         this.reader = value;

@@ -8,10 +8,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>getMyJobsByYhm complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>getMyJobsByYhm complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="getMyJobsByYhm">
  *   &lt;complexContent>
@@ -23,12 +23,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getMyJobsByYhm", propOrder = {
-    "reqData"
+        "reqData"
 })
 public class GetMyJobsByYhm {
 
@@ -36,24 +36,24 @@ public class GetMyJobsByYhm {
     protected ReqData reqData;
 
     /**
-     * »ñÈ¡reqDataÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–reqDataå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link ReqData }
-     *     
+     *
      */
     public ReqData getReqData() {
         return reqData;
     }
 
     /**
-     * ÉèÖÃreqDataÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®reqDataå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link ReqData }
-     *     
+     *
      */
     public void setReqData(ReqData value) {
         this.reqData = value;

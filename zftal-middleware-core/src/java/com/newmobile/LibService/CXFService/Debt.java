@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>debt complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>debt complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="debt">
  *   &lt;complexContent>
@@ -31,21 +31,21 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "debt", propOrder = {
-    "certId",
-    "debtDealFlag",
-    "debtDealFlagName",
-    "dueFineAmount",
-    "fineAmount",
-    "lendDate",
-    "locationF",
-    "name",
-    "propNo",
-    "retDate"
+        "certId",
+        "debtDealFlag",
+        "debtDealFlagName",
+        "dueFineAmount",
+        "fineAmount",
+        "lendDate",
+        "locationF",
+        "name",
+        "propNo",
+        "retDate"
 })
 public class Debt {
 
@@ -61,224 +61,224 @@ public class Debt {
     protected String retDate;
 
     /**
-     * »ñÈ¡certIdÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–certIdå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCertId() {
         return certId;
     }
 
     /**
-     * ÉèÖÃcertIdÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®certIdå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCertId(String value) {
         this.certId = value;
     }
 
     /**
-     * »ñÈ¡debtDealFlagÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–debtDealFlagå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getDebtDealFlag() {
         return debtDealFlag;
     }
 
     /**
-     * ÉèÖÃdebtDealFlagÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®debtDealFlagå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setDebtDealFlag(String value) {
         this.debtDealFlag = value;
     }
 
     /**
-     * »ñÈ¡debtDealFlagNameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–debtDealFlagNameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getDebtDealFlagName() {
         return debtDealFlagName;
     }
 
     /**
-     * ÉèÖÃdebtDealFlagNameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®debtDealFlagNameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setDebtDealFlagName(String value) {
         this.debtDealFlagName = value;
     }
 
     /**
-     * »ñÈ¡dueFineAmountÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–dueFineAmountå±æ€§çš„å€¼ã€‚
+     *
      */
     public float getDueFineAmount() {
         return dueFineAmount;
     }
 
     /**
-     * ÉèÖÃdueFineAmountÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®dueFineAmountå±æ€§çš„å€¼ã€‚
+     *
      */
     public void setDueFineAmount(float value) {
         this.dueFineAmount = value;
     }
 
     /**
-     * »ñÈ¡fineAmountÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–fineAmountå±æ€§çš„å€¼ã€‚
+     *
      */
     public float getFineAmount() {
         return fineAmount;
     }
 
     /**
-     * ÉèÖÃfineAmountÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®fineAmountå±æ€§çš„å€¼ã€‚
+     *
      */
     public void setFineAmount(float value) {
         this.fineAmount = value;
     }
 
     /**
-     * »ñÈ¡lendDateÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–lendDateå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getLendDate() {
         return lendDate;
     }
 
     /**
-     * ÉèÖÃlendDateÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®lendDateå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setLendDate(String value) {
         this.lendDate = value;
     }
 
     /**
-     * »ñÈ¡locationFÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–locationFå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getLocationF() {
         return locationF;
     }
 
     /**
-     * ÉèÖÃlocationFÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®locationFå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setLocationF(String value) {
         this.locationF = value;
     }
 
     /**
-     * »ñÈ¡nameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–nameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getName() {
         return name;
     }
 
     /**
-     * ÉèÖÃnameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®nameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setName(String value) {
         this.name = value;
     }
 
     /**
-     * »ñÈ¡propNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–propNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPropNo() {
         return propNo;
     }
 
     /**
-     * ÉèÖÃpropNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®propNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPropNo(String value) {
         this.propNo = value;
     }
 
     /**
-     * »ñÈ¡retDateÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–retDateå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getRetDate() {
         return retDate;
     }
 
     /**
-     * ÉèÖÃretDateÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®retDateå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setRetDate(String value) {
         this.retDate = value;

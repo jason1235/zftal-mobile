@@ -8,10 +8,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>getMarcResponse complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>getMarcResponse complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="getMarcResponse">
  *   &lt;complexContent>
@@ -23,12 +23,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getMarcResponse", propOrder = {
-    "_return"
+        "_return"
 })
 public class GetMarcResponse {
 
@@ -36,24 +36,24 @@ public class GetMarcResponse {
     protected Marc _return;
 
     /**
-     * »ñÈ¡returnÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–returnå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link Marc }
-     *     
+     *
      */
     public Marc getReturn() {
         return _return;
     }
 
     /**
-     * ÉèÖÃreturnÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®returnå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link Marc }
-     *     
+     *
      */
     public void setReturn(Marc value) {
         this._return = value;
