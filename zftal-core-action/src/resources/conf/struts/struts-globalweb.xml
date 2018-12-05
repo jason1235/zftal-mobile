@@ -22,7 +22,7 @@
 	     <result name="szSsjs">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/szSsjs.jsp</result>
 	     <result name="cxYhxx">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/cxYhxx_new.jsp</result>
 	     <result name="cxPlsjsq">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/cxPlsjsq.jsp</result>
-	     <result name="cxJgdms">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/cxJgdms.jsp</result>
+	     <result name="cxJgdms">/	WEB-INF/pages/globalweb/comp/xtgl/yhgl/cxJgdms.jsp</result>
 	     <result name="mmCshgz">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/mmCshgz.jsp</result>
 	     <result name="plmmCshgz">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/plmmCshgz.jsp</result>
 	     <result name="fpjs">/WEB-INF/pages/globalweb/comp/xtgl/yhgl/fpjs.jsp</result>

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.gson.Gson;
+import com.zfsoft.globalweb.utils.JSONUtils;
 import com.zfsoft.hrm.config.TypeFactory;
 import com.zfsoft.hrm.config.type.InfoClassType;
 import com.zfsoft.util.base.StringUtil;
@@ -18,44 +19,44 @@ import com.zfsoft.util.base.StringUtil;
 public class InfoClass implements Cloneable, Serializable {
 
 	private static final long serialVersionUID = 7761270530567720794L;
-
+	
 	private String guid;						//信息类ID
-
+	
 	private String name;						//信息类名称（中文）
-
-	private String identityName;				//标识名（英文）,用于建表
-
+	
+	private String identityName;				//标识名（英文）,用于建表 
+	
 	private String type;						//信息类类型（比如综合信息类、单记录普通信息类、多记录普通信息类)
-
+	
 	private Boolean lessThanOne;				//最少一条记录
-
+	
 	private Catalog catalog;					//所属目录
-
+	
 	private Integer index;						//显示顺序
-
+	
 	private String  xxly="self";                       //信息来源 System:系统初始化 ;self:用户自增(默认)
-
+	
 	private Integer displayNum = 2;					//展示数/行
-
+	
 	private String menuId;
-
+	
 	private boolean  commitable;              	//是否申报表单
-
+	
 	private List<InfoProperty> properties = new ArrayList<InfoProperty>();		//信息类属性列表
-
+	
 	private List<InfoProperty> editables = new ArrayList<InfoProperty>();		//可编辑属性列表
-
+	
 	private List<InfoProperty> viewables = new ArrayList<InfoProperty>();		//可显示属性列表
-
+	
 	private List<InfoProperty> uniqables = new ArrayList<InfoProperty>();		//唯一性标识属性列表
-
+	
 	private String propertiesList;
-
+	
 	private String pxfs; //排序方式
 	private String[] pxfsList; //排序方式
-
+	
 	private String pxsx; //排序属性
-
+	
 	private String scanStyle; //显示类型
 	/**
 	 * 返回所有唯一性标识属性列表
@@ -63,7 +64,7 @@ public class InfoClass implements Cloneable, Serializable {
 	public List<InfoProperty> getUniqables(){
 		return uniqables;
 	}
-
+	
 	/**
 	 * 返回信息类类型
 	 */
@@ -71,7 +72,7 @@ public class InfoClass implements Cloneable, Serializable {
 		if( type == null ) {
 			return null;
 		}
-
+		
 		return (InfoClassType) TypeFactory.getType( InfoClassType.class, type );
 	}
 	/**
@@ -103,7 +104,7 @@ public class InfoClass implements Cloneable, Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
 	/**
 	 * 返回标识名（英文）,用于建表
 	 * @return 标识名一律转大写
@@ -112,7 +113,7 @@ public class InfoClass implements Cloneable, Serializable {
 		if( identityName != null ) {
 			identityName = identityName.toUpperCase();
 		}
-
+		
 		return identityName;
 	}
 
@@ -124,7 +125,7 @@ public class InfoClass implements Cloneable, Serializable {
 		if( identityName != null ) {
 			identityName = identityName.toUpperCase();
 		}
-
+		
 		this.identityName = identityName;
 	}
 
@@ -157,7 +158,7 @@ public class InfoClass implements Cloneable, Serializable {
 	public void setCatalog(Catalog catalog) {
 		this.catalog = catalog;
 	}
-
+	
 	/**
 	 * 返回显示顺序
 	 */
@@ -179,10 +180,10 @@ public class InfoClass implements Cloneable, Serializable {
 	public Boolean getLessThanOne() {
 		return lessThanOne;
 	}
-
+	
 	/**
 	 * 设置是否最少一条记录
-	 * @param lessThanOne 是否最少一条记录
+	 * @param lessThanOne 是否最少一条记录 
 	 */
 	public void setLessThanOne(Boolean lessThanOne) {
 		this.lessThanOne = lessThanOne;
@@ -192,7 +193,7 @@ public class InfoClass implements Cloneable, Serializable {
 	 * 返回信息类属性列表
 	 */
 	public List<InfoProperty> getProperties() {
-
+		
 		return properties;
 	}
 
@@ -207,43 +208,43 @@ public class InfoClass implements Cloneable, Serializable {
 		this.editables=new ArrayList<InfoProperty>();
 		this.viewables=new ArrayList<InfoProperty>();
 		this.uniqables=new ArrayList<InfoProperty>();
-
+		
 		for (InfoProperty property : properties) {
 			addProperty( property );
 		}
-
+		
 	}
-
+	
 	/**
 	 * 增加信息类属性
 	 * @param property 信息类属性描述信息
 	 */
 	public void addProperty( InfoProperty property ) {
 		properties.add( property );
-
+		
 		if( property.getEditable() ) {
 			editables.add(property);
 		}
-
+		
 		if( property.getViewable() ) {
 			viewables.add(property);
 		}
-
+		
 		if( property.getUnique() ) {
 			uniqables.add( property );
 		}
 	}
-
+	
 	/**
 	 * 获取可编辑字段属性列表
 	 * @return
 	 */
 	public List<InfoProperty> getEditables() {
-
+			
 		return editables;
 	}
 	public void setEditables(List<InfoProperty> editables) {
-
+		
 		this.editables=editables;
 	}
 
@@ -254,7 +255,7 @@ public class InfoClass implements Cloneable, Serializable {
 	public List<InfoProperty> getViewables() {
 		return viewables;
 	}
-
+	
 	public String getPropString(){
 		String str="";
 		if(properties==null)return "";
@@ -263,7 +264,7 @@ public class InfoClass implements Cloneable, Serializable {
 		}
 		return str;
 	}
-
+	
 	/**
 	 * 获取指定名字的字段属性信息(忽略大小写)
 	 * @param pName 字段属性名字，columnName
@@ -275,10 +276,10 @@ public class InfoClass implements Cloneable, Serializable {
 				return property;
 			}
 		}
-
+		
 		return null;
 	}
-
+	
 	/**
 	 * 获取指定ID的字段属性信息
 	 * @param pId 字段属性的全局ID
@@ -290,11 +291,11 @@ public class InfoClass implements Cloneable, Serializable {
 				return property;
 			}
 		}
-
+		
 		return null;
 	}
 
-	/*
+	/* 
 	 * (non-Javadoc)
 	 * @see java.lang.Object#clone()
 	 */
@@ -311,7 +312,7 @@ public class InfoClass implements Cloneable, Serializable {
 		} catch (CloneNotSupportedException e) {
 			e.printStackTrace();
 		}
-
+		
 		return null;
 	}
 	public List<InfoProperty> getMarkInfoProperties() {
@@ -333,10 +334,10 @@ public class InfoClass implements Cloneable, Serializable {
 		if( type == null || "".equals( type ) ) {
 			return true;
 		}
-
+		
 		return ( (InfoClassType) TypeFactory.getType( InfoClassType.class, type ) ).isMoreThanOne();
 	}
-
+	
 	/**
 	 * 信息来源
 	 */
@@ -374,7 +375,7 @@ public class InfoClass implements Cloneable, Serializable {
 	public String getCommitableText() {
 		return commitable+"";
 	}
-
+	
 	public void setCommitable(boolean commitable) {
 		this.commitable = commitable;
 	}
@@ -382,7 +383,7 @@ public class InfoClass implements Cloneable, Serializable {
 	public void setViewables(List<InfoProperty> viewables) {
 		this.viewables = viewables;
 	}
-
+	
 	public String getPxfs() {
 		return pxfs;
 	}
@@ -447,7 +448,7 @@ public class InfoClass implements Cloneable, Serializable {
 	}
 
 
-
-
-
+	
+	
+	
 }

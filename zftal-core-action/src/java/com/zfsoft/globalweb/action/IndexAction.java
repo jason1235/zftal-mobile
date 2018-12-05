@@ -230,6 +230,7 @@ public class IndexAction extends BaseAction implements ModelDriven<IndexModel>{
 			
 			return "switch";
 		}
+    	
     }
     
     /**

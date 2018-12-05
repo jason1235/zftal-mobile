@@ -507,6 +507,10 @@
 		update ZFTAL_XTGL_YHB   set  deviceid = '' where zgh = #{zgh} 
 	</update>
     
+    <update id="jbyh">
+		update ZFTAL_XTGL_YHB   set  ERR_NUM = '0',SFQY='1' where zgh = #{zgh} 
+	</update>
+    
     
     <update id="bcsbh">
 		update ZFTAL_XTGL_YHB   set  deviceid = #{deviceid} where zgh = #{zgh} 

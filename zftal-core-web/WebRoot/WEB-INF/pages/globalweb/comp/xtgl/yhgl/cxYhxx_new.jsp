@@ -50,7 +50,8 @@
 	            $("#myFrame").attr("src", url);
 	            $("#myModal_toji").modal("show");
 			});
-						
+			
+			
 			$("#btn_qiyong").click(function(){
 				if($("input[name='id']:checked").length==0){
 	                   openAlert("请先选中操作行！", "e");
@@ -75,10 +76,12 @@
 						   }else{
 						      openAlert(data.msg, "e");
 						   }
+						
 						}
 				    }
 				});
 			});
+			
 			
 			$("#btn_tingyong").click(function(){
 				if($("input[name='id']:checked").length==0){
@@ -153,6 +156,32 @@
 				});
 			});
 			
+			//解绑用户
+			$("#btn_jbyh").click(function(){
+				if($("input[name='id']:checked").length==0){
+	                   openAlert("请先选中操作行！", "e");
+	                    return false;
+	                }
+	            if($("input[name='id']:checked").length>1){
+	                   openAlert("不能选中多行！", "e");
+	                    return false;
+	                }
+	            var id = $("input[name='id']:checked").val();
+	            var url = "<%=request.getContextPath()%>/xtgl/yhgl_jbyh.html?model.zgh="+id;
+	            $.ajax({
+					url:url,
+					type:"post",
+					dataType:"json",
+					data:{},
+					success:function(data){
+						if(data!=null){
+							openAlert(data.msg, "e");
+							//window.location.href="<%=request.getContextPath()%>/xtgl/yhgl_cxYhxx.html";
+						}
+				    }
+				});
+			});
+			
 			
 			$("#list_body tr").bind("click",function(e){
 			 	var check = $(this).find("input[name='id']").prop("checked");
@@ -192,9 +221,9 @@
               <button type="button" class="btn btn-default" id="btn_fpjs">分配角色</button>
               <button type="button" class="btn btn-default" id="btn_qiyong">启用</button>
               <button type="button" class="btn btn-default" id="btn_tingyong">停用</button>
-              
               <button type="button" class="btn btn-default" id="btn_bd">绑定设备号</button>
               <button type="button" class="btn btn-default" id="btn_jb">解绑设备号</button>
+              <button type="button" class="btn btn-default" id="btn_jbyh">解绑用户</button>
           </div>
       </div>
       <jsp:include page="/WEB-INF/pages/globalweb/modal.jsp" flush="true"></jsp:include>

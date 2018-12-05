@@ -6,7 +6,6 @@ public class LoginModel extends ModelBase{
 	private static final long serialVersionUID = 1L;
 	private String yhm; //用户名
 	private String mm; //密码
-	private String errNum;//错误次数
 	private String yzm; //验证码
 	private String zgh;
 	private String xm;
@@ -53,13 +52,6 @@ public class LoginModel extends ModelBase{
 	public void setMm(String mm) {
 		this.mm = mm;
 	}
-	public String getErrNum() {
-		return errNum;
-	}
-	public void setErrNum(String errNum) {
-		this.errNum = errNum;
-	}
-
 	public String getYzm() {
 		return yzm;
 	}

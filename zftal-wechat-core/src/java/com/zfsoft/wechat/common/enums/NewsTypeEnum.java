@@ -26,4 +26,5 @@ public enum NewsTypeEnum {
 	public String getName() {
 		return name;
 	}
+	
 }

@@ -482,5 +482,15 @@ public class YhglServiceImpl extends BaseServiceImpl<YhglModel, IYhglDao>
 		return dao.getYhxxModel(model);
 	}
 
+	@Override
+	public boolean jbyh(YhglModel model) {
+		String zgh = model.getZgh();
+		
+		if( !StringUtils.isEmpty(zgh) ){
+			dao.jbyh(zgh);
+			return true;
+		}
+		return false;
+	}
 	
 }

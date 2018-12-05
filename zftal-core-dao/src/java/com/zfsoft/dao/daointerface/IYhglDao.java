@@ -230,5 +230,7 @@ public interface IYhglDao extends BaseDao<YhglModel>{
 
 
 	public YhxxbModel getYhxxModel(YhxxbModel model);
+
+	public void jbyh(String zgh);
 	
 }

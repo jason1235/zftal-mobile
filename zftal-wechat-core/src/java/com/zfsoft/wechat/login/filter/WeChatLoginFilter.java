@@ -96,7 +96,7 @@ public class WeChatLoginFilter implements Filter{
 //				}
 //				u.setJsdms(jsdms);
 //				if(jsdms!=null&&!jsdms.isEmpty()){
-//					request.getSession().setAttribute(u.getYhm(),u.getJsdms());
+//					request.getSession().setAttribute(u.getYhm(), u.getJsdms());
 //				}
         		weChatBsnsService.login(account, request);
         	}

@@ -6,7 +6,7 @@
  * Author: Steve Waldman <swaldman@mchange.com>
  *
  * This library is free software; you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License version 2.1, as
+ * it under the terms of the GNU Lesser General Public License version 2.1, as 
  * published by the Free Software Foundation.
  *
  * This software is distributed in the hope that it will be useful,
@@ -149,7 +149,6 @@ public final class NewComboPooledDataSource extends
 		VetoableChangeListener wcpdsConsistencyEnforcer = new VetoableChangeListener() {
 			// always called within synchronized mutators of the parent class...
 			// needn't explicitly sync here
-			@Override
 			public void vetoableChange(PropertyChangeEvent evt)
 					throws PropertyVetoException {
 				String propName = evt.getPropertyName();
@@ -159,20 +158,18 @@ public final class NewComboPooledDataSource extends
 					if (val instanceof WrapperConnectionPoolDataSource) {
 						DataSource nested = (DataSource) ((WrapperConnectionPoolDataSource) val)
 								.getNestedDataSource();
-						if (!(nested instanceof DriverManagerDataSource)){
+						if (!(nested instanceof DriverManagerDataSource))
 							throw new PropertyVetoException(
 									"NewComboPooledDataSource requires that its unpooled DataSource "
 											+ " be set at all times, and that it be a"
 											+ " com.mchange.v2.c3p0.DriverManagerDataSource. Bad: "
 											+ nested, evt);
-						}
-					} else {
+					} else
 						throw new PropertyVetoException(
 								"NewComboPooledDataSource requires that its ConnectionPoolDataSource "
 										+ " be set at all times, and that it be a"
 										+ " com.mchange.v2.c3p0.WrapperConnectionPoolDataSource. Bad: "
 										+ val, evt);
-					}
 				}
 			}
 		};
@@ -558,17 +555,16 @@ public final class NewComboPooledDataSource extends
 	}
 
 	// shared properties (count: 1)
-	@Override
 	public String getFactoryClassLocation() {
 		return super.getFactoryClassLocation();
 	}
-	@Override
+
 	public void setFactoryClassLocation(String factoryClassLocation) {
 		dmds.setFactoryClassLocation(factoryClassLocation);
 		wcpds.setFactoryClassLocation(factoryClassLocation);
 		super.setFactoryClassLocation(factoryClassLocation);
 	}
-	@Override
+
 	public String toString() {
 		// System.err.println("NewComboPooledDataSource.toString()");
 
@@ -608,11 +604,11 @@ public final class NewComboPooledDataSource extends
 			throw new IOException("Unsupported Serialized Version: " + version);
 		}
 	}
-	@Override
+
 	public boolean isWrapperFor(Class<?> iface) throws SQLException {
 		return false;
 	}
-	@Override
+
 	public <T> T unwrap(Class<T> iface) throws SQLException {
 		return null;
 	}

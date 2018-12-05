@@ -53,7 +53,7 @@ public class WeChatBsnsServiceImpl implements IWeChatBsnsService {
 
 	/**
 	 * 设置
-	 * @param loginService  
+	 * @param loginService 
 	 */
 	public void setLoginService(ILoginService loginService) {
 		this.loginService = loginService;

@@ -16,29 +16,29 @@ import com.zfsoft.hrm.baseinfo.dyna.html.ParseFactory;
 import com.zfsoft.hrm.baseinfo.infoclass.entities.InfoClass;
 import com.zfsoft.hrm.baseinfo.infoclass.entities.InfoProperty;
 
-/**
+/** 
  * 动态类实体
- * @ClassName: DynaBean
+ * @ClassName: DynaBean 
  * @author jinjj
- * @date 2012-6-20 上午10:20:25
- *
+ * @date 2012-6-20 上午10:20:25 
+ *  
  */
 public class DynaBean implements Serializable {
-
+	
 	private static final long serialVersionUID = -7994224807326239960L;
-
+	
 	private int index;
-
+	
 	private boolean cacheNew;						//最新false未保存缓存true已保存缓存
 
 	private InfoClass clazz;					//动态类对象描述
-
+	
 	private Map<String, Object> values;			//动态类对象附属数据
-
+	
 	private Map<String, String> editHtml = new HashMap<String, String>();	//编辑HTML文本
-
+	
 	private Map<String, String> viewHtml = new HashMap<String, String>();	//显示HTML文本
-
+	
 	/**
 	 * 构造函数
 	 * @param clazz 动态类对象描述
@@ -46,11 +46,11 @@ public class DynaBean implements Serializable {
 	public DynaBean(InfoClass clazz) {
 		this.clazz = clazz;
 		this.values = new HashMap<String, Object>();
-
+		
 		for( InfoProperty prop : clazz.getProperties() ){
 			//values.put(prop.getFieldName(), prop.getDefaultValue());
 			viewHtml.put(prop.getFieldName(), getViewText(prop.getFieldName()));
-
+			
 			if( prop.getEditable() ) {
 				editHtml.put( prop.getFieldName(), getEditText(prop.getFieldName()) );
 			} else {
@@ -58,7 +58,7 @@ public class DynaBean implements Serializable {
 			}
 		}
 	}
-
+	
 	/**
 	 * 获取指定属性的值
 	 * @param pName 属性名称
@@ -78,14 +78,14 @@ public class DynaBean implements Serializable {
 		return values.get( pName ).toString();
 
 	}
-
+	
 	/**
 	 * 设置属性值
 	 * @param pName 属性名称
 	 * @param value 属性值
 	 */
 	public void setValue( String pName, Object value ) {
-
+		
 		if(value instanceof CLOB){
 			try {
 				//System.out.println("aaa:"+CLOBToString(((CLOB)value)));
@@ -100,46 +100,46 @@ public class DynaBean implements Serializable {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-
+			
 		}else{
 			if( !has( pName ) ) {
 				values.put( StringUtils.lowerCase(pName), value );
 				return;
 			}
-
+			
 			//数据库返回的字段名称一律为大小，需将其大小写转换成InfoProper描述的fieldName一致
 			pName = clazz.getPropertyByName(pName).getFieldName();
-
+			
 			//对value进行类型转换
 			value = ParseFactory.ValueParse(clazz.getPropertyByName(pName), value);
-			values.put(pName, value);
-
+			values.put(pName, value);	
+			
 			viewHtml.put( pName, getViewText( pName ) );
-
+			
 			if( clazz.getPropertyByName( pName ).getEditable() ) {
 				editHtml.put( pName, getEditText( pName ) );
 			} else {
 				editHtml.put( pName, getViewText(pName) );
 			}
 		}
-
+		
 	}
-
-public String CLOBToString(CLOB CLOB) throws SQLException, IOException {
-
-        String reString = "";
-        java.io.Reader is = CLOB.getCharacterStream();// 得到流
-        BufferedReader br = new BufferedReader(is);
-        String s = br.readLine();
-        StringBuffer sb = new StringBuffer();
-        while (s != null) {// 执行循环将字符串全部取出付值给StringBuffer由StringBuffer转成STRING
-            sb.append(s);
-            s = br.readLine();
-        }
-        reString = sb.toString();
-        return reString;
-    }
-
+	
+public String CLOBToString(CLOB CLOB) throws SQLException, IOException {   
+        
+        String reString = "";   
+        java.io.Reader is = CLOB.getCharacterStream();// 得到流   
+        BufferedReader br = new BufferedReader(is);   
+        String s = br.readLine();   
+        StringBuffer sb = new StringBuffer();   
+        while (s != null) {// 执行循环将字符串全部取出付值给StringBuffer由StringBuffer转成STRING   
+            sb.append(s);   
+            s = br.readLine();   
+        }   
+        reString = sb.toString();   
+        return reString;   
+    }   
+	
 	/**
 	 * 该动态实体是否含有指定的属性（忽略大小写）
 	 * @param pName 属性名称
@@ -154,7 +154,7 @@ public String CLOBToString(CLOB CLOB) throws SQLException, IOException {
 			return true;
 		}
 	}
-
+	
 	/**
 	 * 获取编辑页面文本内容（用于编辑页面显示的HTML文本）
 	 * @param pName 属性名
@@ -163,10 +163,10 @@ public String CLOBToString(CLOB CLOB) throws SQLException, IOException {
 	private String getEditText( String pName ) {
 		InfoProperty property = clazz.getPropertyByName( pName );
 		Object value = values.get( pName );
-
+		
 		return ParseFactory.EditParse( property, value);
 	}
-
+	
 	/**
 	 * 获取用于显示的文本内容
 	 * @param pName 属性名
@@ -180,9 +180,9 @@ public String CLOBToString(CLOB CLOB) throws SQLException, IOException {
 		}
 		return ParseFactory.ViewParse(property, value);
 	}
-
+	
 	//Getter and Stter Methods
-
+	
 	/**
 	 * 动态类对象描述
 	 * @return
@@ -226,12 +226,12 @@ public String CLOBToString(CLOB CLOB) throws SQLException, IOException {
 	 * @return
 	 */
 	public List<InfoProperty> getEditables() {
-
+		
 		return getClazz().getEditables();
 	}
-
+	
 	public void setEditables(List<InfoProperty> editables) {
-
+		
 		getClazz().setEditables(editables);
 	}
 
@@ -240,7 +240,7 @@ public String CLOBToString(CLOB CLOB) throws SQLException, IOException {
 	 * @return
 	 */
 	public List<InfoProperty> getViewables() {
-
+		
 		return  clazz.getViewables();
 	}
 
@@ -257,7 +257,7 @@ public String CLOBToString(CLOB CLOB) throws SQLException, IOException {
 	public Map<String, String> getViewHtml() {
 		return viewHtml;
 	}
-
+	
 	public int getIndex() {
 		return index;
 	}

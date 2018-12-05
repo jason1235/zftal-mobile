@@ -25,7 +25,6 @@ public class YhglModel extends ModelBase {
 	private String zgh;//职工号
 	private String xm;//姓名
 	private String mm;//密码
-	private String errNum;//登录失败次数
 	private String lxdh;//联系电话
 	private String dzyx;//电子邮箱
 	private String sfqy;//是否启用
@@ -49,7 +48,7 @@ public class YhglModel extends ModelBase {
 	
 	private String ymm;//原密码
 	
-
+	private String errNum;//登录失败次数
 	
 	private String sysCode;
 	
@@ -101,7 +100,6 @@ public class YhglModel extends ModelBase {
 	public void setMm(String mm) {
 		this.mm = mm;
 	}
-
 	public String getLxdh() {
 		return lxdh;
 	}

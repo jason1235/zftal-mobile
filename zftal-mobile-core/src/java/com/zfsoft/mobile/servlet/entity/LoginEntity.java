@@ -94,9 +94,11 @@ public class LoginEntity {
 		return StringUtil.isEmpty(gradeName) ? "" : gradeName;
 	}
 
+
 	public void setGradeName(String gradeName) {
 		this.gradeName = StringUtil.isEmpty(gradeName) ? "" : gradeName;
 	}
+
 
 	public String getNowSchoolYearTerm() {
 		return StringUtil.isEmpty(nowSchoolYearTerm) ? "" : nowSchoolYearTerm;

@@ -9,7 +9,7 @@
 		<result property="title"   column="zxbt" />
 		<result property="source"   column="zxly" />
 		<result property="author"   column="zz" />
-		<result property="newsTime"   column="newsTime" />
+		<result property="newsTime"   column="newsTime" /> 
 		<result property="catalogCode"   column="lbbm" />
 		<result property="business"   column="ssywxt" />
 		<result property="intro"   column="zxjj" />
@@ -70,7 +70,7 @@ select t.*,rownum as rn from(
 select t1.zxid,t1.lbbm,t1.zxbt,t1.newsTime,t1.cjsj,t1.zxjj,t1.syzt,t1.zdzt,t1.ttzt,t1.tjzt,t1.zxtpid,t1.zxtpdz,t1.zqfs,t1.zz,t1.fwbm,t1.isremotelogo,t1.remotelogourl,t1.url,t1.vedioId,t1.vedioUrl,t2.lbmc,t2.zxxs,t3.xtmc from m_zxgl_zxglb t1
 left join m_zxgl_zxlbglb t2 on t1.lbbm = t2.lbbm
 left join m_fwgl_ywxtglb t3 on t1.ssywxt = t3.xtbm
-<include refid="where" /> and t2.deleted = '0'  order by t1.zdzt desc,t1.newsTime desc
+<include refid="where" /> and t2.deleted = '0'  order by t1.zdzt desc,t1.cjsj desc
 ) t)
                 
   <![CDATA[

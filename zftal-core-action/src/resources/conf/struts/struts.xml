@@ -46,8 +46,8 @@
 			<result name="serviceException">/WEB-INF/pages/globalweb/comm/exception/businessexception.jsp</result>
 			<result name="dataIntegrityViolationException">/WEB-INF/pages/globalweb/comm/exception/voilationException.jsp</result>         	
 		</global-results>
-		<!-- 利用strus2的异常框架 -->
-		<global-exception-mappings>
+		<!-- 利用strus2的异常框架 -->       
+		<global-exception-mappings>   
 			<exception-mapping result="error" exception="java.lang.Exception"/>
 			<exception-mapping result="unknowException" exception="java.lang.Exception"></exception-mapping>
 			<exception-mapping result="businessException" exception="com.zfsoft.common.exception.BusinessException"></exception-mapping>
