@@ -20,48 +20,48 @@ public interface SjkpzDao{
     public void deleteSjkpz(Sjkpz sjkpz) ;
 
     public PageList<SjkpzWrapper> getPagingInfo(Object dataObject) ;
-    
+
     /**
-     * »ñÈ¡µ½ËùÓĞµÄÊı¾İ¿âÀàĞÍĞÅÏ¢
+     * è·å–åˆ°æ‰€æœ‰çš„æ•°æ®åº“ç±»å‹ä¿¡æ¯
      * @return
      * @
      */
-    
+
     public List getSjklxList() ;
-    
+
     /**
-     * ²éÑ¯ËùÓĞÊı¾İ¿âÁ¬½ÓÀàĞÍĞÅÏ¢
+     * æŸ¥è¯¢æ‰€æœ‰æ•°æ®åº“è¿æ¥ç±»å‹ä¿¡æ¯
      * @return
      * @
      */
     public List getSjkljlxList() ;
-    
+
     /**
-     * »ñÈ¡ËùÓĞµÄÊı¾İ¿âÅäÖÃ
+     * è·å–æ‰€æœ‰çš„æ•°æ®åº“é…ç½®
      * @return
      */
     public List getSjkpz();
     /**
-     * »ñÈ¡ËùÓĞµÄÊÜ¼à¿ØÊı¾İ¿âÅäÖÃ
+     * è·å–æ‰€æœ‰çš„å—ç›‘æ§æ•°æ®åº“é…ç½®
      * @return
      */
     public List getAllJKSjkpz();
-    
+
     public List<SjkpzWrapper> getSjkpzDetail(String pzxh);
 
     /**
-     * ²éÑ¯Ò»ÌõÊı¾İ¿âÀàĞÍºÍÊı¾İ¿âÁ¬½ÓÀàĞÍĞÅÏ¢
+     * æŸ¥è¯¢ä¸€æ¡æ•°æ®åº“ç±»å‹å’Œæ•°æ®åº“è¿æ¥ç±»å‹ä¿¡æ¯
      * @return
      * @
      */
     public Map getSjklxAndLjlx(Map map) ;
-    
+
     /**
-     * ÅĞ¶ÏÊı¾İ¿â·şÎñÆ÷ÊÇ·ñ±»ÒıÓÃ
+     * åˆ¤æ–­æ•°æ®åº“æœåŠ¡å™¨æ˜¯å¦è¢«å¼•ç”¨
      * @param yyfwqlsh
      * @return
      */
     public int sjkfwqIfUsed(int pzxh);
 
-	public int getPagingInfoCount(Sjkpz sjkpz);
+    public int getPagingInfoCount(Sjkpz sjkpz);
 }

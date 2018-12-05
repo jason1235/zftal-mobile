@@ -8,10 +8,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>logoutResponse complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>logoutResponse complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="logoutResponse">
  *   &lt;complexContent>
@@ -23,12 +23,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "logoutResponse", propOrder = {
-    "_return"
+        "_return"
 })
 public class LogoutResponse {
 
@@ -36,16 +36,16 @@ public class LogoutResponse {
     protected int _return;
 
     /**
-     * »ñÈ¡returnÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–returnå±æ€§çš„å€¼ã€‚
+     *
      */
     public int getReturn() {
         return _return;
     }
 
     /**
-     * ÉèÖÃreturnÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®returnå±æ€§çš„å€¼ã€‚
+     *
      */
     public void setReturn(int value) {
         this._return = value;

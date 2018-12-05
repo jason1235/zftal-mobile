@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>ReqData complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>ReqData complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="ReqData">
  *   &lt;complexContent>
@@ -26,16 +26,16 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "ReqData", propOrder = {
-    "yhm",
-    "yhlx",
-    "timestamp",
-    "cipher",
-    "dataMap"
+        "yhm",
+        "yhlx",
+        "timestamp",
+        "cipher",
+        "dataMap"
 })
 public class ReqData {
 
@@ -46,120 +46,120 @@ public class ReqData {
     protected MapParameter dataMap;
 
     /**
-     * »ñÈ¡yhmÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–yhmå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getYhm() {
         return yhm;
     }
 
     /**
-     * ÉèÖÃyhmÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®yhmå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setYhm(String value) {
         this.yhm = value;
     }
 
     /**
-     * »ñÈ¡yhlxÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–yhlxå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getYhlx() {
         return yhlx;
     }
 
     /**
-     * ÉèÖÃyhlxÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®yhlxå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setYhlx(String value) {
         this.yhlx = value;
     }
 
     /**
-     * »ñÈ¡timestampÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–timestampå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getTimestamp() {
         return timestamp;
     }
 
     /**
-     * ÉèÖÃtimestampÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®timestampå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setTimestamp(String value) {
         this.timestamp = value;
     }
 
     /**
-     * »ñÈ¡cipherÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–cipherå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCipher() {
         return cipher;
     }
 
     /**
-     * ÉèÖÃcipherÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®cipherå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCipher(String value) {
         this.cipher = value;
     }
 
     /**
-     * »ñÈ¡dataMapÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–dataMapå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link MapParameter }
-     *     
+     *
      */
     public MapParameter getDataMap() {
         return dataMap;
     }
 
     /**
-     * ÉèÖÃdataMapÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®dataMapå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link MapParameter }
-     *     
+     *
      */
     public void setDataMap(MapParameter value) {
         this.dataMap = value;

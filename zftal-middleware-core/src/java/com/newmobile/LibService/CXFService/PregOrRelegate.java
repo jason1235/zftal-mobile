@@ -8,10 +8,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>pregOrRelegate complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>pregOrRelegate complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="pregOrRelegate">
  *   &lt;complexContent>
@@ -29,22 +29,22 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "pregOrRelegate", propOrder = {
-    "callNo",
-    "certId",
-    "dealFlag",
-    "dealFlagName",
-    "location",
-    "name",
-    "title"
+        "callNo",
+        "certId",
+        "dealFlag",
+        "dealFlagName",
+        "location",
+        "name",
+        "title"
 })
 @XmlSeeAlso({
-    Relegate.class,
-    Preg.class
+        Relegate.class,
+        Preg.class
 })
 public class PregOrRelegate {
 
@@ -57,168 +57,168 @@ public class PregOrRelegate {
     protected String title;
 
     /**
-     * »ñÈ¡callNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–callNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCallNo() {
         return callNo;
     }
 
     /**
-     * ÉèÖÃcallNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®callNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCallNo(String value) {
         this.callNo = value;
     }
 
     /**
-     * »ñÈ¡certIdÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–certIdå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCertId() {
         return certId;
     }
 
     /**
-     * ÉèÖÃcertIdÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®certIdå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCertId(String value) {
         this.certId = value;
     }
 
     /**
-     * »ñÈ¡dealFlagÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–dealFlagå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getDealFlag() {
         return dealFlag;
     }
 
     /**
-     * ÉèÖÃdealFlagÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®dealFlagå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setDealFlag(String value) {
         this.dealFlag = value;
     }
 
     /**
-     * »ñÈ¡dealFlagNameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–dealFlagNameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getDealFlagName() {
         return dealFlagName;
     }
 
     /**
-     * ÉèÖÃdealFlagNameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®dealFlagNameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setDealFlagName(String value) {
         this.dealFlagName = value;
     }
 
     /**
-     * »ñÈ¡locationÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–locationå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getLocation() {
         return location;
     }
 
     /**
-     * ÉèÖÃlocationÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®locationå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setLocation(String value) {
         this.location = value;
     }
 
     /**
-     * »ñÈ¡nameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–nameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getName() {
         return name;
     }
 
     /**
-     * ÉèÖÃnameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®nameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setName(String value) {
         this.name = value;
     }
 
     /**
-     * »ñÈ¡titleÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–titleå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * ÉèÖÃtitleÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®titleå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setTitle(String value) {
         this.title = value;

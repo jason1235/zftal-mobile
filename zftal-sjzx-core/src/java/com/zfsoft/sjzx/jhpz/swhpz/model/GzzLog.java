@@ -1,50 +1,50 @@
 /**
- * 
+ *
  */
 package com.zfsoft.sjzx.jhpz.swhpz.model;
 
 import com.zfsoft.framework.page.BaseDataObject;
 
 /**
- * @author Administrator ¹¤×÷×éÈÕÖ¾ÅäÖÃ
+ * @author Administrator å·¥ä½œç»„æ—¥å¿—é…ç½®
  */
 public class GzzLog extends BaseDataObject {
 
 	/**
-	 * ĞòÁĞ»¯
+	 * åºåˆ—åŒ–
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private Integer logId; // ÈÕÖ¾Id
+	private Integer logId; // æ—¥å¿—Id
 
-	private String pzmc; // ÅäÖÃÃû³Æ
+	private String pzmc; // é…ç½®åç§°
 
-	private String startDate; // ¿ªÊ¼Ê±¼ä
+	private String startDate; // å¼€å§‹æ—¶é—´
 
-	private String endDate; // ½áÊøÊ±¼ä
+	private String endDate; // ç»“æŸæ—¶é—´
 
-	private int xhsj; // ÏûºÄÊ±¼ä
+	private int xhsj; // æ¶ˆè€—æ—¶é—´
 
-	private Integer readLines; // ¶ÁÈ¡Êı¾İ
+	private Integer readLines; // è¯»å–æ•°æ®
 
-	private Integer writtenLines; // Ğ´ÈëÊı¾İ
+	private Integer writtenLines; // å†™å…¥æ•°æ®
 
-	private Integer updateLines; // ¸üĞÂÊı¾İ
+	private Integer updateLines; // æ›´æ–°æ•°æ®
 
-	private Integer outputLines; // Ôö¼ÓÊı¾İ
+	private Integer outputLines; // å¢åŠ æ•°æ®
 
-	private Integer gzzbh; // ¶ÔÓ¦µÄ¹¤×÷×é±àºÅ
+	private Integer gzzbh; // å¯¹åº”çš„å·¥ä½œç»„ç¼–å·
 
-	private Integer pzxh; // ÅäÖÃĞòºÅ
-    private Integer errors;
+	private Integer pzxh; // é…ç½®åºå·
+	private Integer errors;
 
-    public void setErrors(Integer errors){
-        this.errors = errors;
-    }
+	public void setErrors(Integer errors){
+		this.errors = errors;
+	}
 
-    public Integer getErrors(){
-        return this.errors;
-    }
+	public Integer getErrors(){
+		return this.errors;
+	}
 
 	/**
 	 * @return the logId

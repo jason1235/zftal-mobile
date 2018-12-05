@@ -64,7 +64,7 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	private IWsjhConfigDAO wsjhConfigDao;
 	private SjkpzService sjkpzService;
 	private static final Logger LOG = Logger.getLogger(WsjhConfigServiceImpl.class);
-	
+
 	public SjkpzService getSjkpzService() {
 		return sjkpzService;
 	}
@@ -75,9 +75,9 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 
 	public WsjhConfig getWsjhConfig(WsjhConfig wsjhConfig)
 			throws DataAccessException {
-		if(wsjhConfigDao.getWsjhConfig(wsjhConfig) != null && 
+		if(wsjhConfigDao.getWsjhConfig(wsjhConfig) != null &&
 				wsjhConfigDao.getWsjhConfig(wsjhConfig).size() > 0)
-			 return wsjhConfigDao.getWsjhConfig(wsjhConfig).get(0);
+			return wsjhConfigDao.getWsjhConfig(wsjhConfig).get(0);
 		else return null;
 	}
 
@@ -87,7 +87,7 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	}
 
 	public void updateWsjhConfig(WsjhConfig wsjhConfig)
-			throws DataAccessException {		
+			throws DataAccessException {
 		wsjhConfigDao.updateWsjhConfig(wsjhConfig);
 	}
 
@@ -96,7 +96,7 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 		wsjhConfigDao.deleteWsjhConfig(wsjhConfig);
 	}
 
-	public PageList<WsjhConfig> getPagingInfo(WsjhConfig wsjhconfig) throws DataAccessException {	
+	public PageList<WsjhConfig> getPagingInfo(WsjhConfig wsjhconfig) throws DataAccessException {
 		PageList<WsjhConfig> pageList = new PageList<WsjhConfig>();
 		Paginator paginator = new Paginator();
 		if(wsjhconfig!=null){
@@ -104,7 +104,7 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 			paginator.setPage((Integer)wsjhconfig.getToPage());
 			paginator.setItems(wsjhConfigDao.getWsjhConfigListCount(wsjhconfig));
 			pageList.setPaginator(paginator);
-			
+
 			if(paginator.getBeginIndex() <= paginator.getItems()){
 				wsjhconfig.setStartRow(paginator.getBeginIndex());
 				wsjhconfig.setEndRow(paginator.getEndIndex());
@@ -125,15 +125,15 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	}
 
 	public List<Sjlx> getSjlx() throws DataAccessException {
-		
+
 		return wsjhConfigDao.getSjlx();
 	}
 
 	public void deleteWsjhdzConfig(WsjhdzConfig wdc) throws DataAccessException {
-		 wsjhConfigDao.deleteWsjhdzConfig(wdc);
+		wsjhConfigDao.deleteWsjhdzConfig(wdc);
 	}
 
-	public void batchInsert(List<WsjhdzConfig> wcList,WsjhdzConfig wdc) throws SQLException {		
+	public void batchInsert(List<WsjhdzConfig> wcList,WsjhdzConfig wdc) throws SQLException {
 		this.wsjhConfigDao.deleteWsjhdzConfig(wdc);
 		for(WsjhdzConfig WsjhdzConfig : wcList){
 			wsjhConfigDao.batchInsert(WsjhdzConfig);
@@ -142,7 +142,7 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	}
 
 	public List<Dsqlx> getDsqlx() {
-		
+
 		return wsjhConfigDao.getDsqlx();
 	}
 
@@ -152,17 +152,17 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	}
 
 	public void deleteWsjhDsqConfig(WsjhDsqConfig wdc) {
-		
-		 wsjhConfigDao.deleteWsjhDsqConfig(wdc);
+
+		wsjhConfigDao.deleteWsjhDsqConfig(wdc);
 	}
 
 	public void updataWsjhDsqConfig(WsjhDsqConfig wdc) {
-	
-		 wsjhConfigDao.updateWsjhDsqConfig(wdc);
+
+		wsjhConfigDao.updateWsjhDsqConfig(wdc);
 	}
 
 	public List<WsjhdzConfig> getWsjhdzConfigList(WsjhdzConfig wdc) {
-		
+
 		return wsjhConfigDao.getWsjhdzConfigList(wdc);
 	}
 
@@ -171,12 +171,12 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	}
 
 	public List<WsjhParamsConfig> getWsjhParamsConfigList(WsjhParamsConfig wpc) {
-		
+
 		return wsjhConfigDao.getWsjhParamsConfigList(wpc);
 	}
 
 	public void batchInsertWsjhParamsConfig(List<WsjhParamsConfig> list,
-			WsjhParamsConfig wpc) throws SQLException {
+											WsjhParamsConfig wpc) throws SQLException {
 		this.wsjhConfigDao.deleteWsjhParamsConfig(wpc);
 		for(WsjhParamsConfig wsjhParamsConfig : list){
 			wsjhConfigDao.batchInsertWsjhParamsConfig(wsjhParamsConfig);
@@ -191,93 +191,93 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	public List<List<WsjhResult>> getWsjhResultAll(Object[] results,	List<WsjhdzConfig> wcList,Integer isType,String zys) throws DocumentException {
 		List<List<WsjhResult>> wrsList = new ArrayList<List<WsjhResult>>();
 		if(results!=null&&results.length>0){
-        	for(Object result:results){
-        		if(result!=null&&result instanceof String){
-        			String res = (String)result;
-        			if(!Tool.isNull(res)){
-                		if(isType.intValue()==0){//±íÊ¾·µ»ØJSONÄÚÈİ
-                			 setWsjhResultByJSON(wcList, wrsList, res);
-                		}else if(isType.intValue()==1){//·µ»ØXMLÄÚÈİ
-                			 setWsjhResultByXML(wcList, wrsList, res,zys);
-                		}else {//·µ»ØÆäËû
-                		}
-                	}
-        		}        		
-        	}
-        }
+			for(Object result:results){
+				if(result!=null&&result instanceof String){
+					String res = (String)result;
+					if(!Tool.isNull(res)){
+						if(isType.intValue()==0){//è¡¨ç¤ºè¿”å›JSONå†…å®¹
+							setWsjhResultByJSON(wcList, wrsList, res);
+						}else if(isType.intValue()==1){//è¿”å›XMLå†…å®¹
+							setWsjhResultByXML(wcList, wrsList, res,zys);
+						}else {//è¿”å›å…¶ä»–
+						}
+					}
+				}
+			}
+		}
 		return wrsList;
 	}
 
 	private void setWsjhResultByXML(List<WsjhdzConfig> wcList,
-			List<List<WsjhResult>> wrsList, String res,String zys) throws DocumentException {
+									List<List<WsjhResult>> wrsList, String res,String zys) throws DocumentException {
 		Document doc = DocumentHelper.parseText(res);
 		Element rootElement = doc.getRootElement();
 		for(Iterator its= rootElement.elementIterator(zys);its.hasNext();){
-		    Element msgElement =(Element) its.next();
-		    List<WsjhResult> wrList = new ArrayList<WsjhResult>();
-		    setWsjhResultAll(wrList,msgElement,wcList);			
+			Element msgElement =(Element) its.next();
+			List<WsjhResult> wrList = new ArrayList<WsjhResult>();
+			setWsjhResultAll(wrList,msgElement,wcList);
 			if(wrList.size()>0)wrsList.add(wrList);
 		}
 	}
-    /**
-     * <p>»ñÈ¡JSON·µ»Ø½á¹ûµÄÊı¾İ</p>
-     * @param wcList
-     * @param wrList
-     * @param res
-     */
+	/**
+	 * <p>è·å–JSONè¿”å›ç»“æœçš„æ•°æ®</p>
+	 * @param wcList
+	 * @param wrList
+	 * @param res
+	 */
 	private void setWsjhResultByJSON(List<WsjhdzConfig> wcList,
-			List<List<WsjhResult>> wrsList, String res) {
+									 List<List<WsjhResult>> wrsList, String res) {
 		JSONArray ja = JSONArray.fromObject(res);
 		for(int i=0;i<ja.size();i++){
-		   JSONObject jo = (JSONObject)ja.get(i);	
-		   List<WsjhResult> wrList = new ArrayList<WsjhResult>();
-		   setWsjhResultAll(jo,wcList,wrList);
-		   if(wrList.size()>0) wrsList.add(wrList);
+			JSONObject jo = (JSONObject)ja.get(i);
+			List<WsjhResult> wrList = new ArrayList<WsjhResult>();
+			setWsjhResultAll(jo,wcList,wrList);
+			if(wrList.size()>0) wrsList.add(wrList);
 		}
 	}
 
 	public String getUpdateSQLAll(List<WsjhResult> wrList,String tablename) {
-	    StringBuffer updateSQL = new StringBuffer();
-	    StringBuffer whereSQL = new StringBuffer();	   
-	    	if(wrList!=null&&wrList.size()>0){
-		    	for(WsjhResult wr:wrList){
-		    		if(wr!=null){
-		    			if(wr.getSfzj()!=null&&wr.getSfzj()!=1){//±íÊ¾²»ÊÇÖ÷¼ü	    		
-		    			    updateSQL.append(wr.getMbzd());
-		    			    String value = wr.getValue().trim();
-			    			if(wr.getMbzdsjlx()==2||wr.getMbzdsjlx()==3||wr.getMbzdsjlx()==7||wr.getMbzdsjlx()==8){
-			    				updateSQL.append("='").append(value==null?"":value.replaceAll("'","")).append("',");
-			    			}else{			    				
-			    				if(!Tool.isNull(value)){
-			    					updateSQL.append("=").append(value==null?"":value.replaceAll("'","")).append(",");
-			    				}else{
-			    					updateSQL.append("='").append(value==null?"":value.replaceAll("'","")).append("',");
-			    				}
-			    			}
-		    		   }else{//±íÊ¾Ö÷¼ü
-		    			    whereSQL.append(wr.getMbzd());
-			    			if(wr.getMbzdsjlx()==2||wr.getMbzdsjlx()==3||wr.getMbzdsjlx()==7||wr.getMbzdsjlx()==8){
-			    				whereSQL.append("='").append(wr.getValue().trim()).append("' and ");
-			    			}else{
-			    				whereSQL.append("=").append(wr.getValue().trim()).append(" and ");
-			    			}
-		    		   }
-		    	  }
-		       }
-	    	}
-	    	
-	    String upSQL = updateSQL.toString();
-	    String whSQL = whereSQL.toString();
-	    if(upSQL.contains(","))upSQL = upSQL.substring(0,upSQL.lastIndexOf(","));
-	    if(whSQL.contains("and"))whSQL = whSQL.substring(0,whSQL.lastIndexOf("and"));
-	    if(!Tool.isNull(upSQL)&&!Tool.isNull(whSQL)&&!Tool.isNull(tablename)){
-	    	return "update " +tablename+ " set "+upSQL +" where "+whSQL;
-	    }
+		StringBuffer updateSQL = new StringBuffer();
+		StringBuffer whereSQL = new StringBuffer();
+		if(wrList!=null&&wrList.size()>0){
+			for(WsjhResult wr:wrList){
+				if(wr!=null){
+					if(wr.getSfzj()!=null&&wr.getSfzj()!=1){//è¡¨ç¤ºä¸æ˜¯ä¸»é”®
+						updateSQL.append(wr.getMbzd());
+						String value = wr.getValue().trim();
+						if(wr.getMbzdsjlx()==2||wr.getMbzdsjlx()==3||wr.getMbzdsjlx()==7||wr.getMbzdsjlx()==8){
+							updateSQL.append("='").append(value==null?"":value.replaceAll("'","")).append("',");
+						}else{
+							if(!Tool.isNull(value)){
+								updateSQL.append("=").append(value==null?"":value.replaceAll("'","")).append(",");
+							}else{
+								updateSQL.append("='").append(value==null?"":value.replaceAll("'","")).append("',");
+							}
+						}
+					}else{//è¡¨ç¤ºä¸»é”®
+						whereSQL.append(wr.getMbzd());
+						if(wr.getMbzdsjlx()==2||wr.getMbzdsjlx()==3||wr.getMbzdsjlx()==7||wr.getMbzdsjlx()==8){
+							whereSQL.append("='").append(wr.getValue().trim()).append("' and ");
+						}else{
+							whereSQL.append("=").append(wr.getValue().trim()).append(" and ");
+						}
+					}
+				}
+			}
+		}
+
+		String upSQL = updateSQL.toString();
+		String whSQL = whereSQL.toString();
+		if(upSQL.contains(","))upSQL = upSQL.substring(0,upSQL.lastIndexOf(","));
+		if(whSQL.contains("and"))whSQL = whSQL.substring(0,whSQL.lastIndexOf("and"));
+		if(!Tool.isNull(upSQL)&&!Tool.isNull(whSQL)&&!Tool.isNull(tablename)){
+			return "update " +tablename+ " set "+upSQL +" where "+whSQL;
+		}
 		return null;
 	}
 
 	public List<String> getInsertSQLAll(List<List<WsjhResult>> wrsList,String tablename,Integer oflag) {
-		List<String> insertSQLList = new ArrayList<String>();	
+		List<String> insertSQLList = new ArrayList<String>();
 		if(wrsList!=null&&wrsList.size()>0){
 			for(List<WsjhResult> wrs:wrsList){
 				if(wrs!=null&&wrsList.size()>0){
@@ -296,15 +296,15 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 					insertSQLList.add(insertSQL);
 				}
 			}
-		}	
+		}
 		return insertSQLList;
 	}
-    /**
-     * <p>³õÊ¼»¯²åÈëWebService ½»»»SQLÓï¾ä</p>
-     * @param wrs
-     * @param key
-     * @param result
-     */
+	/**
+	 * <p>åˆå§‹åŒ–æ’å…¥WebService äº¤æ¢SQLè¯­å¥</p>
+	 * @param wrs
+	 * @param key
+	 * @param result
+	 */
 	private void initInsertWsjhSQL(List<WsjhResult> wrs, StringBuffer key,StringBuffer result) {
 		for(WsjhResult wr:wrs){
 			if(wr!=null){
@@ -324,44 +324,44 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	}
 
 	public List<WsjhResult> getWsjhResult(Object[] results,	List<WsjhdzConfig> wcList) throws DocumentException {
-		
+
 		if(results!=null&&results.length>0){
-        	for(Object result:results){
-        		if(result!=null&&result instanceof String){
-        			String res = (String)result;
-        			if(!Tool.isNull(res)){
-                		if(res.contains("[{")){//±íÊ¾·µ»ØJSONÄÚÈİ                			
-                			return  getWsjhResultByJSON(wcList, res);
-                		}else if(res.contains("<data><msg>")){//·µ»ØXMLÄÚÈİ                			
-                			return  getWsjhResultByXML(wcList,  res);
-                		}else{//·µ»Ø×Ö·û´®ÄÚÈİ
-                			
-                		}
-                	}
-        		}        		
-        	}
-        }
+			for(Object result:results){
+				if(result!=null&&result instanceof String){
+					String res = (String)result;
+					if(!Tool.isNull(res)){
+						if(res.contains("[{")){//è¡¨ç¤ºè¿”å›JSONå†…å®¹
+							return  getWsjhResultByJSON(wcList, res);
+						}else if(res.contains("<data><msg>")){//è¿”å›XMLå†…å®¹
+							return  getWsjhResultByXML(wcList,  res);
+						}else{//è¿”å›å­—ç¬¦ä¸²å†…å®¹
+
+						}
+					}
+				}
+			}
+		}
 		return null;
 	}
-    /**
-     * <p>»ñÈ¡µ¥ĞĞWebService ½»»»½á¹û¼¯</p>
-     * @param wcList
-     * @param res
-     * @return
-     * @throws DocumentException 
-     */
+	/**
+	 * <p>è·å–å•è¡ŒWebService äº¤æ¢ç»“æœé›†</p>
+	 * @param wcList
+	 * @param res
+	 * @return
+	 * @throws DocumentException
+	 */
 	private List<WsjhResult> getWsjhResultByXML(List<WsjhdzConfig> wcList,	String res) throws DocumentException {
 		Document doc = DocumentHelper.parseText(res);
 		Element rootElement = doc.getRootElement();
-        Element msgElement =(Element) rootElement.element("msg");
+		Element msgElement =(Element) rootElement.element("msg");
 		List<WsjhResult> wrList = new ArrayList<WsjhResult>();
 		setWsjhResultAll(wrList,msgElement,wcList);
-        return wrList;
-		
+		return wrList;
+
 	}
 
 	/**
-	 * <p>»ñÈ¡µ¥ĞĞWebService ½»»»½á¹û¼¯</p>
+	 * <p>è·å–å•è¡ŒWebService äº¤æ¢ç»“æœé›†</p>
 	 * @param wcList
 	 * @param res
 	 * @return
@@ -369,10 +369,10 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	private List<WsjhResult> getWsjhResultByJSON(List<WsjhdzConfig> wcList,	String res) {
 		JSONArray ja = JSONArray.fromObject(res);
 		for(int i=0;i<ja.size();i++){
-		   JSONObject jo = (JSONObject)ja.get(i);	
-		   List<WsjhResult> wrList = new ArrayList<WsjhResult>();
-		   setWsjhResultAll(jo,wcList,wrList);
-		   return wrList;
+			JSONObject jo = (JSONObject)ja.get(i);
+			List<WsjhResult> wrList = new ArrayList<WsjhResult>();
+			setWsjhResultAll(jo,wcList,wrList);
+			return wrList;
 		}
 		return null;
 	}
@@ -382,73 +382,73 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 			List<String> SQLList = new ArrayList<String>();
 			for(List<WsjhResult> wrList:wrsList){
 				if(wrList!=null){
-			    StringBuffer updateSQL = new StringBuffer();
-			    StringBuffer whereSQL = new StringBuffer();	   
-			    initWsjhSQL(wrList, updateSQL, whereSQL);
-			    String upSQL = updateSQL.toString();
-			    String whSQL = whereSQL.toString();
-			    if(upSQL.contains(","))upSQL = upSQL.substring(0,upSQL.lastIndexOf(","));
-			    if(whSQL.contains("and"))whSQL = whSQL.substring(0,whSQL.lastIndexOf("and"));
-			    if(!Tool.isNull(upSQL)&&!Tool.isNull(whSQL)&&!Tool.isNull(tablename)){
-			    	if(oflag!=null&&oflag.intValue()==1){//±íÊ¾¸üĞÂ²Ù×÷±êÖ¾
-			    		upSQL+=",OPERATOR_FLAG='U'";
-			    	}
-			    	String uSQL =  "update " +tablename+ " set "+upSQL +" where "+whSQL;
-			    	SQLList.add(uSQL);
-			    }
+					StringBuffer updateSQL = new StringBuffer();
+					StringBuffer whereSQL = new StringBuffer();
+					initWsjhSQL(wrList, updateSQL, whereSQL);
+					String upSQL = updateSQL.toString();
+					String whSQL = whereSQL.toString();
+					if(upSQL.contains(","))upSQL = upSQL.substring(0,upSQL.lastIndexOf(","));
+					if(whSQL.contains("and"))whSQL = whSQL.substring(0,whSQL.lastIndexOf("and"));
+					if(!Tool.isNull(upSQL)&&!Tool.isNull(whSQL)&&!Tool.isNull(tablename)){
+						if(oflag!=null&&oflag.intValue()==1){//è¡¨ç¤ºæ›´æ–°æ“ä½œæ ‡å¿—
+							upSQL+=",OPERATOR_FLAG='U'";
+						}
+						String uSQL =  "update " +tablename+ " set "+upSQL +" where "+whSQL;
+						SQLList.add(uSQL);
+					}
+				}
 			}
-		 }
 			return SQLList;
 		}
 		return null;
 	}
-    /**
-     * <p>³õÊ¼»¯WebService ½»»»SQLÓï¾ä</p>
-     * @param wrList
-     * @param updateSQL
-     * @param whereSQL
-     */
+	/**
+	 * <p>åˆå§‹åŒ–WebService äº¤æ¢SQLè¯­å¥</p>
+	 * @param wrList
+	 * @param updateSQL
+	 * @param whereSQL
+	 */
 	private void initWsjhSQL(List<WsjhResult> wrList, StringBuffer updateSQL,StringBuffer whereSQL) {
 		if(wrList!=null&&wrList.size()>0){
 			for(WsjhResult wr:wrList){
 				if(wr!=null){
-					if(wr.getSfzj()!=null&&wr.getSfzj()!=1){//±íÊ¾²»ÊÇÖ÷¼ü	    		
-					    updateSQL.append(wr.getMbzd());
-					    String value = wr.getValue().trim();
-					    //2String 3Date 7Serializable 8Binary
-		    			if(wr.getMbzdsjlx()==2||wr.getMbzdsjlx()==3||wr.getMbzdsjlx()==7||wr.getMbzdsjlx()==8){
-		    				updateSQL.append("='").append(value==null?"":value.replaceAll("'","")).append("',");
-		    			}else{					    				
-		    				if(!Tool.isNull(value)){
-		    					updateSQL.append("=").append(value).append(",");
-		    				}else{
-		    					updateSQL.append("='").append(value==null?"":value.replaceAll("'","")).append("',");
-		    				}
-		    				
-		    			}
-				   }else{//±íÊ¾Ö÷¼ü
-					    whereSQL.append(wr.getMbzd());
-		    			if(wr.getMbzdsjlx()==2||wr.getMbzdsjlx()==3||wr.getMbzdsjlx()==7||wr.getMbzdsjlx()==8){
-		    				whereSQL.append("='").append(wr.getValue().trim()).append("' and ");
-		    			}else{
-		    				whereSQL.append("=").append(wr.getValue().trim()).append(" and ");
-		    			}
-				   }
-			  }
-		   }
+					if(wr.getSfzj()!=null&&wr.getSfzj()!=1){//è¡¨ç¤ºä¸æ˜¯ä¸»é”®
+						updateSQL.append(wr.getMbzd());
+						String value = wr.getValue().trim();
+						//2String 3Date 7Serializable 8Binary
+						if(wr.getMbzdsjlx()==2||wr.getMbzdsjlx()==3||wr.getMbzdsjlx()==7||wr.getMbzdsjlx()==8){
+							updateSQL.append("='").append(value==null?"":value.replaceAll("'","")).append("',");
+						}else{
+							if(!Tool.isNull(value)){
+								updateSQL.append("=").append(value).append(",");
+							}else{
+								updateSQL.append("='").append(value==null?"":value.replaceAll("'","")).append("',");
+							}
+
+						}
+					}else{//è¡¨ç¤ºä¸»é”®
+						whereSQL.append(wr.getMbzd());
+						if(wr.getMbzdsjlx()==2||wr.getMbzdsjlx()==3||wr.getMbzdsjlx()==7||wr.getMbzdsjlx()==8){
+							whereSQL.append("='").append(wr.getValue().trim()).append("' and ");
+						}else{
+							whereSQL.append("=").append(wr.getValue().trim()).append(" and ");
+						}
+					}
+				}
+			}
 		}
 	}
-	
+
 	/**
-	 * <p>»ñÈ¡·µ»ØÏûÏ¢</p>
+	 * <p>è·å–è¿”å›æ¶ˆæ¯</p>
 	 * @param wpcList
 	 * @param wcList
 	 * @return
 	 * @throws AxisFault
-	 * @throws DocumentException 
+	 * @throws DocumentException
 	 */
 	public  String getMessage(List<WsjhParamsConfig> wpcList,List<WsjhdzConfig> wcList,WsjhConfig wc) throws AxisFault, DocumentException {
-		
+
 		WsjhRzb rzb = new WsjhRzb();
 		rzb.setStartDate(DateTimeUtil.getCurrDateTimeStr());
 		rzb.setWsjhxh(wc.getWsjhxh());
@@ -457,17 +457,17 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 		String operate=wc.getOperate();
 		if(!Tool.isNull(url)){
 			if(url.contains(".asmx")){
-				processWebService(wpcList,wcList,wc,rzb, url, namespace, operate);				
+				processWebService(wpcList,wcList,wc,rzb, url, namespace, operate);
 			}else{
 				url=url.replace("?wsdl","").replace("?WSDL","");
-				processWebServiceByAxis(wpcList, wcList, wc, rzb, url, namespace,operate);		
+				processWebServiceByAxis(wpcList, wcList, wc, rzb, url, namespace,operate);
 			}
-		}		
-        return "";
+		}
+		return "";
 	}
 
 	/**
-	 * <p>´¦ÀíWebService ½Ó¿Ú</p>
+	 * <p>å¤„ç†WebService æ¥å£</p>
 	 * @param wpcList
 	 * @param wcList
 	 * @param wc
@@ -478,193 +478,193 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	 */
 	private void processWebService(List<WsjhParamsConfig> wpcList,List<WsjhdzConfig> wcList,WsjhConfig wc,WsjhRzb rzb, String url, String namespace,String operate) {
 		try{
-		    Service service = new Service();
-		    Call   call   = (Call) service.createCall();
-		    call.setTargetEndpointAddress(new java.net.URL(url));
-		    QName qnName = new QName(namespace,operate);
-		    call.setOperationName(qnName);	
-		    String params = wc.getParams();	
-		    if(params!=null){//ÓĞ²ÎÊı
-		    	addParameterByCall(wpcList,call,namespace,operate,wc);
-		    	insertMbkByParamsAndCall(wpcList, wcList, wc, rzb, call, params);
-		    }else{//Ã»ÓĞ²ÎÊı
-		    	insertMbkByNotParamsAndCall(wcList, wc, rzb, call);	
-		    }
-		   
+			Service service = new Service();
+			Call   call   = (Call) service.createCall();
+			call.setTargetEndpointAddress(new java.net.URL(url));
+			QName qnName = new QName(namespace,operate);
+			call.setOperationName(qnName);
+			String params = wc.getParams();
+			if(params!=null){//æœ‰å‚æ•°
+				addParameterByCall(wpcList,call,namespace,operate,wc);
+				insertMbkByParamsAndCall(wpcList, wcList, wc, rzb, call, params);
+			}else{//æ²¡æœ‰å‚æ•°
+				insertMbkByNotParamsAndCall(wcList, wc, rzb, call);
+			}
+
 		}catch(Exception e){
 			rzb.setErrors(rzb.getErrors()==null?1:rzb.getErrors());
 			rzb.setLog(rzb.getLog()+" "+e.getMessage());
 			e.printStackTrace();
 			System.gc();
 		}
-		rzb.setEndDate(DateTimeUtil.getCurrDateTimeStr());		
+		rzb.setEndDate(DateTimeUtil.getCurrDateTimeStr());
 		rzb.setLogDate(DateTimeUtil.getCurrDateTimeStr());
 		insertWsjhrzb(rzb);
 	}
 
 	private void insertMbkByNotParamsAndCall(List<WsjhdzConfig> wcList,	WsjhConfig wc, WsjhRzb rzb, Call call) throws RemoteException,
 			DocumentException {
-		String objs = (String)call.invoke(new Object[] {});  	
-		if(!Tool.isNull(objs)&&objs.contains("<NewDataSet>")){//¸ñÊ½ <NewDataSet><Table></Table><Table></Table></NewDataSet>
-		    List<List<WsjhResult>> wrsList =XmlHelper.getList(objs,"Table",wcList,null,null);
-		    StringBuffer logs = new StringBuffer();
-		    if(wrsList!=null&&wrsList.size()>0){
-		    	SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(wc.getWsjhds());
+		String objs = (String)call.invoke(new Object[] {});
+		if(!Tool.isNull(objs)&&objs.contains("<NewDataSet>")){//æ ¼å¼ <NewDataSet><Table></Table><Table></Table></NewDataSet>
+			List<List<WsjhResult>> wrsList =XmlHelper.getList(objs,"Table",wcList,null,null);
+			StringBuffer logs = new StringBuffer();
+			if(wrsList!=null&&wrsList.size()>0){
+				SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(wc.getWsjhds());
 				DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
 				String tablename = wc.getWsjhb();
-				int size = wrsList.size();//×Ü¼ÇÂ¼Êı
+				int size = wrsList.size();//æ€»è®°å½•æ•°
 				rzb.setReadLines(size);
-			   	int count = 0;int pageSize = 1000;
-			   	if(size%pageSize==0){
-			   		count=size/pageSize;
-			   	}else{
-			   		count=size/pageSize+1;
-			   	}
-			   	execWsjh(rzb, databaseMeta, tablename, wrsList, logs,count, pageSize,wc.getOflag());			
-			}		
-		    rzb.setLog(logs.toString());
+				int count = 0;int pageSize = 1000;
+				if(size%pageSize==0){
+					count=size/pageSize;
+				}else{
+					count=size/pageSize+1;
+				}
+				execWsjh(rzb, databaseMeta, tablename, wrsList, logs,count, pageSize,wc.getOflag());
+			}
+			rzb.setLog(logs.toString());
 		}
 	}
 
 	private void insertMbkByParamsAndCall(List<WsjhParamsConfig> wpcList,List<WsjhdzConfig> wcList, WsjhConfig wc, WsjhRzb rzb, Call call,
-			String params) throws RemoteException, DocumentException {
+										  String params) throws RemoteException, DocumentException {
 		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(wc.getWsjhds());
 		DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
 		String tablename = wc.getWsjhzcb();
-		Integer isType=wc.getIstype();//·µ»ØÀàĞÍ
-		//int isType=wc.getIstype();//·µ»ØÀàĞÍ
+		Integer isType=wc.getIstype();//è¿”å›ç±»å‹
+		//int isType=wc.getIstype();//è¿”å›ç±»å‹
 		String zys = wc.getZys();
 		params = getParams(wpcList,params);
 		String sql = "select "+params+" from "+tablename;
-		List<Map<String,String>>  paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);	
-		tablename=wc.getWsjhb();//Ä¿µÄ±í
-		
+		List<Map<String,String>>  paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);
+		tablename=wc.getWsjhb();//ç›®çš„è¡¨
+
 		StringBuffer logs = new StringBuffer();
 		if(paramsMap!=null&&paramsMap.size()>0){
-			rzb.setReadLines(paramsMap.size());//×Ü¼ÇÂ¼Êı
-			int size = paramsMap.size();//×Ü¼ÇÂ¼Êı
-		   	int count = 0;int pageSize = 1000;
-		   	if(size%pageSize==0){
-		   		count=size/pageSize;
-		   	}else{
-		   		count=size/pageSize+1;
-		   	}
-		   	int pageNo=1; int updateLines = 0;int errors=0;
-		   	while(count>=pageNo){
-		   		List<List<WsjhResult>> wrsList=getWsjhResultAllList(wpcList, wcList, call, params, paramsMap, pageSize, pageNo,rzb,isType,zys);			  
-		     	if(wrsList!=null){
-		     		Map<String,Integer> map = execWsjhSQL(wrsList,databaseMeta,tablename,logs,wc.getOflag());	
-			        Integer uLines = map.get("updateLines");
+			rzb.setReadLines(paramsMap.size());//æ€»è®°å½•æ•°
+			int size = paramsMap.size();//æ€»è®°å½•æ•°
+			int count = 0;int pageSize = 1000;
+			if(size%pageSize==0){
+				count=size/pageSize;
+			}else{
+				count=size/pageSize+1;
+			}
+			int pageNo=1; int updateLines = 0;int errors=0;
+			while(count>=pageNo){
+				List<List<WsjhResult>> wrsList=getWsjhResultAllList(wpcList, wcList, call, params, paramsMap, pageSize, pageNo,rzb,isType,zys);
+				if(wrsList!=null){
+					Map<String,Integer> map = execWsjhSQL(wrsList,databaseMeta,tablename,logs,wc.getOflag());
+					Integer uLines = map.get("updateLines");
 					Integer error = map.get("errors");
 					if(uLines!=null)updateLines+=uLines;
 					if(error!=null)errors+=error;
-					pageNo++;	
-		     	}else{
-		     		if(rzb.getErrors()>0){
-		     			return ;
-		     		}
-		     	}
-		    }	
-		   	rzb.setUpdateLines(updateLines);
-		   	rzb.setErrors(errors);				 		   	
+					pageNo++;
+				}else{
+					if(rzb.getErrors()>0){
+						return ;
+					}
+				}
+			}
+			rzb.setUpdateLines(updateLines);
+			rzb.setErrors(errors);
 		}
 		rzb.setLog(logs.toString());
 	}
-	
-    @SuppressWarnings("unchecked")
+
+	@SuppressWarnings("unchecked")
 	private  synchronized List<List<WsjhResult>> getWsjhResultAllList(List<WsjhParamsConfig> wpcList, List<WsjhdzConfig> wcList,
-			Call call, String params, List<Map<String, String>> paramsMap,	int pageSize, int pageNo, WsjhRzb rzb,Integer type,String zys) throws RemoteException, DocumentException {    
+																	  Call call, String params, List<Map<String, String>> paramsMap,	int pageSize, int pageNo, WsjhRzb rzb,Integer type,String zys) throws RemoteException, DocumentException {
 		List<List<WsjhResult>> wrsList = new ArrayList<List<WsjhResult>>();
-    	List<Map<String,String>> list =(List<Map<String,String>>) ArrayUtil.getList(paramsMap, pageNo, pageSize);		   		
-    	
-    	if(list!=null&&list.size()>0){
-		    for(int i=0;i<list.size();i++){
-		    	LOG.info("´«²Î´ÎÊı:"+(i+1));
-		    	Map<String,String> vmap= (Map<String,String>)list.get(i);
-		    	if(vmap!=null&&vmap.size()>0){		    		
-		    		Object[] args = getValueParams(wpcList,params,vmap);
-		    		String result = (String)call.invoke(args);
-		    		LOG.info("´«²Î·µ»Ø½á¹û£º"+result);
-		    		if(1==type){//XML¸ñÊ½
-		    			 List<List<WsjhResult>> wrList = XmlHelper.getList(result,zys,wcList,vmap,wpcList);
-						    if(wrList!=null&&wrList.size()>0){
-						    	wrsList.addAll(wrList);
-						    }
-		    		}				   
-		    	}
-		    }		    	   
+		List<Map<String,String>> list =(List<Map<String,String>>) ArrayUtil.getList(paramsMap, pageNo, pageSize);
+
+		if(list!=null&&list.size()>0){
+			for(int i=0;i<list.size();i++){
+				LOG.info("ä¼ å‚æ¬¡æ•°:"+(i+1));
+				Map<String,String> vmap= (Map<String,String>)list.get(i);
+				if(vmap!=null&&vmap.size()>0){
+					Object[] args = getValueParams(wpcList,params,vmap);
+					String result = (String)call.invoke(args);
+					LOG.info("ä¼ å‚è¿”å›ç»“æœï¼š"+result);
+					if(1==type){//XMLæ ¼å¼
+						List<List<WsjhResult>> wrList = XmlHelper.getList(result,zys,wcList,vmap,wpcList);
+						if(wrList!=null&&wrList.size()>0){
+							wrsList.addAll(wrList);
+						}
+					}
+				}
+			}
 		}
 		return wrsList;
 	}
 
 	private void addParameterByCall(List<WsjhParamsConfig> wpcList, Call call,String namespace, String operate,WsjhConfig wc) {
-		//if(wc.getPlbs()!=null&&wc.getPlbs().intValue()==1){//ÅúÁ¿±¨ËÍ
+		//if(wc.getPlbs()!=null&&wc.getPlbs().intValue()==1){//æ‰¹é‡æŠ¥é€
 		if(wc.getPlbs() == 1){
-			 call.addParameter(new QName(namespace,wc.getParams()),
-					    org.apache.axis.encoding.XMLType.XSD_STRING, 
-					    javax.xml.rpc.ParameterMode.IN);
-			 call.setReturnType(org.apache.axis.encoding.XMLType.XSD_STRING);//ÉèÖÃ·µ»ØÀàĞÍ
-			 call.setUseSOAPAction(true); 
-			 call.setSOAPActionURI(namespace+operate);  
+			call.addParameter(new QName(namespace,wc.getParams()),
+					org.apache.axis.encoding.XMLType.XSD_STRING,
+					javax.xml.rpc.ParameterMode.IN);
+			call.setReturnType(org.apache.axis.encoding.XMLType.XSD_STRING);//è®¾ç½®è¿”å›ç±»å‹
+			call.setUseSOAPAction(true);
+			call.setSOAPActionURI(namespace+operate);
 		}
-		if(wpcList!=null&&wpcList.size()>0){//·½·¨Ã»ÓĞ²ÎÊı
+		if(wpcList!=null&&wpcList.size()>0){//æ–¹æ³•æ²¡æœ‰å‚æ•°
 			for(WsjhParamsConfig wpc :wpcList){
 				if(wpc!=null&&!Tool.isNull(wpc.getCsz())){
-					   call.addParameter(new QName(namespace,wpc.getCszd()),
-							    org.apache.axis.encoding.XMLType.XSD_STRING, 
-							    javax.xml.rpc.ParameterMode.IN);
+					call.addParameter(new QName(namespace,wpc.getCszd()),
+							org.apache.axis.encoding.XMLType.XSD_STRING,
+							javax.xml.rpc.ParameterMode.IN);
 				}
 			}
-			 call.setReturnType(org.apache.axis.encoding.XMLType.XSD_STRING);//ÉèÖÃ·µ»ØÀàĞÍ
-			 call.setUseSOAPAction(true); 
-			 call.setSOAPActionURI(namespace+operate);  
-			
+			call.setReturnType(org.apache.axis.encoding.XMLType.XSD_STRING);//è®¾ç½®è¿”å›ç±»å‹
+			call.setUseSOAPAction(true);
+			call.setSOAPActionURI(namespace+operate);
+
 		}
 	}
 
 	/**
-     * <p>¸ù¾İAxis ´¦ÀíWebService µ÷ÓÃ½Ó¿Ú</p>
-     * @param wpcList
-     * @param wcList
-     * @param wc
-     * @param rzb
-     * @param url
-     * @param namespace
-     * @param operate
-     * @throws AxisFault
-     */
+	 * <p>æ ¹æ®Axis å¤„ç†WebService è°ƒç”¨æ¥å£</p>
+	 * @param wpcList
+	 * @param wcList
+	 * @param wc
+	 * @param rzb
+	 * @param url
+	 * @param namespace
+	 * @param operate
+	 * @throws AxisFault
+	 */
 	private void processWebServiceByAxis(List<WsjhParamsConfig> wpcList,List<WsjhdzConfig> wcList, WsjhConfig wc, WsjhRzb rzb, String url,
-			String namespace, String operate) throws AxisFault {
+										 String namespace, String operate) throws AxisFault {
 		RPCServiceClient serviceClient = new RPCServiceClient();
-		Options options = serviceClient.getOptions();		
+		Options options = serviceClient.getOptions();
 		EndpointReference targetEPR = new EndpointReference(url);
 		options.setTo(targetEPR);
 		QName opAddEntry = new QName(namespace,operate);
 		String params = wc.getParams();
 		try{
 			if(params!=null){
-				//º¬ÓĞ·ÖÒ³£¬ÃÜÔ¿  (¹«Ë¾ÄÚ²¿Ê¹ÓÃÒ»¶¨ÓĞ²ÎÊı£©
+				//å«æœ‰åˆ†é¡µï¼Œå¯†é’¥  (å…¬å¸å†…éƒ¨ä½¿ç”¨ä¸€å®šæœ‰å‚æ•°ï¼‰
 				if(params.contains("PAGE")&&params.contains("PAGESIZE")&&params.contains("SIGN")){
-					//²ÎÊıÖ»ÓĞ·ÖÒ³ÃÜÔ¿
+					//å‚æ•°åªæœ‰åˆ†é¡µå¯†é’¥
 					if(params.equals("PAGE,PAGESIZE,SIGN")){
 						insertMbkByParamsInPageAndPageSize(wpcList, wcList, wc,serviceClient, opAddEntry,params,rzb);
-					}else{//³ıÁË·ÖÒ³ÃÜÔ¿Íâ»¹ÓĞÆäËû²ÎÊı
-					    updateMbkByParamsInPageAndPageSizeAndOther(wpcList, wcList, wc,serviceClient, opAddEntry, params,rzb);
+					}else{//é™¤äº†åˆ†é¡µå¯†é’¥å¤–è¿˜æœ‰å…¶ä»–å‚æ•°
+						updateMbkByParamsInPageAndPageSizeAndOther(wpcList, wcList, wc,serviceClient, opAddEntry, params,rzb);
 					}
-				}else if(params.contains("SIGN")){//º¬ÓĞÃÜÔ¿
-					//²ÎÊıÖ»ÓĞÃÜÔ¿
-					if(params.equals("SIGN")){				
+				}else if(params.contains("SIGN")){//å«æœ‰å¯†é’¥
+					//å‚æ•°åªæœ‰å¯†é’¥
+					if(params.equals("SIGN")){
 						insetMbkByParamsInSIGN(wpcList, wcList, wc, serviceClient,opAddEntry,rzb);
-					}else{//ÃÜÔ¿ÓëÆäËû²ÎÊıupdateMbkByParamsInSIGNAndOther
+					}else{//å¯†é’¥ä¸å…¶ä»–å‚æ•°updateMbkByParamsInSIGNAndOther
 						updateMbkByParamsInSIGNAndOther(wpcList, wcList, wc,serviceClient, opAddEntry, params,rzb);
-					}			
-				}else{//µ÷ÓÃÆäËûWebService 
-						updateMbkByParamsInSIGNAnd(wpcList, wcList, wc,serviceClient, opAddEntry, params,rzb);
-				}	
-			}else{//Ã»ÓĞ²ÎÊı
-				
+					}
+				}else{//è°ƒç”¨å…¶ä»–WebService
+					updateMbkByParamsInSIGNAnd(wpcList, wcList, wc,serviceClient, opAddEntry, params,rzb);
+				}
+			}else{//æ²¡æœ‰å‚æ•°
+
 			}
-			
+
 		}catch(Exception e){
 			e.printStackTrace();
 			rzb.setErrors(rzb.getErrors()==null?1:rzb.getErrors());
@@ -672,217 +672,217 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 			serviceClient.cleanup();
 			System.gc();
 		}
-		rzb.setEndDate(DateTimeUtil.getCurrDateTimeStr());		
+		rzb.setEndDate(DateTimeUtil.getCurrDateTimeStr());
 		rzb.setLogDate(DateTimeUtil.getCurrDateTimeStr());
 		insertWsjhrzb(rzb);
-		//if(wc.getUtffzc()!=null&&wc.getUtffzc().intValue()==1){//±íÊ¾¸üĞÂÊ±¼ä²ÎÊıÖµ
+		//if(wc.getUtffzc()!=null&&wc.getUtffzc().intValue()==1){//è¡¨ç¤ºæ›´æ–°æ—¶é—´å‚æ•°å€¼
 		//	insertWsjhzcb(wc.getWsjhzcb(),wc.getUtffzcv(),(rzb.getSjc()==null?rzb.getTempTime():rzb.getSjc()),wc.getWsjhds());
 		//}
 		serviceClient.cleanup();
 	}
 	private void updateMbkByParamsInSIGNAnd(List<WsjhParamsConfig> wpcList, List<WsjhdzConfig> wcList,
-			WsjhConfig wc, RPCServiceClient serviceClient, QName opAddEntry,String params,WsjhRzb rzb) throws AxisFault, DocumentException {
+											WsjhConfig wc, RPCServiceClient serviceClient, QName opAddEntry,String params,WsjhRzb rzb) throws AxisFault, DocumentException {
 		//params=params.replace(",SIGN", "");
 		String param = getParams(wpcList,params);
 		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(wc.getWsjhds());
 		DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
-		String tablename = wc.getWsjhzcb();//´«²ÎÊı¾İ¿â
+		String tablename = wc.getWsjhzcb();//ä¼ å‚æ•°æ®åº“
 		List<Map<String,String>> paramsMap =null;
-		//Integer isSjc = wc.getIsSjc();//ÆôÓÃÊ±¼ä´Á 1ÊÇ0·ñ
-		int isSjc = wc.getIssjc();//ÆôÓÃÊ±¼ä´Á 1ÊÇ0·ñ
+		//Integer isSjc = wc.getIsSjc();//å¯ç”¨æ—¶é—´æˆ³ 1æ˜¯0å¦
+		int isSjc = wc.getIssjc();//å¯ç”¨æ—¶é—´æˆ³ 1æ˜¯0å¦
 		WsjhRzb wr = null;
-		//if(isSjc!=null&&isSjc.intValue()==1){//ÆôÓÃÊ±¼ä´Á
+		//if(isSjc!=null&&isSjc.intValue()==1){//å¯ç”¨æ—¶é—´æˆ³
 		if(isSjc == 1){
 			wr = getLastWsjhRzbByWsjhxh(wc.getWsjhxh());
-	    	List<List<WsjhResult>> wrsList = null;
-	    	if(wr!=null&&!Tool.isNull(wr.getSjc())){//ÆôÓÃÊ±¼ä´Á±äÁ¿
-	    		String type = DbUtil.getSjcType(wr.getSjc(),tablename,databaseMeta);
-	    		type=type==null?"VARCHAR2":type;
-	    		String sql = "select "+param+" from "+tablename+" where ";
-	    		if("DATE".equals(type)){
-	    			sql+=" to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";
-	    		}else{
-	    			sql+=wc.getSjcz()+ " >='"+wr.getSjc()+"'";
-	    		}
-				paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);	  		
-	    	}else{//µÚÒ»´ÎÃ»ÓĞ¼ÇÂ¼
-	    		String sql = "select "+param+" from "+tablename;
-				paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);	
-	    	}
-	    	//»ñÈ¡×îºóÒ»´ÎÊ±¼ä
-	    	String nextDay = getNextDay(wrsList,wc.getSjcz());
-	    	rzb.setSjc(nextDay);
+			List<List<WsjhResult>> wrsList = null;
+			if(wr!=null&&!Tool.isNull(wr.getSjc())){//å¯ç”¨æ—¶é—´æˆ³å˜é‡
+				String type = DbUtil.getSjcType(wr.getSjc(),tablename,databaseMeta);
+				type=type==null?"VARCHAR2":type;
+				String sql = "select "+param+" from "+tablename+" where ";
+				if("DATE".equals(type)){
+					sql+=" to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";
+				}else{
+					sql+=wc.getSjcz()+ " >='"+wr.getSjc()+"'";
+				}
+				paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);
+			}else{//ç¬¬ä¸€æ¬¡æ²¡æœ‰è®°å½•
+				String sql = "select "+param+" from "+tablename;
+				paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);
+			}
+			//è·å–æœ€åä¸€æ¬¡æ—¶é—´
+			String nextDay = getNextDay(wrsList,wc.getSjcz());
+			rzb.setSjc(nextDay);
 		}else{
 			String sql = "select "+param+" from "+tablename;
-			paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);	
-		}		
-		tablename=wc.getWsjhb();//Ä¿±ê±í
+			paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);
+		}
+		tablename=wc.getWsjhb();//ç›®æ ‡è¡¨
 		execWsjh(wpcList, wcList, serviceClient, opAddEntry, params, rzb,databaseMeta, tablename, paramsMap, isSjc, wr,wc);
 	}
-	
-    /**
-     * <p>²åÈë¸üĞÂÊ±¼ä²ÎÊıÖµ</p>
-     * @param wsjhzcb
-     * @param utffzcv
-     * @param sjc
-     * @param wsjhds
-     */
+
+	/**
+	 * <p>æ’å…¥æ›´æ–°æ—¶é—´å‚æ•°å€¼</p>
+	 * @param wsjhzcb
+	 * @param utffzcv
+	 * @param sjc
+	 * @param wsjhds
+	 */
 	private void insertWsjhzcb(String wsjhzcb, String utffzcv, String sjc,String wsjhds) {
 		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(wsjhds);
 		DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
 		String updateSQL = "update "+utffzcv+"='"+sjc+"' from "+wsjhzcb;
-		DbUtil.execUpdateSQL(databaseMeta, updateSQL);		
+		DbUtil.execUpdateSQL(databaseMeta, updateSQL);
 	}
 
 	/**
-	 * <p>¸ù¾İWebService ·½·¨²ÎÊı£¨°üº¬ÃÜÔ¿/·ÖÒ³/ÆäËû²ÎÊı£©»ñÈ¡½»»»½á¹û²¢²åÈëÄ¿±ê¿â</p>
+	 * <p>æ ¹æ®WebService æ–¹æ³•å‚æ•°ï¼ˆåŒ…å«å¯†é’¥/åˆ†é¡µ/å…¶ä»–å‚æ•°ï¼‰è·å–äº¤æ¢ç»“æœå¹¶æ’å…¥ç›®æ ‡åº“</p>
 	 * @param wpcList
 	 * @param wcList
 	 * @param wc
 	 * @param serviceClient
 	 * @param opAddEntry
 	 * @param params
-	 * @throws AxisFault 
-	 * @throws DocumentException 
+	 * @throws AxisFault
+	 * @throws DocumentException
 	 */
 	private void updateMbkByParamsInPageAndPageSizeAndOther(List<WsjhParamsConfig> wpcList, List<WsjhdzConfig> wcList,
-			WsjhConfig wc, RPCServiceClient serviceClient, QName opAddEntry,String params,WsjhRzb rzb) throws AxisFault, DocumentException {
+															WsjhConfig wc, RPCServiceClient serviceClient, QName opAddEntry,String params,WsjhRzb rzb) throws AxisFault, DocumentException {
 		params = params.replace(",PAGE,PAGESIZE,SIGN","");
 		String param =getParams(wpcList,params);
 		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(wc.getWsjhds());
 		DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
-		String tablename = wc.getWsjhzcb();//´«²ÎÊı¾İ±í
+		String tablename = wc.getWsjhzcb();//ä¼ å‚æ•°æ®è¡¨
 		List<Map<String,String>> paramsMap =null;
 		String sql = "";
-		boolean flag = isQueryAll(wpcList);//ÅĞ¶ÏÁ½¸ö·ÖÒ³²ÎÊıÊÇ·ñÎª¿Õ/Èç¹ûÎª¿Õ±íÊ¾²éÑ¯ËùÓĞ
+		boolean flag = isQueryAll(wpcList);//åˆ¤æ–­ä¸¤ä¸ªåˆ†é¡µå‚æ•°æ˜¯å¦ä¸ºç©º/å¦‚æœä¸ºç©ºè¡¨ç¤ºæŸ¥è¯¢æ‰€æœ‰
 		if(flag){
 			sql = "select "+param+" from "+tablename;
 		}else{
 			sql = getSQLByPageAndPageSize(wpcList,param,tablename);
 		}
-		//Integer isSjc = wc.getIsSjc();//ÆôÓÃÊ±¼ä´Á 1ÊÇ0·ñ
-		int isSjc = wc.getIssjc();//ÆôÓÃÊ±¼ä´Á 1ÊÇ0·ñ
+		//Integer isSjc = wc.getIsSjc();//å¯ç”¨æ—¶é—´æˆ³ 1æ˜¯0å¦
+		int isSjc = wc.getIssjc();//å¯ç”¨æ—¶é—´æˆ³ 1æ˜¯0å¦
 		WsjhRzb wr = null;
-		//if(isSjc!=null&&isSjc.intValue()==1){//ÆôÓÃÊ±¼ä´Á
+		//if(isSjc!=null&&isSjc.intValue()==1){//å¯ç”¨æ—¶é—´æˆ³
 		if(isSjc == 1){
 			wr = getLastWsjhRzbByWsjhxh(wc.getWsjhxh());
-	    	List<List<WsjhResult>> wrsList = null;
-	    	if(wr!=null&&!Tool.isNull(wr.getSjc())){//ÆôÓÃÊ±¼ä´Á±äÁ¿
-	    		String type = DbUtil.getSjcType(wr.getSjc(),tablename,databaseMeta);
-	    		type=type==null?"VARCHAR2":type;
-	    		if("DATE".equals(type)){
-	    			if(sql.contains("where")){
-		    			sql+=" and to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";
-		    		}else{
-		    			sql+=" where to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";    			
-		    		}
-	    		}else{//×Ö·û´®ÀàĞÍ
-	    			if(sql.contains("where")){
-		    			sql+=" and "+wc.getSjcz()+" >='"+wr.getSjc()+"'";
-		    		}else{
-		    			sql+=" where "+wc.getSjcz()+">='"+wr.getSjc()+"'";	    			
-		    		}
-	    		}	    		
-				paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);	  		
-	    	}else{//µÚÒ»´ÎÃ»ÓĞ¼ÇÂ¼	    		
-				paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);	
-	    	}
-	    	//»ñÈ¡×îºóÒ»´ÎÊ±¼ä
-	    	String nextDay = getNextDay(wrsList,wc.getSjcz());
-	    	rzb.setSjc(nextDay);
-		}else{			
-			paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);		
-		}	
-		tablename=wc.getWsjhb();//Ä¿µÄ±í
+			List<List<WsjhResult>> wrsList = null;
+			if(wr!=null&&!Tool.isNull(wr.getSjc())){//å¯ç”¨æ—¶é—´æˆ³å˜é‡
+				String type = DbUtil.getSjcType(wr.getSjc(),tablename,databaseMeta);
+				type=type==null?"VARCHAR2":type;
+				if("DATE".equals(type)){
+					if(sql.contains("where")){
+						sql+=" and to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";
+					}else{
+						sql+=" where to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";
+					}
+				}else{//å­—ç¬¦ä¸²ç±»å‹
+					if(sql.contains("where")){
+						sql+=" and "+wc.getSjcz()+" >='"+wr.getSjc()+"'";
+					}else{
+						sql+=" where "+wc.getSjcz()+">='"+wr.getSjc()+"'";
+					}
+				}
+				paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);
+			}else{//ç¬¬ä¸€æ¬¡æ²¡æœ‰è®°å½•
+				paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);
+			}
+			//è·å–æœ€åä¸€æ¬¡æ—¶é—´
+			String nextDay = getNextDay(wrsList,wc.getSjcz());
+			rzb.setSjc(nextDay);
+		}else{
+			paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);
+		}
+		tablename=wc.getWsjhb();//ç›®çš„è¡¨
 		execWsjh(wpcList, wcList, serviceClient, opAddEntry, params, rzb,databaseMeta, tablename, paramsMap, isSjc, wr,wc);
-		
+
 	}
 
 
 
 	private void execWsjh(List<WsjhParamsConfig> wpcList,List<WsjhdzConfig> wcList, RPCServiceClient serviceClient,
-			QName opAddEntry, String params, WsjhRzb rzb,DatabaseMeta databaseMeta, String tablename,List<Map<String, String>> paramsMap, Integer isSjc, WsjhRzb wr,WsjhConfig wc)
+						  QName opAddEntry, String params, WsjhRzb rzb,DatabaseMeta databaseMeta, String tablename,List<Map<String, String>> paramsMap, Integer isSjc, WsjhRzb wr,WsjhConfig wc)
 			throws AxisFault, DocumentException {
 		StringBuffer logs = new StringBuffer();
 		if(paramsMap!=null&&paramsMap.size()>0){
-			rzb.setReadLines(paramsMap.size());//×Ü¼ÇÂ¼Êı
-			int size = paramsMap.size();//×Ü¼ÇÂ¼Êı
-		   	int count = 0;int pageSize = 1000;
-		   	if(size%pageSize==0){
-		   		count=size/pageSize;
-		   	}else{
-		   		count=size/pageSize+1;
-		   	}
-		   	int pageNo=1; int updateLines = 0;int errors=0;
-		   	while(count>=pageNo){
-		   		List<List<WsjhResult>> wrsList=getWsjhResultAllList(wpcList, wcList, serviceClient,opAddEntry, params, paramsMap, pageSize, pageNo,rzb,wc);			  
-		     	if(wrsList!=null){
-		     		Map<String,Integer> map = execWsjhSQL(wrsList,databaseMeta,tablename,logs,wc.getOflag());	
-			        Integer uLines = map.get("updateLines");
+			rzb.setReadLines(paramsMap.size());//æ€»è®°å½•æ•°
+			int size = paramsMap.size();//æ€»è®°å½•æ•°
+			int count = 0;int pageSize = 1000;
+			if(size%pageSize==0){
+				count=size/pageSize;
+			}else{
+				count=size/pageSize+1;
+			}
+			int pageNo=1; int updateLines = 0;int errors=0;
+			while(count>=pageNo){
+				List<List<WsjhResult>> wrsList=getWsjhResultAllList(wpcList, wcList, serviceClient,opAddEntry, params, paramsMap, pageSize, pageNo,rzb,wc);
+				if(wrsList!=null){
+					Map<String,Integer> map = execWsjhSQL(wrsList,databaseMeta,tablename,logs,wc.getOflag());
+					Integer uLines = map.get("updateLines");
 					Integer error = map.get("errors");
 					if(uLines!=null)updateLines+=uLines;
 					if(error!=null)errors+=error;
-					pageNo++;	
-		     	}else{
-		     		if(rzb.getErrors()>0){
-		     			return ;
-		     		}
-		     	}
-		    }	
-		   	rzb.setUpdateLines(updateLines);
-		   	rzb.setErrors(errors);
-		   	if(errors>0&&isSjc!=null&&isSjc.intValue()==1){//ÆôÓÃÊ±¼ä´Á//Èç¹û´íÎó·¢Éú£¬Ôò±ê¼ÇÎªÒÔÇ°µÄÊ±¼ä´Á
-		   		   if(wr!=null)rzb.setSjc(wr.getSjc());
-		   	}		   	
+					pageNo++;
+				}else{
+					if(rzb.getErrors()>0){
+						return ;
+					}
+				}
+			}
+			rzb.setUpdateLines(updateLines);
+			rzb.setErrors(errors);
+			if(errors>0&&isSjc!=null&&isSjc.intValue()==1){//å¯ç”¨æ—¶é—´æˆ³//å¦‚æœé”™è¯¯å‘ç”Ÿï¼Œåˆ™æ ‡è®°ä¸ºä»¥å‰çš„æ—¶é—´æˆ³
+				if(wr!=null)rzb.setSjc(wr.getSjc());
+			}
 		}
 		rzb.setLog(logs.toString());
 	}
-	
-	/*** 
-     * MD5¼ÓÃÜ Éú³É32Î»md5Âë
-     * @param ´ı¼ÓÃÜ×Ö·û´®
-     * @return ·µ»Ø32Î»md5Âë
-     */
-    public static String md5Encode(String inStr) throws Exception {
-        MessageDigest md5 = null;
-        try {
-            md5 = MessageDigest.getInstance("MD5");
-        } catch (Exception e) {
-            System.out.println(e.toString());
-            e.printStackTrace();
-            return "";
-        }
 
-        byte[] byteArray = inStr.getBytes("UTF-8");
-        byte[] md5Bytes = md5.digest(byteArray);
-        StringBuffer hexValue = new StringBuffer();
-        for (int i = 0; i < md5Bytes.length; i++) {
-            int val = ((int) md5Bytes[i]) & 0xff;
-            if (val < 16) {
-                hexValue.append("0");
-            }
-            hexValue.append(Integer.toHexString(val));
-        }
-        return hexValue.toString();
-    }
+	/***
+	 * MD5åŠ å¯† ç”Ÿæˆ32ä½md5ç 
+	 * @param å¾…åŠ å¯†å­—ç¬¦ä¸²
+	 * @return è¿”å›32ä½md5ç 
+	 */
+	public static String md5Encode(String inStr) throws Exception {
+		MessageDigest md5 = null;
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+		} catch (Exception e) {
+			System.out.println(e.toString());
+			e.printStackTrace();
+			return "";
+		}
+
+		byte[] byteArray = inStr.getBytes("UTF-8");
+		byte[] md5Bytes = md5.digest(byteArray);
+		StringBuffer hexValue = new StringBuffer();
+		for (int i = 0; i < md5Bytes.length; i++) {
+			int val = ((int) md5Bytes[i]) & 0xff;
+			if (val < 16) {
+				hexValue.append("0");
+			}
+			hexValue.append(Integer.toHexString(val));
+		}
+		return hexValue.toString();
+	}
 
 	private List<List<WsjhResult>> getWsjhResultAllList(List<WsjhParamsConfig> wpcList,	List<WsjhdzConfig> wcList, RPCServiceClient serviceClient,
-			QName opAddEntry, String params,	List<Map<String, String>> paramsMap, int pageSize, int pageNo,WsjhRzb rzb,WsjhConfig wc) throws AxisFault, DocumentException {
+														QName opAddEntry, String params,	List<Map<String, String>> paramsMap, int pageSize, int pageNo,WsjhRzb rzb,WsjhConfig wc) throws AxisFault, DocumentException {
 		List<List<WsjhResult>> wrsList = new ArrayList<List<WsjhResult>>();
-		List<Map<String,String>> list =(List<Map<String,String>>) ArrayUtil.getList(paramsMap, pageNo, pageSize);		   		
+		List<Map<String,String>> list =(List<Map<String,String>>) ArrayUtil.getList(paramsMap, pageNo, pageSize);
 		if(list!=null&&list.size()>0){
-		    for(int i=0;i<list.size();i++){
-		    	Map<String,String> vmap= (Map<String,String>)list.get(i);
-		    	//start write by zhangxu ¶ÔÎ÷±±¹¤Òµ´óÑ§µÄÍ¨ÓÃ¼ÓÃÜ´¦Àí
-		    	String wcParams= wc.getParams();
-		    	String yhm = vmap.get("un");
-		    	if(!StringUtils.isEmpty(yhm)){
-		    		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");//ÉèÖÃÈÕÆÚ¸ñÊ½
-		    		String currentTime = df.format(new Date());
-		    		LOG.info("µ÷ÓÃÎ÷±±¹¤Òµ´ó»ãÎÄ½Ó¿Ú£º" + "un=" + yhm + "");
-		    		System.out.println(df.format(new Date()));// new Date()Îª»ñÈ¡µ±Ç°ÏµÍ³Ê±¼ä
-		    		vmap.put("time", currentTime);
-		    		try {
+			for(int i=0;i<list.size();i++){
+				Map<String,String> vmap= (Map<String,String>)list.get(i);
+				//start write by zhangxu å¯¹è¥¿åŒ—å·¥ä¸šå¤§å­¦çš„é€šç”¨åŠ å¯†å¤„ç†
+				String wcParams= wc.getParams();
+				String yhm = vmap.get("un");
+				if(!StringUtils.isEmpty(yhm)){
+					SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");//è®¾ç½®æ—¥æœŸæ ¼å¼
+					String currentTime = df.format(new Date());
+					LOG.info("è°ƒç”¨è¥¿åŒ—å·¥ä¸šå¤§æ±‡æ–‡æ¥å£ï¼š" + "un=" + yhm + "");
+					System.out.println(df.format(new Date()));// new Date()ä¸ºè·å–å½“å‰ç³»ç»Ÿæ—¶é—´
+					vmap.put("time", currentTime);
+					try {
 						String verify = md5Encode(yhm + Config.getString("huiwen", "huiwen") + currentTime);
 						vmap.put("verify", verify);
 					} catch (Exception e) {
@@ -898,58 +898,58 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 					verifyconfig.setCszdt("String");
 					wpcList.add(timeconfig);
 					wpcList.add(verifyconfig);
-		    	}
-		    	//end write by zhangxu 
-		    	
-		    	if(vmap!=null&&vmap.size()>0){
-		    		
-		    		Object[] opAddEntryArgs = getValueParams(wpcList,wcParams,vmap);//by zhangxu
-		    		//Object[] opAddEntryArgs = getValueParams(wpcList,wc.getParams(),vmap);
-		    		Class[] classes = getOpAddEntryArgs(opAddEntryArgs);				    	    		
-		            //Object[] results = serviceClient.invokeBlocking(opAddEntry,opAddEntryArgs,classes);
-		            Object[] results = serviceClient.invokeBlocking(opAddEntry, opAddEntryArgs, classes);
-		        	boolean flag = verifyResults(results,rzb);
-		        	if(flag){
-		        		List<List<WsjhResult>> wrstList = getWsjhResultAll(results,wcList,new Integer(wc.getIstype()),wc.getZys());	
-				    	if(wrstList!=null&&wrstList.size()>0)wrsList.addAll(wrstList);
-		        	}else{
-		        	    return null;//´íÎó·¢Éú¼´ÖĞÖ¹
-		        	}
-		    	}
-		    }		    	   
+				}
+				//end write by zhangxu
+
+				if(vmap!=null&&vmap.size()>0){
+
+					Object[] opAddEntryArgs = getValueParams(wpcList,wcParams,vmap);//by zhangxu
+					//Object[] opAddEntryArgs = getValueParams(wpcList,wc.getParams(),vmap);
+					Class[] classes = getOpAddEntryArgs(opAddEntryArgs);
+					//Object[] results = serviceClient.invokeBlocking(opAddEntry,opAddEntryArgs,classes);
+					Object[] results = serviceClient.invokeBlocking(opAddEntry, opAddEntryArgs, classes);
+					boolean flag = verifyResults(results,rzb);
+					if(flag){
+						List<List<WsjhResult>> wrstList = getWsjhResultAll(results,wcList,new Integer(wc.getIstype()),wc.getZys());
+						if(wrstList!=null&&wrstList.size()>0)wrsList.addAll(wrstList);
+					}else{
+						return null;//é”™è¯¯å‘ç”Ÿå³ä¸­æ­¢
+					}
+				}
+			}
 		}
 		return wrsList;
 	}
-	
+
 
 	/**
-	 * <p>¸ù¾İWebServcie ·½·¨²ÎÊı(°üº¬ÃÜÔ¿/·ÖÒ³£©»ñÈ¡½»»»½á¹û²¢²åÈëÄ¿±ê¿â</p>
+	 * <p>æ ¹æ®WebServcie æ–¹æ³•å‚æ•°(åŒ…å«å¯†é’¥/åˆ†é¡µï¼‰è·å–äº¤æ¢ç»“æœå¹¶æ’å…¥ç›®æ ‡åº“</p>
 	 * @param wpcList
 	 * @param wcList
 	 * @param wc
 	 * @param serviceClient
 	 * @param opAddEntry
-	 * @throws AxisFault 
-	 * @throws DocumentException 
+	 * @throws AxisFault
+	 * @throws DocumentException
 	 */
 	private void insertMbkByParamsInPageAndPageSize(List<WsjhParamsConfig> wpcList, List<WsjhdzConfig> wcList,
-			WsjhConfig wc, RPCServiceClient serviceClient, QName opAddEntry,String params,WsjhRzb rzb) throws AxisFault, DocumentException {
+													WsjhConfig wc, RPCServiceClient serviceClient, QName opAddEntry,String params,WsjhRzb rzb) throws AxisFault, DocumentException {
 		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(wc.getWsjhds());
 		DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
 		String tablename = wc.getWsjhb();
 		Object[] opAddEntryArgs = getValueParams(wpcList,params);
-		Class[] classes = getOpAddEntryArgs(opAddEntryArgs);				    	    		
+		Class[] classes = getOpAddEntryArgs(opAddEntryArgs);
 		Object[] results = serviceClient.invokeBlocking(opAddEntry,opAddEntryArgs,classes);
-		boolean flag = verifyResults(results,rzb);//ÑéÖ¤½á¹ûÊÇ·ñÕıÈ·	
-		if(flag){//±íÊ¾·µ»ØÕıÈ·½á¹û(·µ»Ø½á¹ûÎª´íÎó)
-			//Integer isSjc = wc.getIsSjc();//ÆôÓÃÊ±¼ä´Á 1ÊÇ0·ñ
-			int isSjc = wc.getIssjc();//ÆôÓÃÊ±¼ä´Á 1ÊÇ0·ñ
-			//if(isSjc!=null&&isSjc.intValue()==1){//ÆôÓÃÊ±¼ä´Á
+		boolean flag = verifyResults(results,rzb);//éªŒè¯ç»“æœæ˜¯å¦æ­£ç¡®
+		if(flag){//è¡¨ç¤ºè¿”å›æ­£ç¡®ç»“æœ(è¿”å›ç»“æœä¸ºé”™è¯¯)
+			//Integer isSjc = wc.getIsSjc();//å¯ç”¨æ—¶é—´æˆ³ 1æ˜¯0å¦
+			int isSjc = wc.getIssjc();//å¯ç”¨æ—¶é—´æˆ³ 1æ˜¯0å¦
+			//if(isSjc!=null&&isSjc.intValue()==1){//å¯ç”¨æ—¶é—´æˆ³
 			if(isSjc == 1){
 				insertMbkByParamsInPageAndPageSizeAndSjc(wpcList,wcList,rzb,databaseMeta,tablename,results,wc);
 			}else{
 				insertMbkByParamsInPageAndPageSize(wpcList, wcList, rzb,databaseMeta, tablename, results,wc);
-			}	
+			}
 		}
 	}
 	private  boolean  verifyResults(Object[] results, WsjhRzb rzb) {
@@ -967,8 +967,8 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 							rzb.setErrors(1);
 							JSONArray ja = JSONArray.fromObject(res);
 							for(int i=0;i<ja.size();i++){
-							   JSONObject jo = (JSONObject)ja.get(i);	
-							   rzb.setLog(String.valueOf(jo.get("error")));
+								JSONObject jo = (JSONObject)ja.get(i);
+								rzb.setLog(String.valueOf(jo.get("error")));
 							}
 							rzb.setLogDate(DateTimeUtil.getCurrDateTimeStr());
 							return false;
@@ -979,93 +979,93 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 				}
 			}
 		}
-		return false;		
+		return false;
 	}
 
 	/**
-	 * <p>ÆôÓÃÊ±¼ä´Á¸ù¾İWebService·½·¨²ÎÊı£¨°üº¬ÃÜÔ¿/·ÖÒ³£©»ñÈ¡½»»»½á¹û²¢²åÈëÄ¿±ê¿â</p>
+	 * <p>å¯ç”¨æ—¶é—´æˆ³æ ¹æ®WebServiceæ–¹æ³•å‚æ•°ï¼ˆåŒ…å«å¯†é’¥/åˆ†é¡µï¼‰è·å–äº¤æ¢ç»“æœå¹¶æ’å…¥ç›®æ ‡åº“</p>
 	 * @param wpcList
 	 * @param wcList
 	 * @param rzb
 	 * @param databaseMeta
 	 * @param tablename
 	 * @param results
-	 * @throws DocumentException 
+	 * @throws DocumentException
 	 */
-    private void insertMbkByParamsInPageAndPageSizeAndSjc(List<WsjhParamsConfig> wpcList, List<WsjhdzConfig> wcList,
-			WsjhRzb rzb, DatabaseMeta databaseMeta, String tablename,Object[] results,WsjhConfig wc) throws DocumentException {
-    	WsjhRzb wr = getLastWsjhRzbByWsjhxh(wc.getWsjhxh());
-    	List<List<WsjhResult>> wrsList = null;
-    	if(wr!=null&&!Tool.isNull(wr.getSjc())){//ÆôÓÃÊ±¼ä´Á±äÁ¿
-    		wrsList = getWsjhResultAllBySjc(results,wcList,wc.getSjcz(),wr.getSjc(),new Integer(wc.getIstype()),wc.getZys());
-    		//¸ù¾İÊ±¼ä±ê¼ÇÉ¾³ıµ±ÌìÒÔÉÏµÄÊı¾İ
-    		String type = DbUtil.getSjcType(wr.getSjc(),tablename,databaseMeta);
-    		type=type==null?"VARCHAR2":type;
-    		String deleteSQL = "delete from "+tablename+" where ";
-    		if("DATE".equals(type)){
-    			deleteSQL +=" to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";
-    		}else{
-    			deleteSQL+=wc.getSjcz()+ " >='"+wr.getSjc()+"'";
-    		}
-    		DbUtil.execUpdateSQL(databaseMeta,deleteSQL);  
-    	}else{//µÚÒ»´ÎÃ»ÓĞ¼ÇÂ¼
-    		wrsList = getWsjhResultAllBySjc(results,wcList,wc.getSjcz(),null,new Integer(wc.getIstype()),wc.getZys());
-    	}
-    	//»ñÈ¡×îºóÒ»´ÎÊ±¼ä
-    	String nextDay = getNextDay(wrsList,wc.getSjcz());
-    	rzb.setSjc(nextDay);    	
+	private void insertMbkByParamsInPageAndPageSizeAndSjc(List<WsjhParamsConfig> wpcList, List<WsjhdzConfig> wcList,
+														  WsjhRzb rzb, DatabaseMeta databaseMeta, String tablename,Object[] results,WsjhConfig wc) throws DocumentException {
+		WsjhRzb wr = getLastWsjhRzbByWsjhxh(wc.getWsjhxh());
+		List<List<WsjhResult>> wrsList = null;
+		if(wr!=null&&!Tool.isNull(wr.getSjc())){//å¯ç”¨æ—¶é—´æˆ³å˜é‡
+			wrsList = getWsjhResultAllBySjc(results,wcList,wc.getSjcz(),wr.getSjc(),new Integer(wc.getIstype()),wc.getZys());
+			//æ ¹æ®æ—¶é—´æ ‡è®°åˆ é™¤å½“å¤©ä»¥ä¸Šçš„æ•°æ®
+			String type = DbUtil.getSjcType(wr.getSjc(),tablename,databaseMeta);
+			type=type==null?"VARCHAR2":type;
+			String deleteSQL = "delete from "+tablename+" where ";
+			if("DATE".equals(type)){
+				deleteSQL +=" to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";
+			}else{
+				deleteSQL+=wc.getSjcz()+ " >='"+wr.getSjc()+"'";
+			}
+			DbUtil.execUpdateSQL(databaseMeta,deleteSQL);
+		}else{//ç¬¬ä¸€æ¬¡æ²¡æœ‰è®°å½•
+			wrsList = getWsjhResultAllBySjc(results,wcList,wc.getSjcz(),null,new Integer(wc.getIstype()),wc.getZys());
+		}
+		//è·å–æœ€åä¸€æ¬¡æ—¶é—´
+		String nextDay = getNextDay(wrsList,wc.getSjcz());
+		rzb.setSjc(nextDay);
 		String logs = getWsjhLogs(rzb, databaseMeta, tablename, wc, wr, wrsList);
 		rzb.setLog(logs);
-		
+
 	}
-    /**
-     * <p>»ñÈ¡Ö´ĞĞWebService ½»»»ÈÕÖ¾</p>
-     * @param rzb
-     * @param databaseMeta
-     * @param tablename
-     * @param wc
-     * @param wr
-     * @param wrsList
-     * @return
-     */
+	/**
+	 * <p>è·å–æ‰§è¡ŒWebService äº¤æ¢æ—¥å¿—</p>
+	 * @param rzb
+	 * @param databaseMeta
+	 * @param tablename
+	 * @param wc
+	 * @param wr
+	 * @param wrsList
+	 * @return
+	 */
 	private String getWsjhLogs(WsjhRzb rzb, DatabaseMeta databaseMeta,String tablename, WsjhConfig wc, WsjhRzb wr,
-			List<List<WsjhResult>> wrsList) {
-		StringBuffer logs = new StringBuffer();		
+							   List<List<WsjhResult>> wrsList) {
+		StringBuffer logs = new StringBuffer();
 		if(wrsList!=null&&wrsList.size()>0){
 			rzb.setReadLines(wrsList.size());
-			int size = wrsList.size();//×Ü¼ÇÂ¼Êı
-		   	int count = 0;int pageSize = 1000;
-		   	if(size%pageSize==0){
-		   		count=size/pageSize;
-		   	}else{
-		   		count=size/pageSize+1;
-		   	}
+			int size = wrsList.size();//æ€»è®°å½•æ•°
+			int count = 0;int pageSize = 1000;
+			if(size%pageSize==0){
+				count=size/pageSize;
+			}else{
+				count=size/pageSize+1;
+			}
 			int errors = execWsjh(rzb, databaseMeta, tablename, wrsList, logs,count, pageSize,wc.getOflag());
-			//if(errors>0&&wc.getIsSjc()!=null&&wc.getIsSjc().intValue()==1){//ÆôÓÃÊ±¼ä´Á//Èç¹û´íÎó·¢Éú£¬Ôò±ê¼ÇÎªÒÔÇ°µÄÊ±¼ä´Á
-		   	if(errors>0 && wc.getIssjc() == 1){ 
+			//if(errors>0&&wc.getIsSjc()!=null&&wc.getIsSjc().intValue()==1){//å¯ç”¨æ—¶é—´æˆ³//å¦‚æœé”™è¯¯å‘ç”Ÿï¼Œåˆ™æ ‡è®°ä¸ºä»¥å‰çš„æ—¶é—´æˆ³
+			if(errors>0 && wc.getIssjc() == 1){
 				if(wr!=null)rzb.setSjc(wr.getSjc());
-		   	}
+			}
 		}
 		return logs.toString();
 	}
-    /**
-     * <p>Ö´ĞĞWebService ½»»»²¢·µ»Ø´íÎóÊı</p>
-     * @param rzb
-     * @param databaseMeta
-     * @param tablename
-     * @param wrsList
-     * @param logs
-     * @param count
-     * @param pageSize
-     * @return
-     */
+	/**
+	 * <p>æ‰§è¡ŒWebService äº¤æ¢å¹¶è¿”å›é”™è¯¯æ•°</p>
+	 * @param rzb
+	 * @param databaseMeta
+	 * @param tablename
+	 * @param wrsList
+	 * @param logs
+	 * @param count
+	 * @param pageSize
+	 * @return
+	 */
 	private int execWsjh(WsjhRzb rzb, DatabaseMeta databaseMeta,String tablename, List<List<WsjhResult>> wrsList,
-			StringBuffer logs, int count, int pageSize,Integer oflag) {
+						 StringBuffer logs, int count, int pageSize,Integer oflag) {
 		int pageNo=1;int updateLines=0;int errors=0;
 		while(count>=pageNo){
 			List<List<WsjhResult>> list =(List<List<WsjhResult>>) ArrayUtil.getList(wrsList, pageNo, pageSize);
-	        Map<String,Integer> map = execWsjhSQL(list,databaseMeta,tablename,logs,oflag);	
-	        Integer uLines = map.get("updateLines");
+			Map<String,Integer> map = execWsjhSQL(list,databaseMeta,tablename,logs,oflag);
+			Integer uLines = map.get("updateLines");
 			Integer error = map.get("errors");
 			if(uLines!=null)updateLines+=uLines;
 			if(error!=null)errors+=error;
@@ -1075,15 +1075,15 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 		rzb.setErrors(errors);
 		return errors;
 	}
-	
+
 	private Map<String, Integer> execWsjhSQL(List<List<WsjhResult>> list,DatabaseMeta databaseMeta,String tablename,StringBuffer logs,Integer oflag) {
 		Map<String,String> pkeyMap = getPrimaryKeyMap(list);
-		List<Map<String,String>> existsKeyList = getExistsPrimaryKeyMap(databaseMeta,tablename,pkeyMap);		
-		if(existsKeyList!=null&&existsKeyList.size()>0){//±íÊ¾²»Îª¿Õ£¬ÔòÓĞ²¿·ÖÊı¾İĞèÒª½øĞĞUPDATE²Ù×÷
-			if(list.size()==existsKeyList.size()){//È«²¿¸üĞÂ²Ù×÷
+		List<Map<String,String>> existsKeyList = getExistsPrimaryKeyMap(databaseMeta,tablename,pkeyMap);
+		if(existsKeyList!=null&&existsKeyList.size()>0){//è¡¨ç¤ºä¸ä¸ºç©ºï¼Œåˆ™æœ‰éƒ¨åˆ†æ•°æ®éœ€è¦è¿›è¡ŒUPDATEæ“ä½œ
+			if(list.size()==existsKeyList.size()){//å…¨éƒ¨æ›´æ–°æ“ä½œ
 				Map<String,Integer> map = execWsjhSQL(list,databaseMeta,logs,true,tablename,oflag);
 				return map;
-			}else{//¾Ö²¿¸üĞÂ²Ù×÷
+			}else{//å±€éƒ¨æ›´æ–°æ“ä½œ
 				List<List<WsjhResult>> updateList = getWsjhResultList(list,existsKeyList);
 				Map<String,Integer> map = execWsjhSQL(updateList,databaseMeta,logs,true,tablename,oflag);
 				if(updateList!=null&&updateList.size()>0)list.removeAll(updateList);
@@ -1094,14 +1094,14 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 				map.put("errors", (error==null?0:error)+(insertMap.get("error")==null?0:insertMap.get("error")));
 				return map;
 			}
-		}else{//²»´æÔÚ´ËÊı¾İ£¬ĞèÒª½øĞĞinsert²Ù×÷				
+		}else{//ä¸å­˜åœ¨æ­¤æ•°æ®ï¼Œéœ€è¦è¿›è¡Œinsertæ“ä½œ
 			Map<String,Integer> map = execWsjhSQL(list,databaseMeta,logs,false,tablename,oflag);
 			return map;
 		}
 	}
 
 	/**
-	 * <p>Ö´ĞĞWebService ½»»»SQL</p>
+	 * <p>æ‰§è¡ŒWebService äº¤æ¢SQL</p>
 	 * @param list
 	 * @param databaseMeta
 	 * @param logs
@@ -1111,41 +1111,41 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	 */
 	private Map<String,Integer> execWsjhSQL(List<List<WsjhResult>> list,DatabaseMeta databaseMeta,StringBuffer logs,boolean flag,String tablename,Integer oflag){
 		List<String> sqlList = null;
-		if(flag){//±íÊ¾¸üĞÂ
+		if(flag){//è¡¨ç¤ºæ›´æ–°
 			sqlList = getUpdateSQLAll(tablename,list,oflag);
-		}else{//²åÈë
+		}else{//æ’å…¥
 			sqlList = getInsertSQLAll(list,tablename,oflag);
 		}
 		Map<String,Integer> map = new HashMap<String,Integer>();
 		if(sqlList!=null&&sqlList.size()>0){
-    		try{
-    			Set<String> sqlSet = new HashSet<String>();
-    			sqlSet.addAll(sqlList);    			
-                DbUtil.batchUpdateSQL(databaseMeta,new ArrayList<String>(sqlSet));
-                map.put("updateLines", sqlList.size());
-    		}catch(Exception e){
-    			map.put("errors", sqlList.size());
-    			logs.append(e.getMessage()).append(" :").append(sqlList.toString());;
-    		}		           
-	    }
+			try{
+				Set<String> sqlSet = new HashSet<String>();
+				sqlSet.addAll(sqlList);
+				DbUtil.batchUpdateSQL(databaseMeta,new ArrayList<String>(sqlSet));
+				map.put("updateLines", sqlList.size());
+			}catch(Exception e){
+				map.put("errors", sqlList.size());
+				logs.append(e.getMessage()).append(" :").append(sqlList.toString());;
+			}
+		}
 		return map;
 	}
-	
-	
-	
-    /**
-     * <p>¸ù¾İ¹ıÂËÌõ¼ş»ñÈ¡¶ÔÓ¦µÄWebService½»»»½á¹û¼¯</p>
-     * @param wrsList
-     * @param mapList
-     * @param flag
-     * @return
-     */
-    private List<List<WsjhResult>> getWsjhResultList(List<List<WsjhResult>> wrsList,List<Map<String, String>> mapList) {    	
-		if(mapList!=null&&mapList.size()>0){	
+
+
+
+	/**
+	 * <p>æ ¹æ®è¿‡æ»¤æ¡ä»¶è·å–å¯¹åº”çš„WebServiceäº¤æ¢ç»“æœé›†</p>
+	 * @param wrsList
+	 * @param mapList
+	 * @param flag
+	 * @return
+	 */
+	private List<List<WsjhResult>> getWsjhResultList(List<List<WsjhResult>> wrsList,List<Map<String, String>> mapList) {
+		if(mapList!=null&&mapList.size()>0){
 			List<List<WsjhResult>> existsWrList = new ArrayList<List<WsjhResult>>();
 			for(Map<String,String> map:mapList){
 				if(map!=null&&map.size()>0){
-					Set<String> mbzdSet =map.keySet();//ËùÓĞµÄÃû³Æ
+					Set<String> mbzdSet =map.keySet();//æ‰€æœ‰çš„åç§°
 					for(String mbzd:mbzdSet){
 						if(!Tool.isNull(mbzd)){
 							List<WsjhResult> wrList = getWsjhResultListByExistsKey(mbzd,map.get(mbzd),wrsList);
@@ -1176,28 +1176,28 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	private boolean getWsjhResultListByExistsKey(List<WsjhResult> wrList,String mbzd, String mbzdv) {
 		if(wrList!=null&&wrList.size()>0){
 			for(WsjhResult wr:wrList){
-				if(wr!=null&&wr.getSfzj()!=null&&wr.getSfzj().intValue()==1){//±íÊ¾Ö÷¼ü
-        			if(!Tool.isNull(wr.getMbzd())&&wr.getMbzd().equals(mbzd)&&!Tool.isNull(wr.getValue())&&wr.getValue().equals(mbzdv))
-        				return true;
-        		}
+				if(wr!=null&&wr.getSfzj()!=null&&wr.getSfzj().intValue()==1){//è¡¨ç¤ºä¸»é”®
+					if(!Tool.isNull(wr.getMbzd())&&wr.getMbzd().equals(mbzd)&&!Tool.isNull(wr.getValue())&&wr.getValue().equals(mbzdv))
+						return true;
+				}
 			}
 		}
 		return false;
 	}
 
-	
+
 
 	/**
-     * <p>»ñÈ¡´æÔÚÖ÷¼üµÄÊı¾İ½á¹û¼¯</p>
-     * @param databaseMeta
-     * @param tablename
-     * @param pkeyMap
-     * @return
-     */
-    private List<Map<String, String>> getExistsPrimaryKeyMap(DatabaseMeta databaseMeta, String tablename,Map<String, String> pkeyMap) {
-    	String sql = getQuerySQLByPrimaryKeyMap(pkeyMap,tablename);
-        if(!Tool.isNull(sql))return DbUtil.execQuerySQL(databaseMeta,sql,pkeyMap.keySet());
-        return null;
+	 * <p>è·å–å­˜åœ¨ä¸»é”®çš„æ•°æ®ç»“æœé›†</p>
+	 * @param databaseMeta
+	 * @param tablename
+	 * @param pkeyMap
+	 * @return
+	 */
+	private List<Map<String, String>> getExistsPrimaryKeyMap(DatabaseMeta databaseMeta, String tablename,Map<String, String> pkeyMap) {
+		String sql = getQuerySQLByPrimaryKeyMap(pkeyMap,tablename);
+		if(!Tool.isNull(sql))return DbUtil.execQuerySQL(databaseMeta,sql,pkeyMap.keySet());
+		return null;
 	}
 
 	private String getQuerySQLByPrimaryKeyMap(Map<String, String> pkeyMap, String tablename) {
@@ -1209,7 +1209,7 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 				Entry<String,String> entry = it.next();
 				String key = entry.getKey();
 				String value = entry.getValue();
-				if(!Tool.isNull(key)&&!Tool.isNull(value)){				
+				if(!Tool.isNull(key)&&!Tool.isNull(value)){
 					setQuerySQLByPrimaryKey(queryKey, key, value);
 				}
 			}
@@ -1221,60 +1221,60 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	}
 
 	private void setQuerySQLByPrimaryKey(StringBuffer queryKey, String key,	String value) {
-		StringBuffer vstr = new StringBuffer();		
-		String[] vs = value.split(",");	
-		if(vs!=null&&vs.length>0){	
+		StringBuffer vstr = new StringBuffer();
+		String[] vs = value.split(",");
+		if(vs!=null&&vs.length>0){
 			int i=0;
-				for(String s:vs){
-					if(!Tool.isNull(s)){
-						if((i%1000)==0&&i>0){
-							vstr.deleteCharAt(vstr.length()-1);
-							vstr.append(" ) or ").append(key).append(" in ( ").append("'").append(s.trim()).append("'").append(",");
-						}else{
-							vstr.append("'").append(s.trim()).append("'").append(",");
-						}
-						i++;
+			for(String s:vs){
+				if(!Tool.isNull(s)){
+					if((i%1000)==0&&i>0){
+						vstr.deleteCharAt(vstr.length()-1);
+						vstr.append(" ) or ").append(key).append(" in ( ").append("'").append(s.trim()).append("'").append(",");
+					}else{
+						vstr.append("'").append(s.trim()).append("'").append(",");
 					}
+					i++;
 				}
-				vstr.deleteCharAt(vstr.length()-1);
-				value=vstr.toString();
-				queryKey.append(key).append(" in (").append(value.trim()).append(")").append(" and ");
+			}
+			vstr.deleteCharAt(vstr.length()-1);
+			value=vstr.toString();
+			queryKey.append(key).append(" in (").append(value.trim()).append(")").append(" and ");
 		}
 	}
 
 	/**
-     * <p>»ñÈ¡Ö÷¼ü¶ÔÓ¦µÄÖµ</p>
-     * @param list
-     * @param wcList
-     * @return
-     */
-    private Map<String, String> getPrimaryKeyMap(List<List<WsjhResult>> list) {
-		Map<String, String> pkeyMap =  new HashMap<String,String>();		
-		if(list!=null&&list.size()>0){			
-			for(List<WsjhResult> wrList:list){				
-				if(wrList!=null&&wrList.size()>0){					
+	 * <p>è·å–ä¸»é”®å¯¹åº”çš„å€¼</p>
+	 * @param list
+	 * @param wcList
+	 * @return
+	 */
+	private Map<String, String> getPrimaryKeyMap(List<List<WsjhResult>> list) {
+		Map<String, String> pkeyMap =  new HashMap<String,String>();
+		if(list!=null&&list.size()>0){
+			for(List<WsjhResult> wrList:list){
+				if(wrList!=null&&wrList.size()>0){
 					for(WsjhResult wr:wrList){
-						if(wr!=null&&wr.getSfzj()!=null&&wr.getSfzj().intValue()==1){//±íÊ¾Ö÷¼ü
-						    String value= pkeyMap.get(wr.getMbzd());
-						    if(!Tool.isNull(value)&&!isNotContainsStr(value,wr.getValue().trim())){
-						    	if(wr.getValue()!=null&&!wr.getValue().trim().equals(""))
-						    	value+=wr.getValue().trim()+",";
-						    }else if(isNotContainsStr(value,wr.getValue().trim())){
-						    	
-						    }else{
-						    	if(wr.getValue()!=null&&!wr.getValue().trim().equals(""))
-							    	value=wr.getValue().trim()+",";
-						    }
-						    pkeyMap.put(wr.getMbzd(), value);							
+						if(wr!=null&&wr.getSfzj()!=null&&wr.getSfzj().intValue()==1){//è¡¨ç¤ºä¸»é”®
+							String value= pkeyMap.get(wr.getMbzd());
+							if(!Tool.isNull(value)&&!isNotContainsStr(value,wr.getValue().trim())){
+								if(wr.getValue()!=null&&!wr.getValue().trim().equals(""))
+									value+=wr.getValue().trim()+",";
+							}else if(isNotContainsStr(value,wr.getValue().trim())){
+
+							}else{
+								if(wr.getValue()!=null&&!wr.getValue().trim().equals(""))
+									value=wr.getValue().trim()+",";
+							}
+							pkeyMap.put(wr.getMbzd(), value);
 						}
 					}
-					
+
 				}
 			}
-		}		
+		}
 		return pkeyMap;
 	}
-   
+
 
 	private static boolean isNotContainsStr(String str, String str2) {
 		if(str!=null&&!"".equals(str)){
@@ -1289,7 +1289,7 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	}
 
 	private String getNextDay(List<List<WsjhResult>> wrsList, String sjcz) {
-		Set<String> daySet = new HashSet<String>();//ËùÓĞÊ±¼ä
+		Set<String> daySet = new HashSet<String>();//æ‰€æœ‰æ—¶é—´
 		if(wrsList!=null&&wrsList.size()>0){
 			for(List<WsjhResult> wrs:wrsList){
 				if(wrs!=null&&wrs.size()>0){
@@ -1316,198 +1316,198 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	}
 
 	private WsjhRzb getLastWsjhRzbByWsjhxh(int wsjhxh) {
-		
+
 		return wsjhConfigDao.getLastWsjhRzbByWsjhxh(wsjhxh).get(0);
 	}
 
 	/**
-     * <p>¸ù¾İÊ±¼ä´Á»ñÈ¡¶ÔÓ¦µÄ½á¹û¼¯</p>
-     * @param results
-     * @param wcList
-     * @param sjczvÊ±¼ä´Á±äÁ¿Öµ
-     * @param sjcv Ê±¼ä±ê¼Ç
-     * @return
-     * @throws DocumentException 
-     */
+	 * <p>æ ¹æ®æ—¶é—´æˆ³è·å–å¯¹åº”çš„ç»“æœé›†</p>
+	 * @param results
+	 * @param wcList
+	 * @param sjczvæ—¶é—´æˆ³å˜é‡å€¼
+	 * @param sjcv æ—¶é—´æ ‡è®°
+	 * @return
+	 * @throws DocumentException
+	 */
 	private List<List<WsjhResult>> getWsjhResultAllBySjc(Object[] results,	List<WsjhdzConfig> wcList,String sjczv,String sjcv,Integer isType,String zys) throws DocumentException {
 		List<List<WsjhResult>> wrsList = new ArrayList<List<WsjhResult>>();
 		if(results!=null&&results.length>0){
-        	for(Object result:results){
-        		if(result!=null&&result instanceof String){
-        			String res = (String)result;
-        			if(!Tool.isNull(res)){
-        				if(1==isType){//XML¸ñÊ½
-        					 setWsjhResultByXMLAndSjc(wcList, wrsList, res,sjczv,sjcv,zys);
-        				}else if(0==isType){//JSON¸ñÊ½
-        					 setWsjhResultByJSONAndSjc(wcList, wrsList, res,sjczv,sjcv);
-        				}               		
-                	}
-        		}        		
-        	}
-        }
+			for(Object result:results){
+				if(result!=null&&result instanceof String){
+					String res = (String)result;
+					if(!Tool.isNull(res)){
+						if(1==isType){//XMLæ ¼å¼
+							setWsjhResultByXMLAndSjc(wcList, wrsList, res,sjczv,sjcv,zys);
+						}else if(0==isType){//JSONæ ¼å¼
+							setWsjhResultByJSONAndSjc(wcList, wrsList, res,sjczv,sjcv);
+						}
+					}
+				}
+			}
+		}
 		return wrsList;
 	}
 	/**
-	 * <p>»ñÈ¡º¬ÓĞÊ±¼ä±ê¼ÇµÄ½á¹û¼¯£¨½âÎöXML£©</p>
+	 * <p>è·å–å«æœ‰æ—¶é—´æ ‡è®°çš„ç»“æœé›†ï¼ˆè§£æXMLï¼‰</p>
 	 * @param wcList
 	 * @param wrsList
 	 * @param res
 	 * @param sjczv
 	 * @param sjcv
-	 * @throws DocumentException 
+	 * @throws DocumentException
 	 */
-    private void setWsjhResultByXMLAndSjc(List<WsjhdzConfig> wcList,List<List<WsjhResult>> wrsList, String res, String sjczv,
-			String sjcv,String zys) throws DocumentException {
-    	Document doc = DocumentHelper.parseText(res);
+	private void setWsjhResultByXMLAndSjc(List<WsjhdzConfig> wcList,List<List<WsjhResult>> wrsList, String res, String sjczv,
+										  String sjcv,String zys) throws DocumentException {
+		Document doc = DocumentHelper.parseText(res);
 		Element rootElement = doc.getRootElement();
 		for(Iterator its= rootElement.elementIterator(zys);its.hasNext();){
-		    Element msgElement =(Element) its.next();
-		    List<WsjhResult> wrList = new ArrayList<WsjhResult>();
-		    if(!Tool.isNull(sjcv)){
-		    	 boolean flag = isWsjhResultBySjc(msgElement,sjczv,sjcv);
-				    if(flag){
-				    	setWsjhResultAll(wrList,msgElement,wcList);
-				    }
-		    }else{
-		    	setWsjhResultAll(wrList,msgElement,wcList);
-		    }  
+			Element msgElement =(Element) its.next();
+			List<WsjhResult> wrList = new ArrayList<WsjhResult>();
+			if(!Tool.isNull(sjcv)){
+				boolean flag = isWsjhResultBySjc(msgElement,sjczv,sjcv);
+				if(flag){
+					setWsjhResultAll(wrList,msgElement,wcList);
+				}
+			}else{
+				setWsjhResultAll(wrList,msgElement,wcList);
+			}
 
 			if(wrList.size()>0)wrsList.add(wrList);
 		}
-		
+
 	}
 
 	private void setWsjhResultAll(List<WsjhResult> wrList,		Element msgElement,List<WsjhdzConfig> wcList) {
 		for(Iterator it=msgElement.elementIterator();it.hasNext();){
-		     Element ele = (Element)it.next();
-		     String name = ele.getName();
-		     if(!Tool.isNull(name)){
-				 for(WsjhdzConfig wc:wcList){
-					  if(wc!=null&&!Tool.isNull(wc.getFhbl())&&wc.getFhbl().toLowerCase().equals(name)){
-						 WsjhResult wr = new WsjhResult();                							
-						 wr.setMbzd(wc.getMbzd());
-						 wr.setSfzj(Integer.parseInt(wc.getSfzj()==null?"0":wc.getSfzj()));
-						 wr.setMbzdsjlx(wc.getMbzdsjlx());
-						 wr.setValue(ele.getText()==null?"":ele.getText().trim());
-						 wrList.add(wr);
-					  }
-				  }
-			 }
-	     }
+			Element ele = (Element)it.next();
+			String name = ele.getName();
+			if(!Tool.isNull(name)){
+				for(WsjhdzConfig wc:wcList){
+					if(wc!=null&&!Tool.isNull(wc.getFhbl())&&wc.getFhbl().toLowerCase().equals(name)){
+						WsjhResult wr = new WsjhResult();
+						wr.setMbzd(wc.getMbzd());
+						wr.setSfzj(Integer.parseInt(wc.getSfzj()==null?"0":wc.getSfzj()));
+						wr.setMbzdsjlx(wc.getMbzdsjlx());
+						wr.setValue(ele.getText()==null?"":ele.getText().trim());
+						wrList.add(wr);
+					}
+				}
+			}
+		}
 	}
 
 	private boolean isWsjhResultBySjc(Element msgElement, String sjczv,	String sjcv) {
 		for(Iterator it=msgElement.elementIterator();it.hasNext();){
 			Element ele = (Element)it.next();
-			String name = ele.getName();		
+			String name = ele.getName();
 			if(!Tool.isNull(name)&&name.equals(sjczv.toLowerCase())){
-				 String value = ele.getText().trim();
-				 value=value.replaceAll("-", "");
-				 String[] values=value.split(" ");
-				 Date date1 = DateTimeUtil.getFormatDateTime(sjcv, "yyyyMMdd");
-			     Date date2 = DateTimeUtil.getFormatDateTime(values[0],"yyyyMMdd");
-			     int day =  DateTimeUtil.getDaysBetweenDates(date1, date2);
-			     if(day>=0){
-			    	 return true;
-			     }else{
-			    	 return false;
-			     }
+				String value = ele.getText().trim();
+				value=value.replaceAll("-", "");
+				String[] values=value.split(" ");
+				Date date1 = DateTimeUtil.getFormatDateTime(sjcv, "yyyyMMdd");
+				Date date2 = DateTimeUtil.getFormatDateTime(values[0],"yyyyMMdd");
+				int day =  DateTimeUtil.getDaysBetweenDates(date1, date2);
+				if(day>=0){
+					return true;
+				}else{
+					return false;
+				}
 			}
-	    }
+		}
 		return false;
 	}
 
 	/**
-     * <p>»ñÈ¡º¬ÓĞÊ±¼ä±ê¼ÇµÄ½á¹û¼¯£¨½âÎöJSON£©</p>
-     * @param wcList
-     * @param wrsList
-     * @param res
-     * @param sjczv
-     * @param sjcv
-     */
+	 * <p>è·å–å«æœ‰æ—¶é—´æ ‡è®°çš„ç»“æœé›†ï¼ˆè§£æJSONï¼‰</p>
+	 * @param wcList
+	 * @param wrsList
+	 * @param res
+	 * @param sjczv
+	 * @param sjcv
+	 */
 	private void setWsjhResultByJSONAndSjc(List<WsjhdzConfig> wcList,List<List<WsjhResult>> wrsList, String res, String sjczv,String sjcv) {
 		JSONArray ja = JSONArray.fromObject(res);
 		for(int i=0;i<ja.size();i++){
-		   JSONObject jo = (JSONObject)ja.get(i);	
-		   List<WsjhResult> wrList = new ArrayList<WsjhResult>();
-		   if(!Tool.isNull(sjcv)){
-			   boolean flag = isWsjhResultBySjc(jo,sjczv,sjcv);
-			   if(flag){
-				  setWsjhResultAll(jo,wcList,wrList);
-			   }  
-		   }else{
-			   setWsjhResultAll(jo,wcList,wrList);
-		   }		 
-		   if(wrList.size()>0) wrsList.add(wrList);
+			JSONObject jo = (JSONObject)ja.get(i);
+			List<WsjhResult> wrList = new ArrayList<WsjhResult>();
+			if(!Tool.isNull(sjcv)){
+				boolean flag = isWsjhResultBySjc(jo,sjczv,sjcv);
+				if(flag){
+					setWsjhResultAll(jo,wcList,wrList);
+				}
+			}else{
+				setWsjhResultAll(jo,wcList,wrList);
+			}
+			if(wrList.size()>0) wrsList.add(wrList);
 		}
 	}
 
 	private void setWsjhResultAll(JSONObject jo, List<WsjhdzConfig> wcList,List<WsjhResult> wrList) {
-		  if(jo!=null){
-			  for(WsjhdzConfig wc:wcList){
-				  if(wc!=null){
-					 WsjhResult wr = new WsjhResult();
-					 Object obj =  jo.get(wc.getFhbl().toLowerCase());
-					 wr.setMbzd(wc.getMbzd());
-					 wr.setSfzj(Integer.parseInt(wc.getSfzj()==null?"0":wc.getSfzj()));
-					 wr.setMbzdsjlx(wc.getMbzdsjlx());
-					 wr.setValue(String.valueOf(obj==null?"":obj).trim());
-					 wrList.add(wr);
-				  }
-			  }
-		   } 
-		
+		if(jo!=null){
+			for(WsjhdzConfig wc:wcList){
+				if(wc!=null){
+					WsjhResult wr = new WsjhResult();
+					Object obj =  jo.get(wc.getFhbl().toLowerCase());
+					wr.setMbzd(wc.getMbzd());
+					wr.setSfzj(Integer.parseInt(wc.getSfzj()==null?"0":wc.getSfzj()));
+					wr.setMbzdsjlx(wc.getMbzdsjlx());
+					wr.setValue(String.valueOf(obj==null?"":obj).trim());
+					wrList.add(wr);
+				}
+			}
+		}
+
 	}
 
 	private boolean isWsjhResultBySjc(JSONObject jo, String sjczv, String sjcv) {
 		if(jo!=null){
 			Object obj = jo.get(sjczv.toLowerCase());
 			if(obj!=null){
-				 String value=String.valueOf(obj).trim();
-				 value=value.replaceAll("-", "");
-				 String[] values=value.split(" ");
-			     Date date1 = DateTimeUtil.getFormatDateTime(sjcv, "yyyyMMdd");
-			     Date date2 = DateTimeUtil.getFormatDateTime(values[0],"yyyyMMdd");
-			     int day =  DateTimeUtil.getDaysBetweenDates(date1, date2);
-			     if(day>=0){
-			    	return true;
-			     }else{
-			    	 return false;
-			     }
+				String value=String.valueOf(obj).trim();
+				value=value.replaceAll("-", "");
+				String[] values=value.split(" ");
+				Date date1 = DateTimeUtil.getFormatDateTime(sjcv, "yyyyMMdd");
+				Date date2 = DateTimeUtil.getFormatDateTime(values[0],"yyyyMMdd");
+				int day =  DateTimeUtil.getDaysBetweenDates(date1, date2);
+				if(day>=0){
+					return true;
+				}else{
+					return false;
+				}
 			}
 		}
 		return false;
 	}
 
 	/**
-     * <p>¸ù¾İWebService ·½·¨²ÎÊı£¨°üº¬ÃÜÔ¿/·ÖÒ³£©»ñÈ¡½»»»½á¹û²¢²åÈëÄ¿±ê¿â</p>
-     * @param wpcList
-     * @param wcList
-     * @param rzb
-     * @param databaseMeta
-     * @param tablename
-     * @param results
-     * @throws DocumentException
-     */
+	 * <p>æ ¹æ®WebService æ–¹æ³•å‚æ•°ï¼ˆåŒ…å«å¯†é’¥/åˆ†é¡µï¼‰è·å–äº¤æ¢ç»“æœå¹¶æ’å…¥ç›®æ ‡åº“</p>
+	 * @param wpcList
+	 * @param wcList
+	 * @param rzb
+	 * @param databaseMeta
+	 * @param tablename
+	 * @param results
+	 * @throws DocumentException
+	 */
 	private void insertMbkByParamsInPageAndPageSize(List<WsjhParamsConfig> wpcList, List<WsjhdzConfig> wcList,WsjhRzb rzb, DatabaseMeta databaseMeta, String tablename,
-			Object[] results,WsjhConfig wc) throws DocumentException {
+													Object[] results,WsjhConfig wc) throws DocumentException {
 		List<List<WsjhResult>> wrsList = getWsjhResultAll(results,wcList,new Integer(wc.getIstype()),wc.getZys());
 		StringBuffer logs = new StringBuffer();
 		if(wrsList!=null&&wrsList.size()>0){
 			rzb.setReadLines(wrsList.size());
-			int size = wrsList.size();//×Ü¼ÇÂ¼Êı
-		   	int count = 0;int pageSize = 1000;
-		   	if(size%pageSize==0){
-		   		count=size/pageSize;
-		   	}else{
-		   		count=size/pageSize+1;
-		   	}
-		   	execWsjh(rzb, databaseMeta, tablename, wrsList, logs,count, pageSize,wc.getOflag());			    
+			int size = wrsList.size();//æ€»è®°å½•æ•°
+			int count = 0;int pageSize = 1000;
+			if(size%pageSize==0){
+				count=size/pageSize;
+			}else{
+				count=size/pageSize+1;
+			}
+			execWsjh(rzb, databaseMeta, tablename, wrsList, logs,count, pageSize,wc.getOflag());
 		}
 		rzb.setLog(logs.toString());
 	}
 	/**
-	 * <p>¸ù¾İWebService ·½·¨²ÎÊı£¨°üº¬ÃÜÔ¿/ÆäËû£© »ñÈ¡½»»»½á¹û²¢²åÈëÄ¿±ê¿â</p>
+	 * <p>æ ¹æ®WebService æ–¹æ³•å‚æ•°ï¼ˆåŒ…å«å¯†é’¥/å…¶ä»–ï¼‰ è·å–äº¤æ¢ç»“æœå¹¶æ’å…¥ç›®æ ‡åº“</p>
 	 * @param wpcList
 	 * @param wcList
 	 * @param wc
@@ -1518,46 +1518,46 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	 * @throws DocumentException
 	 */
 	private void updateMbkByParamsInSIGNAndOther(List<WsjhParamsConfig> wpcList, List<WsjhdzConfig> wcList,
-			WsjhConfig wc, RPCServiceClient serviceClient, QName opAddEntry,String params,WsjhRzb rzb) throws AxisFault, DocumentException {
+												 WsjhConfig wc, RPCServiceClient serviceClient, QName opAddEntry,String params,WsjhRzb rzb) throws AxisFault, DocumentException {
 		params=params.replace(",SIGN", "");
 		String param = getParams(wpcList,params);
 		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(wc.getWsjhds());
 		DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
-		String tablename = wc.getWsjhzcb();//´«²ÎÊı¾İ¿â
+		String tablename = wc.getWsjhzcb();//ä¼ å‚æ•°æ®åº“
 		List<Map<String,String>> paramsMap =null;
-		//Integer isSjc = wc.getIsSjc();//ÆôÓÃÊ±¼ä´Á 1ÊÇ0·ñ
-		int isSjc = wc.getIssjc();//ÆôÓÃÊ±¼ä´Á 1ÊÇ0·ñ
+		//Integer isSjc = wc.getIsSjc();//å¯ç”¨æ—¶é—´æˆ³ 1æ˜¯0å¦
+		int isSjc = wc.getIssjc();//å¯ç”¨æ—¶é—´æˆ³ 1æ˜¯0å¦
 		WsjhRzb wr = null;
-		//if(isSjc!=null&&isSjc.intValue()==1){//ÆôÓÃÊ±¼ä´Á
+		//if(isSjc!=null&&isSjc.intValue()==1){//å¯ç”¨æ—¶é—´æˆ³
 		if(isSjc == 1){
 			wr = getLastWsjhRzbByWsjhxh(wc.getWsjhxh());
-	    	List<List<WsjhResult>> wrsList = null;
-	    	if(wr!=null&&!Tool.isNull(wr.getSjc())){//ÆôÓÃÊ±¼ä´Á±äÁ¿
-	    		String type = DbUtil.getSjcType(wr.getSjc(),tablename,databaseMeta);
-	    		type=type==null?"VARCHAR2":type;
-	    		String sql = "select "+param+" from "+tablename+" where ";
-	    		if("DATE".equals(type)){
-	    			sql+=" to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";
-	    		}else{
-	    			sql+=wc.getSjcz()+ " >='"+wr.getSjc()+"'";
-	    		}
-				paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);	  		
-	    	}else{//µÚÒ»´ÎÃ»ÓĞ¼ÇÂ¼
-	    		String sql = "select "+param+" from "+tablename;
-				paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);	
-	    	}
-	    	//»ñÈ¡×îºóÒ»´ÎÊ±¼ä
-	    	String nextDay = getNextDay(wrsList,wc.getSjcz());
-	    	rzb.setSjc(nextDay);
+			List<List<WsjhResult>> wrsList = null;
+			if(wr!=null&&!Tool.isNull(wr.getSjc())){//å¯ç”¨æ—¶é—´æˆ³å˜é‡
+				String type = DbUtil.getSjcType(wr.getSjc(),tablename,databaseMeta);
+				type=type==null?"VARCHAR2":type;
+				String sql = "select "+param+" from "+tablename+" where ";
+				if("DATE".equals(type)){
+					sql+=" to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";
+				}else{
+					sql+=wc.getSjcz()+ " >='"+wr.getSjc()+"'";
+				}
+				paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);
+			}else{//ç¬¬ä¸€æ¬¡æ²¡æœ‰è®°å½•
+				String sql = "select "+param+" from "+tablename;
+				paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);
+			}
+			//è·å–æœ€åä¸€æ¬¡æ—¶é—´
+			String nextDay = getNextDay(wrsList,wc.getSjcz());
+			rzb.setSjc(nextDay);
 		}else{
 			String sql = "select "+param+" from "+tablename;
-			paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);	
-		}		
-		tablename=wc.getWsjhb();//Ä¿±ê±í
+			paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);
+		}
+		tablename=wc.getWsjhb();//ç›®æ ‡è¡¨
 		execWsjh(wpcList, wcList, serviceClient, opAddEntry, params, rzb,databaseMeta, tablename, paramsMap, isSjc, wr,wc);
 	}
 	/**
-	 * <p>¸ù¾İWebService ·½·¨²ÎÊı£¨Ö»º¬ÃÜÔ¿) »ñÈ¡½»»»½á¹û²¢²åÈëÄ¿±ê¿â </p>
+	 * <p>æ ¹æ®WebService æ–¹æ³•å‚æ•°ï¼ˆåªå«å¯†é’¥) è·å–äº¤æ¢ç»“æœå¹¶æ’å…¥ç›®æ ‡åº“ </p>
 	 * @param wpcList
 	 * @param wcList
 	 * @param wc
@@ -1567,80 +1567,80 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	 * @throws DocumentException
 	 */
 	private void insetMbkByParamsInSIGN(List<WsjhParamsConfig> wpcList,	List<WsjhdzConfig> wcList, WsjhConfig wc,
-			RPCServiceClient serviceClient, QName opAddEntry,WsjhRzb rzb) throws AxisFault,	DocumentException {
-		
-			SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(wc.getWsjhds());
-			DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
-			String tablename = wc.getWsjhb();		
-			//±íÊ¾²ÎÊıÖ»ÓĞÒ»Ìõ
-			WsjhParamsConfig wpc = wpcList.get(0);
-			Object[] opAddEntryArgs = new Object[]{ wpc.getCsz()};
-			Class[] classes = getOpAddEntryArgs(opAddEntryArgs);				    	    		
-			Object[] results = serviceClient.invokeBlocking(opAddEntry,opAddEntryArgs,classes);	
-			if(results!=null&&results.length>0){
-				for(Object obj:results){
-					LOG.info("´«²Î·µ»Ø½á¹û2£º"+String.valueOf(obj));
-				}
+										RPCServiceClient serviceClient, QName opAddEntry,WsjhRzb rzb) throws AxisFault,	DocumentException {
+
+		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(wc.getWsjhds());
+		DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
+		String tablename = wc.getWsjhb();
+		//è¡¨ç¤ºå‚æ•°åªæœ‰ä¸€æ¡
+		WsjhParamsConfig wpc = wpcList.get(0);
+		Object[] opAddEntryArgs = new Object[]{ wpc.getCsz()};
+		Class[] classes = getOpAddEntryArgs(opAddEntryArgs);
+		Object[] results = serviceClient.invokeBlocking(opAddEntry,opAddEntryArgs,classes);
+		if(results!=null&&results.length>0){
+			for(Object obj:results){
+				LOG.info("ä¼ å‚è¿”å›ç»“æœ2ï¼š"+String.valueOf(obj));
 			}
-			boolean flag = verifyResults(results,rzb);//ÑéÖ¤½á¹ûÊÇ·ñÕıÈ·	
-			if(flag){
-				//Integer isSjc = wc.getIsSjc();//ÆôÓÃÊ±¼ä´Á 1ÊÇ0·ñ
-				int isSjc = wc.getIssjc();//ÆôÓÃÊ±¼ä´Á 1ÊÇ0·ñ
-				//if(isSjc!=null&&isSjc.intValue()==1){//ÆôÓÃÊ±¼ä´Á
-				if(isSjc == 1){
-					insetMbkByParamsInSIGNAndSjc(wpcList,wcList,rzb,databaseMeta,tablename,results,wc);
-				}else{
-					insetMbkByParamsInSIGN(wpcList, wcList, rzb,databaseMeta, tablename, results,wc);
-				}
-			}				
+		}
+		boolean flag = verifyResults(results,rzb);//éªŒè¯ç»“æœæ˜¯å¦æ­£ç¡®
+		if(flag){
+			//Integer isSjc = wc.getIsSjc();//å¯ç”¨æ—¶é—´æˆ³ 1æ˜¯0å¦
+			int isSjc = wc.getIssjc();//å¯ç”¨æ—¶é—´æˆ³ 1æ˜¯0å¦
+			//if(isSjc!=null&&isSjc.intValue()==1){//å¯ç”¨æ—¶é—´æˆ³
+			if(isSjc == 1){
+				insetMbkByParamsInSIGNAndSjc(wpcList,wcList,rzb,databaseMeta,tablename,results,wc);
+			}else{
+				insetMbkByParamsInSIGN(wpcList, wcList, rzb,databaseMeta, tablename, results,wc);
+			}
+		}
 	}
-	
-	
-	
+
+
+
 	private void insetMbkByParamsInSIGNAndSjc(List<WsjhParamsConfig> wpcList,List<WsjhdzConfig> wcList, WsjhRzb rzb, DatabaseMeta databaseMeta,
-			String tablename, Object[] results, WsjhConfig wc) throws DocumentException {
+											  String tablename, Object[] results, WsjhConfig wc) throws DocumentException {
 		WsjhRzb wr = getLastWsjhRzbByWsjhxh(wc.getWsjhxh());
-    	List<List<WsjhResult>> wrsList = null;
-    	if(wr!=null&&!Tool.isNull(wr.getSjc())){//ÆôÓÃÊ±¼ä´Á±äÁ¿
-    		wrsList = getWsjhResultAllBySjc(results,wcList,wc.getSjcz(),wr.getSjc(),new Integer(wc.getIstype()),wc.getZys());    		
-    		//¸ù¾İÊ±¼ä±ê¼ÇÉ¾³ıµ±ÌìÒÔºóµÄÊı¾İ
-    		String type = DbUtil.getSjcType(wr.getSjc(),tablename,databaseMeta);
-    		type=type==null?"VARCHAR2":type;
-    		String sql = "delete  from "+tablename+" where ";
-    		if("DATE".equals(type)){
-    			sql+=" to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";
-    		}else{
-    			sql+=wc.getSjcz()+ " >='"+wr.getSjc()+"'";
-    		}    	
-    		DbUtil.execUpdateSQL(databaseMeta,sql);    
-    		
-    	}else{//µÚÒ»´ÎÃ»ÓĞ¼ÇÂ¼
-    		wrsList = getWsjhResultAllBySjc(results,wcList,wc.getSjcz(),null,new Integer(wc.getIstype()),wc.getZys());
-    	}
-    	//»ñÈ¡×îºóÒ»´ÎÊ±¼ä
-    	String nextDay = getNextDay(wrsList,wc.getSjcz());
-    	rzb.setSjc(nextDay);
-    	String logs = getWsjhLogs(rzb, databaseMeta, tablename, wc, wr, wrsList);    	
-	    rzb.setLog(logs);
-		
+		List<List<WsjhResult>> wrsList = null;
+		if(wr!=null&&!Tool.isNull(wr.getSjc())){//å¯ç”¨æ—¶é—´æˆ³å˜é‡
+			wrsList = getWsjhResultAllBySjc(results,wcList,wc.getSjcz(),wr.getSjc(),new Integer(wc.getIstype()),wc.getZys());
+			//æ ¹æ®æ—¶é—´æ ‡è®°åˆ é™¤å½“å¤©ä»¥åçš„æ•°æ®
+			String type = DbUtil.getSjcType(wr.getSjc(),tablename,databaseMeta);
+			type=type==null?"VARCHAR2":type;
+			String sql = "delete  from "+tablename+" where ";
+			if("DATE".equals(type)){
+				sql+=" to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";
+			}else{
+				sql+=wc.getSjcz()+ " >='"+wr.getSjc()+"'";
+			}
+			DbUtil.execUpdateSQL(databaseMeta,sql);
+
+		}else{//ç¬¬ä¸€æ¬¡æ²¡æœ‰è®°å½•
+			wrsList = getWsjhResultAllBySjc(results,wcList,wc.getSjcz(),null,new Integer(wc.getIstype()),wc.getZys());
+		}
+		//è·å–æœ€åä¸€æ¬¡æ—¶é—´
+		String nextDay = getNextDay(wrsList,wc.getSjcz());
+		rzb.setSjc(nextDay);
+		String logs = getWsjhLogs(rzb, databaseMeta, tablename, wc, wr, wrsList);
+		rzb.setLog(logs);
+
 	}
 
 	private void insetMbkByParamsInSIGN(List<WsjhParamsConfig> wpcList,	List<WsjhdzConfig> wcList, WsjhRzb rzb, DatabaseMeta databaseMeta,
-			String tablename, Object[] results,WsjhConfig wc) throws DocumentException {
+										String tablename, Object[] results,WsjhConfig wc) throws DocumentException {
 		StringBuffer logs = new StringBuffer();
-		List<List<WsjhResult>> wrsList =getWsjhResultAll(results,wcList,new Integer(wc.getIstype()),wc.getZys());		
+		List<List<WsjhResult>> wrsList =getWsjhResultAll(results,wcList,new Integer(wc.getIstype()),wc.getZys());
 		if(wrsList!=null&&wrsList.size()>0){
-			int size = wrsList.size();//×Ü¼ÇÂ¼Êı
+			int size = wrsList.size();//æ€»è®°å½•æ•°
 			rzb.setReadLines(size);
-		   	int count = 0;int pageSize = 1000;
-		   	if(size%pageSize==0){
-		   		count=size/pageSize;
-		   	}else{
-		   		count=size/pageSize+1;
-		   	}
-		   	execWsjh(rzb, databaseMeta, tablename, wrsList, logs,count, pageSize,wc.getOflag());			
-		}		
-	    rzb.setLog(logs.toString());
+			int count = 0;int pageSize = 1000;
+			if(size%pageSize==0){
+				count=size/pageSize;
+			}else{
+				count=size/pageSize+1;
+			}
+			execWsjh(rzb, databaseMeta, tablename, wrsList, logs,count, pageSize,wc.getOflag());
+		}
+		rzb.setLog(logs.toString());
 	}
 
 	private Class[] getOpAddEntryArgs(Object[] opAddEntryArgs) {
@@ -1655,7 +1655,7 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	}
 
 	/**
-	 * <p>¸ù¾İ²ÎÊı»ñÈ¡º¬ÓĞ·ÖÒ³µÄSQLÓï¾ä</p>
+	 * <p>æ ¹æ®å‚æ•°è·å–å«æœ‰åˆ†é¡µçš„SQLè¯­å¥</p>
 	 * @param wpcList
 	 * @param param
 	 * @param tablename
@@ -1681,12 +1681,12 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 		Object[] objs = new Object[param.length];
 		for(int i=0;i<param.length;i++){
 			objs[i]= getValueByParamsType(map.get(param[i]),wpcList,param[i]);
-		}		
+		}
 		return objs;
 	}
-	
+
 	/**
-	 * <p>¸ù¾İ²ÎÊıÀàĞÍ×ªÒåÖµ</p>
+	 * <p>æ ¹æ®å‚æ•°ç±»å‹è½¬ä¹‰å€¼</p>
 	 * @param value
 	 * @param wpcList
 	 * @param params
@@ -1741,7 +1741,7 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 		return false;
 	}
 	/**
-	 * <p>»ñÈ¡ÒÑÑ¡Ôñ²ÎÊı×éºÏ</p>
+	 * <p>è·å–å·²é€‰æ‹©å‚æ•°ç»„åˆ</p>
 	 * @param wpcList
 	 * @return
 	 */
@@ -1763,12 +1763,12 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 		return null;
 	}
 	public List<Sjdwb> getSjdw() {
-		
+
 		return wsjhConfigDao.getSjdw();
 	}
 
 	public List<WsjhDsqConfig> getWsjhDsqConfig(WsjhDsqConfig wdc) {
-		
+
 		return wsjhConfigDao.getWsjhDsqConfig(wdc);
 	}
 
@@ -1780,7 +1780,7 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 			paginator.setPage((Integer)wsjhrzb.getToPage());
 			paginator.setItems(wsjhConfigDao.getPagingInfoByWsjhrzbCount(wsjhrzb));
 			pageList.setPaginator(paginator);
-			
+
 			if(paginator.getBeginIndex() <= paginator.getItems()){
 				wsjhrzb.setStartRow(paginator.getBeginIndex());
 				wsjhrzb.setEndRow(paginator.getEndIndex());
@@ -1823,180 +1823,180 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 		String operate=wc.getOperate();
 		if(!Tool.isNull(url)){
 			if(url.contains(".asmx")){
-				processWebServiceByWsbs(wpcList,wc,rzb, url, namespace, operate);				
+				processWebServiceByWsbs(wpcList,wc,rzb, url, namespace, operate);
 			}
-		}		
-        return "";
+		}
+		return "";
 	}
-	
+
 	/**
-     * <p>WebService ±¨ËÍÅäÖÃ´¦ÀíÇëÇó</p>
-     * @param wpcList
-     * @param wc
-     * @param rzb
-     * @param url
-     * @param namespace
-     * @param operate
-     */
+	 * <p>WebService æŠ¥é€é…ç½®å¤„ç†è¯·æ±‚</p>
+	 * @param wpcList
+	 * @param wc
+	 * @param rzb
+	 * @param url
+	 * @param namespace
+	 * @param operate
+	 */
 	private void processWebServiceByWsbs(List<WsjhParamsConfig> wpcList,WsjhConfig wc, WsjhRzb rzb, String url, String namespace,
-			String operate) {
+										 String operate) {
 		try{
-		    Service service = new Service();
-		    Call   call   = (Call) service.createCall();
-		    call.setTargetEndpointAddress(new java.net.URL(url));
-		    QName qnName = new QName(namespace,operate);
-		    call.setOperationName(qnName);	
-		    String params = wc.getParams();		    
-		    if(params!=null){//ÓĞ²ÎÊı
-		    	addParameterByCall(wpcList,call,namespace,operate,wc);
-		    	insertMbkByParamsAndCallByWsbs(wpcList,wc,rzb,call,params);
-		    }else{//Ã»ÓĞ²ÎÊı
-		    	try{
-		    		call.invoke(new Object[]{});	
-		    		rzb.setUpdateLines((rzb.getUpdateLines()==null?0:rzb.getUpdateLines())+1);
-		    	}catch(Exception e){
-		    		rzb.setErrors((rzb.getErrors()==null?1:rzb.getErrors())+1);
-		    		rzb.setLog(rzb.getLog()+" "+e.getMessage());
-		    	}
-		    }		    
+			Service service = new Service();
+			Call   call   = (Call) service.createCall();
+			call.setTargetEndpointAddress(new java.net.URL(url));
+			QName qnName = new QName(namespace,operate);
+			call.setOperationName(qnName);
+			String params = wc.getParams();
+			if(params!=null){//æœ‰å‚æ•°
+				addParameterByCall(wpcList,call,namespace,operate,wc);
+				insertMbkByParamsAndCallByWsbs(wpcList,wc,rzb,call,params);
+			}else{//æ²¡æœ‰å‚æ•°
+				try{
+					call.invoke(new Object[]{});
+					rzb.setUpdateLines((rzb.getUpdateLines()==null?0:rzb.getUpdateLines())+1);
+				}catch(Exception e){
+					rzb.setErrors((rzb.getErrors()==null?1:rzb.getErrors())+1);
+					rzb.setLog(rzb.getLog()+" "+e.getMessage());
+				}
+			}
 		}catch(Exception e){
 			rzb.setErrors((rzb.getErrors()==null?1:rzb.getErrors())+1);
 			rzb.setLog(rzb.getLog()+" "+e.getMessage());
 			System.gc();
 		}
-		rzb.setEndDate(DateTimeUtil.getCurrDateTimeStr());		
+		rzb.setEndDate(DateTimeUtil.getCurrDateTimeStr());
 		rzb.setLogDate(DateTimeUtil.getCurrDateTimeStr());
 		insertWsjhrzb(rzb);
 	}
 
-	
-    /**
-     * <p>¸ù¾İ²ÎÊıÓëµ÷ÓÃ½Ó¿Ú²åÈëÄ¿±ê¿â(±¨ËÍÅäÖÃ)</p>
-     * @param wpcList
-     * @param wc
-     * @param rzb
-     * @param call
-     * @param params
-     */
+
+	/**
+	 * <p>æ ¹æ®å‚æ•°ä¸è°ƒç”¨æ¥å£æ’å…¥ç›®æ ‡åº“(æŠ¥é€é…ç½®)</p>
+	 * @param wpcList
+	 * @param wc
+	 * @param rzb
+	 * @param call
+	 * @param params
+	 */
 	private void insertMbkByParamsAndCallByWsbs(List<WsjhParamsConfig> wpcList,	WsjhConfig wc, WsjhRzb rzb, Call call, String params) {
 		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(wc.getWsjhds());
 		DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
-		String tablename = wc.getWsjhzcb();	
+		String tablename = wc.getWsjhzcb();
 		String sql=null;
-		//if(wc.getPlbs()!=null&&wc.getPlbs().intValue()==1){//ÅúÁ¿±¨ËÍ
+		//if(wc.getPlbs()!=null&&wc.getPlbs().intValue()==1){//æ‰¹é‡æŠ¥é€
 		if(wc.getPlbs() == 1){
 			sql = " select * from "+tablename;
 		}else{
 			params = getParams(wpcList,params);
 			sql = "select "+params+" from "+tablename;
 		}
-		
-		WsjhRzb wr = getLastWsjhRzbByWsjhxh(wc.getWsjhxh());//»ñÈ¡×îºóÒ»´Î¸üĞÂÊ±¼ä
-		
-		String sjcz = wc.getSjcz();//Ê±¼ä´Á
+
+		WsjhRzb wr = getLastWsjhRzbByWsjhxh(wc.getWsjhxh());//è·å–æœ€åä¸€æ¬¡æ›´æ–°æ—¶é—´
+
+		String sjcz = wc.getSjcz();//æ—¶é—´æˆ³
 		if(sjcz!=null&&!"".equals(sjcz)){
 			String daySQL = "select "+wc.getSjcz()+" from "+tablename;
 			if(wr!=null&&wr.getSjc()!=null&&!"".equals(wr.getSjc())){
 				String type = DbUtil.getSjcType(wr.getSjc(),tablename,databaseMeta);
-	    		type=type==null?"VARCHAR2":type;
-	    		if("DATE".equals(type)){    			
-		    			sql+=" where to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'"; 
-		    			daySQL+=" where to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'"; 
-	    		}else{//×Ö·û´®ÀàĞÍ    			
-		    			sql+=" where "+wc.getSjcz()+">='"+wr.getSjc()+"'";	    
-		    			daySQL+=" where "+wc.getSjcz()+">='"+wr.getSjc()+"'";	    
-	    		}     		
-	    	}
+				type=type==null?"VARCHAR2":type;
+				if("DATE".equals(type)){
+					sql+=" where to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";
+					daySQL+=" where to_char("+wc.getSjcz()+",'yyyymmdd') >='"+wr.getSjc()+"'";
+				}else{//å­—ç¬¦ä¸²ç±»å‹
+					sql+=" where "+wc.getSjcz()+">='"+wr.getSjc()+"'";
+					daySQL+=" where "+wc.getSjcz()+">='"+wr.getSjc()+"'";
+				}
+			}
 			daySQL+=" order by "+wc.getSjcz() ;
 			String lastDay = DbUtil.getLastDayBySQL(databaseMeta, daySQL);
 			rzb.setSjc((lastDay==null&&wr!=null)?wr.getSjc():lastDay);
 		}
 		List<Map<String,String>> paramsMap = null;
 		if(wc.getPlbs() == 1){
-		//if(wc.getPlbs()!=null&&wc.getPlbs().intValue()==1){//ÅúÁ¿±¨ËÍ
+			//if(wc.getPlbs()!=null&&wc.getPlbs().intValue()==1){//æ‰¹é‡æŠ¥é€
 			List<Map<String,String>> columnMapList = (List<Map<String,String>>)DbUtil.getDBColumnAndComments(databaseMeta, tablename);
 			List<String> columnList = getColumnList(columnMapList);
 			paramsMap = DbUtil.getValueByTable(databaseMeta, sql,  rzb,columnList);
 		}else{
-			paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);	
+			paramsMap = DbUtil.getValueByTable(databaseMeta,sql,wpcList,rzb);
 		}
-		  	
-		
-		
+
+
+
 		StringBuffer logs = new StringBuffer();
-		logs.append(rzb.getLog()==null?"":rzb.getLog());//±£ÁôÔ­À´µÄÈÕÖ¾		
+		logs.append(rzb.getLog()==null?"":rzb.getLog());//ä¿ç•™åŸæ¥çš„æ—¥å¿—
 		if(paramsMap!=null&&paramsMap.size()>0){
-			rzb.setReadLines(paramsMap.size());//×Ü¼ÇÂ¼Êı
-			int size = paramsMap.size();//×Ü¼ÇÂ¼Êı
-		   	int count = 0;int pageSize = 1000;
-		   	if(size%pageSize==0){
-		   		count=size/pageSize;
-		   	}else{
-		   		count=size/pageSize+1;
-		   	}
-		   	int pageNo=1; int updateLines = 0;int errors=0;
-		   	List<Map<String,String>> tempList = new ArrayList<Map<String,String>>();
-		   	while(count>=pageNo){		   	
-		    	List<Map<String,String>> list =(List<Map<String,String>>) ArrayUtil.getList(paramsMap, pageNo, pageSize);	
-		    	//if(wc.getPlbs()!=null&&wc.getPlbs().intValue()==1){//ÅúÁ¿±¨ËÍ
-	    		if(wc.getPlbs() == 1){
-		    		try{
-			    		 String xml = XmlHelper.getXml(list,"TABLE","ROWS");
-			    		 Object objs = call.invoke(new Object[]{xml});
-			    		 if(objs!=null){
-			    			   String value = String.valueOf(objs);
-			    			   if(value!=null&&Integer.parseInt(value)>0){//¸üĞÂ³É¹¦
-			    				   updateLines++;
-			    			   }else{//¸üĞÂÊ§°Ü
-			    				   tempList.addAll(list);//Ê§°ÜµÄ¼ÇÂ¼¼ÓÈëtempList;
-			    			   }
-			    		   }
-		    		}catch(Exception e){
-		    			errors++;
-		    			e.printStackTrace();
-		    			logs.append(e.getMessage());
-		    		}
-		    		
-		    	}else{//²»ÊÇÅúÁ¿±¨ËÍ
-					if(list!=null&&list.size()>0){
-					    for(int i=0;i<list.size();i++){
-					    	Map<String,String> vmap= (Map<String,String>)list.get(i);
-					    	if(vmap!=null&&vmap.size()>0){					    		
-					    		try{				    		   
-					    		   Object[] args = getValueParams(wpcList,params,vmap);
-					    		   Object objs =  call.invoke(args);
-					    		   if(objs!=null){
-					    			   String value = String.valueOf(objs);
-					    			   if(value!=null&&Integer.parseInt(value)>0){//¸üĞÂ³É¹¦
-					    				   updateLines++;
-					    			   }else{//¸üĞÂÊ§°Ü
-					    				   tempList.add(vmap);//Ê§°ÜµÄ¼ÇÂ¼¼ÓÈëtempList;
-					    			   }
-					    		   }				    		    
-					    		}catch(Exception e){
-					    			errors++;
-					    			e.printStackTrace();
-					    			logs.append(e.getMessage());
-					    		}
-					    	}
-					    }		    	   
+			rzb.setReadLines(paramsMap.size());//æ€»è®°å½•æ•°
+			int size = paramsMap.size();//æ€»è®°å½•æ•°
+			int count = 0;int pageSize = 1000;
+			if(size%pageSize==0){
+				count=size/pageSize;
+			}else{
+				count=size/pageSize+1;
+			}
+			int pageNo=1; int updateLines = 0;int errors=0;
+			List<Map<String,String>> tempList = new ArrayList<Map<String,String>>();
+			while(count>=pageNo){
+				List<Map<String,String>> list =(List<Map<String,String>>) ArrayUtil.getList(paramsMap, pageNo, pageSize);
+				//if(wc.getPlbs()!=null&&wc.getPlbs().intValue()==1){//æ‰¹é‡æŠ¥é€
+				if(wc.getPlbs() == 1){
+					try{
+						String xml = XmlHelper.getXml(list,"TABLE","ROWS");
+						Object objs = call.invoke(new Object[]{xml});
+						if(objs!=null){
+							String value = String.valueOf(objs);
+							if(value!=null&&Integer.parseInt(value)>0){//æ›´æ–°æˆåŠŸ
+								updateLines++;
+							}else{//æ›´æ–°å¤±è´¥
+								tempList.addAll(list);//å¤±è´¥çš„è®°å½•åŠ å…¥tempList;
+							}
+						}
+					}catch(Exception e){
+						errors++;
+						e.printStackTrace();
+						logs.append(e.getMessage());
 					}
-		    	}
+
+				}else{//ä¸æ˜¯æ‰¹é‡æŠ¥é€
+					if(list!=null&&list.size()>0){
+						for(int i=0;i<list.size();i++){
+							Map<String,String> vmap= (Map<String,String>)list.get(i);
+							if(vmap!=null&&vmap.size()>0){
+								try{
+									Object[] args = getValueParams(wpcList,params,vmap);
+									Object objs =  call.invoke(args);
+									if(objs!=null){
+										String value = String.valueOf(objs);
+										if(value!=null&&Integer.parseInt(value)>0){//æ›´æ–°æˆåŠŸ
+											updateLines++;
+										}else{//æ›´æ–°å¤±è´¥
+											tempList.add(vmap);//å¤±è´¥çš„è®°å½•åŠ å…¥tempList;
+										}
+									}
+								}catch(Exception e){
+									errors++;
+									e.printStackTrace();
+									logs.append(e.getMessage());
+								}
+							}
+						}
+					}
+				}
 				pageNo++;
-		    }
-		   	if(tempList.size()>0){
-		   		rzb.setFailid(getFailidByList(tempList));//±£´æÊ§°ÜµÄ¼ÇÂ¼
-		   	}	
-		   	if(errors>0&&wr!=null){
-		   		rzb.setSjc(wr.getSjc());//Èç¹ûÊ§°Ü£¬Ôò»¹Ô­ÉÏÒ»´ÎÖ´ĞĞÊ±¼ä
-		   	}
-		   	rzb.setUpdateLines(updateLines);
-		   	rzb.setErrors(errors);				 		   	
+			}
+			if(tempList.size()>0){
+				rzb.setFailid(getFailidByList(tempList));//ä¿å­˜å¤±è´¥çš„è®°å½•
+			}
+			if(errors>0&&wr!=null){
+				rzb.setSjc(wr.getSjc());//å¦‚æœå¤±è´¥ï¼Œåˆ™è¿˜åŸä¸Šä¸€æ¬¡æ‰§è¡Œæ—¶é—´
+			}
+			rzb.setUpdateLines(updateLines);
+			rzb.setErrors(errors);
 		}
 		rzb.setLog(logs.toString());
 	}
 	/**
-	 * <p>ÁĞÃû¼¯ºÏ</p>
+	 * <p>åˆ—åé›†åˆ</p>
 	 * @param columnMapList
 	 * @return
 	 */
@@ -2014,11 +2014,11 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 	}
 
 	/**
-	 * <p>°ÑMAP¼¯ºÏ×ª»¯Îª×Ö·û´®</p>
+	 * <p>æŠŠMAPé›†åˆè½¬åŒ–ä¸ºå­—ç¬¦ä¸²</p>
 	 * @param mapList
 	 * @return
 	 */
-    private String getFailidByList(List<Map<String, String>> mapList) {
+	private String getFailidByList(List<Map<String, String>> mapList) {
 		StringBuffer result = new StringBuffer();
 		for(Map<String,String> map:mapList){
 			if(map!=null&&map.size()>0){
@@ -2034,19 +2034,19 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 			result.append("|");
 		}
 		result.deleteCharAt(0);
-		
+
 		return result.toString();
 	}
 
-	
+
 
 	private String getParams(List<WsjhParamsConfig> wpcList, String params) {
 		String[] param = params.split(",");
 		String[] objs = new String[param.length];
 		for(int i=0;i<param.length;i++){
-			if(!Tool.isNull(param[i])){				
-					WsjhParamsConfig wpc = getWsjhParamsConfig(wpcList,param[i]);
-					if(wpc!=null)objs[i]=wpc.getCsz()==null?null:wpc.getCsz().trim();							
+			if(!Tool.isNull(param[i])){
+				WsjhParamsConfig wpc = getWsjhParamsConfig(wpcList,param[i]);
+				if(wpc!=null)objs[i]=wpc.getCsz()==null?null:wpc.getCsz().trim();
 			}
 		}
 		return StringUtils.join(objs,",");
@@ -2057,6 +2057,6 @@ public class WsjhConfigServiceImpl implements WsjhConfigService{
 		wsjhConfigDao.deleteWsjhDsqConfigByJhmc(wdc);
 	}
 
-	
+
 
 }

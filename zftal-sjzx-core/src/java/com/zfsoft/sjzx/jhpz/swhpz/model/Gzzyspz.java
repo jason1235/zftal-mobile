@@ -3,18 +3,18 @@ package com.zfsoft.sjzx.jhpz.swhpz.model;
 import com.zfsoft.framework.page.BaseDataObject;
 
 /**
- * auto generate ¹¤×÷×éÔªËØÅäÖÃ
+ * auto generate å·¥ä½œç»„å…ƒç´ é…ç½®
  * @author Administrator
  *
  */
 public class Gzzyspz extends BaseDataObject {
 
     /**
-	 * ĞòÁĞ»¯
-	 */
-	private static final long serialVersionUID = 1L;
-	
-	private Integer gzzyspzxh;
+     * åºåˆ—åŒ–
+     */
+    private static final long serialVersionUID = 1L;
+
+    private Integer gzzyspzxh;
 
     public void setGzzyspzxh(Integer gzzyspzxh){
         this.gzzyspzxh = gzzyspzxh;

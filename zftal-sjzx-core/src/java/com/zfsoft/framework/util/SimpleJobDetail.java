@@ -16,17 +16,17 @@ import com.zfsoft.sjzx.jhpz.dsqpzb.model.Dsqpzb;
 import com.zfsoft.sjzx.jhpz.dsqpzb.service.DsqpzbService;
 
 /**
- * <p>Description:³éÏóÀàÓÃÀ´µ÷¶È×ÓÀà¼Ì³Ğ </p>
+ * <p>Description:æŠ½è±¡ç±»ç”¨æ¥è°ƒåº¦å­ç±»ç»§æ‰¿ </p>
  * <p>Copyright: Copyright (c) 2011</p>
  * <p>Company: zfsoft.com </p>
  *
- * @since 2012-12-11 ÏÂÎç4:47:13
+ * @since 2012-12-11 ä¸‹åˆ4:47:13
  * @author liuchaoyong
  * @version 1.0
  */
 public  abstract class SimpleJobDetail extends JobDetail{
 	private static final long serialVersionUID = 1L;
-	private Dsqpzb  dsqpzb=null;	
+	private Dsqpzb  dsqpzb=null;
 	public Dsqpzb getDsqpzb() {
 		return dsqpzb;
 	}
@@ -37,32 +37,32 @@ public  abstract class SimpleJobDetail extends JobDetail{
 		return SpringUtil.getBean(beanName);
 	}
 	/**
-	 * µ÷¶ÈÖ´ĞĞ·½·¨
+	 * è°ƒåº¦æ‰§è¡Œæ–¹æ³•
 	 */
 	public abstract void doaction();
 	/**
-	 * µ÷¶ÈÖ´ĞĞÈÕÖ¾¼ÇÂ¼
+	 * è°ƒåº¦æ‰§è¡Œæ—¥å¿—è®°å½•
 	 */
 	public abstract void dolog();
-	
+
 	public JobTriggerBean getTrigger(Dsqpzb dsq) {
-		JobTriggerBean jtb = new JobTriggerBean(); 
+		JobTriggerBean jtb = new JobTriggerBean();
 		Trigger trigger = null;
 		Integer  dsqxh=dsq.getDsqxh();
-		String ddsjd = dsq.getDdsjd();//¶¨µãÊ±¼äµã
-		Integer jgsj = dsq.getJgsj();//¼ä¸ôÊ±¼ä
-		String jdqssj = dsq.getJdqssj();//½×¶ÎÆğÊ¼Ê±¼ä
-		String jdjssj = dsq.getJdjssj();//½×¶Î½áÊøÊ±¼ä
-		Integer dsqlx = dsq.getDsqlx();//¶¨Ê±Æ÷ÀàĞÍ
-		String dsqzt = dsq.getDsqzt();//1,¿ªÆô0,¹Ø±Õ
-		String jdzxjh = dsq.getJdzxjh();//½×¶ÎÖ´ĞĞ¼Æ»®,1°´ÄêÑ­»·,0°´ÔÂÑ­»·
-		Integer sjdwbh = dsq.getSjdwbh();//Ê±¼äµ¥Î»±àºÅ
-		//¶¨µãÖ´ĞĞ
+		String ddsjd = dsq.getDdsjd();//å®šç‚¹æ—¶é—´ç‚¹
+		Integer jgsj = dsq.getJgsj();//é—´éš”æ—¶é—´
+		String jdqssj = dsq.getJdqssj();//é˜¶æ®µèµ·å§‹æ—¶é—´
+		String jdjssj = dsq.getJdjssj();//é˜¶æ®µç»“æŸæ—¶é—´
+		Integer dsqlx = dsq.getDsqlx();//å®šæ—¶å™¨ç±»å‹
+		String dsqzt = dsq.getDsqzt();//1,å¼€å¯0,å…³é—­
+		String jdzxjh = dsq.getJdzxjh();//é˜¶æ®µæ‰§è¡Œè®¡åˆ’,1æŒ‰å¹´å¾ªç¯,0æŒ‰æœˆå¾ªç¯
+		Integer sjdwbh = dsq.getSjdwbh();//æ—¶é—´å•ä½ç¼–å·
+		//å®šç‚¹æ‰§è¡Œ
 		if(dsqlx==1){
 			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date startDate = null;
 			Date endDate = null;
-			//ÎŞÊ±¼ä¶Î¿ØÖÆ£¬ÔòÃ¿¸ôÌìÊ±¼äµãÖ´ĞĞ
+			//æ— æ—¶é—´æ®µæ§åˆ¶ï¼Œåˆ™æ¯éš”å¤©æ—¶é—´ç‚¹æ‰§è¡Œ
 			if((jdqssj == null || jdqssj.equals("")) && ((jdjssj == null || jdjssj.equals(""))))
 			{
 				String[] time = ddsjd.split(":");
@@ -70,31 +70,31 @@ public  abstract class SimpleJobDetail extends JobDetail{
 				int minu = NumberUtils.toInt(time[1], 0);
 				trigger = TriggerUtils.makeDailyTrigger(dsqxh+"e", hour, minu);
 			}else{
-				//¿ªÊ¼Ê±¼ä
+				//å¼€å§‹æ—¶é—´
 				int firstLine = jdqssj.indexOf("-");
-				String str = jdqssj.substring(0, firstLine); 
-				//ÈÕÆÚÇø¼ä¶¨µãx
+				String str = jdqssj.substring(0, firstLine);
+				//æ—¥æœŸåŒºé—´å®šç‚¹x
 				if(!str.equals("0000")){
-					jdqssj = jdqssj + " 00:00:00";	
+					jdqssj = jdqssj + " 00:00:00";
 					try {
 						startDate = df.parse(jdqssj);
 					} catch (ParseException e) {
 						e.printStackTrace();
-					}						
+					}
 					jdjssj = jdjssj + " 23:59:59";
 					try {
 						endDate = df.parse(jdjssj);
-					} catch (ParseException e) {				
+					} catch (ParseException e) {
 						e.printStackTrace();
-					}				
-					
+					}
+
 				}
-				//Ã¿Äê¶¨µãx
+				//æ¯å¹´å®šç‚¹x
 				else {
 					Calendar cal = Calendar.getInstance();
 					cal.setTime(new Date());
-					int year = cal.get(Calendar.YEAR);						
-					jdqssj = jdqssj + " 00:00:00";	
+					int year = cal.get(Calendar.YEAR);
+					jdqssj = jdqssj + " 00:00:00";
 					try {
 						startDate = df.parse(jdqssj);
 					} catch (ParseException e) {
@@ -102,7 +102,7 @@ public  abstract class SimpleJobDetail extends JobDetail{
 					}
 					cal.setTime(startDate);
 					cal.set(Calendar.YEAR, year);
-					startDate = cal.getTime();	
+					startDate = cal.getTime();
 					jdjssj = jdjssj + " 23:59:59";
 					try {
 						endDate = df.parse(jdjssj);
@@ -111,7 +111,7 @@ public  abstract class SimpleJobDetail extends JobDetail{
 					}
 					cal.setTime(endDate);
 					cal.set(Calendar.YEAR, year);
-					endDate = cal.getTime();				
+					endDate = cal.getTime();
 				}
 				String[] time = ddsjd.split(":");
 				int hour = NumberUtils.toInt(time[0], 0);
@@ -121,80 +121,80 @@ public  abstract class SimpleJobDetail extends JobDetail{
 				jtpc.setMin(minu);
 				jtpc.setDescription(dsqxh+"e");
 				jtb.setCalendar(jtpc);
-				
+
 				if(!str.equals("0000")){
 					SimpleTrigger trig = new SimpleTrigger();
 					trig.setName(dsqxh+"e");
-			        trig.setStartTime(startDate);
-			        trig.setEndTime(endDate);
-			        trig.setRepeatCount(-1); 
-			        trig.setRepeatInterval(1000);
-			        trig.setCalendarName(dsqxh+"e");
-			        trigger = trig;
-				} else {								
+					trig.setStartTime(startDate);
+					trig.setEndTime(endDate);
+					trig.setRepeatCount(-1);
+					trig.setRepeatInterval(1000);
+					trig.setCalendarName(dsqxh+"e");
+					trigger = trig;
+				} else {
 					SimpleTrigger trig = new SimpleTrigger();
 					trig.setName(dsqxh+"e");
-			        trig.setStartTime(startDate);
-			        trig.setEndTime(endDate);
-			        trig.setRepeatCount(-1); 
-			        trig.setRepeatInterval(1000);
-			        trig.setCalendarName(dsqxh+"e");
-			        trigger = trig;
+					trig.setStartTime(startDate);
+					trig.setEndTime(endDate);
+					trig.setRepeatCount(-1);
+					trig.setRepeatInterval(1000);
+					trig.setCalendarName(dsqxh+"e");
+					trigger = trig;
 				}
-			
+
 			}
-		}else if(dsqlx==2) //¼ä¸ôÖ´ĞĞ
+		}else if(dsqlx==2) //é—´éš”æ‰§è¡Œ
 		{
 
-			//ÈÕÆÚÎª¿Õ£¬ÔòÃ»ÓĞÊ±¼ä¶Î¿ØÖÆ£¬Ã¿¸ôNÖ´ĞĞ
+			//æ—¥æœŸä¸ºç©ºï¼Œåˆ™æ²¡æœ‰æ—¶é—´æ®µæ§åˆ¶ï¼Œæ¯éš”Næ‰§è¡Œ
 			if((jdqssj == null || jdqssj.equals("")) && ((jdjssj == null || jdjssj.equals(""))))
-			{ 
+			{
 				int interval = 0;
-				//Ãë
+				//ç§’
 				if(sjdwbh==1)
 				{
-					interval = jgsj; 
+					interval = jgsj;
 					trigger = TriggerUtils.makeSecondlyTrigger(dsqxh+"e", interval, -1);
 				}
-				//·Ö
+				//åˆ†
 				else if(sjdwbh==2)
 				{
 					//1000,60000,3600000,86400000,2592000000
-					interval = jgsj; 
+					interval = jgsj;
 					trigger = TriggerUtils.makeMinutelyTrigger(dsqxh+"e", interval, -1);
 				}
-				//Ê±
+				//æ—¶
 				else if(sjdwbh==3)
 				{
-					interval = jgsj; 
+					interval = jgsj;
 					trigger = TriggerUtils.makeHourlyTrigger(dsqxh+"e", interval, -1);
 				}
-				//Ìì
+				//å¤©
 				else if(sjdwbh==4)
 				{
-					interval = 24 * jgsj; 
+					interval = 24 * jgsj;
 					trigger = TriggerUtils.makeHourlyTrigger(dsqxh+"e", interval, -1);
 				}
 			}
-			//Ê±¼äÇø¼ä¼ä¸ô
+			//æ—¶é—´åŒºé—´é—´éš”
 			else
 			{
 				DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				Date startDate = null;
 				Date endDate = null;
-				//¿ªÊ¼Ê±¼ä
+				//å¼€å§‹æ—¶é—´
 				int firstLine = jdqssj.indexOf("-");
-				String str = jdqssj.substring(0, firstLine); 
-				//¹Ì¶¨Äê·İ¼ä¸ô
+				String str = jdqssj.substring(0, firstLine);
+				//å›ºå®šå¹´ä»½é—´éš”
 				if(!str.equals("0000"))
 				{
-					jdqssj = jdqssj + ":00";									
+					jdqssj = jdqssj + ":00";
 					try {
 						startDate = df.parse(jdqssj);
 					} catch (ParseException e) {
 						e.printStackTrace();
 					}
-					
+
 					jdjssj = jdjssj + ":59";
 					try {
 						endDate = df.parse(jdjssj);
@@ -202,13 +202,13 @@ public  abstract class SimpleJobDetail extends JobDetail{
 						e.printStackTrace();
 					}
 				}
-				//Ã¿Äê¼ä¸ô
+				//æ¯å¹´é—´éš”
 				else
 				{
 					Calendar cal = Calendar.getInstance();
 					cal.setTime(new Date());
 					int year = cal.get(Calendar.YEAR);
-					jdqssj = jdqssj + " 00:00:00";	
+					jdqssj = jdqssj + " 00:00:00";
 					try {
 						startDate = df.parse(jdqssj);
 					} catch (ParseException e) {
@@ -217,8 +217,8 @@ public  abstract class SimpleJobDetail extends JobDetail{
 					cal.setTime(startDate);
 					cal.set(Calendar.YEAR, year);
 					startDate = cal.getTime();
-					System.out.println("Ã¿Äê¼ä¸ôÖ´ĞĞstartDate:"+df.format(cal.getTime()));
-					
+					System.out.println("æ¯å¹´é—´éš”æ‰§è¡ŒstartDate:"+df.format(cal.getTime()));
+
 					jdjssj = jdjssj + " 23:59:59";
 					try {
 						endDate = df.parse(jdjssj);
@@ -227,64 +227,64 @@ public  abstract class SimpleJobDetail extends JobDetail{
 					}
 					cal.setTime(endDate);
 					cal.set(Calendar.YEAR, year);
-					System.out.println("Ã¿Äê¼ä¸ôÖ´ĞĞendDate:"+df.format(cal.getTime()));
-					
+					System.out.println("æ¯å¹´é—´éš”æ‰§è¡ŒendDate:"+df.format(cal.getTime()));
+
 				}
-				 
+
 				int interval = 0;
-				//Ãë
+				//ç§’
 				if(sjdwbh==1)
 				{
-					interval = 1000 * jgsj;  
+					interval = 1000 * jgsj;
 				}
-				//·Ö
+				//åˆ†
 				else if(sjdwbh==2)
 				{
 					//1000,60000,3600000,86400000,2592000000
-					interval = 60000 * jgsj;  
+					interval = 60000 * jgsj;
 				}
-				//Ê±
+				//æ—¶
 				else if(sjdwbh==3)
 				{
-					interval = 3600000 * jgsj;  
+					interval = 3600000 * jgsj;
 				}
-				//Ìì
+				//å¤©
 				else if(sjdwbh==4)
 				{
-					interval = 86400000 * jgsj;  
-				}				 
+					interval = 86400000 * jgsj;
+				}
 				if(!str.equals("0000"))
 				{
-					//Ê±¼ä¶Î¿ÉÒÔ¿ØÖÆ
+					//æ—¶é—´æ®µå¯ä»¥æ§åˆ¶
 					//startDate = null;
 					//endDate = null;
-					
+
 					SimpleTrigger trig = new SimpleTrigger();
 					trig.setName(dsqxh+"e");
 					trig.setGroup(Constants.JOB_GROUP);
-			        trig.setStartTime(startDate);
-			        trig.setEndTime(endDate);
-			        trig.setRepeatCount(-1); 
-			        trig.setRepeatInterval(interval);
-			        trigger = trig;
+					trig.setStartTime(startDate);
+					trig.setEndTime(endDate);
+					trig.setRepeatCount(-1);
+					trig.setRepeatInterval(interval);
+					trigger = trig;
 				}
-				else 
+				else
 				{
-					//Ã¿¸ôÄê£¬ÓĞ¿ªÊ¼Ê±¼äÎŞ½áÊøÊ±¼ä
+					//æ¯éš”å¹´ï¼Œæœ‰å¼€å§‹æ—¶é—´æ— ç»“æŸæ—¶é—´
 					//startDate = null;
-					
+
 					SimpleTrigger trig = new SimpleTrigger();
 					trig.setName(dsqxh+"e");
 					trig.setGroup(Constants.JOB_GROUP);
-			        trig.setStartTime(startDate);
-			        //trig.setEndTime(endDate);
-			        trig.setRepeatCount(-1); 
-			        trig.setRepeatInterval(interval);
-			        trigger = trig;
+					trig.setStartTime(startDate);
+					//trig.setEndTime(endDate);
+					trig.setRepeatCount(-1);
+					trig.setRepeatInterval(interval);
+					trigger = trig;
 				}
 			}
-			
-			
+
+
 		}
 		jtb.setTrigger(trigger);
 		return jtb;

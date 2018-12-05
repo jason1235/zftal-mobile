@@ -8,10 +8,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>checkReaderResponse complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>checkReaderResponse complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="checkReaderResponse">
  *   &lt;complexContent>
@@ -23,12 +23,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "checkReaderResponse", propOrder = {
-    "_return"
+        "_return"
 })
 public class CheckReaderResponse {
 
@@ -36,24 +36,24 @@ public class CheckReaderResponse {
     protected CheckRedrResult _return;
 
     /**
-     * »ñÈ¡returnÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–returnå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link CheckRedrResult }
-     *     
+     *
      */
     public CheckRedrResult getReturn() {
         return _return;
     }
 
     /**
-     * ÉèÖÃreturnÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®returnå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link CheckRedrResult }
-     *     
+     *
      */
     public void setReturn(CheckRedrResult value) {
         this._return = value;

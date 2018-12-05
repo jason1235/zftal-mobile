@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>simpleBean complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>simpleBean complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="simpleBean">
  *   &lt;complexContent>
@@ -23,13 +23,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "simpleBean", propOrder = {
-    "code",
-    "name"
+        "code",
+        "name"
 })
 public class SimpleBean {
 
@@ -37,48 +37,48 @@ public class SimpleBean {
     protected String name;
 
     /**
-     * »ñÈ¡codeÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–codeå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCode() {
         return code;
     }
 
     /**
-     * ÉèÖÃcodeÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®codeå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCode(String value) {
         this.code = value;
     }
 
     /**
-     * »ñÈ¡nameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–nameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getName() {
         return name;
     }
 
     /**
-     * ÉèÖÃnameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®nameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setName(String value) {
         this.name = value;

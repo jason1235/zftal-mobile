@@ -8,10 +8,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>getReaderResponse complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>getReaderResponse complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="getReaderResponse">
  *   &lt;complexContent>
@@ -23,12 +23,12 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getReaderResponse", propOrder = {
-    "_return"
+        "_return"
 })
 public class GetReaderResponse {
 
@@ -36,24 +36,24 @@ public class GetReaderResponse {
     protected Reader _return;
 
     /**
-     * »ñÈ¡returnÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–returnå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link Reader }
-     *     
+     *
      */
     public Reader getReturn() {
         return _return;
     }
 
     /**
-     * ÉèÖÃreturnÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®returnå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link Reader }
-     *     
+     *
      */
     public void setReturn(Reader value) {
         this._return = value;

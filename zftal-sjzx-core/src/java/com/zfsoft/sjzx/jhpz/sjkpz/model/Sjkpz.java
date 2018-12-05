@@ -5,23 +5,23 @@ import com.zfsoft.framework.page.BaseDataObject;
 public class Sjkpz extends BaseDataObject {
 
 	/**
-	 * ĞòÁĞ»¯ÅäÖÃ
+	 * åºåˆ—åŒ–é…ç½®
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private String pzxh; // ÅäÖÃĞòºÅ
-	private String pzljmc; // ÅäÖÃÁ¬½ÓÃû³Æ
-	private String ipdz;// IPµØÖ·
-	private String dkh;// ¶Ë¿ÚºÅ
-	private String sjkmc;// Êı¾İ¿âÃû³Æ
-	private String yhm;// ÓÃ»§Ãû
-	private String mm;// ÃÜÂë
+	private String pzxh; // é…ç½®åºå·
+	private String pzljmc; // é…ç½®è¿æ¥åç§°
+	private String ipdz;// IPåœ°å€
+	private String dkh;// ç«¯å£å·
+	private String sjkmc;// æ•°æ®åº“åç§°
+	private String yhm;// ç”¨æˆ·å
+	private String mm;// å¯†ç 
 	private String yyzt;
-	private int ljlx; // Êı¾İÁ¬½ÓÀàĞÍ
-	private int sjklx;// Êı¾İ¿âÀàĞÍ
-	private String racx; // RACÅäÖÃ
-	private String racdz; // RACµØÖ·
-	private String isjk; // ÊÇ·ñ¼à¿Ø
+	private int ljlx; // æ•°æ®è¿æ¥ç±»å‹
+	private int sjklx;// æ•°æ®åº“ç±»å‹
+	private String racx; // RACé…ç½®
+	private String racdz; // RACåœ°å€
+	private String isjk; // æ˜¯å¦ç›‘æ§
 
 	private String zt;
 	private String zydz;

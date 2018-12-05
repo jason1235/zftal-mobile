@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>book complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>book complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="book">
  *   &lt;complexContent>
@@ -31,21 +31,21 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "book", propOrder = {
-    "author",
-    "barcode",
-    "callNo",
-    "locationName",
-    "price",
-    "propNo",
-    "publisher",
-    "state",
-    "stateName",
-    "title"
+        "author",
+        "barcode",
+        "callNo",
+        "locationName",
+        "price",
+        "propNo",
+        "publisher",
+        "state",
+        "stateName",
+        "title"
 })
 public class Book {
 
@@ -61,232 +61,232 @@ public class Book {
     protected String title;
 
     /**
-     * »ñÈ¡authorÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–authorå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getAuthor() {
         return author;
     }
 
     /**
-     * ÉèÖÃauthorÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®authorå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setAuthor(String value) {
         this.author = value;
     }
 
     /**
-     * »ñÈ¡barcodeÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–barcodeå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getBarcode() {
         return barcode;
     }
 
     /**
-     * ÉèÖÃbarcodeÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®barcodeå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setBarcode(String value) {
         this.barcode = value;
     }
 
     /**
-     * »ñÈ¡callNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–callNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCallNo() {
         return callNo;
     }
 
     /**
-     * ÉèÖÃcallNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®callNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCallNo(String value) {
         this.callNo = value;
     }
 
     /**
-     * »ñÈ¡locationNameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–locationNameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getLocationName() {
         return locationName;
     }
 
     /**
-     * ÉèÖÃlocationNameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®locationNameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setLocationName(String value) {
         this.locationName = value;
     }
 
     /**
-     * »ñÈ¡priceÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–priceå±æ€§çš„å€¼ã€‚
+     *
      */
     public float getPrice() {
         return price;
     }
 
     /**
-     * ÉèÖÃpriceÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®priceå±æ€§çš„å€¼ã€‚
+     *
      */
     public void setPrice(float value) {
         this.price = value;
     }
 
     /**
-     * »ñÈ¡propNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–propNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPropNo() {
         return propNo;
     }
 
     /**
-     * ÉèÖÃpropNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®propNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPropNo(String value) {
         this.propNo = value;
     }
 
     /**
-     * »ñÈ¡publisherÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–publisherå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPublisher() {
         return publisher;
     }
 
     /**
-     * ÉèÖÃpublisherÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®publisherå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPublisher(String value) {
         this.publisher = value;
     }
 
     /**
-     * »ñÈ¡stateÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–stateå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getState() {
         return state;
     }
 
     /**
-     * ÉèÖÃstateÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®stateå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setState(String value) {
         this.state = value;
     }
 
     /**
-     * »ñÈ¡stateNameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–stateNameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getStateName() {
         return stateName;
     }
 
     /**
-     * ÉèÖÃstateNameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®stateNameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setStateName(String value) {
         this.stateName = value;
     }
 
     /**
-     * »ñÈ¡titleÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–titleå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * ÉèÖÃtitleÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®titleå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setTitle(String value) {
         this.title = value;

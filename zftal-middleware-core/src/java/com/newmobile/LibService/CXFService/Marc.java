@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>marc complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>marc complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="marc">
  *   &lt;complexContent>
@@ -28,18 +28,18 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "marc", propOrder = {
-    "author",
-    "callNo",
-    "isbn",
-    "marcRecNo",
-    "pubYear",
-    "publisher",
-    "title"
+        "author",
+        "callNo",
+        "isbn",
+        "marcRecNo",
+        "pubYear",
+        "publisher",
+        "title"
 })
 public class Marc {
 
@@ -52,168 +52,168 @@ public class Marc {
     protected String title;
 
     /**
-     * »ñÈ¡authorÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–authorå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getAuthor() {
         return author;
     }
 
     /**
-     * ÉèÖÃauthorÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®authorå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setAuthor(String value) {
         this.author = value;
     }
 
     /**
-     * »ñÈ¡callNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–callNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCallNo() {
         return callNo;
     }
 
     /**
-     * ÉèÖÃcallNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®callNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCallNo(String value) {
         this.callNo = value;
     }
 
     /**
-     * »ñÈ¡isbnÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–isbnå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getIsbn() {
         return isbn;
     }
 
     /**
-     * ÉèÖÃisbnÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®isbnå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setIsbn(String value) {
         this.isbn = value;
     }
 
     /**
-     * »ñÈ¡marcRecNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–marcRecNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getMarcRecNo() {
         return marcRecNo;
     }
 
     /**
-     * ÉèÖÃmarcRecNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®marcRecNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setMarcRecNo(String value) {
         this.marcRecNo = value;
     }
 
     /**
-     * »ñÈ¡pubYearÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–pubYearå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPubYear() {
         return pubYear;
     }
 
     /**
-     * ÉèÖÃpubYearÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®pubYearå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPubYear(String value) {
         this.pubYear = value;
     }
 
     /**
-     * »ñÈ¡publisherÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–publisherå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPublisher() {
         return publisher;
     }
 
     /**
-     * ÉèÖÃpublisherÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®publisherå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPublisher(String value) {
         this.publisher = value;
     }
 
     /**
-     * »ñÈ¡titleÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–titleå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getTitle() {
         return title;
     }
 
     /**
-     * ÉèÖÃtitleÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®titleå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setTitle(String value) {
         this.title = value;

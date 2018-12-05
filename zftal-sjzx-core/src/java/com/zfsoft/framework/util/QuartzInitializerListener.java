@@ -21,8 +21,8 @@ import com.zfsoft.hrm.schedule.ScheduleControlService;
  * <p>
  * Company: zfsoft.com
  * </p>
- * 
- * @since 2012-12-11 œ¬ŒÁ3:15:23
+ *
+ * @since 2012-12-11 ‰∏ãÂçà3:15:23
  * @author liuchaoyong
  * @version 1.0
  */
@@ -36,7 +36,7 @@ public class QuartzInitializerListener implements ServletContextListener {
 
 	public void contextInitialized(ServletContextEvent sce) {
 		ServletContext servletContext = sce.getServletContext();
-		
+
 		StdSchedulerFactory factory;
 		try {
 
@@ -60,7 +60,7 @@ public class QuartzInitializerListener implements ServletContextListener {
 					startDelay = Integer.parseInt(startDelayS);
 			} catch (Exception e) {
 				System.out.println("Cannot parse value of 'start-delay-seconds' to an integer: "
-								+ startDelayS + ", defaulting to 5 seconds.");
+						+ startDelayS + ", defaulting to 5 seconds.");
 				startDelay = 5;
 			}
 
@@ -88,16 +88,16 @@ public class QuartzInitializerListener implements ServletContextListener {
 			System.out
 					.println("Storing the Quartz Scheduler Factory in the servlet context at key: "
 							+ factoryKey);
-			//servletContext.setAttribute(factoryKey, factory);	
-			servletContext.setAttribute(factoryKey, null);	
+			//servletContext.setAttribute(factoryKey, factory);
+			servletContext.setAttribute(factoryKey, null);
 		} catch (Exception e) {
 			System.out.println("Quartz Scheduler failed to initialize: "
 					+ e.toString());
 			e.printStackTrace();
 		}
-		init();//≥ı ºªØ
-		
-		
+		init();//ÂàùÂßãÂåñ
+
+
 	}
 
 	public void contextDestroyed(ServletContextEvent sce) {
@@ -120,15 +120,15 @@ public class QuartzInitializerListener implements ServletContextListener {
 
 	}
 	private void init() {
-	
+
 		JobStart js = new JobStart();
 		js.setScheduler(scheduler);
 		(new Thread(js)).start();
-		
+
 		WebServiceJobStart wjs = new WebServiceJobStart();
 		wjs.setScheduler(scheduler);
 		(new Thread(wjs)).start();
-		
-	 System.out.println("init()==================================start");	
+
+		System.out.println("init()==================================start");
 	}
 }

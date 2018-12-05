@@ -13,55 +13,55 @@ import com.zfsoft.sjzx.jhpz.wspz.model.WsjhdzConfig;
 
 public class WsjhConfigTask extends WebServiceJobDetail{
 	/**
-	 *  ÈÕÖ¾´¦Àí
+	 *  æ—¥å¿—å¤„ç†
 	 */
 	private static final long serialVersionUID = 1L;
 	private Logger log = LoggerFactory.getLogger(WsjhConfigTask.class);
- 	
-    public void task() {
-       log.info("WebService ½»»»¶¨Ê±Æ÷ÈÎÎñµ÷¶È¿ªÊ¼!");
-       WsjhConfigService 	wsjhConfigService =(WsjhConfigService)getBean("wsjhConfigService");
-       WsjhDsqConfig wdc =  this.getWdc();
-       if(wdc!=null){
-	       WsjhConfig wsjhConfig = new WsjhConfig();
-	       long time = System.currentTimeMillis();
-	       log.info(wdc.getJhpzmc()+" Ö´ĞĞÈÎÎñµ÷¶È¿ªÊ¼ ");
-	       wsjhConfig.setWsjhmc(wdc.getJhpzmc());       
-	       wsjhConfig.setType(wdc.getJhlx());
-	       WsjhConfig wc = wsjhConfigService.getWsjhConfig(wsjhConfig);
-	       WsjhParamsConfig wpcp = new WsjhParamsConfig();
-	       wpcp.setJhmc(wdc.getJhpzmc());
-	       wpcp.setJhlx(wdc.getJhlx());
-	       List<WsjhParamsConfig> wpcList = wsjhConfigService.getWsjhParamsConfigList(wpcp);
-	       WsjhdzConfig wdcp = new WsjhdzConfig();
-	       wdcp.setJhmc(wdc.getJhpzmc());
-	       wdcp.setJhlx(wdc.getJhlx());
-	       List<WsjhdzConfig> wcList = wsjhConfigService.getWsjhdzConfigList(wdcp);
-	       try{
-	    	  String result = "";
-	    	  if(wdc.getJhlx()!=null&&2==wdc.getJhlx().intValue()){//ÃàÑô±¨ËÍÅäÖÃ¶¨Ê±ÅÜ
-	    		 result = wsjhConfigService.getMessageByWsbs(wc, wpcList);
-	    	  }else{//½»»»ÅäÖÃ¶¨Ê±ÅÜ
-	    		 result= wsjhConfigService.getMessage(wpcList, wcList, wc);
-	    	  }	
-	    	  long endtime = System.currentTimeMillis();
-	    	  log.info(wdc.getJhpzmc()+" Ö´ĞĞÈÎÎñµ÷¶È½áÊø!"+(endtime-time)/1000+" Ãë!");
-		      log.info("WebService ½»»»¶¨Ê±Æ÷ÈÎÎñµ÷¶ÈÖ´ĞĞÍê±Ï!"+result);
-	       }catch(Exception e){
-	    	   e.printStackTrace();
-	    	  log.info("WebService ½»»»¶¨Ê±Æ÷ÈÎÎñ±¨´í£º"+e.getMessage());
-	       }
-       }
-       log.info("WebService ½»»»¶¨Ê±Æ÷ÈÎÎñµ÷¶È½áÊø!");
-    }
+
+	public void task() {
+		log.info("WebService äº¤æ¢å®šæ—¶å™¨ä»»åŠ¡è°ƒåº¦å¼€å§‹!");
+		WsjhConfigService 	wsjhConfigService =(WsjhConfigService)getBean("wsjhConfigService");
+		WsjhDsqConfig wdc =  this.getWdc();
+		if(wdc!=null){
+			WsjhConfig wsjhConfig = new WsjhConfig();
+			long time = System.currentTimeMillis();
+			log.info(wdc.getJhpzmc()+" æ‰§è¡Œä»»åŠ¡è°ƒåº¦å¼€å§‹ ");
+			wsjhConfig.setWsjhmc(wdc.getJhpzmc());
+			wsjhConfig.setType(wdc.getJhlx());
+			WsjhConfig wc = wsjhConfigService.getWsjhConfig(wsjhConfig);
+			WsjhParamsConfig wpcp = new WsjhParamsConfig();
+			wpcp.setJhmc(wdc.getJhpzmc());
+			wpcp.setJhlx(wdc.getJhlx());
+			List<WsjhParamsConfig> wpcList = wsjhConfigService.getWsjhParamsConfigList(wpcp);
+			WsjhdzConfig wdcp = new WsjhdzConfig();
+			wdcp.setJhmc(wdc.getJhpzmc());
+			wdcp.setJhlx(wdc.getJhlx());
+			List<WsjhdzConfig> wcList = wsjhConfigService.getWsjhdzConfigList(wdcp);
+			try{
+				String result = "";
+				if(wdc.getJhlx()!=null&&2==wdc.getJhlx().intValue()){//ç»µé˜³æŠ¥é€é…ç½®å®šæ—¶è·‘
+					result = wsjhConfigService.getMessageByWsbs(wc, wpcList);
+				}else{//äº¤æ¢é…ç½®å®šæ—¶è·‘
+					result= wsjhConfigService.getMessage(wpcList, wcList, wc);
+				}
+				long endtime = System.currentTimeMillis();
+				log.info(wdc.getJhpzmc()+" æ‰§è¡Œä»»åŠ¡è°ƒåº¦ç»“æŸ!"+(endtime-time)/1000+" ç§’!");
+				log.info("WebService äº¤æ¢å®šæ—¶å™¨ä»»åŠ¡è°ƒåº¦æ‰§è¡Œå®Œæ¯•!"+result);
+			}catch(Exception e){
+				e.printStackTrace();
+				log.info("WebService äº¤æ¢å®šæ—¶å™¨ä»»åŠ¡æŠ¥é”™ï¼š"+e.getMessage());
+			}
+		}
+		log.info("WebService äº¤æ¢å®šæ—¶å™¨ä»»åŠ¡è°ƒåº¦ç»“æŸ!");
+	}
 
 	@Override
 	public void doaction() {
-		task();	
+		task();
 		System.gc();
 	}
 	@Override
 	public void dolog() {
-		
+
 	};
 }

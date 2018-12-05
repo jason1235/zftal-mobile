@@ -3,25 +3,32 @@ package com.zfsoft.common.query;
 import java.util.List;
 
 public class QueryModel {
-	private int showCount = 20; //每页显示记录�?
-	private int totalPage;		//总页�?
-	private int totalResult;	//总记录数
-	private int currentPage;	//当前�?
-	private int currentResult;	//当前记录起始索引
-	private boolean entityOrField;	//true:�?��分页的地方，传入的参数就是Page实体；false:�?��分页的地方，传入的参数所代表的实体拥有Page属�?
-	//private String pageStr;		//�?��页面显示的底部翻页导航，详细见：getPageStr();
+	//每页显示记录
+	private int showCount = 20;
+	//总页
+	private int totalPage;
+	//总页数
+	private int totalResult;
+	//当前页数
+	private int currentPage;
+	//当前记录起始索引
+	private int currentResult;
+	//true:分页的地方，传入的参数就是Page实体；false:分页的地方，传入的参数所代表的实体拥有Page属性
+	private boolean entityOrField;
+	//页面显示的底部翻页导航，详细见：getPageStr()
+	//private String pageStr;		//�?��页面显示的底部翻页导航，详细见：getPageStr();
 	private String sortName;
 	private String sortOrder;
-	
+
 	private List items;
-	
+
 	public List getItems() {
 		return items;
 	}
 	public void setItems(List items) {
 		this.items = items;
 	}
-	
+
 	public int getCurrentPage() {
 		if(currentPage<=0)
 			currentPage = 1;
@@ -32,13 +39,15 @@ public class QueryModel {
 	public void setCurrentPage(int currentPage) {
 		this.currentPage = currentPage;
 	}
-	
-	
+
+
 	public int getTotalPage() {
-		if(totalResult%showCount==0)
-			totalPage = totalResult/showCount;
-		else
-			totalPage = totalResult/showCount+1;
+		if(totalResult%showCount==0) {
+			totalPage = totalResult / showCount;
+		}
+		else {
+			totalPage = totalResult / showCount + 1;
+		}
 		return totalPage;
 	}
 	public void setTotalPage(int totalPage) {
@@ -83,5 +92,5 @@ public class QueryModel {
 	public void setSortOrder(String sortOrder) {
 		this.sortOrder = sortOrder;
 	}
-	
+
 }

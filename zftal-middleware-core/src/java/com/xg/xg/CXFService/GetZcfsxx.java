@@ -8,10 +8,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>getZcfsxx complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>getZcfsxx complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="getZcfsxx">
  *   &lt;complexContent>
@@ -26,15 +26,15 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getZcfsxx", propOrder = {
-    "yhm",
-    "num",
-    "page",
-    "sign"
+        "yhm",
+        "num",
+        "page",
+        "sign"
 })
 public class GetZcfsxx {
 
@@ -45,96 +45,96 @@ public class GetZcfsxx {
     protected String sign;
 
     /**
-     * »ñÈ¡yhmÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–yhmå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getYhm() {
         return yhm;
     }
 
     /**
-     * ÉèÖÃyhmÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®yhmå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setYhm(String value) {
         this.yhm = value;
     }
 
     /**
-     * »ñÈ¡numÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–numå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link Integer }
-     *     
+     *
      */
     public Integer getNum() {
         return num;
     }
 
     /**
-     * ÉèÖÃnumÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®numå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link Integer }
-     *     
+     *
      */
     public void setNum(Integer value) {
         this.num = value;
     }
 
     /**
-     * »ñÈ¡pageÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–pageå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPAGE() {
         return page;
     }
 
     /**
-     * ÉèÖÃpageÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®pageå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPAGE(String value) {
         this.page = value;
     }
 
     /**
-     * »ñÈ¡signÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–signå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getSign() {
         return sign;
     }
 
     /**
-     * ÉèÖÃsignÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®signå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setSign(String value) {
         this.sign = value;

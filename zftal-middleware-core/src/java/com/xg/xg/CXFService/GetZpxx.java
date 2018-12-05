@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>getZpxx complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>getZpxx complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="getZpxx">
  *   &lt;complexContent>
@@ -23,13 +23,13 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getZpxx", propOrder = {
-    "yhm",
-    "sign"
+        "yhm",
+        "sign"
 })
 public class GetZpxx {
 
@@ -37,48 +37,48 @@ public class GetZpxx {
     protected String sign;
 
     /**
-     * »ñÈ¡yhmÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–yhmå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getYhm() {
         return yhm;
     }
 
     /**
-     * ÉèÖÃyhmÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®yhmå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setYhm(String value) {
         this.yhm = value;
     }
 
     /**
-     * »ñÈ¡signÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–signå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getSign() {
         return sign;
     }
 
     /**
-     * ÉèÖÃsignÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®signå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setSign(String value) {
         this.sign = value;

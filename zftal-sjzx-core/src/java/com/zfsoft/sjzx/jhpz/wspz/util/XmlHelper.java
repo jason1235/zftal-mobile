@@ -26,19 +26,19 @@ import com.zfsoft.zfca.tp.cas.util.Tool;
 
 /**
  * <p>
- * xml°ïÖúÀà
+ * xmlå¸®åŠ©ç±»
  * </p>
- * 
+ *
  * @author wangjian
- * 
+ *
  */
 public class XmlHelper {
 
 	/**
 	 * <p>
-	 * ¸ù¾İLIST½á¹û¼¯»ñÈ¡¶ÔÓ¦µÄXMLÄÚÈİ
+	 * æ ¹æ®LISTç»“æœé›†è·å–å¯¹åº”çš„XMLå†…å®¹
 	 * </p>
-	 * 
+	 *
 	 * @param list
 	 * @param root
 	 * @param info
@@ -54,8 +54,8 @@ public class XmlHelper {
 				Element infoElement = rootElement.addElement(info);
 				if (map != null && map.size() > 0) {
 					for (@SuppressWarnings("unchecked")
-					Iterator<Entry<String, String>> it = map.entrySet()
-							.iterator(); it.hasNext();) {
+						 Iterator<Entry<String, String>> it = map.entrySet()
+								 .iterator(); it.hasNext();) {
 						Entry<String, String> entry = it.next();
 						String key = entry.getKey();
 						String value = String.valueOf(entry.getValue());
@@ -74,9 +74,9 @@ public class XmlHelper {
 
 	/**
 	 * <p>
-	 * ¸ù¾İMap½á¹û¼¯»ñÈ¡¶ÔÓ¦µÄXMLÄÚÈİ
+	 * æ ¹æ®Mapç»“æœé›†è·å–å¯¹åº”çš„XMLå†…å®¹
 	 * </p>
-	 * 
+	 *
 	 * @param map
 	 * @return
 	 */
@@ -84,25 +84,25 @@ public class XmlHelper {
 		Document document = DocumentHelper.createDocument();
 		Element rootElement = document.addElement("errors");
 		if (map != null && map.size() > 0) {
-					for (Iterator<Entry<String, String>> it = map.entrySet()
-							.iterator(); it.hasNext();) {
-						Entry<String, String> entry = it.next();
-						String key = entry.getKey();
-						String value = entry.getValue();
-						if (!Tool.isNull(key) && !Tool.isNull(value)) {
-							Element keyElement = rootElement.addElement(key);
-							keyElement.setText(value);
-						}
-					}
+			for (Iterator<Entry<String, String>> it = map.entrySet()
+					.iterator(); it.hasNext();) {
+				Entry<String, String> entry = it.next();
+				String key = entry.getKey();
+				String value = entry.getValue();
+				if (!Tool.isNull(key) && !Tool.isNull(value)) {
+					Element keyElement = rootElement.addElement(key);
+					keyElement.setText(value);
+				}
+			}
 		}
-			
+
 		return rootElement.asXML();
 	}
 
-	
-	
+
+
 	/**
-	 * <p>¸ù¾İÎÄ¼şÂ·¾¶»ñÈ¡¶ÔÓ¦µÄXML Document</p>
+	 * <p>æ ¹æ®æ–‡ä»¶è·¯å¾„è·å–å¯¹åº”çš„XML Document</p>
 	 * @param file
 	 * @return
 	 * @throws Exception
@@ -114,39 +114,39 @@ public class XmlHelper {
 	}
 
 	/**
-	 * <p>É¾³ı¶ÔÓ¦µÄ·şÎñÃû</p>
+	 * <p>åˆ é™¤å¯¹åº”çš„æœåŠ¡å</p>
 	 * @param doc
 	 * @param serviceName
 	 * @return
 	 */
 	private static Document deleteElement(Document doc,String serviceName){
 		Element rootElement = doc.getRootElement();
-		Iterator it = rootElement.elementIterator("service");//»ñÈ¡×Ó½ÚµãÔªËØ ebank
+		Iterator it = rootElement.elementIterator("service");//è·å–å­èŠ‚ç‚¹å…ƒç´  ebank
 		while(it.hasNext()){
-			 Element element = (Element)it.next();
-			 if(element!=null){
+			Element element = (Element)it.next();
+			if(element!=null){
 				String name = element.attributeValue("name");
 				if(!Tool.isNull(name)&&name.equals(serviceName)){
-					 rootElement.remove(element);
-				}				
-			 }
+					rootElement.remove(element);
+				}
+			}
 		}
 		return doc;
 	}
-	
-	
+
+
 	/**
 	 * <p>
-	 * Ìí¼Ó·şÎñÃû³ÆÔªËØ
+	 * æ·»åŠ æœåŠ¡åç§°å…ƒç´ 
 	 * </p>
-	 * 
+	 *
 	 * @param doc
 	 * @param serviceName
 	 * @param serviceClassName
 	 * @return
 	 */
 	private  static Document addElement(Document doc, String serviceName,
-			String serviceClassName) {
+										String serviceClassName) {
 		Element rootElement = doc.getRootElement();
 		Element serviceElement = rootElement.addElement("service");
 		serviceElement.addAttribute("name", serviceName);
@@ -169,9 +169,9 @@ public class XmlHelper {
 
 	/**
 	 * <p>
-	 * °ÑXMLÄÚÈİÖØĞÂĞ´Èë
+	 * æŠŠXMLå†…å®¹é‡æ–°å†™å…¥
 	 * </p>
-	 * 
+	 *
 	 * @param file
 	 * @param doc
 	 * @throws
@@ -185,7 +185,7 @@ public class XmlHelper {
 		writer.close();
 	}
 	/**
-	 * <p>·¢²¼Éú³ÉXML</p>
+	 * <p>å‘å¸ƒç”ŸæˆXML</p>
 	 * @param file
 	 * @param serviceName
 	 * @param className
@@ -193,15 +193,15 @@ public class XmlHelper {
 	 */
 	public static final void generatorXmlByDeploy(String file,String serviceName,String className) throws Exception{
 		Document doc = getDocument(file);
-		deleteElement(doc,serviceName);		
+		deleteElement(doc,serviceName);
 		writeXml(file,doc);
-		
+
 		Document doc2 = getDocument(file);
 		addElement(doc2,serviceName,className);
 		writeXml(file,doc2);
 	}
 	/**
-	 * <p>É¾³ı²¢Éú³ÉXML</p>
+	 * <p>åˆ é™¤å¹¶ç”ŸæˆXML</p>
 	 * @param file
 	 * @param serviceName
 	 * @throws Exception
@@ -218,126 +218,126 @@ public class XmlHelper {
 		System.out.println(getXml(map));
 	}
 
-    /**
-     * <p>»ñÈ¡µÚÒ»Ìõ·µ»ØÊı¾İÄÚÈİ</p>
-     * @param objs
-     * @param index
-     * @return
-     * @throws DocumentException
-     */
+	/**
+	 * <p>è·å–ç¬¬ä¸€æ¡è¿”å›æ•°æ®å†…å®¹</p>
+	 * @param objs
+	 * @param index
+	 * @return
+	 * @throws DocumentException
+	 */
 	public static List<String> getList(String objs,String type, int index) throws DocumentException {
 		objs=replaceFf(objs);
 		Document doc = DocumentHelper.parseText(objs);
-			Element rootElement = doc.getRootElement();
-			List<String> list = new ArrayList<String>();
-			Iterator tableElement = rootElement.elementIterator(type);	
-			 int i= 0;
-			while(tableElement.hasNext()){
-				 Element tElement = (Element)tableElement.next();				
-				 if(tElement!=null&&i==index){
-					 Iterator it= tElement.elementIterator();
-					 while(it.hasNext()){
-						 Element tsElement = (Element)it.next();
-						 list.add(tsElement.getName());
-					 }
-				 }
-				 i++;
+		Element rootElement = doc.getRootElement();
+		List<String> list = new ArrayList<String>();
+		Iterator tableElement = rootElement.elementIterator(type);
+		int i= 0;
+		while(tableElement.hasNext()){
+			Element tElement = (Element)tableElement.next();
+			if(tElement!=null&&i==index){
+				Iterator it= tElement.elementIterator();
+				while(it.hasNext()){
+					Element tsElement = (Element)it.next();
+					list.add(tsElement.getName());
+				}
 			}
-		
+			i++;
+		}
+
 		return list;
 	}
 	/**
-     * <p>·µ»ØWebService½»»»½á¹û¼¯</p>
-     * @param objs
-     * @param index
-     * @return
-     * @throws DocumentException
-     */
-	public static List<List<WsjhResult>> getList(String objs,String type,List<WsjhdzConfig> wcList,Map<String,String> paramsMap,List<WsjhParamsConfig> wpcList) throws DocumentException {		
+	 * <p>è¿”å›WebServiceäº¤æ¢ç»“æœé›†</p>
+	 * @param objs
+	 * @param index
+	 * @return
+	 * @throws DocumentException
+	 */
+	public static List<List<WsjhResult>> getList(String objs,String type,List<WsjhdzConfig> wcList,Map<String,String> paramsMap,List<WsjhParamsConfig> wpcList) throws DocumentException {
 		objs=replaceFf(objs);
 		Document doc = DocumentHelper.parseText(objs);
-			Element rootElement = doc.getRootElement();
-			List<List<WsjhResult>> wrsList = new ArrayList<List<WsjhResult>>();
-			Iterator tableElement = rootElement.elementIterator(type);				
-			while(tableElement.hasNext()){
-				 Element tElement = (Element)tableElement.next();	
-				 List<WsjhResult> wrList = new ArrayList<WsjhResult>();
-				 if(tElement!=null){
-					 Iterator it= tElement.elementIterator();
-					 while(it.hasNext()){
-						 Element tsElement = (Element)it.next();
-						 if(tsElement!=null&&wcList!=null&&wcList.size()>0){
-							 WsjhdzConfig wc = getWsjhdzConfig(wcList,tsElement.getName());
-							 if(wc!=null){
-								 WsjhResult wr  = new WsjhResult();
-								 wr.setMbzd(wc.getMbzd());
-								 wr.setMbzdsjlx(wc.getMbzdsjlx());
-								 wr.setSfzj(Integer.parseInt(wc.getSfzj()==null?"0":wc.getSfzj()));
-								 wr.setValue(tsElement.getText());
-								 wrList.add(wr);
-							 }
-						 }
-					 }
-				 }
-				 wrsList.add(wrList);
+		Element rootElement = doc.getRootElement();
+		List<List<WsjhResult>> wrsList = new ArrayList<List<WsjhResult>>();
+		Iterator tableElement = rootElement.elementIterator(type);
+		while(tableElement.hasNext()){
+			Element tElement = (Element)tableElement.next();
+			List<WsjhResult> wrList = new ArrayList<WsjhResult>();
+			if(tElement!=null){
+				Iterator it= tElement.elementIterator();
+				while(it.hasNext()){
+					Element tsElement = (Element)it.next();
+					if(tsElement!=null&&wcList!=null&&wcList.size()>0){
+						WsjhdzConfig wc = getWsjhdzConfig(wcList,tsElement.getName());
+						if(wc!=null){
+							WsjhResult wr  = new WsjhResult();
+							wr.setMbzd(wc.getMbzd());
+							wr.setMbzdsjlx(wc.getMbzdsjlx());
+							wr.setSfzj(Integer.parseInt(wc.getSfzj()==null?"0":wc.getSfzj()));
+							wr.setValue(tsElement.getText());
+							wrList.add(wr);
+						}
+					}
+				}
 			}
-		 if(wrsList!=null&&wrsList.size()>0&&paramsMap!=null&&paramsMap.size()>0){
-			 List<WsjhResult> wrList = wrsList.get(0);//È¡³öÄ¬ÈÏµÚÒ»ÌõÊı¾İ
-			 if(wrList!=null&&wrList.size()>0&&wrList.size()==wcList.size()){
-				 return wrsList;
-			 }else{//·µ»Ø½á¹ûÊı¾İÓë¶ÔÕÕÊı¾İ²»ÏàµÈ¡£Ôò½øĞĞÔÚ´Î¸³Öµ
-				 wrsList = getList(wrsList,paramsMap,wcList,wpcList);//´Ó·½·¨²ÎÊıÖĞ»ñÈ¡			 
-			 }
-		 }
-		
+			wrsList.add(wrList);
+		}
+		if(wrsList!=null&&wrsList.size()>0&&paramsMap!=null&&paramsMap.size()>0){
+			List<WsjhResult> wrList = wrsList.get(0);//å–å‡ºé»˜è®¤ç¬¬ä¸€æ¡æ•°æ®
+			if(wrList!=null&&wrList.size()>0&&wrList.size()==wcList.size()){
+				return wrsList;
+			}else{//è¿”å›ç»“æœæ•°æ®ä¸å¯¹ç…§æ•°æ®ä¸ç›¸ç­‰ã€‚åˆ™è¿›è¡Œåœ¨æ¬¡èµ‹å€¼
+				wrsList = getList(wrsList,paramsMap,wcList,wpcList);//ä»æ–¹æ³•å‚æ•°ä¸­è·å–
+			}
+		}
+
 		return wrsList;
 	}
 
-    private static List<List<WsjhResult>> getList(List<List<WsjhResult>> wrsList, Map<String, String> paramsMap,
-			List<WsjhdzConfig> wcList,List<WsjhParamsConfig> wpcList) {
-    	List<WsjhResult> wrList = wrsList.get(0);//Ä¬ÈÏÈ¡³öµÚÒ»ÌõÊı¾İ
-    	List<WsjhdzConfig> wcsList = getNotContainsWsjhResultList(wrList,wcList,paramsMap);
-    	List<WsjhResult> notContainsWrList = getNotContainsWsjhResultList(paramsMap, wcsList,wpcList);
-    	for(List<WsjhResult> wrs:wrsList){
-    		if(wrs!=null)wrs.addAll(notContainsWrList);
-    	}    	
+	private static List<List<WsjhResult>> getList(List<List<WsjhResult>> wrsList, Map<String, String> paramsMap,
+												  List<WsjhdzConfig> wcList,List<WsjhParamsConfig> wpcList) {
+		List<WsjhResult> wrList = wrsList.get(0);//é»˜è®¤å–å‡ºç¬¬ä¸€æ¡æ•°æ®
+		List<WsjhdzConfig> wcsList = getNotContainsWsjhResultList(wrList,wcList,paramsMap);
+		List<WsjhResult> notContainsWrList = getNotContainsWsjhResultList(paramsMap, wcsList,wpcList);
+		for(List<WsjhResult> wrs:wrsList){
+			if(wrs!=null)wrs.addAll(notContainsWrList);
+		}
 		return wrsList;
 	}
 
 
 	private static List<WsjhResult> getNotContainsWsjhResultList(Map<String, String> paramsMap, List<WsjhdzConfig> wcsList,List<WsjhParamsConfig> wpcList) {
 		List<WsjhResult> wrList = new ArrayList<WsjhResult>();
-		for(WsjhdzConfig wc:wcsList){    		 
-    		 if(wc!=null){
-    			 WsjhResult wr  = new WsjhResult();
-    			 wr.setMbzd(wc.getMbzd());
-    			 wr.setMbzdsjlx(wc.getMbzdsjlx());
-    			 wr.setSfzj(Integer.parseInt(wc.getSfzj()==null?"0":wc.getSfzj()));
-    			 wr.setValue(paramsMap.get(getMbzdByParams(wc.getFhbl(),wpcList)));
-    			 wrList.add(wr);
-    		 }			 
-    	}
+		for(WsjhdzConfig wc:wcsList){
+			if(wc!=null){
+				WsjhResult wr  = new WsjhResult();
+				wr.setMbzd(wc.getMbzd());
+				wr.setMbzdsjlx(wc.getMbzdsjlx());
+				wr.setSfzj(Integer.parseInt(wc.getSfzj()==null?"0":wc.getSfzj()));
+				wr.setValue(paramsMap.get(getMbzdByParams(wc.getFhbl(),wpcList)));
+				wrList.add(wr);
+			}
+		}
 		return wrList;
 	}
 
-    private static String getMbzdByParams(String fhbl,List<WsjhParamsConfig> wpcList) {
-    	if(wpcList!=null){
+	private static String getMbzdByParams(String fhbl,List<WsjhParamsConfig> wpcList) {
+		if(wpcList!=null){
 			for(WsjhParamsConfig wpc:wpcList){
 				if(wpc!=null&&wpc.getCszd()!=null){
 					if(wpc.getCszd().equals(fhbl))return wpc.getCsz();
 				}
 			}
-    	}
+		}
 		return fhbl;
 	}
 
 
 	/**
-     * <p>»ñÈ¡Ã»ÓĞ°üº¬ÔÚ½»»»½á¹ûÖĞµÄ×Ö¶Î¶ÔÕÕ</p>
-     * @param wrList
-     * @param wcList
-     * @return
-     */
+	 * <p>è·å–æ²¡æœ‰åŒ…å«åœ¨äº¤æ¢ç»“æœä¸­çš„å­—æ®µå¯¹ç…§</p>
+	 * @param wrList
+	 * @param wcList
+	 * @return
+	 */
 	private static  List<WsjhdzConfig> getNotContainsWsjhResultList(	List<WsjhResult> wrList, List<WsjhdzConfig> wcList,Map<String,String> paramsMap) {
 		List<WsjhdzConfig> notContainsWcList = new ArrayList<WsjhdzConfig>();
 		for(WsjhdzConfig wc:wcList){
@@ -360,11 +360,11 @@ public class XmlHelper {
 
 
 	/**
-     * <p>¸ù¾İÃû³Æ»ñÈ¡¶ÔÓ¦µÄ·µ»Ø×Ö¶Î¶ÔÕÕÅäÖÃÄÚÈİ</p>
-     * @param wcList
-     * @param name
-     * @return
-     */
+	 * <p>æ ¹æ®åç§°è·å–å¯¹åº”çš„è¿”å›å­—æ®µå¯¹ç…§é…ç½®å†…å®¹</p>
+	 * @param wcList
+	 * @param name
+	 * @return
+	 */
 	private static WsjhdzConfig getWsjhdzConfig(List<WsjhdzConfig> wcList,	String name) {
 		for(WsjhdzConfig wc:wcList){
 			if(wc!=null){
@@ -373,10 +373,10 @@ public class XmlHelper {
 		}
 		return null;
 	}
-    
+
 	public static String replaceFf(String objs){
 		if(objs!=null&&!"".equals(objs)){
-			objs.replaceAll("\000", "").replaceAll("\0x0", "");	
+			objs.replaceAll("\000", "").replaceAll("\0x0", "");
 		}
 		return objs;
 	}

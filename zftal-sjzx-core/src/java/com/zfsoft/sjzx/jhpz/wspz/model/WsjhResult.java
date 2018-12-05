@@ -1,16 +1,16 @@
 package com.zfsoft.sjzx.jhpz.wspz.model;
 /**
- * <p>WebService ½»»»½á¹û</p>
+ * <p>WebService äº¤æ¢ç»“æœ</p>
  * @author wangjian
  *
  */
 public class WsjhResult {
 
-	private String mbzd;//Ô´×Ö¶Î
-	private String value;//·µ»ØÖµ
-	private Integer sfzj;//ÊÇ·ñÖ÷¼ü
-	private Integer mbzdsjlx;//Êı¾İÀàĞÍ
-	
+	private String mbzd;//æºå­—æ®µ
+	private String value;//è¿”å›å€¼
+	private Integer sfzj;//æ˜¯å¦ä¸»é”®
+	private Integer mbzdsjlx;//æ•°æ®ç±»å‹
+
 	public Integer getMbzdsjlx() {
 		return mbzdsjlx;
 	}
@@ -35,6 +35,6 @@ public class WsjhResult {
 	public void setSfzj(Integer sfzj) {
 		this.sfzj = sfzj;
 	}
-	
-	
+
+
 }

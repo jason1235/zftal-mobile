@@ -82,7 +82,7 @@ import com.zfsoft.zfca.tp.cas.util.Tool;
 
 import edu.emory.mathcs.backport.java.util.Arrays;
 /**
- * <p>WebService ½»»»ÅäÖÃ</p>
+ * <p>WebService äº¤æ¢é…ç½®</p>
  * @author wangjian
  *
  */
@@ -90,15 +90,15 @@ public class WsjhConfigAction extends HrmAction {
 
 	private static final long serialVersionUID = 2168936513749516938L;
 
-	private WsjhConfig query;	
+	private WsjhConfig query;
 	private WsjhConfigService wsjhConfigService;
 	private SjkpzService sjkpzService;
 	private WsjhDsqConfig wdc;
 	private WsjhRzb wsjhrzb;
-	 private final String separate = "!!";
-	 private static final Integer WS_TYPE=1;
+	private final String separate = "!!";
+	private static final Integer WS_TYPE=1;
 	/**
-	 * <p>ÏÔÊ¾Ö÷Ò³Ãæ</p>
+	 * <p>æ˜¾ç¤ºä¸»é¡µé¢</p>
 	 * @return
 	 * @throws Exception
 	 */
@@ -109,31 +109,31 @@ public class WsjhConfigAction extends HrmAction {
 		if (this.getInt("toPage") != -1) {
 			query.setToPage(this.getInt("toPage"));
 		}
-		query.setType(WS_TYPE);//Ä¬ÈÏÊÇWebService½»»»ÅäÖÃ
+		query.setType(WS_TYPE);//é»˜è®¤æ˜¯WebServiceäº¤æ¢é…ç½®
 		List dsList = this.sjkpzService.getSjkpz();
 		PageList pageList = this.wsjhConfigService.getPagingInfo(query);
 		if(pageList!=null&&pageList.size()>0){
-		    for(int i=0;i<pageList.size();i++){
-		    	WsjhConfig wc = (WsjhConfig)pageList.get(i);
-		    	if(wc!=null){
-		    		//ĞŞ¸ÄÄ¿±êÊı¾İÔ´Ãû³Æ
-		    		wc.setWsjhds(getWsjhds(wc.getWsjhds(),dsList));
-		    	}
-		    }
+			for(int i=0;i<pageList.size();i++){
+				WsjhConfig wc = (WsjhConfig)pageList.get(i);
+				if(wc!=null){
+					//ä¿®æ”¹ç›®æ ‡æ•°æ®æºåç§°
+					wc.setWsjhds(getWsjhds(wc.getWsjhds(),dsList));
+				}
+			}
 		}
 		this.setInActionContext("resourceDO", query);
 		this.setInActionContext("list", pageList);
-		this.setInActionContext("paginator", pageList.getPaginator());		
+		this.setInActionContext("paginator", pageList.getPaginator());
 		this.setInActionContext("t", new Date().getTime());
 		return SUCCESS;
 	}
 	/**
-	 * <p>ĞŞ¸ÄÄ¿±êÊı¾İÔ´Ãû³Æ</p>
+	 * <p>ä¿®æ”¹ç›®æ ‡æ•°æ®æºåç§°</p>
 	 * @param wsjhds
 	 * @param db
 	 * @return
 	 */
-    private String getWsjhds(String wsjhds, List dsList) {
+	private String getWsjhds(String wsjhds, List dsList) {
 		if(dsList!=null&&dsList.size()>0){
 			for(int i=0;i<dsList.size();i++){
 				Sjkpz sjkpz = (Sjkpz)dsList.get(i);
@@ -145,10 +145,10 @@ public class WsjhConfigAction extends HrmAction {
 		return "";
 	}
 	/**
-     * <p>ÏÔÊ¾Ôö¼ÓÒ³Ãæ</p>
-     * @return
-     * @throws Exception
-     */
+	 * <p>æ˜¾ç¤ºå¢åŠ é¡µé¢</p>
+	 * @return
+	 * @throws Exception
+	 */
 	public String add() throws Exception {
 		this.setInActionContext("DB", this.sjkpzService.getSjkpz());
 		this.setInActionContext("sjlscmsx", this.wsjhConfigService.getSjlx());
@@ -157,7 +157,7 @@ public class WsjhConfigAction extends HrmAction {
 		return "add";
 	}
 	/**
-	 * <p>±à¼­</p>
+	 * <p>ç¼–è¾‘</p>
 	 * @return
 	 * @throws Exception
 	 */
@@ -167,7 +167,7 @@ public class WsjhConfigAction extends HrmAction {
 		query=query==null?new WsjhConfig():query;
 		query.setWsjhmc(name);
 		query.setType(WS_TYPE);
-		query=this.wsjhConfigService.getWsjhConfig(query);		
+		query=this.wsjhConfigService.getWsjhConfig(query);
 		this.setInActionContext("DB", this.sjkpzService.getSjkpz());
 		this.setInActionContext("sjlscmsx", this.wsjhConfigService.getSjlx());
 		List dsqlxList = this.wsjhConfigService.getDsqlx();
@@ -203,7 +203,7 @@ public class WsjhConfigAction extends HrmAction {
 		return wdcList;
 	}
 	/**
-	 * <p>¸ù¾İ¶¨Ê±Æ÷ÀàĞÍID»ñÈ¡¶ÔÓ¦µÄÖµ</p>
+	 * <p>æ ¹æ®å®šæ—¶å™¨ç±»å‹IDè·å–å¯¹åº”çš„å€¼</p>
 	 * @param dsqlx
 	 * @param dsqlxList
 	 * @return
@@ -219,7 +219,7 @@ public class WsjhConfigAction extends HrmAction {
 		return "";
 	}
 	/**
-	 * <p>ÑéÖ¤WebService ½»»»ÅäÖÃÃû³Æ</p>
+	 * <p>éªŒè¯WebService äº¤æ¢é…ç½®åç§°</p>
 	 * @return
 	 * @throws Exception
 	 */
@@ -239,27 +239,27 @@ public class WsjhConfigAction extends HrmAction {
 		writeResponse(json.toString());
 		return null;
 	}
-	
-	
+
+
 	/**
-	 * <p>±£´æ</p>
+	 * <p>ä¿å­˜</p>
 	 * @return
 	 * @throws Exception
 	 */
 	public String save() throws Exception {
-		
+
 		String wsjhmc = getString("wsjhmc");
 		if(!Tool.isNull(wsjhmc))wsjhmc = URLDecoder.decode(wsjhmc,"utf-8");
 		String url = getString("url");
 		String namespace = getString("namespace");
 		String operate = getString("operate");
-		String mdb = getString("mdb");//Ä¿Êı¾İ¿â	
-		String wsjhb = getString("wsjhb");//Ä¿±í
-		String params = getString("params");//·½·¨²ÎÊı
-		String fhbl=getString("fhbl");//·µ»Ø±äÁ¿
+		String mdb = getString("mdb");//ç›®æ•°æ®åº“
+		String wsjhb = getString("wsjhb");//ç›®è¡¨
+		String params = getString("params");//æ–¹æ³•å‚æ•°
+		String fhbl=getString("fhbl");//è¿”å›å˜é‡
 		String wsjhzcb = getString("wsjhzcb");
-		String sjcz  = getString("sjcz");//Ê±¼ä´Á¶ÔÓ¦µÄ±äÁ¿
-		String isSjc = getString("isSjc");//ÆôÓÃÊ±¼ä´Á
+		String sjcz  = getString("sjcz");//æ—¶é—´æˆ³å¯¹åº”çš„å˜é‡
+		String isSjc = getString("isSjc");//å¯ç”¨æ—¶é—´æˆ³
 		String isType=getString("isType");
 		String gys = getString("gys");
 		String zys = getString("zys");
@@ -274,9 +274,9 @@ public class WsjhConfigAction extends HrmAction {
 		query.setFhbl(fhbl);
 		query.setParams(params);
 		query.setWsjhzcb(wsjhzcb);
-		query.setIssjc(Integer.valueOf(isSjc==null?"0":isSjc).intValue());//0±íÊ¾·ñ1±íÊ¾ÊÇ
+		query.setIssjc(Integer.valueOf(isSjc==null?"0":isSjc).intValue());//0è¡¨ç¤ºå¦1è¡¨ç¤ºæ˜¯
 		query.setSjcz(sjcz);
-		query.setIstype(Integer.valueOf(isType==null?"0":isType).intValue());//Ä¬ÈÏÊÇJSON
+		query.setIstype(Integer.valueOf(isType==null?"0":isType).intValue());//é»˜è®¤æ˜¯JSON
 		query.setGys(gys);
 		query.setZys(zys);
 		query.setType(WS_TYPE);
@@ -285,58 +285,58 @@ public class WsjhConfigAction extends HrmAction {
 		wdc.setJhpzmc(wsjhmc);
 		wdc.setJhlx(WS_TYPE);
 		List<WsjhDsqConfig> wdcList = wsjhConfigService.getWsjhDsqConfig(wdc);
-		if(wdcList!=null&&wdcList.size()>0)query.setIsdzq("ÊÇ");
-		query.setXgsj(DateTimeUtil.getCurrDateTimeStr());		
+		if(wdcList!=null&&wdcList.size()>0)query.setIsdzq("æ˜¯");
+		query.setXgsj(DateTimeUtil.getCurrDateTimeStr());
 		//JSONObject jo = new JSONObject();
-		
-		WsjhConfig wskjQuery = new WsjhConfig(); 
+
+		WsjhConfig wskjQuery = new WsjhConfig();
 		wskjQuery.setWsjhmc(wsjhmc);
 		wskjQuery.setType(WS_TYPE);
 		WsjhConfig model = this.wsjhConfigService.getWsjhConfig(query);
 		if(model != null){
-			this.setErrorMessage("ÒÑ´æÔÚ´ËÅäÖÃÃû³Æ£¡");
+			this.setErrorMessage("å·²å­˜åœ¨æ­¤é…ç½®åç§°ï¼");
 			getValueStack().set(DATA, getMessage());
 			return DATA;
 		}
-		
-		
+
+
 		try{
-		   wsjhConfigService.deleteWsjhConfig(query);
-		   wsjhConfigService.insertWsjhConfig(query);
-		   this.setSuccessMessage("webservice»ù±¾ĞÅÏ¢±£´æ³É¹¦£¡");
-		   getValueStack().set(DATA, getMessage());
-		   return DATA;
-		   //jo.put("result", "true");
-		}catch(Exception e){
-			e.printStackTrace();
-			this.setErrorMessage("±£´æÒì³££¡");
+			wsjhConfigService.deleteWsjhConfig(query);
+			wsjhConfigService.insertWsjhConfig(query);
+			this.setSuccessMessage("webserviceåŸºæœ¬ä¿¡æ¯ä¿å­˜æˆåŠŸï¼");
 			getValueStack().set(DATA, getMessage());
 			return DATA;
-		   //jo.put("result","false");
+			//jo.put("result", "true");
+		}catch(Exception e){
+			e.printStackTrace();
+			this.setErrorMessage("ä¿å­˜å¼‚å¸¸ï¼");
+			getValueStack().set(DATA, getMessage());
+			return DATA;
+			//jo.put("result","false");
 		}
 		//writeResponse(jo.toString());
 		//return null;
 	}
-	
+
 	/**
-	 * <p>¸üĞÂ</p>
+	 * <p>æ›´æ–°</p>
 	 * @return
 	 * @throws Exception
 	 */
 	public String update() throws Exception {
-		
+
 		String wsjhmc = getString("wsjhmc");
 		if(!Tool.isNull(wsjhmc))wsjhmc = URLDecoder.decode(wsjhmc,"utf-8");
 		String url = getString("url");
 		String namespace = getString("namespace");
 		String operate = getString("operate");
-		String mdb = getString("mdb");//Ä¿Êı¾İ¿â	
-		String wsjhb = getString("wsjhb");//Ä¿±í
-		String params = getString("params");//·½·¨²ÎÊı
-		String fhbl=getString("fhbl");//·µ»Ø±äÁ¿
+		String mdb = getString("mdb");//ç›®æ•°æ®åº“
+		String wsjhb = getString("wsjhb");//ç›®è¡¨
+		String params = getString("params");//æ–¹æ³•å‚æ•°
+		String fhbl=getString("fhbl");//è¿”å›å˜é‡
 		String wsjhzcb = getString("wsjhzcb");
-		String sjcz  = getString("sjcz");//Ê±¼ä´Á¶ÔÓ¦µÄ±äÁ¿
-		String isSjc = getString("isSjc");//ÆôÓÃÊ±¼ä´Á
+		String sjcz  = getString("sjcz");//æ—¶é—´æˆ³å¯¹åº”çš„å˜é‡
+		String isSjc = getString("isSjc");//å¯ç”¨æ—¶é—´æˆ³
 		String wsjhxh = getString("wsjhxh");
 		String isType=getString("isType");
 		String gys = getString("gys");
@@ -352,11 +352,11 @@ public class WsjhConfigAction extends HrmAction {
 		query.setFhbl(fhbl);
 		query.setParams(params);
 		query.setWsjhzcb(wsjhzcb);
-		query.setIssjc(Integer.valueOf(isSjc==null?"0":isSjc).intValue());//0±íÊ¾·ñ1±íÊ¾ÊÇ
+		query.setIssjc(Integer.valueOf(isSjc==null?"0":isSjc).intValue());//0è¡¨ç¤ºå¦1è¡¨ç¤ºæ˜¯
 		query.setSjcz(sjcz);
 		query.setWsjhxh(Integer.parseInt(wsjhxh));
 		query.setType(WS_TYPE);
-		query.setIstype(Integer.valueOf(isType==null?"0":isType).intValue());//Ä¬ÈÏÊÇJSON
+		query.setIstype(Integer.valueOf(isType==null?"0":isType).intValue());//é»˜è®¤æ˜¯JSON
 		query.setGys(gys);
 		query.setZys(zys);
 		query.setOflag(oflag);
@@ -364,38 +364,38 @@ public class WsjhConfigAction extends HrmAction {
 		wdc.setJhpzmc(wsjhmc);
 		wdc.setJhlx(WS_TYPE);
 		List<WsjhDsqConfig> wdcList = wsjhConfigService.getWsjhDsqConfig(wdc);
-		if(wdcList!=null&&wdcList.size()>0)query.setIsdzq("ÊÇ");
-		query.setXgsj(DateTimeUtil.getCurrDateTimeStr());		
+		if(wdcList!=null&&wdcList.size()>0)query.setIsdzq("æ˜¯");
+		query.setXgsj(DateTimeUtil.getCurrDateTimeStr());
 		JSONObject jo = new JSONObject();
 		try{
-		   wsjhConfigService.updateWsjhConfig(query);
-		   jo.put("result", "true");
+			wsjhConfigService.updateWsjhConfig(query);
+			jo.put("result", "true");
 		}catch(Exception e){
-		   jo.put("result","false");
+			jo.put("result","false");
 		}
 		writeResponse(jo.toString());
 		return null;
 	}
 	/**
-	 * <p>¼ÓÔØWebService URLµØÖ·</p>
+	 * <p>åŠ è½½WebService URLåœ°å€</p>
 	 * @return
 	 * @throws Exception
 	 */
 	public String load() throws Exception{
-		String url = this.getString("url");			
+		String url = this.getString("url");
 		String result="{namespace:'',records:[]}";
 		LOG.info(url+"webserviceurl1", "webserviceurl1");
 		if(!Tool.isNull(url)){
 			Wsdl wsdl = null;
 			try {
 				LOG.info(url+"webserviceurl2", "webserviceurl2");
-				wsdl = new Wsdl(new URI(url), null, null);			
+				wsdl = new Wsdl(new URI(url), null, null);
 			} catch (URISyntaxException e) {
 				LOG.info(url+"webserviceurl4", "webserviceurl4");
 				writeResponse(result);
 				return null;
 			}
-			
+
 			/*List<WsdlOperation> listeOperations = wsdl.getOperations();
 			JSONObject jo = new JSONObject();
 			JSONArray ja = new JSONArray();
@@ -418,17 +418,17 @@ public class WsjhConfigAction extends HrmAction {
 				}
 				String param = params.toString();
 				if(param.contains(","))param = param.substring(0,param.lastIndexOf(","));
-				json.put("methods", method);    
+				json.put("methods", method);
 				json.put("params", param);
-	            ja.add(json); 
-	            
+	            ja.add(json);
+
 	        }*/
 			JSONObject jo = new JSONObject();
 			JSONArray ja = new JSONArray();
 			LOG.info(url+"webserviceurl3", "webserviceurl3");
 			WSDLParser parser = new WSDLParser();
 			List<Operations> ops = parser.parse(url);
-			
+
 			System.out.println("result1:"+result);
 			System.out.println("ops.size():" + ops.size());
 			if(ops!= null && ops.size() > 0){
@@ -444,108 +444,108 @@ public class WsjhConfigAction extends HrmAction {
 						}
 					}
 					String params = sb.toString().length() > 0 ? sb.toString().substring(0, sb.toString().length()-1)
-																	: "";
+							: "";
 					String Types = 	sbType.toString().length() > 0 ? sbType.toString().substring(0, sbType.toString().length()-1)
-							: "";		
+							: "";
 					json.put("params", params);
 					json.put("types", Types);
-		            ja.add(json); 
+					ja.add(json);
 				}
 			}
 			//jo.put("namespace", wsdl.getTargetNamespace());
 			jo.put("namespace", parser.namespace);
-			jo.put("records", ja);	
+			jo.put("records", ja);
 			result = jo.toString();
 			System.out.println("result2:"+result);
-		}	
+		}
 		writeResponse(result);
 		return null;
 	}
 	/**
-	 * <p>É¾³ı</p>
+	 * <p>åˆ é™¤</p>
 	 * @return
 	 */
 	public String del()throws Exception {
 		String name = this.getString("name");
 		if(!Tool.isNull(name))name = URLDecoder.decode(name,"UTF-8");
-		query=query==null?new WsjhConfig():query; 
+		query=query==null?new WsjhConfig():query;
 		query.setWsjhmc(name);
 		query.setType(WS_TYPE);
-        String isdsq = this.getString("isdsq");
-        if(!Tool.isNull(isdsq))isdsq=URLDecoder.decode(isdsq,"UTF-8");
-        if(isdsq.equals("ÊÇ")){
-        	WsjhDsqConfig wdcp = new WsjhDsqConfig();
-        	wdcp.setJhpzmc(name);
-        	wdcp.setJhlx(WS_TYPE);
-        	List<WsjhDsqConfig> wdcList = this.wsjhConfigService.getWsjhDsqConfig(wdcp);
-        	boolean flag = false;
-        	if(wdcList!=null&&wdcList.size()>0){
-        		for(WsjhDsqConfig wdc:wdcList){
-        			if(wdc!=null&&!Tool.isNull(wdc.getDsqzt())&&"0".equals(wdc.getDsqzt()))flag=true;
-        		}
-        	}
-        	if(flag){  
-        		this.setErrorMessage("´æÔÚ¶¨Ê±Æ÷ÕıÔÚÆô¶¯£¬ÇëÏÈÉ¾³ı¶¨Ê±Æ÷£¡");
-    			getValueStack().set(DATA, getMessage());
-    			return DATA;
-        		//writeResponse("FAIL");
-        		//return null;
-        	}
-         }
-        	this.wsjhConfigService.deleteWsjhConfig(query);
-        	WsjhParamsConfig wpc = new WsjhParamsConfig();
-        	wpc.setJhmc(name);
-        	wpc.setJhlx(WS_TYPE);
-    		this.wsjhConfigService.deleteWsjhParamsConfig(wpc);
-    		WsjhdzConfig wdcp = new WsjhdzConfig();
-    		wdcp.setJhmc(name);
-    		wdcp.setJhlx(WS_TYPE);
-    		this.wsjhConfigService.deleteWsjhdzConfig(wdcp);
-    		wdc=wdc==null?new WsjhDsqConfig():wdc;
-    		wdc.setJhpzmc(name);
-    		this.wsjhConfigService.deleteWsjhDsqConfigByJhmc(wdc);
-    		reflushJobAndTrigger();
-    		this.setSuccessMessage("³É¹¦É¾³ıwwebserviceÏà¹ØÅäÖÃ£¡");
-			getValueStack().set(DATA, getMessage());
-			return DATA;
-    		//writeResponse("OK");
-    		//return null;
+		String isdsq = this.getString("isdsq");
+		if(!Tool.isNull(isdsq))isdsq=URLDecoder.decode(isdsq,"UTF-8");
+		if(isdsq.equals("æ˜¯")){
+			WsjhDsqConfig wdcp = new WsjhDsqConfig();
+			wdcp.setJhpzmc(name);
+			wdcp.setJhlx(WS_TYPE);
+			List<WsjhDsqConfig> wdcList = this.wsjhConfigService.getWsjhDsqConfig(wdcp);
+			boolean flag = false;
+			if(wdcList!=null&&wdcList.size()>0){
+				for(WsjhDsqConfig wdc:wdcList){
+					if(wdc!=null&&!Tool.isNull(wdc.getDsqzt())&&"0".equals(wdc.getDsqzt()))flag=true;
+				}
+			}
+			if(flag){
+				this.setErrorMessage("å­˜åœ¨å®šæ—¶å™¨æ­£åœ¨å¯åŠ¨ï¼Œè¯·å…ˆåˆ é™¤å®šæ—¶å™¨ï¼");
+				getValueStack().set(DATA, getMessage());
+				return DATA;
+				//writeResponse("FAIL");
+				//return null;
+			}
+		}
+		this.wsjhConfigService.deleteWsjhConfig(query);
+		WsjhParamsConfig wpc = new WsjhParamsConfig();
+		wpc.setJhmc(name);
+		wpc.setJhlx(WS_TYPE);
+		this.wsjhConfigService.deleteWsjhParamsConfig(wpc);
+		WsjhdzConfig wdcp = new WsjhdzConfig();
+		wdcp.setJhmc(name);
+		wdcp.setJhlx(WS_TYPE);
+		this.wsjhConfigService.deleteWsjhdzConfig(wdcp);
+		wdc=wdc==null?new WsjhDsqConfig():wdc;
+		wdc.setJhpzmc(name);
+		this.wsjhConfigService.deleteWsjhDsqConfigByJhmc(wdc);
+		reflushJobAndTrigger();
+		this.setSuccessMessage("æˆåŠŸåˆ é™¤wwebserviceç›¸å…³é…ç½®ï¼");
+		getValueStack().set(DATA, getMessage());
+		return DATA;
+		//writeResponse("OK");
+		//return null;
 	}
 	/**
-	 * <p>Ö´ĞĞWebService½»»»</p>
+	 * <p>æ‰§è¡ŒWebServiceäº¤æ¢</p>
 	 * @return
 	 * @throws Exception
 	 */
 	public String runWsjh() throws Exception {
 		String name = this.getString("name");
 		name = URLDecoder.decode(name,"UTF-8");
-		query=query==null?new WsjhConfig():query; 
+		query=query==null?new WsjhConfig():query;
 		query.setWsjhmc(name);
 		query.setType(WS_TYPE);
 		query = this.wsjhConfigService.getWsjhConfig(query);
 		String msg="";
 		if(query==null){
-			 msg="WebService ½»»»ÅäÖÃÓĞÎó£¡";
-			 msg = "{\"success\":\"true\",\"msg\":\"Ö´ĞĞÊ§°Ü£º"+msg+"\"}";
-			 writeResponse(msg);
-			 return null;
+			msg="WebService äº¤æ¢é…ç½®æœ‰è¯¯ï¼";
+			msg = "{\"success\":\"true\",\"msg\":\"æ‰§è¡Œå¤±è´¥ï¼š"+msg+"\"}";
+			writeResponse(msg);
+			return null;
 		}
-		
-		//·½·¨²ÎÊı¶ÔÕÕ
+
+		//æ–¹æ³•å‚æ•°å¯¹ç…§
 		WsjhParamsConfig wpcp=new WsjhParamsConfig();
 		wpcp.setJhmc(name);
 		wpcp.setJhlx(WS_TYPE);
 		List<WsjhParamsConfig> wpcList = this.wsjhConfigService.getWsjhParamsConfigList(wpcp);
 		if(wpcList!=null&&wpcList.size()>0){
-			 boolean flag = verifyParams(query.getParams(),wpcList);
-			 if(!flag){
-				 msg="WebService ·½·¨²ÎÊı¶ÔÕÕ²»Æ¥Åä£¡";
-				 msg = "{\"success\":\"true\",\"msg\":\"Ö´ĞĞÊ§°Ü£º"+msg+"\"}";
-				 writeResponse(msg);
-				 return null;
-			 }			
+			boolean flag = verifyParams(query.getParams(),wpcList);
+			if(!flag){
+				msg="WebService æ–¹æ³•å‚æ•°å¯¹ç…§ä¸åŒ¹é…ï¼";
+				msg = "{\"success\":\"true\",\"msg\":\"æ‰§è¡Œå¤±è´¥ï¼š"+msg+"\"}";
+				writeResponse(msg);
+				return null;
+			}
 		}
-		//½á¹û¶ÔÕÕ
+		//ç»“æœå¯¹ç…§
 		WsjhdzConfig wdcp= new WsjhdzConfig();
 		wdcp.setJhmc(name);
 		wdcp.setJhlx(WS_TYPE);
@@ -558,91 +558,91 @@ public class WsjhConfigAction extends HrmAction {
 				}
 			}
 			if(!flag){
-				msg="WebService ½á¹û¶ÔÕÕÖĞÃ»ÓĞÉèÖÃÖ÷¼ü£¡";
-				msg = "{\"success\":\"true\",\"msg\":\"Ö´ĞĞÊ§°Ü£º"+msg+"\"}";
+				msg="WebService ç»“æœå¯¹ç…§ä¸­æ²¡æœ‰è®¾ç½®ä¸»é”®ï¼";
+				msg = "{\"success\":\"true\",\"msg\":\"æ‰§è¡Œå¤±è´¥ï¼š"+msg+"\"}";
 				writeResponse(msg);
 				return null;
 			}
 		}else{
-			msg="WebService ·µ»Ø½á¹û¶ÔÕÕÎ´ÅäÖÃ£¡";
-			msg = "{\"success\":\"true\",\"msg\":\"Ö´ĞĞÊ§°Ü£º"+msg+"\"}";
+			msg="WebService è¿”å›ç»“æœå¯¹ç…§æœªé…ç½®ï¼";
+			msg = "{\"success\":\"true\",\"msg\":\"æ‰§è¡Œå¤±è´¥ï¼š"+msg+"\"}";
 			writeResponse(msg);
 			return null;
 		}
 		try{
-			msg=this.wsjhConfigService.getMessage(wpcList,wcList,query); 	
+			msg=this.wsjhConfigService.getMessage(wpcList,wcList,query);
 		}catch(Exception e){
-			e.printStackTrace();	
-			msg = "{\"success\":\"true\",\"msg\":\"Ö´ĞĞÊ§°Ü£º"+e.getMessage()+"\"}";
-		}			
+			e.printStackTrace();
+			msg = "{\"success\":\"true\",\"msg\":\"æ‰§è¡Œå¤±è´¥ï¼š"+e.getMessage()+"\"}";
+		}
 		writeResponse(msg);
 		return null;
 	}
-	
 
-	
 
-	
+
+
+
 	/**
-	 * <p>ÑéÖ¤²ÎÊıÓë±£´æ²ÎÊıÊÇ·ñÆ¥Åä</p>
+	 * <p>éªŒè¯å‚æ•°ä¸ä¿å­˜å‚æ•°æ˜¯å¦åŒ¹é…</p>
 	 * @param params
 	 * @param wpcList
 	 * @return
 	 */
-	 @SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private boolean verifyParams(String params, List<WsjhParamsConfig> wpcList) {
 		if(!Tool.isNull(params)){
-		    String[] param = params.split(",");
-		    List  paramList = Arrays.asList(param);
-		    List  list = new ArrayList();
-		    for(WsjhParamsConfig wpc:wpcList){
-		    	if(wpc!=null&&!Tool.isNull(wpc.getCszd())){
-		    		list.add(wpc.getCszd());
-		    	}
-		    }
-		   if( paramList.containsAll(list))return true;
+			String[] param = params.split(",");
+			List  paramList = Arrays.asList(param);
+			List  list = new ArrayList();
+			for(WsjhParamsConfig wpc:wpcList){
+				if(wpc!=null&&!Tool.isNull(wpc.getCszd())){
+					list.add(wpc.getCszd());
+				}
+			}
+			if( paramList.containsAll(list))return true;
 		}
 		return false;
 	}
 	/**
-     * ±£´æ¶¨Ê±Æ÷
-     * @return
-     */
-    public String saveRunSet() throws Exception{ 
-            wdc.setCjsj(DateTimeUtil.getCurrDateTimeStr());
-            wdc.setXgsj(DateTimeUtil.getCurrDateTimeStr());
-            wdc.setJhlx(WS_TYPE);
-			String retu = this.wsjhConfigService.insertWsjhDsqConfig(wdc);
-			query=query==null?new WsjhConfig():query;
-			query.setWsjhmc(wdc.getJhpzmc());
-			query.setType(WS_TYPE);
-			query = this.wsjhConfigService.getWsjhConfig(query);
-			query.setIsdzq("ÊÇ");			
-			query.setXgsj(DateTimeUtil.getCurrDateTimeStr());			
-			this.wsjhConfigService.updateWsjhConfig(query);
-    		writeResponse(retu);
-    	return null;
-    }
-    /**
-     * <p>É¾³ı¶¨Ê±Æ÷</p>
-     * @return
-     * @throws Exception
-     */
-    public String deleteRunset() throws Exception {   
-    	    String str="";
-    	    try{
-    	    	wdc.setJhlx(WS_TYPE);
-      		   this.wsjhConfigService.deleteWsjhDsqConfig(wdc);
-      		   reflushJobAndTrigger();
-      		   str = "{\"success\":\"true\"}";
-    	    }catch(Exception e){
-    	    	str = "{\"success\":\"false\",\"msg\":\"É¾³ıÊ±£¬³ÌĞò³öÏÖÒì³££¡\"}";
-    	    }
-    	   writeResponse(str);
-    	return null;
-    }
-    
-    private Class<?> getClass(String classname) {
+	 * ä¿å­˜å®šæ—¶å™¨
+	 * @return
+	 */
+	public String saveRunSet() throws Exception{
+		wdc.setCjsj(DateTimeUtil.getCurrDateTimeStr());
+		wdc.setXgsj(DateTimeUtil.getCurrDateTimeStr());
+		wdc.setJhlx(WS_TYPE);
+		String retu = this.wsjhConfigService.insertWsjhDsqConfig(wdc);
+		query=query==null?new WsjhConfig():query;
+		query.setWsjhmc(wdc.getJhpzmc());
+		query.setType(WS_TYPE);
+		query = this.wsjhConfigService.getWsjhConfig(query);
+		query.setIsdzq("æ˜¯");
+		query.setXgsj(DateTimeUtil.getCurrDateTimeStr());
+		this.wsjhConfigService.updateWsjhConfig(query);
+		writeResponse(retu);
+		return null;
+	}
+	/**
+	 * <p>åˆ é™¤å®šæ—¶å™¨</p>
+	 * @return
+	 * @throws Exception
+	 */
+	public String deleteRunset() throws Exception {
+		String str="";
+		try{
+			wdc.setJhlx(WS_TYPE);
+			this.wsjhConfigService.deleteWsjhDsqConfig(wdc);
+			reflushJobAndTrigger();
+			str = "{\"success\":\"true\"}";
+		}catch(Exception e){
+			str = "{\"success\":\"false\",\"msg\":\"åˆ é™¤æ—¶ï¼Œç¨‹åºå‡ºç°å¼‚å¸¸ï¼\"}";
+		}
+		writeResponse(str);
+		return null;
+	}
+
+	private Class<?> getClass(String classname) {
 		if (classname != null && !"".equals(classname)) {
 			ClassLoader loader = getClass().getClassLoader();
 			Class<?> c = null;
@@ -655,176 +655,176 @@ public class WsjhConfigAction extends HrmAction {
 		}
 		return null;
 	}
-    
-    public void reflushJobAndTrigger(){
-    	Scheduler scheduler = (Scheduler) SpringUtil.getBean("localQuartzScheduler");
-    	try {
+
+	public void reflushJobAndTrigger(){
+		Scheduler scheduler = (Scheduler) SpringUtil.getBean("localQuartzScheduler");
+		try {
 			for (String triggerName : scheduler.getTriggerNames(Constants.JOB_GROUP)) {
 				scheduler.unscheduleJob(triggerName, Constants.JOB_GROUP);
 			}
 			for (String jobName: scheduler.getJobNames(Constants.JOB_GROUP)) {
 				scheduler.deleteJob(jobName, Constants.JOB_GROUP);
 			}
-    	
-		
-		JobTriggerBean jtb = null;
-		WsjhConfigService wsjhConfigService = (WsjhConfigService) SpringUtil
-				.getBean("wsjhConfigService");
-		List<WsjhDsqConfig> wdcList = wsjhConfigService.getRunTasks();
-		if (wdcList != null&&wdcList.size()>0) {
-			for (WsjhDsqConfig wdc : wdcList) {
-				String jobname = "com.zfsoft.sjzx.jhpz.wspz.service.WsjhConfigTask";
-				int dsqxh = wdc.getDsqxh();
-				Class<?> c = getClass(jobname);
-				if (c != null) {
-					WebServiceJobDetail jd = null;
-					try {
-						jd = (WebServiceJobDetail) c.newInstance();
-					} catch (InstantiationException e) {
-						e.printStackTrace();
-					} catch (IllegalAccessException e) {
-						e.printStackTrace();
-					}
-					jtb = jd.getTrigger(wdc);
-					jd.setName(dsqxh + "e");
-					jd.setWdc(wdc);
-					JobDataMap jobDataMap = jd.getJobDataMap();
-					jobDataMap.put("wdc", wdc);
-					jd.setGroup(Constants.JOB_GROUP);
-					jd.setDescription("ºóÌ¨·şÎñ");
-					jd.setJobClass(WebServiceSimpleJob.class);
-					Trigger trigger = jtb.getTrigger();
-					if(trigger!=null){
-						trigger.setName(dsqxh + "e");
-						trigger.setGroup(Constants.JOB_GROUP);
-                        
-						Calendar cal = jtb.getCalendar();
-						if (cal != null) {
-							scheduler.addCalendar(cal.getDescription(), cal,
-									true, true);
-							trigger.setCalendarName(cal.getDescription());
-						}
-						scheduler.scheduleJob(jd, trigger);
-					}
-				}
 
-			}
-			}
-    	} catch (SchedulerException e1) {
-    		// TODO Auto-generated catch block
-    		e1.printStackTrace();
-    	}
-    }
-    /**
-     * <p>Æô¶¯/Í£Ê±¶¨Ê±Æ÷</p>
-     * @return
-     * @throws Exception
-     */
-    public String setRunStatus() throws Exception {
-    	    String str="";
-    	    try{
-    	    	wdc.setJhlx(WS_TYPE);
-    	    	this.wsjhConfigService.updataWsjhDsqConfig(wdc);
-    	    	query=query==null?new WsjhConfig():query;
-    	    	query.setWsjhmc(wdc.getJhpzmc());
-    	    	query.setType(WS_TYPE);
-    	    	query = this.wsjhConfigService.getWsjhConfig(query);
-    	    	query.setIsdzq("ÊÇ");
-    	    	query.setXgsj(DateTimeUtil.getCurrDateTimeStr());    			
-    			this.wsjhConfigService.updateWsjhConfig(query);
-    			
-    			reflushJobAndTrigger();
-    			
-    	    	str = "{\"success\":\"true\",\"msg\":\"²Ù×÷³É¹¦\"}";
-    	    }catch(Exception e){
-    	    	str = "{\"success\":\"false\",\"msg\":\"²Ù×÷Ê§°Ü\"}";
-    	    }	
-    		  		
-    	writeResponse(str);
-    	return null;
-    }
-    
-    /**
-     * »ñÈ¡Êı¾İ¿âÖĞËùÓĞµÄ±í
-     * @return
-     */
-    public String getAllTable() throws Exception{
-    	String datasource = this.getString("datasource");
-    	String type = this.getString("type");
-    	SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(datasource);
-    	DatabaseMeta dbMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(),com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()),com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
-    	String[] tables = DbUtil.getDBTables(dbMeta);
-    		StringBuffer html = new StringBuffer("");
-			StringBuffer el = new StringBuffer("");
-			int lt = tables.length;
-			for(int i=0;i<lt;i++){
-				if(i%3==0){
-					html.append("<tr class='data'>");
-				}
-				html.append("<td class='tabletd'><input type='radio' class='autocut' name='fruit' value ='").append(tables[i]).append("' />").append(tables[i]).append("</td>");
-				el.append(tables[i]).append(",");
-				if(i%3==2){
-					html.append("</tr>");
+
+			JobTriggerBean jtb = null;
+			WsjhConfigService wsjhConfigService = (WsjhConfigService) SpringUtil
+					.getBean("wsjhConfigService");
+			List<WsjhDsqConfig> wdcList = wsjhConfigService.getRunTasks();
+			if (wdcList != null&&wdcList.size()>0) {
+				for (WsjhDsqConfig wdc : wdcList) {
+					String jobname = "com.zfsoft.sjzx.jhpz.wspz.service.WsjhConfigTask";
+					int dsqxh = wdc.getDsqxh();
+					Class<?> c = getClass(jobname);
+					if (c != null) {
+						WebServiceJobDetail jd = null;
+						try {
+							jd = (WebServiceJobDetail) c.newInstance();
+						} catch (InstantiationException e) {
+							e.printStackTrace();
+						} catch (IllegalAccessException e) {
+							e.printStackTrace();
+						}
+						jtb = jd.getTrigger(wdc);
+						jd.setName(dsqxh + "e");
+						jd.setWdc(wdc);
+						JobDataMap jobDataMap = jd.getJobDataMap();
+						jobDataMap.put("wdc", wdc);
+						jd.setGroup(Constants.JOB_GROUP);
+						jd.setDescription("åå°æœåŠ¡");
+						jd.setJobClass(WebServiceSimpleJob.class);
+						Trigger trigger = jtb.getTrigger();
+						if(trigger!=null){
+							trigger.setName(dsqxh + "e");
+							trigger.setGroup(Constants.JOB_GROUP);
+
+							Calendar cal = jtb.getCalendar();
+							if (cal != null) {
+								scheduler.addCalendar(cal.getDescription(), cal,
+										true, true);
+								trigger.setCalendarName(cal.getDescription());
+							}
+							scheduler.scheduleJob(jd, trigger);
+						}
+					}
+
 				}
 			}
-			if(lt%2!=0){
+		} catch (SchedulerException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+	/**
+	 * <p>å¯åŠ¨/åœæ—¶å®šæ—¶å™¨</p>
+	 * @return
+	 * @throws Exception
+	 */
+	public String setRunStatus() throws Exception {
+		String str="";
+		try{
+			wdc.setJhlx(WS_TYPE);
+			this.wsjhConfigService.updataWsjhDsqConfig(wdc);
+			query=query==null?new WsjhConfig():query;
+			query.setWsjhmc(wdc.getJhpzmc());
+			query.setType(WS_TYPE);
+			query = this.wsjhConfigService.getWsjhConfig(query);
+			query.setIsdzq("æ˜¯");
+			query.setXgsj(DateTimeUtil.getCurrDateTimeStr());
+			this.wsjhConfigService.updateWsjhConfig(query);
+
+			reflushJobAndTrigger();
+
+			str = "{\"success\":\"true\",\"msg\":\"æ“ä½œæˆåŠŸ\"}";
+		}catch(Exception e){
+			str = "{\"success\":\"false\",\"msg\":\"æ“ä½œå¤±è´¥\"}";
+		}
+
+		writeResponse(str);
+		return null;
+	}
+
+	/**
+	 * è·å–æ•°æ®åº“ä¸­æ‰€æœ‰çš„è¡¨
+	 * @return
+	 */
+	public String getAllTable() throws Exception{
+		String datasource = this.getString("datasource");
+		String type = this.getString("type");
+		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(datasource);
+		DatabaseMeta dbMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(),com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()),com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
+		String[] tables = DbUtil.getDBTables(dbMeta);
+		StringBuffer html = new StringBuffer("");
+		StringBuffer el = new StringBuffer("");
+		int lt = tables.length;
+		for(int i=0;i<lt;i++){
+			if(i%3==0){
+				html.append("<tr class='data'>");
+			}
+			html.append("<td class='tabletd'><input type='radio' class='autocut' name='fruit' value ='").append(tables[i]).append("' />").append(tables[i]).append("</td>");
+			el.append(tables[i]).append(",");
+			if(i%3==2){
 				html.append("</tr>");
 			}
-			this.setInActionContext("tables", html.toString());
-			this.setInActionContext("tableStr",StringUtils.substringBeforeLast(el.toString(), ","));  
-			this.setInActionContext("type", type);
-    	return "tables";
-    }
-    /**
-     * »ñÈ¡Êı¾İ¿âÖĞËùÓĞµÄ±í
-     * @return
-     */
-    public String getAllTableAndView() throws Exception{
-    	String datasource = this.getString("datasource");
-    	String type = this.getString("type");
-    	SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(datasource);
-    	DatabaseMeta dbMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
-    	String[] tables = DbUtil.getDBTablesAndView(dbMeta);
-    		StringBuffer html = new StringBuffer("");
-			StringBuffer el = new StringBuffer("");
-			int lt = tables.length;
-			for(int i=0;i<lt;i++){
-				if(i%3==0){
-					html.append("<tr class='data'>");
-				}
-				html.append("<td class='tabletd'><input type='radio' class='autocut' name='fruit' value ='").append(tables[i]).append("' />").append(tables[i]).append("</td>");
-				el.append(tables[i]).append(",");
-				if(i%3==2){
-					html.append("</tr>");
-				}
+		}
+		if(lt%2!=0){
+			html.append("</tr>");
+		}
+		this.setInActionContext("tables", html.toString());
+		this.setInActionContext("tableStr",StringUtils.substringBeforeLast(el.toString(), ","));
+		this.setInActionContext("type", type);
+		return "tables";
+	}
+	/**
+	 * è·å–æ•°æ®åº“ä¸­æ‰€æœ‰çš„è¡¨
+	 * @return
+	 */
+	public String getAllTableAndView() throws Exception{
+		String datasource = this.getString("datasource");
+		String type = this.getString("type");
+		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(datasource);
+		DatabaseMeta dbMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
+		String[] tables = DbUtil.getDBTablesAndView(dbMeta);
+		StringBuffer html = new StringBuffer("");
+		StringBuffer el = new StringBuffer("");
+		int lt = tables.length;
+		for(int i=0;i<lt;i++){
+			if(i%3==0){
+				html.append("<tr class='data'>");
 			}
-			if(lt%2!=0){
+			html.append("<td class='tabletd'><input type='radio' class='autocut' name='fruit' value ='").append(tables[i]).append("' />").append(tables[i]).append("</td>");
+			el.append(tables[i]).append(",");
+			if(i%3==2){
 				html.append("</tr>");
 			}
-			this.setInActionContext("tables", html.toString());
-			this.setInActionContext("tableStr",StringUtils.substringBeforeLast(el.toString(), ","));  
-			this.setInActionContext("type", type);
-    	return "tables";
-    }
-    /**
-     * <p>»ñÈ¡´«²Î·½·¨Ò³Ãæ</p>
-     * @return
-     * @throws Exception
-     */
+		}
+		if(lt%2!=0){
+			html.append("</tr>");
+		}
+		this.setInActionContext("tables", html.toString());
+		this.setInActionContext("tableStr",StringUtils.substringBeforeLast(el.toString(), ","));
+		this.setInActionContext("type", type);
+		return "tables";
+	}
+	/**
+	 * <p>è·å–ä¼ å‚æ–¹æ³•é¡µé¢</p>
+	 * @return
+	 * @throws Exception
+	 */
 	public String getParamsPage() throws Exception {
 		String types = getString("types");
-		String params = getString("params");		
+		String params = getString("params");
 		if(!Tool.isNull(params)){
-		   List paramsList= Arrays.asList(params.split(","));
-		   this.setInActionContext("types",types);
-		   this.setInActionContext("paramsList",paramsList);
+			List paramsList= Arrays.asList(params.split(","));
+			this.setInActionContext("types",types);
+			this.setInActionContext("paramsList",paramsList);
 		}else{
 			this.setInActionContext("paramsList", null);
 		}
 		return "paramsPage";
 	}
 	/**
-	 * <p>»ñÈ¡·µ»Ø±äÁ¿</p>
+	 * <p>è·å–è¿”å›å˜é‡</p>
 	 * @return
 	 * @throws Exception
 	 */
@@ -841,91 +841,91 @@ public class WsjhConfigAction extends HrmAction {
 			String[] typeArray = types.split(",");
 			JSONObject jo=new JSONObject();
 			if(!Tool.isNull(url)){
-				if(url.contains(".asmx")){		
-					    Service service = new Service();
-					    Call   call   = (Call) service.createCall();
-					    call.setTargetEndpointAddress( new java.net.URL(url) );
-					    QName qnName = new QName(namespace,operate);
-					    call.setOperationName(qnName);	
-					    String objs=null;
-					    if(params==null){
-					    	 objs = (String)call.invoke(new Object[] {});
-					    }else{
-					    	 addParameterByCall(call,params,namespace,operate);				    	
-					    	 Object[] obj = getObjects(params);
-					    	 objs = (String)call.invoke(obj);
-					    }	
-					    if(isType!=null&&Integer.parseInt(isType)==1){//XML¸ñÊ½
-					    	if(!Tool.isNull(objs)){
-									List<String> variableList =XmlHelper.getList(objs,zys,0);
-									jo.put("params", StringUtils.join(variableList,","));									
-					    	}
-					    }
-								
+				if(url.contains(".asmx")){
+					Service service = new Service();
+					Call   call   = (Call) service.createCall();
+					call.setTargetEndpointAddress( new java.net.URL(url) );
+					QName qnName = new QName(namespace,operate);
+					call.setOperationName(qnName);
+					String objs=null;
+					if(params==null){
+						objs = (String)call.invoke(new Object[] {});
+					}else{
+						addParameterByCall(call,params,namespace,operate);
+						Object[] obj = getObjects(params);
+						objs = (String)call.invoke(obj);
+					}
+					if(isType!=null&&Integer.parseInt(isType)==1){//XMLæ ¼å¼
+						if(!Tool.isNull(objs)){
+							List<String> variableList =XmlHelper.getList(objs,zys,0);
+							jo.put("params", StringUtils.join(variableList,","));
+						}
+					}
+
 				}else{
 					url=url.replace("?wsdl","").replace("?WSDL","");
 					RPCServiceClient serviceClient = new RPCServiceClient();
-					Options options = serviceClient.getOptions();		
+					Options options = serviceClient.getOptions();
 					EndpointReference targetEPR = new EndpointReference(url);
 					options.setTo(targetEPR);
 					Object[] opAddEntryArgs = getObjects(params);
 					Class[] classes = getOpAddEntryArgs(opAddEntryArgs);
 					QName opAddEntry = new QName(namespace,operate);
-					
-					
+
+
 					Service service = new Service();
-			        Call call;
-			        call = (Call) service.createCall();
-		            call.setTargetEndpointAddress(url);// Ô¶³Ìµ÷ÓÃÂ·¾¶
-		            //call.setOperationName("login");// µ÷ÓÃµÄ·½·¨Ãû
-		            call.setOperationName(new QName(namespace, operate));
-		            Object[] paramsAyyay = getParams(params); 
+					Call call;
+					call = (Call) service.createCall();
+					call.setTargetEndpointAddress(url);// è¿œç¨‹è°ƒç”¨è·¯å¾„
+					//call.setOperationName("login");// è°ƒç”¨çš„æ–¹æ³•å
+					call.setOperationName(new QName(namespace, operate));
+					Object[] paramsAyyay = getParams(params);
 					if(paramsAyyay != null && paramsAyyay.length > 0){
 						for(int i = 0 ; i < paramsAyyay.length ; i++){
 							if(paramsAyyay[i] == null || StringUtil.isEmpty(paramsAyyay[i].toString())) continue;
 							//if(typeArray[i].equals("string")){
-								call.addParameter(paramsAyyay[i].toString(), // ²ÎÊıÃû
-										XMLType.XSD_STRING,// ²ÎÊıÀàĞÍ:String
-										ParameterMode.IN);// ²ÎÊıÄ£Ê½£º'IN' or 'OUT'
+							call.addParameter(paramsAyyay[i].toString(), // å‚æ•°å
+									XMLType.XSD_STRING,// å‚æ•°ç±»å‹:String
+									ParameterMode.IN);// å‚æ•°æ¨¡å¼ï¼š'IN' or 'OUT'
 							//}
 							/*if(typeArray[i].equals("int")){
-								call.addParameter(paramsAyyay[i].toString(), // ²ÎÊıÃû
-										XMLType.XSD_INT,// ²ÎÊıÀàĞÍ:String
-										ParameterMode.IN);// ²ÎÊıÄ£Ê½£º'IN' or 'OUT'
+								call.addParameter(paramsAyyay[i].toString(), // å‚æ•°å
+										XMLType.XSD_INT,// å‚æ•°ç±»å‹:String
+										ParameterMode.IN);// å‚æ•°æ¨¡å¼ï¼š'IN' or 'OUT'
 							}*/
 						}
 					}
-					// ÉèÖÃ·µ»ØÖµÀàĞÍ£º
-		            call.setReturnType(XMLType.XSD_STRING);// ·µ»ØÖµÀàĞÍ£ºString			
+					// è®¾ç½®è¿”å›å€¼ç±»å‹ï¼š
+					call.setReturnType(XMLType.XSD_STRING);// è¿”å›å€¼ç±»å‹ï¼šString
 
-		            System.out.println("opAddEntryArgs----"+opAddEntryArgs);
-		            
-		            
-		            
-		            Object result =  call.invoke(opAddEntryArgs);// Ô¶³Ìµ÷ÓÃ
-			        //Object[] results = serviceClient.invokeBlocking(opAddEntry,opAddEntryArgs,classes); 
-			        //LOG.info("start object=====");
+					System.out.println("opAddEntryArgs----"+opAddEntryArgs);
+
+
+
+					Object result =  call.invoke(opAddEntryArgs);// è¿œç¨‹è°ƒç”¨
+					//Object[] results = serviceClient.invokeBlocking(opAddEntry,opAddEntryArgs,classes);
+					//LOG.info("start object=====");
 			        /*if(results.length > 0){
 			        	for(Object object :  results){
 			        		if(object != null){
 			        			LOG.info("object=====" + object, object.toString());
-			        			
+
 			        		}
 			        	}
 			        }*/
-			        //LOG.info("end object=====", "end");
-			        List<String> variableList = new ArrayList<String>();
-			        //getFhblResult(results, variableList,isType,gys,zys);
-			        getFhblResult(result.toString(), variableList,isType,gys,zys);
-			        jo.put("params", StringUtils.join(variableList,","));	
-			        Map<String, Object> data = new HashMap<String, Object>();
-		            data.put("success", true);
-		            data.put("params", StringUtils.join(variableList,","));
-		            getValueStack().set(DATA, data);
-		    		return DATA;
-				}			
+					//LOG.info("end object=====", "end");
+					List<String> variableList = new ArrayList<String>();
+					//getFhblResult(results, variableList,isType,gys,zys);
+					getFhblResult(result.toString(), variableList,isType,gys,zys);
+					jo.put("params", StringUtils.join(variableList,","));
+					Map<String, Object> data = new HashMap<String, Object>();
+					data.put("success", true);
+					data.put("params", StringUtils.join(variableList,","));
+					getValueStack().set(DATA, data);
+					return DATA;
+				}
 			}
-	        writeResponse(jo.toString());
+			writeResponse(jo.toString());
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -933,28 +933,28 @@ public class WsjhConfigAction extends HrmAction {
 	}
 	private void addParameterByCall(Call call, String params,String soapaction,String methodName) {
 		if(!Tool.isNull(params)){
-			String[] ps = params.split("&");			
+			String[] ps = params.split("&");
 			if(ps!=null&&ps.length>0){
 				for(String s:ps){
 					if(!Tool.isNull(s)){
 						String[] sValue=s.split("=");
 						if(sValue!=null&&sValue.length>0){
-							   call.addParameter(new QName(soapaction,sValue[0]),
-									    org.apache.axis.encoding.XMLType.XSD_STRING, 
-									    javax.xml.rpc.ParameterMode.IN);
+							call.addParameter(new QName(soapaction,sValue[0]),
+									org.apache.axis.encoding.XMLType.XSD_STRING,
+									javax.xml.rpc.ParameterMode.IN);
 						}
 					}
 				}
 			}
-			   call.setReturnType(org.apache.axis.encoding.XMLType.XSD_STRING);//ÉèÖÃ·µ»ØÀàĞÍ
-			   call.setUseSOAPAction(true); 
-			   call.setSOAPActionURI(soapaction + methodName);  
+			call.setReturnType(org.apache.axis.encoding.XMLType.XSD_STRING);//è®¾ç½®è¿”å›ç±»å‹
+			call.setUseSOAPAction(true);
+			call.setSOAPActionURI(soapaction + methodName);
 		}
-		
+
 	}
-	
+
 	/**
-	 * <p>»ñÈ¡·µ»Ø±äÁ¿ ½á¹û×Ö·û´®</p>by zhangxu
+	 * <p>è·å–è¿”å›å˜é‡ ç»“æœå­—ç¬¦ä¸²</p>by zhangxu
 	 * @param results
 	 * @param variableList
 	 * @throws DocumentException
@@ -962,47 +962,47 @@ public class WsjhConfigAction extends HrmAction {
 	private void getFhblResult(String result, List<String> variableList,String isType,String gys,String zys)
 			throws DocumentException {
 		if(!StringUtil.isEmpty(result)){
-        	if(!Tool.isNull(result)){
-        		if(!Tool.isNull(isType)){
-        			if(0==Integer.parseInt(isType)){//JSON
-        				JSONArray ja = JSONArray.fromObject(result);
-            			JSONObject jo = (JSONObject) ja.get(0);//Ä¬ÈÏÈ¡³öµÚÒ»ÌõÊı¾İ
-            			if(jo!=null){
-            				String rs = jo.toString();
-            				if(!Tool.isNull(rs)){
-            					rs = rs.replaceAll("\"", "").replace("{","").replace("}", "");
-            					String[] s = rs.split(",");
-            					if(s!=null&&s.length>0){
-            	        			for(String r:s){
-            	        				if(!Tool.isNull(r)){
-            	        					String variable = r.split(":")[0];
-            	        					if(!Tool.isNull(variable))variableList.add(variable.toUpperCase());
-            	        				}
-            	        			}
-            	        		}
-            				}
-            			}
-        			}else if(1==Integer.parseInt(isType)){//XML
-        				Document doc = DocumentHelper.parseText(result);
-            			Element rootElement = doc.getRootElement();
-            			Element msgElement = rootElement.element(zys);
-            			for(Iterator it=msgElement.elementIterator();it.hasNext();){
-            				Element ele = (Element)it.next();
-            				String name = ele.getName();
-            				if(!Tool.isNull(name))variableList.add(name.toUpperCase());
-            			}
-        			}else if(2==Integer.parseInt(isType)){//Object
-        				
-        			}else{//ÆäËû
-        				
-        			}
-        		}        		
-        	}
-        }
+			if(!Tool.isNull(result)){
+				if(!Tool.isNull(isType)){
+					if(0==Integer.parseInt(isType)){//JSON
+						JSONArray ja = JSONArray.fromObject(result);
+						JSONObject jo = (JSONObject) ja.get(0);//é»˜è®¤å–å‡ºç¬¬ä¸€æ¡æ•°æ®
+						if(jo!=null){
+							String rs = jo.toString();
+							if(!Tool.isNull(rs)){
+								rs = rs.replaceAll("\"", "").replace("{","").replace("}", "");
+								String[] s = rs.split(",");
+								if(s!=null&&s.length>0){
+									for(String r:s){
+										if(!Tool.isNull(r)){
+											String variable = r.split(":")[0];
+											if(!Tool.isNull(variable))variableList.add(variable.toUpperCase());
+										}
+									}
+								}
+							}
+						}
+					}else if(1==Integer.parseInt(isType)){//XML
+						Document doc = DocumentHelper.parseText(result);
+						Element rootElement = doc.getRootElement();
+						Element msgElement = rootElement.element(zys);
+						for(Iterator it=msgElement.elementIterator();it.hasNext();){
+							Element ele = (Element)it.next();
+							String name = ele.getName();
+							if(!Tool.isNull(name))variableList.add(name.toUpperCase());
+						}
+					}else if(2==Integer.parseInt(isType)){//Object
+
+					}else{//å…¶ä»–
+
+					}
+				}
+			}
+		}
 	}
-	
+
 	/**
-	 * <p>»ñÈ¡·µ»Ø±äÁ¿ ½á¹û×Ö·û´®</p>
+	 * <p>è·å–è¿”å›å˜é‡ ç»“æœå­—ç¬¦ä¸²</p>
 	 * @param results
 	 * @param variableList
 	 * @throws DocumentException
@@ -1010,47 +1010,47 @@ public class WsjhConfigAction extends HrmAction {
 	private void getFhblResult(Object[] results, List<String> variableList,String isType,String gys,String zys)
 			throws DocumentException {
 		if(results!=null&&results.length>0){
-        	String result  = (String)results[0];
-        	if(!Tool.isNull(result)){
-        		if(!Tool.isNull(isType)){
-        			if(0==Integer.parseInt(isType)){//JSON
-        				JSONArray ja = JSONArray.fromObject(result);
-            			JSONObject jo = (JSONObject) ja.get(0);//Ä¬ÈÏÈ¡³öµÚÒ»ÌõÊı¾İ
-            			if(jo!=null){
-            				String rs = jo.toString();
-            				if(!Tool.isNull(rs)){
-            					rs = rs.replaceAll("\"", "").replace("{","").replace("}", "");
-            					String[] s = rs.split(",");
-            					if(s!=null&&s.length>0){
-            	        			for(String r:s){
-            	        				if(!Tool.isNull(r)){
-            	        					String variable = r.split(":")[0];
-            	        					if(!Tool.isNull(variable))variableList.add(variable.toUpperCase());
-            	        				}
-            	        			}
-            	        		}
-            				}
-            			}
-        			}else if(1==Integer.parseInt(isType)){//XML
-        				Document doc = DocumentHelper.parseText(result);
-            			Element rootElement = doc.getRootElement();
-            			Element msgElement = rootElement.element(zys);
-            			for(Iterator it=msgElement.elementIterator();it.hasNext();){
-            				Element ele = (Element)it.next();
-            				String name = ele.getName();
-            				if(!Tool.isNull(name))variableList.add(name.toUpperCase());
-            			}
-        			}else if(2==Integer.parseInt(isType)){//Object
-        				
-        			}else{//ÆäËû
-        				
-        			}
-        		}        		
-        	}
-        }
+			String result  = (String)results[0];
+			if(!Tool.isNull(result)){
+				if(!Tool.isNull(isType)){
+					if(0==Integer.parseInt(isType)){//JSON
+						JSONArray ja = JSONArray.fromObject(result);
+						JSONObject jo = (JSONObject) ja.get(0);//é»˜è®¤å–å‡ºç¬¬ä¸€æ¡æ•°æ®
+						if(jo!=null){
+							String rs = jo.toString();
+							if(!Tool.isNull(rs)){
+								rs = rs.replaceAll("\"", "").replace("{","").replace("}", "");
+								String[] s = rs.split(",");
+								if(s!=null&&s.length>0){
+									for(String r:s){
+										if(!Tool.isNull(r)){
+											String variable = r.split(":")[0];
+											if(!Tool.isNull(variable))variableList.add(variable.toUpperCase());
+										}
+									}
+								}
+							}
+						}
+					}else if(1==Integer.parseInt(isType)){//XML
+						Document doc = DocumentHelper.parseText(result);
+						Element rootElement = doc.getRootElement();
+						Element msgElement = rootElement.element(zys);
+						for(Iterator it=msgElement.elementIterator();it.hasNext();){
+							Element ele = (Element)it.next();
+							String name = ele.getName();
+							if(!Tool.isNull(name))variableList.add(name.toUpperCase());
+						}
+					}else if(2==Integer.parseInt(isType)){//Object
+
+					}else{//å…¶ä»–
+
+					}
+				}
+			}
+		}
 	}
 	/**
-	 * <p>Êä³öÏìÓ¦</p>
+	 * <p>è¾“å‡ºå“åº”</p>
 	 * @param obj
 	 * @throws IOException
 	 */
@@ -1058,36 +1058,36 @@ public class WsjhConfigAction extends HrmAction {
 		HttpServletResponse response = this.getResponse();
 		response.setCharacterEncoding("UTF-8");
 		response.setContentType("text/html; charset=UTF-8");
-		PrintWriter out = response.getWriter();		
+		PrintWriter out = response.getWriter();
 		out.println(obj);
 		out.flush();
 	}
 	/**
-	 * <p>»ñÈ¡·½·¨²ÎÊı×Ö¶Î¶ÔÕÕÏà¹ØµÄÄÚÈİ</p>
+	 * <p>è·å–æ–¹æ³•å‚æ•°å­—æ®µå¯¹ç…§ç›¸å…³çš„å†…å®¹</p>
 	 * @return
 	 * @throws Exception
 	 */
 	public String getTableFieldsAndParams() throws Exception{
-		String mdbs = getString("mdbs");//Êı¾İÔ´
-		String mdb = getString("mdb");//¶ÔÓ¦µÄ±í
-		String params=getString("params");//¶ÔÓ¦µÄ·µ»Ø±äÁ¿
+		String mdbs = getString("mdbs");//æ•°æ®æº
+		String mdb = getString("mdb");//å¯¹åº”çš„è¡¨
+		String params=getString("params");//å¯¹åº”çš„è¿”å›å˜é‡
 		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(mdbs);
 		DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
 		ExecutorService pool = Executors.newFixedThreadPool(1);
-		Future<String> fieldsTypes1 = pool.submit(new GetTableFieldsAndTypesThread(databaseMeta,mdb,"1"));		
+		Future<String> fieldsTypes1 = pool.submit(new GetTableFieldsAndTypesThread(databaseMeta,mdb,"1"));
 		StringBuffer result = new StringBuffer();
-		if(!Tool.isNull(params)){			
+		if(!Tool.isNull(params)){
 			String[] ps = params.split(",");
 			List<String> paramsList = new ArrayList<String>();
 			if(ps!=null&&ps.length>0){
 				for(String p:ps){
 					if(!Tool.isNull(p)){
 						if("PAGE".equals(p)){
-							paramsList.add(p+":"+1+":String");//±íÊ¾Ò³Êı
+							paramsList.add(p+":"+1+":String");//è¡¨ç¤ºé¡µæ•°
 						}else if("PAGESIZE".equals(p)){
-							paramsList.add(p+":"+2+":String");//±íÊ¾Ò³ÌõÊı
+							paramsList.add(p+":"+2+":String");//è¡¨ç¤ºé¡µæ¡æ•°
 						}else if("SIGN".equals(p)){
-							paramsList.add(p+":"+3+":String");//ÃÜÔ¿
+							paramsList.add(p+":"+3+":String");//å¯†é’¥
 						}else{
 							paramsList.add(p+":"+4+":"+getParamsType(p,fieldsTypes1));
 						}
@@ -1095,16 +1095,16 @@ public class WsjhConfigAction extends HrmAction {
 				}
 			}
 			result.append(params).append(separate);
-			result.append(fieldsTypes1.get()).append(separate);			
+			result.append(fieldsTypes1.get()).append(separate);
 			result.append(StringUtils.join(paramsList,"@")).append(separate);
-			String types="String,int,integer,date,short,boolean,double,long,float";//²ÎÊıÊı¾İÀàĞÍ
+			String types="String,int,integer,date,short,boolean,double,long,float";//å‚æ•°æ•°æ®ç±»å‹
 			result.append(types);
-		}		
-		
+		}
+
 		writeResponse(result.toString());
 		return null;
 	}
-	
+
 	private String getParamsType(String p, Future<String> fieldsTypes1) throws InterruptedException, ExecutionException {
 		String result = fieldsTypes1.get();
 		if(!Tool.isNull(result)){
@@ -1121,23 +1121,23 @@ public class WsjhConfigAction extends HrmAction {
 					}
 				}
 			}
-			
+
 		}
 		return "";
 	}
 	/**
-	 * <p>»ñÈ¡ÒÑÑ¡ÔñµÄ·½·¨²ÎÊı×Ö¶Î¶ÔÕÕÄÚÈİ</p>
+	 * <p>è·å–å·²é€‰æ‹©çš„æ–¹æ³•å‚æ•°å­—æ®µå¯¹ç…§å†…å®¹</p>
 	 * @return
 	 * @throws Exception
 	 */
 	public String getAllTableFieldsAndParams() throws Exception{
-		String mdbs = getString("mdbs");//Êı¾İÔ´
-		String mdb = getString("mdb");//¶ÔÓ¦µÄ±í
-		String wsjhmc = getString("wsjhmc");//½»»»ÅäÖÃÃû³Æ
+		String mdbs = getString("mdbs");//æ•°æ®æº
+		String mdb = getString("mdb");//å¯¹åº”çš„è¡¨
+		String wsjhmc = getString("wsjhmc");//äº¤æ¢é…ç½®åç§°
 		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(mdbs);
 		DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
 		ExecutorService pool = Executors.newFixedThreadPool(1);
-		Future<String> fieldsTypes1 = pool.submit(new GetTableFieldsAndTypesThread(databaseMeta,mdb,"1"));		
+		Future<String> fieldsTypes1 = pool.submit(new GetTableFieldsAndTypesThread(databaseMeta,mdb,"1"));
 		StringBuffer result = new StringBuffer();
 		WsjhParamsConfig wpcp = new WsjhParamsConfig();
 		wpcp.setJhmc(wsjhmc);
@@ -1150,43 +1150,43 @@ public class WsjhConfigAction extends HrmAction {
 				if(wpc!=null&&!Tool.isNull(wpc.getCszd())){
 					params.append(wpc.getCszd()).append(",");
 					if("PAGE".equals(wpc.getCszd())){
-						paramsList.add(wpc.getCszd()+":"+1+":"+(wpc.getCsz()==null?"":wpc.getCsz())+":"+wpc.getCszdt());//±íÊ¾Ò³Êı
+						paramsList.add(wpc.getCszd()+":"+1+":"+(wpc.getCsz()==null?"":wpc.getCsz())+":"+wpc.getCszdt());//è¡¨ç¤ºé¡µæ•°
 					}else if("PAGESIZE".equals(wpc.getCszd())){
-						paramsList.add(wpc.getCszd()+":"+2+":"+(wpc.getCsz()==null?"":wpc.getCsz())+":"+wpc.getCszdt());//±íÊ¾Ò³ÌõÊı
+						paramsList.add(wpc.getCszd()+":"+2+":"+(wpc.getCsz()==null?"":wpc.getCsz())+":"+wpc.getCszdt());//è¡¨ç¤ºé¡µæ¡æ•°
 					}else if("SIGN".equals(wpc.getCszd())){
-						paramsList.add(wpc.getCszd()+":"+3+":"+(wpc.getCsz()==null?"":wpc.getCsz())+":"+wpc.getCszdt());//ÃÜÔ¿
+						paramsList.add(wpc.getCszd()+":"+3+":"+(wpc.getCsz()==null?"":wpc.getCsz())+":"+wpc.getCszdt());//å¯†é’¥
 					}else{
 						paramsList.add(wpc.getCszd()+":"+4+":"+(wpc.getCsz()==null?"":wpc.getCsz())+":"+wpc.getCszdt());
 					}
 				}
 			}
-		}		
+		}
 		String param = params.toString();
 		if(param.contains(","))param=param.substring(0,param.lastIndexOf(","));
 		result.append(param).append(separate);
-		result.append(fieldsTypes1.get()).append(separate);			
+		result.append(fieldsTypes1.get()).append(separate);
 		result.append(StringUtils.join(paramsList,"@")).append(separate);
-		String types="String,int,integer,date,short,boolean,double,long,float";//²ÎÊıÊı¾İÀàĞÍ
+		String types="String,int,integer,date,short,boolean,double,long,float";//å‚æ•°æ•°æ®ç±»å‹
 		result.append(types);
 		writeResponse(result.toString());
 		return null;
 	}
-	
+
 	/**
-	 * <p>»ñÈ¡·µ»Ø×Ö¶Î¶ÔÕÕÏà¹ØµÄÄÚÈİ</p>
+	 * <p>è·å–è¿”å›å­—æ®µå¯¹ç…§ç›¸å…³çš„å†…å®¹</p>
 	 * @return
 	 * @throws Exception
 	 */
 	public String getTableFieldsAndTypes() throws Exception{
-		String mdbs = getString("mdbs");//Êı¾İÔ´
-		String mdb = getString("mdb");//¶ÔÓ¦µÄ±í
-		String variable=getString("variable");//¶ÔÓ¦µÄ·µ»Ø±äÁ¿
-		String params = getString("params");//ÇëÇó·½·¨²ÎÊı
+		String mdbs = getString("mdbs");//æ•°æ®æº
+		String mdb = getString("mdb");//å¯¹åº”çš„è¡¨
+		String variable=getString("variable");//å¯¹åº”çš„è¿”å›å˜é‡
+		String params = getString("params");//è¯·æ±‚æ–¹æ³•å‚æ•°
 		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(mdbs);
 		DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
 		ExecutorService pool = Executors.newFixedThreadPool(1);
-		Future<String> fieldsTypes1 = pool.submit(new GetTableFieldsAndTypesThread(databaseMeta,mdb,"1"));			
-		StringBuffer result = new StringBuffer();		
+		Future<String> fieldsTypes1 = pool.submit(new GetTableFieldsAndTypesThread(databaseMeta,mdb,"1"));
+		StringBuffer result = new StringBuffer();
 		if(params!=null&&!"".equals(params)){
 			result.append(variable+","+params).append(separate);
 		}else{
@@ -1200,27 +1200,27 @@ public class WsjhConfigAction extends HrmAction {
 		return null;
 	}
 	/**
-	 * <p>»ñÈ¡ÒÑÑ¡Ôñ·µ»Ø×Ö¶ÎÏà¹ØµÄÄÚÈİ</p>
+	 * <p>è·å–å·²é€‰æ‹©è¿”å›å­—æ®µç›¸å…³çš„å†…å®¹</p>
 	 * @return
 	 * @throws Exception
 	 */
 	public String getAllTableFieldsAndTypes() throws Exception {
-		String mdbs = getString("mdbs");//Êı¾İÔ´
-		String mdb = getString("mdb");//¶ÔÓ¦µÄ±í
-		String variable=getString("variable");//¶ÔÓ¦µÄ·µ»Ø±äÁ¿
-		String wsjhmc = getString("wsjhmc");//½»»»ÅäÖÃÃû³Æ
+		String mdbs = getString("mdbs");//æ•°æ®æº
+		String mdb = getString("mdb");//å¯¹åº”çš„è¡¨
+		String variable=getString("variable");//å¯¹åº”çš„è¿”å›å˜é‡
+		String wsjhmc = getString("wsjhmc");//äº¤æ¢é…ç½®åç§°
 		String params = getString("params");
 		SjkpzWrapper sjkpzWrapper = this.sjkpzService.getSjkpzDetail(mdbs);
 		DatabaseMeta databaseMeta = DbUtil.getPoolMeta("system", sjkpzWrapper.getLjlxmc(), sjkpzWrapper.getSjklxmc(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getSjkmc()), sjkpzWrapper.getIpdz(), sjkpzWrapper.getDkh(), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getYhm()), com.zfsoft.sjzx.common.util.Tool.validateDecode(sjkpzWrapper.getMm()));
 		ExecutorService pool = Executors.newFixedThreadPool(1);
-		Future<String> fieldsTypes1 = pool.submit(new GetTableFieldsAndTypesThread(databaseMeta,mdb,"1"));		
+		Future<String> fieldsTypes1 = pool.submit(new GetTableFieldsAndTypesThread(databaseMeta,mdb,"1"));
 		StringBuffer result = new StringBuffer();
 		if(params!=null&&!"".equals(params)){
 			result.append(variable+","+params).append(separate);
 		}else{
 			result.append(variable).append(separate);
 		}
-		
+
 		result.append(fieldsTypes1.get()).append(separate);
 		WsjhdzConfig wdcp = new WsjhdzConfig();
 		wdcp.setJhmc(wsjhmc);
@@ -1238,26 +1238,26 @@ public class WsjhConfigAction extends HrmAction {
 		}
 		String wcs = wcResult.toString();
 		if(wcs.contains("@"))wcs=wcs.substring(0,wcs.lastIndexOf("@"));
-		result.append(wcs);	
+		result.append(wcs);
 		writeResponse(result.toString());
 		return null;
 	}
-	
-	
+
+
 	/**
-	 * <p>¸ù¾İÏÂ±ê»ñÈ¡¶ÔÓ¦µÄÊı¾İÀàĞÍ</p>
+	 * <p>æ ¹æ®ä¸‹æ ‡è·å–å¯¹åº”çš„æ•°æ®ç±»å‹</p>
 	 * @param mbzdsjlx
 	 * @return
 	 */
-    private String getMbSjlx(Integer mbzdsjlx,List<Sjlx> sjlxList) {
-    	if(mbzdsjlx==null)return "";    
-    	if(sjlxList!=null&&sjlxList.size()>0){
-    		for(Sjlx sjlx:sjlxList){
-    			 if(sjlx!=null){
-    				 if(sjlx.getSjlx()==mbzdsjlx.intValue())return sjlx.getSjlxmc();
-    			 }
-    		}
-    	}
+	private String getMbSjlx(Integer mbzdsjlx,List<Sjlx> sjlxList) {
+		if(mbzdsjlx==null)return "";
+		if(sjlxList!=null&&sjlxList.size()>0){
+			for(Sjlx sjlx:sjlxList){
+				if(sjlx!=null){
+					if(sjlx.getSjlx()==mbzdsjlx.intValue())return sjlx.getSjlxmc();
+				}
+			}
+		}
 		return "";
 	}
 	private Class[] getOpAddEntryArgs(Object[] opAddEntryArgs) {
@@ -1270,9 +1270,9 @@ public class WsjhConfigAction extends HrmAction {
 		}
 		return null;
 	}
-	
-	
-	
+
+
+
 	private Object[] getObjects(String params) {
 		if(!Tool.isNull(params)){
 			String[] ps = params.split("&");
@@ -1310,158 +1310,158 @@ public class WsjhConfigAction extends HrmAction {
 		return null;
 	}
 	/**
-     * <p>±£´æ×Ö¶Î¶ÔÕÕ±í</p>
-     * @return
-     * @throws Exception
-     */
-    public String saveWsjhdzConfig()throws Exception {
-    	List<WsjhdzConfig> list = new ArrayList<WsjhdzConfig>();    	
-    	String wsjhmc = this.getString("wsjhmc");
-    	wsjhmc = URLDecoder.decode(wsjhmc,"UTF-8");    	
-    	String[] mbzd = this.getString("mbzd").split(",");
-    	String[] mbzdsjlx = this.getString("mbzdsjlx").split(",");
-    	String[] sfzj = this.getString("sfzj").split(",");
-    	String[] sfgx = this.getString("sfgx").split(","); 
-    	String[] variables=this.getString("variables").split(",");
-    	int dsqzt = this.getInt("dsqzt");  //¶¨Ê±Æ÷×´Ì¬
-    	if(dsqzt==0){    	
-    		WsjhdzConfig wdcp = new WsjhdzConfig();
-    		wdcp.setJhmc(wsjhmc);
-    		wdcp.setJhlx(WS_TYPE);
-    		wsjhConfigService.deleteWsjhdzConfig(wdcp);
-    		return null;
-    	}
-    	
-    	int lt = mbzd.length;
-    	for(int i=0;i<lt;i++){
-    		WsjhdzConfig wc = new WsjhdzConfig();    		
-    		wc.setMbzd(mbzd[i]);
-    		wc.setMbzdsjlx(Integer.valueOf(mbzdsjlx[i]));
-    		wc.setSfzj(sfzj[i]);
-    		wc.setJhmc(wsjhmc);
-    		wc.setSfgx(sfgx[i]); 
-    		wc.setFhbl(variables[i]);
-    		wc.setJhlx(WS_TYPE);
-    		list.add(wc);
-    	}
-    	WsjhdzConfig wdcp = new WsjhdzConfig();
+	 * <p>ä¿å­˜å­—æ®µå¯¹ç…§è¡¨</p>
+	 * @return
+	 * @throws Exception
+	 */
+	public String saveWsjhdzConfig()throws Exception {
+		List<WsjhdzConfig> list = new ArrayList<WsjhdzConfig>();
+		String wsjhmc = this.getString("wsjhmc");
+		wsjhmc = URLDecoder.decode(wsjhmc,"UTF-8");
+		String[] mbzd = this.getString("mbzd").split(",");
+		String[] mbzdsjlx = this.getString("mbzdsjlx").split(",");
+		String[] sfzj = this.getString("sfzj").split(",");
+		String[] sfgx = this.getString("sfgx").split(",");
+		String[] variables=this.getString("variables").split(",");
+		int dsqzt = this.getInt("dsqzt");  //å®šæ—¶å™¨çŠ¶æ€
+		if(dsqzt==0){
+			WsjhdzConfig wdcp = new WsjhdzConfig();
+			wdcp.setJhmc(wsjhmc);
+			wdcp.setJhlx(WS_TYPE);
+			wsjhConfigService.deleteWsjhdzConfig(wdcp);
+			return null;
+		}
+
+		int lt = mbzd.length;
+		for(int i=0;i<lt;i++){
+			WsjhdzConfig wc = new WsjhdzConfig();
+			wc.setMbzd(mbzd[i]);
+			wc.setMbzdsjlx(Integer.valueOf(mbzdsjlx[i]));
+			wc.setSfzj(sfzj[i]);
+			wc.setJhmc(wsjhmc);
+			wc.setSfgx(sfgx[i]);
+			wc.setFhbl(variables[i]);
+			wc.setJhlx(WS_TYPE);
+			list.add(wc);
+		}
+		WsjhdzConfig wdcp = new WsjhdzConfig();
 		wdcp.setJhmc(wsjhmc);
 		wdcp.setJhlx(WS_TYPE);
 		this.wsjhConfigService.batchInsert(list,wdcp);
-		
-		this.setSuccessMessage("½á¹û¶ÔÕÕ±£´æ³É¹¦");
-	    getValueStack().set(DATA, getMessage());
-	    return DATA;
-    	//return null;
-    }
 
-    /**
-     * <p>±£´æ·½·¨²ÎÊı</p>
-     * @return
-     * @throws Exception
-     */
-    public String saveWsjhParamsConfig() throws Exception {
-    	List<WsjhParamsConfig> list = new ArrayList<WsjhParamsConfig>();    	
-    	String wsjhmc = this.getString("wsjhmc");
-    	wsjhmc = URLDecoder.decode(wsjhmc,"UTF-8");    	
-    	String[] pfields=getString("pfields").split(",");
-    	String[] cszs = getString("csz").split(",");
-    	String[] types = getString("types").split(",");
-    	if((pfields!=null&&pfields.length>0)||(cszs!=null&&cszs.length>0)){
-    		int lt = pfields.length;
-        	for(int i=0;i<lt;i++){
-        		WsjhParamsConfig wpc = new WsjhParamsConfig();    		
-        		if(i<cszs.length){
-        			String cszsv = cszs[i];
-        			if(cszsv!=null&&cszsv.contains(" "))cszsv=cszsv.replaceAll(" ","+");
-        			wpc.setCsz(cszsv);
-        		}
-        		wpc.setCszd(pfields[i]);
-        		wpc.setJhmc(wsjhmc);
-        		wpc.setCszdt(types[i]);
-        		wpc.setJhlx(WS_TYPE);
-        		list.add(wpc);
-        	}
-    	}
-    	WsjhParamsConfig wpcp = new WsjhParamsConfig ();
-    	wpcp.setJhmc(wsjhmc);
-    	wpcp.setJhlx(WS_TYPE);
-    	this.wsjhConfigService.batchInsertWsjhParamsConfig(list,wpcp);
-    	
-    	this.setSuccessMessage("·½·¨²ÎÊı±£´æ³É¹¦");
-	    getValueStack().set(DATA, getMessage());
-	    return DATA;
-    	//return null;
-    }
-    
-    /**
-     * <p>¸üĞÂ·½·¨²ÎÊı</p>
-     * @return
-     * @throws Exception
-     */
-    public String updateWsjhParamsConfig() throws Exception{
-    	List<WsjhParamsConfig> list = new ArrayList<WsjhParamsConfig>();    	
-    	String wsjhmc = this.getString("wsjhmc");
-    	wsjhmc = URLDecoder.decode(wsjhmc,"UTF-8");    	
-    	String[] pfields=getString("pfields").split(",");
-    	String[] cszs = getString("csz").split(",");
-    	String[] types = getString("types").split(",");
-    	if((pfields!=null&&pfields.length>0)||(cszs!=null&&cszs.length>0)){
-    		int lt = pfields.length;
-        	for(int i=0;i<lt;i++){
-        		WsjhParamsConfig wpc = new WsjhParamsConfig();    		
-        		if(i<cszs.length)wpc.setCsz(cszs[i]);
-        		if(pfields[i]!=null&&!pfields[i].equals("SIGN")){//Õë¶ÔÃÜÔ¿²»ÔÚ¸üĞÂ
-        			wpc.setCszd(pfields[i]);
-            		wpc.setJhmc(wsjhmc);
-            		wpc.setCszdt(types[i]);
-            		wpc.setJhlx(WS_TYPE);
-            		list.add(wpc);
-        		}
-        	}
-    	}
-    	if(list!=null&&list.size()>0)this.wsjhConfigService.batchUpdateWsjhParamsConfig(list);
-    	return null;
-    }
-    
-    /**
-     * <p>ÏÔÊ¾ÈÕÖ¾ÄÚÈİ</p>
-     * @return
-     * @throws Exception
-     */
-    public String viewLog() throws Exception{
-        wsjhrzb = wsjhrzb==null?new WsjhRzb():wsjhrzb;
-        if (this.getInt("toPage") != -1) {
-            wsjhrzb.setToPage(this.getInt("toPage"));
-        }
-        PageList pageList = this.wsjhConfigService.getPagingInfoByWsjhrzb(wsjhrzb);
-        if(pageList!=null&&pageList.size()>0){
-        	for(int i=0;i<pageList.size();i++){
-        		WsjhRzb wr =(WsjhRzb) pageList.get(i);
-        		Date startDate = DateTimeUtil.getFormatDate(wr.getStartDate(), "yyyy-MM-dd HH:mm:ss");
-        		Date endDate = DateTimeUtil.getFormatDate(wr.getEndDate(),"yyyy-MM-dd HH:mm:ss");
-        		long runTime = (endDate.getTime()-startDate.getTime())/1000;
-        		wr.setRunTime(String.valueOf(runTime));
-        	}
-        }
-        this.setInActionContext("resourceDO", wsjhrzb);
-        this.setInActionContext("list", pageList);
-        this.setInActionContext("paginator", pageList.getPaginator());
+		this.setSuccessMessage("ç»“æœå¯¹ç…§ä¿å­˜æˆåŠŸ");
+		getValueStack().set(DATA, getMessage());
+		return DATA;
+		//return null;
+	}
 
-    	
-    	return "viewLog";
-    }
-    
-    /**
-     * ÏÔÊ¾ÏêÏ¸µÄ³éÈ¡ÈÕÖ¾
-     * @return
-     */
-    public String viewDetailLog(){    	
-    	String logField = this.wsjhConfigService.getLogs(wsjhrzb);   
-    	this.setInActionContext("detailLog", logField);
-    	return "viewDetail";
-    }
-    
+	/**
+	 * <p>ä¿å­˜æ–¹æ³•å‚æ•°</p>
+	 * @return
+	 * @throws Exception
+	 */
+	public String saveWsjhParamsConfig() throws Exception {
+		List<WsjhParamsConfig> list = new ArrayList<WsjhParamsConfig>();
+		String wsjhmc = this.getString("wsjhmc");
+		wsjhmc = URLDecoder.decode(wsjhmc,"UTF-8");
+		String[] pfields=getString("pfields").split(",");
+		String[] cszs = getString("csz").split(",");
+		String[] types = getString("types").split(",");
+		if((pfields!=null&&pfields.length>0)||(cszs!=null&&cszs.length>0)){
+			int lt = pfields.length;
+			for(int i=0;i<lt;i++){
+				WsjhParamsConfig wpc = new WsjhParamsConfig();
+				if(i<cszs.length){
+					String cszsv = cszs[i];
+					if(cszsv!=null&&cszsv.contains(" "))cszsv=cszsv.replaceAll(" ","+");
+					wpc.setCsz(cszsv);
+				}
+				wpc.setCszd(pfields[i]);
+				wpc.setJhmc(wsjhmc);
+				wpc.setCszdt(types[i]);
+				wpc.setJhlx(WS_TYPE);
+				list.add(wpc);
+			}
+		}
+		WsjhParamsConfig wpcp = new WsjhParamsConfig ();
+		wpcp.setJhmc(wsjhmc);
+		wpcp.setJhlx(WS_TYPE);
+		this.wsjhConfigService.batchInsertWsjhParamsConfig(list,wpcp);
+
+		this.setSuccessMessage("æ–¹æ³•å‚æ•°ä¿å­˜æˆåŠŸ");
+		getValueStack().set(DATA, getMessage());
+		return DATA;
+		//return null;
+	}
+
+	/**
+	 * <p>æ›´æ–°æ–¹æ³•å‚æ•°</p>
+	 * @return
+	 * @throws Exception
+	 */
+	public String updateWsjhParamsConfig() throws Exception{
+		List<WsjhParamsConfig> list = new ArrayList<WsjhParamsConfig>();
+		String wsjhmc = this.getString("wsjhmc");
+		wsjhmc = URLDecoder.decode(wsjhmc,"UTF-8");
+		String[] pfields=getString("pfields").split(",");
+		String[] cszs = getString("csz").split(",");
+		String[] types = getString("types").split(",");
+		if((pfields!=null&&pfields.length>0)||(cszs!=null&&cszs.length>0)){
+			int lt = pfields.length;
+			for(int i=0;i<lt;i++){
+				WsjhParamsConfig wpc = new WsjhParamsConfig();
+				if(i<cszs.length)wpc.setCsz(cszs[i]);
+				if(pfields[i]!=null&&!pfields[i].equals("SIGN")){//é’ˆå¯¹å¯†é’¥ä¸åœ¨æ›´æ–°
+					wpc.setCszd(pfields[i]);
+					wpc.setJhmc(wsjhmc);
+					wpc.setCszdt(types[i]);
+					wpc.setJhlx(WS_TYPE);
+					list.add(wpc);
+				}
+			}
+		}
+		if(list!=null&&list.size()>0)this.wsjhConfigService.batchUpdateWsjhParamsConfig(list);
+		return null;
+	}
+
+	/**
+	 * <p>æ˜¾ç¤ºæ—¥å¿—å†…å®¹</p>
+	 * @return
+	 * @throws Exception
+	 */
+	public String viewLog() throws Exception{
+		wsjhrzb = wsjhrzb==null?new WsjhRzb():wsjhrzb;
+		if (this.getInt("toPage") != -1) {
+			wsjhrzb.setToPage(this.getInt("toPage"));
+		}
+		PageList pageList = this.wsjhConfigService.getPagingInfoByWsjhrzb(wsjhrzb);
+		if(pageList!=null&&pageList.size()>0){
+			for(int i=0;i<pageList.size();i++){
+				WsjhRzb wr =(WsjhRzb) pageList.get(i);
+				Date startDate = DateTimeUtil.getFormatDate(wr.getStartDate(), "yyyy-MM-dd HH:mm:ss");
+				Date endDate = DateTimeUtil.getFormatDate(wr.getEndDate(),"yyyy-MM-dd HH:mm:ss");
+				long runTime = (endDate.getTime()-startDate.getTime())/1000;
+				wr.setRunTime(String.valueOf(runTime));
+			}
+		}
+		this.setInActionContext("resourceDO", wsjhrzb);
+		this.setInActionContext("list", pageList);
+		this.setInActionContext("paginator", pageList.getPaginator());
+
+
+		return "viewLog";
+	}
+
+	/**
+	 * æ˜¾ç¤ºè¯¦ç»†çš„æŠ½å–æ—¥å¿—
+	 * @return
+	 */
+	public String viewDetailLog(){
+		String logField = this.wsjhConfigService.getLogs(wsjhrzb);
+		this.setInActionContext("detailLog", logField);
+		return "viewDetail";
+	}
+
 
 	public WsjhConfig getQuery() {
 		return query;
@@ -1496,62 +1496,62 @@ public class WsjhConfigAction extends HrmAction {
 	}
 
 	public String invokeRemoteFuc() {
-        String endpoint = "http://202.117.255.187:8081/HWWebService/LibServicePort?wsdl";
-        String result = "no result!";
-        Service service = new Service();
-        Call call;
-        Object[] object = new Object[5];
-        object[0] = "2015010097";//ObjectÊÇÓÃÀ´´æ´¢·½·¨µÄ²ÎÊı
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");//ÉèÖÃÈÕÆÚ¸ñÊ½
+		String endpoint = "http://202.117.255.187:8081/HWWebService/LibServicePort?wsdl";
+		String result = "no result!";
+		Service service = new Service();
+		Call call;
+		Object[] object = new Object[5];
+		object[0] = "2015010097";//Objectæ˜¯ç”¨æ¥å­˜å‚¨æ–¹æ³•çš„å‚æ•°
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm");//è®¾ç½®æ—¥æœŸæ ¼å¼
 		System.out.println(df.format(new Date()));
-		object[1] = df.format(new Date());//ObjectÊÇÓÃÀ´´æ´¢·½·¨µÄ²ÎÊı
-        try {
+		object[1] = df.format(new Date());//Objectæ˜¯ç”¨æ¥å­˜å‚¨æ–¹æ³•çš„å‚æ•°
+		try {
 			object[2] = MD5Util.md5Encode("2015010097"+"huiwen"+"2016-06-13 10:08");
 			System.out.println(object[2]);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}//ObjectÊÇÓÃÀ´´æ´¢·½·¨µÄ²ÎÊı
+		}//Objectæ˜¯ç”¨æ¥å­˜å‚¨æ–¹æ³•çš„å‚æ•°
 		object[3] = "1";
-		object[4] = "2015010097";//ObjectÊÇÓÃÀ´´æ´¢·½·¨µÄ²ÎÊı
-        try {
-            call = (Call) service.createCall();
-            call.setTargetEndpointAddress(endpoint);// Ô¶³Ìµ÷ÓÃÂ·¾¶
-            //call.setOperationName("login");// µ÷ÓÃµÄ·½·¨Ãû
-            call.setOperationName(new QName("http://service.login.newmobile.com/", "Login"));
+		object[4] = "2015010097";//Objectæ˜¯ç”¨æ¥å­˜å‚¨æ–¹æ³•çš„å‚æ•°
+		try {
+			call = (Call) service.createCall();
+			call.setTargetEndpointAddress(endpoint);// è¿œç¨‹è°ƒç”¨è·¯å¾„
+			//call.setOperationName("login");// è°ƒç”¨çš„æ–¹æ³•å
+			call.setOperationName(new QName("http://service.login.newmobile.com/", "Login"));
 
-            // ÉèÖÃ²ÎÊıÃû:
-            call.addParameter("arg0", // ²ÎÊıÃû
-                    XMLType.XSD_STRING,// ²ÎÊıÀàĞÍ:String
-                    ParameterMode.IN);// ²ÎÊıÄ£Ê½£º'IN' or 'OUT'
-            call.addParameter("arg1", // ²ÎÊıÃû
-                    XMLType.XSD_STRING,// ²ÎÊıÀàĞÍ:String
-                    ParameterMode.IN);// ²ÎÊıÄ£Ê½£º'IN' or 'OUT'
-            call.addParameter("arg2", // ²ÎÊıÃû
-                    XMLType.XSD_STRING,// ²ÎÊıÀàĞÍ:String
-                    ParameterMode.IN);// ²ÎÊıÄ£Ê½£º'IN' or 'OUT'
-            call.addParameter("arg3", // ²ÎÊıÃû
-                    XMLType.XSD_STRING,// ²ÎÊıÀàĞÍ:String
-                    ParameterMode.IN);// ²ÎÊıÄ£Ê½£º'IN' or 'OUT'
-            call.addParameter("arg4", // ²ÎÊıÃû
-                    XMLType.XSD_STRING,// ²ÎÊıÀàĞÍ:String
-                    ParameterMode.IN);// ²ÎÊıÄ£Ê½£º'IN' or 'OUT'
+			// è®¾ç½®å‚æ•°å:
+			call.addParameter("arg0", // å‚æ•°å
+					XMLType.XSD_STRING,// å‚æ•°ç±»å‹:String
+					ParameterMode.IN);// å‚æ•°æ¨¡å¼ï¼š'IN' or 'OUT'
+			call.addParameter("arg1", // å‚æ•°å
+					XMLType.XSD_STRING,// å‚æ•°ç±»å‹:String
+					ParameterMode.IN);// å‚æ•°æ¨¡å¼ï¼š'IN' or 'OUT'
+			call.addParameter("arg2", // å‚æ•°å
+					XMLType.XSD_STRING,// å‚æ•°ç±»å‹:String
+					ParameterMode.IN);// å‚æ•°æ¨¡å¼ï¼š'IN' or 'OUT'
+			call.addParameter("arg3", // å‚æ•°å
+					XMLType.XSD_STRING,// å‚æ•°ç±»å‹:String
+					ParameterMode.IN);// å‚æ•°æ¨¡å¼ï¼š'IN' or 'OUT'
+			call.addParameter("arg4", // å‚æ•°å
+					XMLType.XSD_STRING,// å‚æ•°ç±»å‹:String
+					ParameterMode.IN);// å‚æ•°æ¨¡å¼ï¼š'IN' or 'OUT'
 
-            // ÉèÖÃ·µ»ØÖµÀàĞÍ£º
-            call.setReturnType(XMLType.XSD_STRING);// ·µ»ØÖµÀàĞÍ£ºString			
+			// è®¾ç½®è¿”å›å€¼ç±»å‹ï¼š
+			call.setReturnType(XMLType.XSD_STRING);// è¿”å›å€¼ç±»å‹ï¼šString
 
-            result = (String) call.invoke(object);// Ô¶³Ìµ÷ÓÃ
-        } catch (ServiceException e) {
-            e.printStackTrace();
-        } catch (RemoteException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
+			result = (String) call.invoke(object);// è¿œç¨‹è°ƒç”¨
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return result;
+	}
 	public static void main(String[] args) {
-		
+
 		WsjhConfigAction t = new WsjhConfigAction();
-        String result = t.invokeRemoteFuc();
-        System.out.println(result);
+		String result = t.invokeRemoteFuc();
+		System.out.println(result);
 	}
 }

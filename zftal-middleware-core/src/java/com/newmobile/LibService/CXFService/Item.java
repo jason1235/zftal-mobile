@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>item complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>item complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="item">
  *   &lt;complexContent>
@@ -33,23 +33,23 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "item", propOrder = {
-    "attachment",
-    "barCode",
-    "callNo",
-    "carrierName",
-    "location",
-    "locationDept",
-    "marcRecNo",
-    "price",
-    "propNo",
-    "state",
-    "volPeri",
-    "year"
+        "attachment",
+        "barCode",
+        "callNo",
+        "carrierName",
+        "location",
+        "locationDept",
+        "marcRecNo",
+        "price",
+        "propNo",
+        "state",
+        "volPeri",
+        "year"
 })
 public class Item {
 
@@ -67,280 +67,280 @@ public class Item {
     protected String year;
 
     /**
-     * »ñÈ¡attachmentÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–attachmentå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getAttachment() {
         return attachment;
     }
 
     /**
-     * ÉèÖÃattachmentÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®attachmentå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setAttachment(String value) {
         this.attachment = value;
     }
 
     /**
-     * »ñÈ¡barCodeÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–barCodeå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getBarCode() {
         return barCode;
     }
 
     /**
-     * ÉèÖÃbarCodeÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®barCodeå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setBarCode(String value) {
         this.barCode = value;
     }
 
     /**
-     * »ñÈ¡callNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–callNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCallNo() {
         return callNo;
     }
 
     /**
-     * ÉèÖÃcallNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®callNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCallNo(String value) {
         this.callNo = value;
     }
 
     /**
-     * »ñÈ¡carrierNameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–carrierNameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCarrierName() {
         return carrierName;
     }
 
     /**
-     * ÉèÖÃcarrierNameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®carrierNameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCarrierName(String value) {
         this.carrierName = value;
     }
 
     /**
-     * »ñÈ¡locationÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–locationå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getLocation() {
         return location;
     }
 
     /**
-     * ÉèÖÃlocationÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®locationå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setLocation(String value) {
         this.location = value;
     }
 
     /**
-     * »ñÈ¡locationDeptÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–locationDeptå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getLocationDept() {
         return locationDept;
     }
 
     /**
-     * ÉèÖÃlocationDeptÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®locationDeptå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setLocationDept(String value) {
         this.locationDept = value;
     }
 
     /**
-     * »ñÈ¡marcRecNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–marcRecNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getMarcRecNo() {
         return marcRecNo;
     }
 
     /**
-     * ÉèÖÃmarcRecNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®marcRecNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setMarcRecNo(String value) {
         this.marcRecNo = value;
     }
 
     /**
-     * »ñÈ¡priceÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–priceå±æ€§çš„å€¼ã€‚
+     *
      */
     public float getPrice() {
         return price;
     }
 
     /**
-     * ÉèÖÃpriceÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®priceå±æ€§çš„å€¼ã€‚
+     *
      */
     public void setPrice(float value) {
         this.price = value;
     }
 
     /**
-     * »ñÈ¡propNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–propNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPropNo() {
         return propNo;
     }
 
     /**
-     * ÉèÖÃpropNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®propNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPropNo(String value) {
         this.propNo = value;
     }
 
     /**
-     * »ñÈ¡stateÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–stateå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getState() {
         return state;
     }
 
     /**
-     * ÉèÖÃstateÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®stateå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setState(String value) {
         this.state = value;
     }
 
     /**
-     * »ñÈ¡volPeriÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–volPeriå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getVolPeri() {
         return volPeri;
     }
 
     /**
-     * ÉèÖÃvolPeriÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®volPeriå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setVolPeri(String value) {
         this.volPeri = value;
     }
 
     /**
-     * »ñÈ¡yearÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–yearå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getYear() {
         return year;
     }
 
     /**
-     * ÉèÖÃyearÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®yearå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setYear(String value) {
         this.year = value;

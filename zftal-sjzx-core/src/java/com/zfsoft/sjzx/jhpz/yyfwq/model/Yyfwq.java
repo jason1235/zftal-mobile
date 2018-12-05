@@ -3,28 +3,28 @@ package com.zfsoft.sjzx.jhpz.yyfwq.model;
 import com.zfsoft.framework.page.BaseDataObject;
 
 /**
- * ÒµÎñ·şÎñÆ÷ÊµÌåÀà
- * 
+ * ä¸šåŠ¡æœåŠ¡å™¨å®ä½“ç±»
+ *
  * @author esadmin
- * 
+ *
  */
 public class Yyfwq extends BaseDataObject {
 
 	private static final long serialVersionUID = 1L;
 	private Integer yyfwqlsh;
-	private String jkdk;// ¼à¿Ø¶Ë¿Ú
-	private String jtdk;// ¼àÌı¶Ë¿Ú
-	private String yyfwqmc;// Ó¦ÓÃ·şÎñÆ÷Ãû³Æ
-	private String ipdz;// ipµØÖ·
-	private String dkh;// ¶Ë¿ÚºÅ
-	private String wsm;// ÎÕÊÖÂë
-	private String cjsj;// ´´½¨Ê±¼ä
-	private String xgsj;// ĞŞ¸ÄÊ±¼ä
-	private String cjr;// ´´½¨ÈË
-	private String xgr;// ĞŞ¸ÄÈË
-	public String dlm;// µÇÂ¼Ãû
-	private String zt;// ×´Ì¬
-	private String isjk;// ÊÇ·ñ¼à¿Ø
+	private String jkdk;// ç›‘æ§ç«¯å£
+	private String jtdk;// ç›‘å¬ç«¯å£
+	private String yyfwqmc;// åº”ç”¨æœåŠ¡å™¨åç§°
+	private String ipdz;// ipåœ°å€
+	private String dkh;// ç«¯å£å·
+	private String wsm;// æ¡æ‰‹ç 
+	private String cjsj;// åˆ›å»ºæ—¶é—´
+	private String xgsj;// ä¿®æ”¹æ—¶é—´
+	private String cjr;// åˆ›å»ºäºº
+	private String xgr;// ä¿®æ”¹äºº
+	public String dlm;// ç™»å½•å
+	private String zt;// çŠ¶æ€
+	private String isjk;// æ˜¯å¦ç›‘æ§
 
 	public String getJtdk() {
 		return jtdk;
@@ -137,5 +137,5 @@ public class Yyfwq extends BaseDataObject {
 	public void setIsjk(String isjk) {
 		this.isjk = isjk;
 	}
-	
+
 }

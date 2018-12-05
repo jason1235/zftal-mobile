@@ -3,36 +3,36 @@ package com.zfsoft.sjzx.jhpz.wspz.model;
 import java.io.Serializable;
 
 /**
- * <p>WebService ½»»»¶¨Ê±Æ÷ÅäÖÃ±í</p>
+ * <p>WebService äº¤æ¢å®šæ—¶å™¨é…ç½®è¡¨</p>
  * @author wangjian
  *
  */
 public class WsjhDsqConfig implements Serializable {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -246811103529818776L;
-	private Integer dsqxh; //¶¨Ê±Æ÷ĞòºÅ
-	private String  dsqmc;//¶¨Ê±Æ÷Ãû³Æ
-	private String  cjsj; 
-	private String  xgsj; 
-	private String  jhpzmc; 
-	private String  ddsjd;  
-	private Integer  jgsj; 
+	private Integer dsqxh; //å®šæ—¶å™¨åºå·
+	private String  dsqmc;//å®šæ—¶å™¨åç§°
+	private String  cjsj;
+	private String  xgsj;
+	private String  jhpzmc;
+	private String  ddsjd;
+	private Integer  jgsj;
 	private String  jdqssj;
-	private String  jdjssj; 
-	private Integer czdxbh;  
-	private Integer dsqlx;  
-	private Integer sjdwbh;  
+	private String  jdjssj;
+	private Integer czdxbh;
+	private Integer dsqlx;
+	private Integer sjdwbh;
 	private String  dsqlxmc;
-	private String  dsqzt; 
-	private String  jdzxjh;  
-	private Integer jhlx;//½»»»ÀàĞÍ
+	private String  dsqzt;
+	private String  jdzxjh;
+	private Integer jhlx;//äº¤æ¢ç±»å‹
 	private String sjdwmc;
-	
-	
-	
+
+
+
 	public String getSjdwmc() {
 		return sjdwmc;
 	}

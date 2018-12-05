@@ -5,20 +5,20 @@ import com.zfsoft.framework.page.BaseDataObject;
 public class WsjhRzb extends BaseDataObject{
 
 	private static final long serialVersionUID = 3918724803327967936L;
-	private Integer id;// ID±àºÅ
-	private Integer readLines;// ¶ÁÈ¡Êı
-	private Integer updateLines;// ¸üĞÂÊı
-	private Integer errors;// ´íÎóÊı
-	private String startDate;// ÆğÊ¼Ê±¼ä
-	private String endDate;// ½áÊøÊ±¼ä
-	private String runTime;//ÔËĞĞÊ±¼ä
-	private String logDate;// ¼ÇÂ¼Ê±¼ä
-	private String log;// ½»»»ÈÕÖ¾
-	private Integer wsjhxh;//WebService ½»»»±àºÅ
-	private String sjc;//Ê±¼ä½Ø±ê¼Ç
-	private String failid="";//¸üĞÂÊ§°ÜID£¨ÓÃÓÚ±¨ËÍ£©
-	private String tempTime;//ÁÙÊ±Ê±¼ä
-	
+	private Integer id;// IDç¼–å·
+	private Integer readLines;// è¯»å–æ•°
+	private Integer updateLines;// æ›´æ–°æ•°
+	private Integer errors;// é”™è¯¯æ•°
+	private String startDate;// èµ·å§‹æ—¶é—´
+	private String endDate;// ç»“æŸæ—¶é—´
+	private String runTime;//è¿è¡Œæ—¶é—´
+	private String logDate;// è®°å½•æ—¶é—´
+	private String log;// äº¤æ¢æ—¥å¿—
+	private Integer wsjhxh;//WebService äº¤æ¢ç¼–å·
+	private String sjc;//æ—¶é—´æˆªæ ‡è®°
+	private String failid="";//æ›´æ–°å¤±è´¥IDï¼ˆç”¨äºæŠ¥é€ï¼‰
+	private String tempTime;//ä¸´æ—¶æ—¶é—´
+
 	public String getTempTime() {
 		return tempTime;
 	}

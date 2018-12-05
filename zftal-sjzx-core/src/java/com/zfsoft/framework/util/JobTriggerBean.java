@@ -8,7 +8,7 @@ import org.quartz.impl.calendar.BaseCalendar;
  * <p>Copyright: Copyright (c) 2011</p>
  * <p>Company: zfsoft.com </p>
  *
- * @since 2012-12-12 …œŒÁ11:16:52
+ * @since 2012-12-12 ‰∏äÂçà11:16:52
  * @author liuchaoyong
  * @version 1.0
  */

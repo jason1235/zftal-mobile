@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>account complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>account complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="account">
  *   &lt;complexContent>
@@ -31,21 +31,21 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "account", propOrder = {
-    "amount",
-    "billNo",
-    "certId",
-    "name",
-    "paymentFlag",
-    "paymentFlagName",
-    "paymentItem",
-    "paymentItemName",
-    "paymentType",
-    "paymentTypeName"
+        "amount",
+        "billNo",
+        "certId",
+        "name",
+        "paymentFlag",
+        "paymentFlagName",
+        "paymentItem",
+        "paymentItemName",
+        "paymentType",
+        "paymentTypeName"
 })
 public class Account {
 
@@ -61,232 +61,232 @@ public class Account {
     protected String paymentTypeName;
 
     /**
-     * »ñÈ¡amountÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–amountå±æ€§çš„å€¼ã€‚
+     *
      */
     public float getAmount() {
         return amount;
     }
 
     /**
-     * ÉèÖÃamountÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®amountå±æ€§çš„å€¼ã€‚
+     *
      */
     public void setAmount(float value) {
         this.amount = value;
     }
 
     /**
-     * »ñÈ¡billNoÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–billNoå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getBillNo() {
         return billNo;
     }
 
     /**
-     * ÉèÖÃbillNoÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®billNoå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setBillNo(String value) {
         this.billNo = value;
     }
 
     /**
-     * »ñÈ¡certIdÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–certIdå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCertId() {
         return certId;
     }
 
     /**
-     * ÉèÖÃcertIdÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®certIdå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCertId(String value) {
         this.certId = value;
     }
 
     /**
-     * »ñÈ¡nameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–nameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getName() {
         return name;
     }
 
     /**
-     * ÉèÖÃnameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®nameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setName(String value) {
         this.name = value;
     }
 
     /**
-     * »ñÈ¡paymentFlagÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–paymentFlagå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPaymentFlag() {
         return paymentFlag;
     }
 
     /**
-     * ÉèÖÃpaymentFlagÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®paymentFlagå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPaymentFlag(String value) {
         this.paymentFlag = value;
     }
 
     /**
-     * »ñÈ¡paymentFlagNameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–paymentFlagNameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPaymentFlagName() {
         return paymentFlagName;
     }
 
     /**
-     * ÉèÖÃpaymentFlagNameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®paymentFlagNameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPaymentFlagName(String value) {
         this.paymentFlagName = value;
     }
 
     /**
-     * »ñÈ¡paymentItemÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–paymentItemå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPaymentItem() {
         return paymentItem;
     }
 
     /**
-     * ÉèÖÃpaymentItemÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®paymentItemå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPaymentItem(String value) {
         this.paymentItem = value;
     }
 
     /**
-     * »ñÈ¡paymentItemNameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–paymentItemNameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPaymentItemName() {
         return paymentItemName;
     }
 
     /**
-     * ÉèÖÃpaymentItemNameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®paymentItemNameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPaymentItemName(String value) {
         this.paymentItemName = value;
     }
 
     /**
-     * »ñÈ¡paymentTypeÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–paymentTypeå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPaymentType() {
         return paymentType;
     }
 
     /**
-     * ÉèÖÃpaymentTypeÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®paymentTypeå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPaymentType(String value) {
         this.paymentType = value;
     }
 
     /**
-     * »ñÈ¡paymentTypeNameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–paymentTypeNameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPaymentTypeName() {
         return paymentTypeName;
     }
 
     /**
-     * ÉèÖÃpaymentTypeNameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®paymentTypeNameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPaymentTypeName(String value) {
         this.paymentTypeName = value;

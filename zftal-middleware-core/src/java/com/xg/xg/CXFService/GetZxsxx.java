@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>getZxsxx complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>getZxsxx complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="getZxsxx">
  *   &lt;complexContent>
@@ -25,15 +25,15 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "getZxsxx", propOrder = {
-    "yhm",
-    "xm",
-    "num",
-    "sign"
+        "yhm",
+        "xm",
+        "num",
+        "sign"
 })
 public class GetZxsxx {
 
@@ -43,96 +43,96 @@ public class GetZxsxx {
     protected String sign;
 
     /**
-     * »ñÈ¡yhmÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–yhmå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getYhm() {
         return yhm;
     }
 
     /**
-     * ÉèÖÃyhmÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®yhmå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setYhm(String value) {
         this.yhm = value;
     }
 
     /**
-     * »ñÈ¡xmÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–xmå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getXm() {
         return xm;
     }
 
     /**
-     * ÉèÖÃxmÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®xmå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setXm(String value) {
         this.xm = value;
     }
 
     /**
-     * »ñÈ¡numÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–numå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link Integer }
-     *     
+     *
      */
     public Integer getNum() {
         return num;
     }
 
     /**
-     * ÉèÖÃnumÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®numå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link Integer }
-     *     
+     *
      */
     public void setNum(Integer value) {
         this.num = value;
     }
 
     /**
-     * »ñÈ¡signÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–signå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getSign() {
         return sign;
     }
 
     /**
-     * ÉèÖÃsignÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®signå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setSign(String value) {
         this.sign = value;

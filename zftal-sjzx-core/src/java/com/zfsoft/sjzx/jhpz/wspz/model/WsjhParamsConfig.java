@@ -1,18 +1,18 @@
 package com.zfsoft.sjzx.jhpz.wspz.model;
 /**
- * <p>WebService ½»»»²ÎÊıÉèÖÃ</p>
+ * <p>WebService äº¤æ¢å‚æ•°è®¾ç½®</p>
  * @author wangjian
  *
  */
 public class WsjhParamsConfig {
 
-	private Integer jhpxh;//WebService½»»»²ÎÊı±àºÅ
-	private String jhmc;//WebService½»»»ÅäÖÃÃû³Æ
-	private String cszd;//²ÎÊı×Ö¶Î
-	private String csz;// ²ÎÊıÖµ
-	private String cszdt;//²ÎÊıÀàĞÍ
-	private Integer jhlx;//½»»»ÀàĞÍ
-	
+	private Integer jhpxh;//WebServiceäº¤æ¢å‚æ•°ç¼–å·
+	private String jhmc;//WebServiceäº¤æ¢é…ç½®åç§°
+	private String cszd;//å‚æ•°å­—æ®µ
+	private String csz;// å‚æ•°å€¼
+	private String cszdt;//å‚æ•°ç±»å‹
+	private Integer jhlx;//äº¤æ¢ç±»å‹
+
 
 	public Integer getJhlx() {
 		return jhlx;
@@ -50,5 +50,5 @@ public class WsjhParamsConfig {
 	public void setCsz(String csz) {
 		this.csz = csz;
 	}
-	
+
 }

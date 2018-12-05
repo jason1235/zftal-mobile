@@ -7,10 +7,10 @@ import javax.xml.bind.annotation.XmlType;
 
 
 /**
- * <p>violation complex typeµÄ Java Àà¡£
- * 
- * <p>ÒÔÏÂÄ£Ê½Æ¬¶ÎÖ¸¶¨°üº¬ÔÚ´ËÀàÖĞµÄÔ¤ÆÚÄÚÈİ¡£
- * 
+ * <p>violation complex typeçš„ Java ç±»ã€‚
+ *
+ * <p>ä»¥ä¸‹æ¨¡å¼ç‰‡æ®µæŒ‡å®šåŒ…å«åœ¨æ­¤ç±»ä¸­çš„é¢„æœŸå†…å®¹ã€‚
+ *
  * <pre>
  * &lt;complexType name="violation">
  *   &lt;complexContent>
@@ -29,19 +29,19 @@ import javax.xml.bind.annotation.XmlType;
  *   &lt;/complexContent>
  * &lt;/complexType>
  * </pre>
- * 
- * 
+ *
+ *
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "violation", propOrder = {
-    "certId",
-    "dealFlag",
-    "dealFlagName",
-    "fineAmount",
-    "frozEndDate",
-    "name",
-    "pulishDate",
-    "voltName"
+        "certId",
+        "dealFlag",
+        "dealFlagName",
+        "fineAmount",
+        "frozEndDate",
+        "name",
+        "pulishDate",
+        "voltName"
 })
 public class Violation {
 
@@ -55,184 +55,184 @@ public class Violation {
     protected String voltName;
 
     /**
-     * »ñÈ¡certIdÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–certIdå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getCertId() {
         return certId;
     }
 
     /**
-     * ÉèÖÃcertIdÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®certIdå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setCertId(String value) {
         this.certId = value;
     }
 
     /**
-     * »ñÈ¡dealFlagÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–dealFlagå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getDealFlag() {
         return dealFlag;
     }
 
     /**
-     * ÉèÖÃdealFlagÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®dealFlagå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setDealFlag(String value) {
         this.dealFlag = value;
     }
 
     /**
-     * »ñÈ¡dealFlagNameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–dealFlagNameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getDealFlagName() {
         return dealFlagName;
     }
 
     /**
-     * ÉèÖÃdealFlagNameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®dealFlagNameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setDealFlagName(String value) {
         this.dealFlagName = value;
     }
 
     /**
-     * »ñÈ¡fineAmountÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–fineAmountå±æ€§çš„å€¼ã€‚
+     *
      */
     public float getFineAmount() {
         return fineAmount;
     }
 
     /**
-     * ÉèÖÃfineAmountÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®fineAmountå±æ€§çš„å€¼ã€‚
+     *
      */
     public void setFineAmount(float value) {
         this.fineAmount = value;
     }
 
     /**
-     * »ñÈ¡frozEndDateÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–frozEndDateå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getFrozEndDate() {
         return frozEndDate;
     }
 
     /**
-     * ÉèÖÃfrozEndDateÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®frozEndDateå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setFrozEndDate(String value) {
         this.frozEndDate = value;
     }
 
     /**
-     * »ñÈ¡nameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–nameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getName() {
         return name;
     }
 
     /**
-     * ÉèÖÃnameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®nameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setName(String value) {
         this.name = value;
     }
 
     /**
-     * »ñÈ¡pulishDateÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–pulishDateå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getPulishDate() {
         return pulishDate;
     }
 
     /**
-     * ÉèÖÃpulishDateÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®pulishDateå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setPulishDate(String value) {
         this.pulishDate = value;
     }
 
     /**
-     * »ñÈ¡voltNameÊôĞÔµÄÖµ¡£
-     * 
+     * è·å–voltNameå±æ€§çš„å€¼ã€‚
+     *
      * @return
      *     possible object is
      *     {@link String }
-     *     
+     *
      */
     public String getVoltName() {
         return voltName;
     }
 
     /**
-     * ÉèÖÃvoltNameÊôĞÔµÄÖµ¡£
-     * 
+     * è®¾ç½®voltNameå±æ€§çš„å€¼ã€‚
+     *
      * @param value
      *     allowed object is
      *     {@link String }
-     *     
+     *
      */
     public void setVoltName(String value) {
         this.voltName = value;

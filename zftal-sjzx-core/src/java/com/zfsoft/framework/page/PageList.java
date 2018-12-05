@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package com.zfsoft.framework.page;
 
@@ -7,74 +7,74 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * °üº¬¡°·ÖÒ³¡±ĞÅÏ¢µÄ<code>List</code>¡£
- * 
+ * åŒ…å«â€œåˆ†é¡µâ€ä¿¡æ¯çš„<code>List</code>ã€‚
+ *
  * hzmy-fms - PageList.java
  *
  * com.hzmy.fms.common.pager
  *
  * Copyright 2009 Hangzhou Port International Logistics Co.,ltd
- * All right reserved. 
+ * All right reserved.
  *
  * Created on 2009-4-15
  * @author jianghao
  */
 @SuppressWarnings("unchecked")
 public class PageList extends ArrayList {
-	
+
     /**
      * Comment for <code>serialVersionUID</code>
      */
     private static final long serialVersionUID = 3257568390985103409L;
-    
-    /** ·­Ò³Æ÷ */
+
+    /** ç¿»é¡µå™¨ */
     private Paginator paginator;
 
     /**
-     * ´´½¨Ò»¸ö<code>PageList</code>¡£
+     * åˆ›å»ºä¸€ä¸ª<code>PageList</code>ã€‚
      */
     public PageList() {
         paginator = new Paginator();
     }
 
     /**
-     * ´´½¨<code>PageList</code>£¬²¢½«Ö¸¶¨<code>Collection</code>ÖĞµÄÄÚÈİ¸´ÖÆµ½ĞÂµÄlistÖĞ¡£
+     * åˆ›å»º<code>PageList</code>ï¼Œå¹¶å°†æŒ‡å®š<code>Collection</code>ä¸­çš„å†…å®¹å¤åˆ¶åˆ°æ–°çš„listä¸­ã€‚
      *
-     * @param c Òª¸´ÖÆµÄ<code>Collection</code>
+     * @param c è¦å¤åˆ¶çš„<code>Collection</code>
      */
     public PageList(Collection c) {
         this(c, null);
     }
 
     /**
-     * ´´½¨<code>PageList</code>£¬²¢½«Ö¸¶¨<code>Collection</code>ÖĞµÄÄÚÈİ¸´ÖÆµ½ĞÂµÄlistÖĞ¡£
+     * åˆ›å»º<code>PageList</code>ï¼Œå¹¶å°†æŒ‡å®š<code>Collection</code>ä¸­çš„å†…å®¹å¤åˆ¶åˆ°æ–°çš„listä¸­ã€‚
      *
-     * @param c Òª¸´ÖÆµÄ<code>Collection</code>
+     * @param c è¦å¤åˆ¶çš„<code>Collection</code>
      */
-	public PageList(Collection c, Paginator paginator) {
+    public PageList(Collection c, Paginator paginator) {
         super(c);
         this.paginator = (paginator == null) ? new Paginator()
-                                             : paginator;
+                : paginator;
     }
 
     /**
-     * È¡µÃ·ÖÒ³Æ÷£¬¿É´ÓÖĞÈ¡µÃÓĞ¹Ø·ÖÒ³ºÍÒ³ÂëµÄËùÓĞĞÅÏ¢¡£
+     * å–å¾—åˆ†é¡µå™¨ï¼Œå¯ä»ä¸­å–å¾—æœ‰å…³åˆ†é¡µå’Œé¡µç çš„æ‰€æœ‰ä¿¡æ¯ã€‚
      *
-     * @return ·ÖÒ³Æ÷¶ÔÏó
+     * @return åˆ†é¡µå™¨å¯¹è±¡
      */
     public Paginator getPaginator() {
         return paginator;
     }
 
     /**
-     * ÉèÖÃ·ÖÒ³Æ÷¡£
+     * è®¾ç½®åˆ†é¡µå™¨ã€‚
      *
-     * @param paginator ÒªÉèÖÃµÄ·ÖÒ³Æ÷¶ÔÏó
+     * @param paginator è¦è®¾ç½®çš„åˆ†é¡µå™¨å¯¹è±¡
      */
     public void setPaginator(Paginator paginator) {
         if (paginator != null) {
             this.paginator = paginator;
         }
     }
-    
+
 }

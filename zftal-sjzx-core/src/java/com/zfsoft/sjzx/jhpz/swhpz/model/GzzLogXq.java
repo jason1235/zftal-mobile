@@ -1,20 +1,20 @@
 /**
- * 
+ *
  */
 package com.zfsoft.sjzx.jhpz.swhpz.model;
 
 /**
- * @author Administrator ¹¤×÷×éÈÕÖ¾ÏêÇé
+ * @author Administrator å·¥ä½œç»„æ—¥å¿—è¯¦æƒ…
  */
 public class GzzLogXq {
 
-	private String startDate; // ¿ªÊ¼Ê±¼ä
+	private String startDate; // å¼€å§‹æ—¶é—´
 
-	private String endDate; // ½áÊøÈÕÆÚ
+	private String endDate; // ç»“æŸæ—¥æœŸ
 
-	private Integer logId; // ÈÕÖ¾ID
+	private Integer logId; // æ—¥å¿—ID
 
-	private String content; // ÈÕÖ¾ÄÚÈİ
+	private String content; // æ—¥å¿—å†…å®¹
 
 	/**
 	 * @return the startDate

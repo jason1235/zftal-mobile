@@ -16,35 +16,35 @@ public interface DsqpzbService{
     public Object insertDsqpzb(Dsqpzb dsqpzb);
 
     public Object updateDsqpzb(Dsqpzb dsqpzb);
-    
+
     public Object updateDsqpzb1(Dsqpzb dsqpzb);
 
     public Object deleteDsqpzb(Dsqpzb dsqpzb);
-    
+
     public Object deleteDsqpzb1(Dsqpzb dsqpzb);
     public Object deleteDsqpzbEtl(Dsqpzb dsqpzb);
 
     public Object saveDsqpzbBatch(List<Dsqpzb> list);
-    
+
     public List<DsqpzbWrapper> getRunSet(int jhpzxh);
     public List getRunSetBydsqxh(int  dsqxh);
     public List<DsqpzbWrapper> getRunSetBywjbh(int wjbh);
     public void deleteDsqpzbByDxlsh(Dsqpzb dsqpzb);
-    
+
     //public int getDsqxh();
-    
+
     public Object updataDsqpzStatus(Dsqpzb dsqpzb);
-    
+
     public int getDsqpzbByZt(Dsqpzb dsqpzb);
-    
+
     public Object closeDsq(Dsqpzb dsqpzb);
-    
-    public List<Dsqpzb> getRunTasks(); //»ñÈ¡ºóÌ¨¶¨Ê±ÈÎÎñ
-    public List<Dsqpzb> getXtjkSjjhrzb();//»ñÈ¡ÊÜ¼à¿ØµÄ¶¨Ê±Æ÷
-    
-    public void updateLastRunTime(Dsqpzb dsqpzb); //¸üĞÂ×îºóÔËĞĞÊ±¼ä
-    
+
+    public List<Dsqpzb> getRunTasks(); //è·å–åå°å®šæ—¶ä»»åŠ¡
+    public List<Dsqpzb> getXtjkSjjhrzb();//è·å–å—ç›‘æ§çš„å®šæ—¶å™¨
+
+    public void updateLastRunTime(Dsqpzb dsqpzb); //æ›´æ–°æœ€åè¿è¡Œæ—¶é—´
+
     //public PageList getRunTasksPagingInfo(Dsqpzb dsqpzb);
-    
-    public int updateDsqpzbIsjk(Dsqpzb dsqpzb); //ĞŞ¸ÄÊÇ·ñ¼à¿Ø
+
+    public int updateDsqpzbIsjk(Dsqpzb dsqpzb); //ä¿®æ”¹æ˜¯å¦ç›‘æ§
 }

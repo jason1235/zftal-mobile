@@ -24,38 +24,38 @@ public class WSDLParser extends DefaultHandler {
 	public   List<Operations> operations = new ArrayList<Operations>();
 	public 	 String namespace = null;
 	Operations operation = null;
-	  int index = 0;
-	
+	int index = 0;
+
 	boolean opFlag = false;
 	boolean typeFlag = false,schemaFlag = false,paramFlag = false,elementStart = false;
 	String formDefault = "qualified";
 
-	//¿ªÊ¼½âÎöÎÄµµ
+	//å¼€å§‹è§£æžæ–‡æ¡£
 	@Override
 	public void startDocument() throws SAXException {
 		// TODO Auto-generated method stub
-		
-		
+
+
 	}
 
 	@Override
 	public void endDocument() throws SAXException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	//¿ªÊ¼½âÎöÔªËØ
+	//å¼€å§‹è§£æžå…ƒç´ 
 	@Override
 	public void startElement(String uri, String localName, String qName,
-			Attributes attributes) throws SAXException {
-		
-		
+							 Attributes attributes) throws SAXException {
+
+
 		//import
 		if (qName.endsWith(":import")) {
 			if (attributes != null && attributes.getLength() > 0) {
-				String location = StringUtil.isEmpty(attributes.getValue("location")) ? StringUtil.isEmpty("schemaLocation") 
-						  ? null : attributes.getValue("schemaLocation")
-							  	 : attributes.getValue("location");
+				String location = StringUtil.isEmpty(attributes.getValue("location")) ? StringUtil.isEmpty("schemaLocation")
+						? null : attributes.getValue("schemaLocation")
+						: attributes.getValue("location");
 				imports.add(location);
 				namespace = attributes.getValue("namespace");
 			}
@@ -81,12 +81,12 @@ public class WSDLParser extends DefaultHandler {
 			}
 		}
 		if (typeFlag&&schemaFlag&&"qualified".equalsIgnoreCase(formDefault)) {
-			//xfire¸ñÊ½
+			//xfireæ ¼å¼
 			if (qName.endsWith(":element") && attributes != null && attributes.getLength()==1) {
 				elementStart = true;
 				operation = new Operations();
 				operation.setName(attributes.getValue("name"));
-				
+
 			}
 			if (qName.endsWith(":complexType")) {
 				paramFlag = true;
@@ -104,10 +104,10 @@ public class WSDLParser extends DefaultHandler {
 				parameters.add(param);
 			}
 		} else if (typeFlag&&schemaFlag&&(StringUtil.isEmpty(formDefault) || (
-										  !StringUtil.isEmpty(formDefault) && 
-										  "unqualified".equalsIgnoreCase(formDefault)))
-				  ) {
-			//cxf¸ñÊ½
+				!StringUtil.isEmpty(formDefault) &&
+						"unqualified".equalsIgnoreCase(formDefault)))
+		) {
+			//cxfæ ¼å¼
 			if (qName.endsWith(":complexType")&& attributes != null && attributes.getLength()>0) {
 				System.out.println("in new Operations()-------");
 				operation = new Operations();
@@ -147,9 +147,9 @@ public class WSDLParser extends DefaultHandler {
 			typeFlag = false;
 		}
 		if (qName.endsWith(":complexType")&& (StringUtil.isEmpty(formDefault) || (
-											  !StringUtil.isEmpty(formDefault) && 
-											  "unqualified".equalsIgnoreCase(formDefault)))
-			) {
+				!StringUtil.isEmpty(formDefault) &&
+						"unqualified".equalsIgnoreCase(formDefault)))
+		) {
 			paramFlag = false;
 			index = 0;
 			List<Parameters> paras = new ArrayList<Parameters>();
@@ -172,16 +172,16 @@ public class WSDLParser extends DefaultHandler {
 			parameters.clear();
 			operations.add(operation);
 		}
-		
+
 	}
 
 	@Override
 	public void characters(char[] ch, int start, int length)
 			throws SAXException {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	public List<Operations> parse(String path) {
 		List<Operations> ops = new ArrayList<Operations>();
 		SAXParserFactory parserFactory = SAXParserFactory.newInstance();
@@ -194,15 +194,15 @@ public class WSDLParser extends DefaultHandler {
 				}
 			}
 			//if (operationNames.size() > 0){
-				//for (int i = 0; i < operationNames.size(); i++) {
-					for (int j = 0; j < operations.size(); j++) {
-						if(operations.get(j).getName().endsWith("Response")) continue;
-						Operations op = operations.get(j);
-						//if (operationNames.get(i).equalsIgnoreCase(op.getName())) {
-							ops.add(op);
-						//}
-					}
+			//for (int i = 0; i < operationNames.size(); i++) {
+			for (int j = 0; j < operations.size(); j++) {
+				if(operations.get(j).getName().endsWith("Response")) continue;
+				Operations op = operations.get(j);
+				//if (operationNames.get(i).equalsIgnoreCase(op.getName())) {
+				ops.add(op);
 				//}
+			}
+			//}
 			//}
 		} catch (ParserConfigurationException e) {
 			e.printStackTrace();
@@ -217,13 +217,13 @@ public class WSDLParser extends DefaultHandler {
 		WSDLParser.parameters.clear();*/
 		return ops;
 	}
-	
+
 	public static void main(String[] args) {
 		String url = "D:/LibServicePort.xml";
 		System.out.println(url);
-		
+
 		List<Operations> ops =new WSDLParser().parse(url);
 		System.out.println(ops);
 	}
-	
+
 }

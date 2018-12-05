@@ -16,21 +16,21 @@ import org.springframework.orm.ibatis.SqlMapClientTemplate;
 
 
 public class DbHelper {
-	
-	private static final LogWriter log = LogWriter.getInstance();	
+
+	private static final LogWriter log = LogWriter.getInstance();
 	private static SqlMapClientTemplate sqlMapClientTemplate;
-	
+
 	public static  Connection getConnection() throws SQLException {
-		return getConnection(true); //自动提交
+		return getConnection(true); //鑷姩鎻愪氦
 	}
-	
-	public static  Connection getConnection(boolean isAutoCommit) throws SQLException {	
+
+	public static  Connection getConnection(boolean isAutoCommit) throws SQLException {
 		Connection con = sqlMapClientTemplate.getDataSource().getConnection();
-		con.setAutoCommit(isAutoCommit); //设置是否自动提交
+		con.setAutoCommit(isAutoCommit); //璁剧疆鏄惁鑷姩鎻愪氦
 		return con;
 	}
 
-	
+
 
 	public static SqlMapClientTemplate getSqlMapClientTemplate() {
 		return sqlMapClientTemplate;
@@ -43,75 +43,75 @@ public class DbHelper {
 	public static Statement getStatement(Connection conn) throws SQLException {
 		return conn.createStatement();
 	}
-	
+
 	public static PreparedStatement getPreparedStatement(Connection conn, String sql) throws SQLException {
 		return conn.prepareStatement(sql);
 	}
-	
+
 	public static void commit(Connection conn){
 		try {
 			if(conn != null)
 				conn.commit();
 		} catch (SQLException e) {
-			log.logError("DbHelper异常", "commit方法",e);
+			log.logError("DbHelper寮傚父", "commit鏂规硶",e);
 		}
 	}
-	
-	
+
+
 	public static void rollback(Connection conn){
 		try {
 			if(conn != null)
 				conn.rollback();
 		} catch (SQLException e) {
-			log.logError("DbHelper异常", "rollback方法",e);
+			log.logError("DbHelper寮傚父", "rollback鏂规硶",e);
 		}
 	}
-	
+
 	public static void close(Connection conn){
 		try {
 			if(conn != null)
 				conn.close();
 		} catch (SQLException e) {
-			log.logError("DbHelper异常", "close连接方法",e);
+			log.logError("DbHelper寮傚父", "close杩炴帴鏂规硶",e);
 		}finally{
 			conn = null;
 		}
 	}
-	
+
 	public static void close(Statement stmt) {
 		try {
 			if(stmt != null)
 				stmt.close();
 		} catch (SQLException e) {
-			log.logError("DbHelper异常", "closeStatement方法",e);
+			log.logError("DbHelper寮傚父", "closeStatement鏂规硶",e);
 		}finally{
 			stmt = null;
 		}
 	}
-	
+
 	public static void close(PreparedStatement pstmt){
 		try {
 			if(pstmt != null)
 				pstmt.close();
 		} catch (SQLException e) {
-			log.logError("DbHelper异常", "closePreparedStatement方法",e);
+			log.logError("DbHelper寮傚父", "closePreparedStatement鏂规硶",e);
 		}finally{
 			pstmt = null;
 		}
-		
+
 	}
-	
+
 	public static void bindParameters(PreparedStatement pstmt, Object[] params) throws SQLException{
 		for(int i=0; i<params.length; i++){
 			setCustomObject(pstmt, i+1, params[i]);
 		}
 	}
-	
+
 	public static void bindParameter(PreparedStatement pstmt, Object param) throws SQLException{
 		setCustomObject(pstmt, 1, param);
 	}
-	
-	
+
+
 	private static void setCustomObject(PreparedStatement pstmt, int i, Object obj) throws SQLException {
 		if(obj == null) {
 			pstmt.setString(i, "");
@@ -123,7 +123,7 @@ public class DbHelper {
 			pstmt.setInt(i, ((Integer)obj).intValue());
 		}
 		else if (obj instanceof Byte) {
-			pstmt.setByte(i, ((Byte)obj).byteValue());			
+			pstmt.setByte(i, ((Byte)obj).byteValue());
 		}
 		else if (obj instanceof Short) {
 			pstmt.setShort(1, ((Short)obj).shortValue());
@@ -158,26 +158,26 @@ public class DbHelper {
 		else
 			pstmt.setObject(i, obj);
 	}
-	
+
 	private static RowMapper objArrayRow, mapArrayRow,stringMapper;
-	
+
 	public static RowMapper createObjectArrayRowMapper(){
 		if(objArrayRow == null)
-			objArrayRow = new ObjectArrayRowMapper(); 
+			objArrayRow = new ObjectArrayRowMapper();
 		return objArrayRow;
 	}
-	
+
 	public static RowMapper createMapArrayRowMapper(){
 		if(mapArrayRow == null)
 			mapArrayRow = new HashMapRowMapper();
 		return mapArrayRow;
 	}
-	
+
 	public static RowMapper createMapStringMapper(){
 		if(stringMapper == null)
 			stringMapper = new StringMapper();
 		return stringMapper;
 	}
-	
+
 
 }
